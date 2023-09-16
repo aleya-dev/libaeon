@@ -1,4 +1,4 @@
 [submodule "dep/devops"]
 	path = dep/devops
-	url = ../../aleya/devops.git
+	url = ../../aleya-dev/devops.git
 	branch = master
