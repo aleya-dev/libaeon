@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    env:
+      CONAN_REVISIONS_ENABLED: 1
 
     steps:
       - name: Conan install
