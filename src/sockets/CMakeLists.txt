@@ -1,6 +1,8 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-find_package(asio CONFIG)
+if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
+    find_package(asio CONFIG)
+endif ()
 
 set(SOURCES
     private/line_protocol_socket.cpp
@@ -32,8 +34,17 @@ target_include_directories(aeon_sockets
 target_link_libraries(aeon_sockets
     aeon_common
     aeon_streams
-    asio::asio
 )
+
+if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
+    target_link_libraries(aeon_sockets
+        asio::asio
+    )
+else ()
+    target_link_libraries(aeon_sockets
+        asio
+    )
+endif ()
 
 target_compile_definitions(aeon_sockets
     PUBLIC

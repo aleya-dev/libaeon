@@ -1,6 +1,8 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-find_package(vulkan-memory-allocator CONFIG)
+if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
+    find_package(vulkan-memory-allocator CONFIG)
+endif ()
 
 include(GenerateExportHeader)
 
@@ -38,8 +40,17 @@ target_include_directories(aeon_vulkan_vma
 target_link_libraries(aeon_vulkan_vma
     aeon_common
     Vulkan::Vulkan
-    vulkan-memory-allocator::vulkan-memory-allocator
 )
+
+if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
+    target_link_libraries(aeon_vulkan_vma
+        vulkan-memory-allocator::vulkan-memory-allocator
+    )
+else ()
+    target_link_libraries(aeon_vulkan_vma
+        vulkan-memory-allocator
+    )
+endif ()
 
 set_target_properties(aeon_vulkan_vma PROPERTIES
     FOLDER dep/libaeon

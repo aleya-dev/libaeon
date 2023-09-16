@@ -1,6 +1,8 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-find_package(ZLIB CONFIG)
+if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
+    find_package(ZLIB CONFIG)
+endif ()
 
 set(SOURCES
     private/zlib.cpp
@@ -28,8 +30,17 @@ target_include_directories(aeon_compression
 target_link_libraries(aeon_compression
     aeon_common
     aeon_streams
-    ZLIB::ZLIB
 )
+
+if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
+    target_link_libraries(aeon_compression
+        ZLIB::ZLIB
+    )
+else ()
+    target_link_libraries(aeon_compression
+        zlibstatic
+    )
+endif ()
 
 install(
     DIRECTORY public/aeon

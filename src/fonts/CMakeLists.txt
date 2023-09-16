@@ -1,6 +1,8 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-find_package(freetype CONFIG)
+if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
+    find_package(freetype CONFIG)
+endif ()
 
 set(SOURCES
     private/face.cpp
@@ -34,8 +36,17 @@ target_link_libraries(aeon_fonts
     aeon_common
     aeon_imaging
     aeon_streams
-    Freetype::Freetype
 )
+
+if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
+    target_link_libraries(aeon_fonts
+        Freetype::Freetype
+    )
+else ()
+    target_link_libraries(aeon_fonts
+        freetype
+    )
+endif ()
 
 install(
     DIRECTORY public/aeon

@@ -1,6 +1,8 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-find_package(glfw3 CONFIG)
+if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
+    find_package(glfw3 CONFIG)
+endif ()
 
 include(GenerateExportHeader)
 
@@ -56,8 +58,17 @@ target_include_directories(aeon_platform
 target_link_libraries(aeon_platform
     aeon_common
     aeon_math
-    glfw::glfw
 )
+
+if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
+    target_link_libraries(aeon_platform
+        glfw::glfw
+    )
+else ()
+    target_link_libraries(aeon_platform
+        glfw3
+    )
+endif ()
 
 install(
     DIRECTORY public/aeon

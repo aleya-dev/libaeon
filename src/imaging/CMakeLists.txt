@@ -1,7 +1,9 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-find_package(PNG CONFIG)
-find_package(libjpeg-turbo CONFIG)
+if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
+    find_package(PNG CONFIG)
+    find_package(libjpeg-turbo CONFIG)
+endif ()
 
 set(SOURCES
     private/file/bmp_file.cpp
@@ -51,9 +53,19 @@ target_link_libraries(aeon_imaging
     aeon_common
     aeon_math
     aeon_streams
-    PNG::PNG
-    libjpeg-turbo::libjpeg-turbo
 )
+
+if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
+    target_link_libraries(aeon_imaging
+        PNG::PNG
+        libjpeg-turbo::libjpeg-turbo
+    )
+else ()
+    target_link_libraries(aeon_imaging
+        png_static
+        turbojpeg-static
+    )
+endif ()
 
 install(
     DIRECTORY public/aeon
