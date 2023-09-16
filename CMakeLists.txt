@@ -22,7 +22,7 @@ set(CMAKE_CXX_STANDARD 23)
 
 option(AEON_ENABLE_SUBMODULE_DEPENDENCIES "Instead of using find_package and/or conan; assume the targets already exist" OFF)
 
-if (AEON_ENABLE_SUBMODULE_DEPENDENCIES)
+if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
     option(AEON_ENABLE_CONAN_INTEGRATION "Enable automatic installation of Conan packages as part of the CMake configure step." ON)
 
     if (AEON_ENABLE_CONAN_INTEGRATION)
