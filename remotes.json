@@ -1,0 +1,9 @@
+{
+ "remotes": [
+  {
+   "name": "aeon",
+   "url": "https://artifactory.aleya.dev/artifactory/api/conan/aleya-group-conan",
+   "verify_ssl": true
+  }
+ ]
+}

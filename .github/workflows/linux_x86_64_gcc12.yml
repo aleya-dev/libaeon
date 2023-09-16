@@ -19,7 +19,7 @@ jobs:
           submodules: recursive
 
       - name: Conan remote
-        run: conan config install remotes.txt
+        run: conan config install remotes.json
 
       - name: Conan install
         run: conan install . -of build -pr ./dep/devops/Conan/profiles/linux/gcc12_x86_64_debug -s build_type=Debug
