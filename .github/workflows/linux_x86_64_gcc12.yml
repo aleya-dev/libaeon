@@ -22,7 +22,7 @@ jobs:
         run: conan config install remotes.txt
 
       - name: Conan install
-        run: conan install . -if build -pr ./dep/devops/Conan/profiles/linux/gcc12_x86_64_debug -s build_type=Debug
+        run: conan install . -of build -pr ./dep/devops/Conan/profiles/linux/gcc12_x86_64_debug -s build_type=Debug
 
       - name: Cmake
         run: cmake . -B build -DCMAKE_INSTALL_PREFIX=$(pwd)/build/install -DCMAKE_BUILD_TYPE=Debug -DAEON_ENABLE_CONAN_INTEGRATION=0
