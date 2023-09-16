@@ -80,29 +80,29 @@ class LibAeonConan(ConanFile):
 
     def requirements(self):
         if self.options.get_safe('enable_unittests', True):
-            self.requires('gtest/v1.13.0-168-gec4fed93')
+            self.requires('gtest/1.13.0')
 
         if self.options.get_safe('enable_benchmarks', True):
-            self.requires('benchmark/v1.8.0-8-g1d25c2e')
+            self.requires('benchmark/1.8.0')
 
         if self.options.get_safe('with_compression', True):
-            self.requires('zlib/v1.2.13')
+            self.requires('zlib/1.2.13')
 
         if self.options.get_safe('with_fonts', True):
-            self.requires('freetype/ver-2-13-0-150-g5c00a4680')
+            self.requires('freetype/2.13.0')
 
         if self.options.get_safe('with_imaging', True):
-            self.requires('libpng/v1.6.40')
-            self.requires('libjpeg-turbo/2.1.91-27-g6b9e3b04')
+            self.requires('libpng/1.6.40')
+            self.requires('libjpeg-turbo/2.1.91')
 
         if self.options.get_safe('with_platform', True):
-            self.requires('glfw/3.3-778-g3fa23607')
+            self.requires('glfw/3.3.8')
 
         if self.options.get_safe('with_sockets', True):
-            self.requires('asio/asio-1-28-0')
+            self.requires('asio/1.28.0')
 
         if self.options.get_safe('with_vulkan', True):
-            self.requires('vulkan-memory-allocator/v3.0.1-81-g0aa3989')
+            self.requires('vulkan-memory-allocator/3.0.1')
 
     def generate(self):
         tc = CMakeToolchain(self)
