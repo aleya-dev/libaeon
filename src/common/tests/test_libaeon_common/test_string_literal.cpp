@@ -9,8 +9,8 @@ using namespace aeon::common;
 
 TEST(test_string_literal, test_string_literal_create_char)
 {
-    string_literal s{"Hello"};
-    string_literal s2 = "Hello";
+    string_literal<6> s{"Hello"};
+    string_literal<6> s2 = "Hello";
 
     EXPECT_EQ(s.size(), strlen("Hello") + 1);
     EXPECT_EQ(s2.size(), strlen("Hello") + 1);
