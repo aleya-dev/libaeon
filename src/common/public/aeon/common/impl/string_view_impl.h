@@ -189,34 +189,154 @@ inline auto string_view::operator==(const char8_t *const str) const -> bool
     return str_ == reinterpret_cast<const char *const>(str);
 }
 
-inline constexpr auto string_view::operator<=>(const string &str) const -> std::strong_ordering
+inline constexpr auto string_view::operator!=(const string &str) const -> bool
 {
-    return str_ <=> str.str_;
+    return !(*this == str);
 }
 
-constexpr auto string_view::operator<=>(const string_view &str) const -> std::strong_ordering
+inline constexpr auto string_view::operator!=(const string_view &str) const -> bool
 {
-    return str_ <=> str.str_;
+    return !(*this == str);
 }
 
-inline constexpr auto string_view::operator<=>(const std::string &str) const -> std::strong_ordering
+inline constexpr auto string_view::operator!=(const std::string &str) const -> bool
 {
-    return str_ <=> str;
+    return !(*this == str);
 }
 
-inline auto string_view::operator<=>(const std::u8string &str) const -> std::strong_ordering
+inline auto string_view::operator!=(const std::u8string &str) const -> bool
 {
-    return str_ <=> std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)};
+    return !(*this == str);
 }
 
-inline constexpr auto string_view::operator<=>(const value_type *const str) const -> std::strong_ordering
+inline constexpr auto string_view::operator!=(const value_type *const str) const -> bool
 {
-    return str_ <=> str;
+    return !(*this == str);
 }
 
-inline auto string_view::operator<=>(const char8_t *const str) const -> std::strong_ordering
+inline auto string_view::operator!=(const char8_t *const str) const -> bool
 {
-    return str_ <=> reinterpret_cast<const char *const>(str);
+    return !(*this == str);
+}
+
+inline constexpr auto string_view::operator<(const string &str) const -> bool
+{
+    return str_ < str.str_;
+}
+
+inline constexpr auto string_view::operator<(const string_view &str) const -> bool
+{
+    return str_ < str.str_;
+}
+
+inline constexpr auto string_view::operator<(const std::string &str) const -> bool
+{
+    return str_ < str;
+}
+
+inline auto string_view::operator<(const std::u8string &str) const -> bool
+{
+    return str_ < std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)};
+}
+
+inline constexpr auto string_view::operator<(const value_type *const str) const -> bool
+{
+    return str_ < str;
+}
+
+inline auto string_view::operator<(const char8_t *const str) const -> bool
+{
+    return str_ < reinterpret_cast<const char *const>(str);
+}
+
+inline constexpr auto string_view::operator<=(const string &str) const -> bool
+{
+    return str_ <= str.str_;
+}
+
+inline constexpr auto string_view::operator<=(const string_view &str) const -> bool
+{
+    return str_ <= str.str_;
+}
+
+inline constexpr auto string_view::operator<=(const std::string &str) const -> bool
+{
+    return str_ <= str;
+}
+
+inline auto string_view::operator<=(const std::u8string &str) const -> bool
+{
+    return str_ <= std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)};
+}
+
+inline constexpr auto string_view::operator<=(const value_type *const str) const -> bool
+{
+    return str_ <= str;
+}
+
+inline auto string_view::operator<=(const char8_t *const str) const -> bool
+{
+    return str_ <= reinterpret_cast<const char *const>(str);
+}
+
+inline constexpr auto string_view::operator>(const string &str) const -> bool
+{
+    return str_ > str.str_;
+}
+
+inline constexpr auto string_view::operator>(const string_view &str) const -> bool
+{
+    return str_ > str.str_;
+}
+
+inline constexpr auto string_view::operator>(const std::string &str) const -> bool
+{
+    return str_ > str;
+}
+
+inline auto string_view::operator>(const std::u8string &str) const -> bool
+{
+    return str_ > std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)};
+}
+
+inline constexpr auto string_view::operator>(const value_type *const str) const -> bool
+{
+    return str_ > str;
+}
+
+inline auto string_view::operator>(const char8_t *const str) const -> bool
+{
+    return str_ > reinterpret_cast<const char *const>(str);
+}
+
+inline constexpr auto string_view::operator>=(const string &str) const -> bool
+{
+    return str_ >= str.str_;
+}
+
+inline constexpr auto string_view::operator>=(const string_view &str) const -> bool
+{
+    return str_ >= str.str_;
+}
+
+inline constexpr auto string_view::operator>=(const std::string &str) const -> bool
+{
+    return str_ >= str;
+}
+
+inline auto string_view::operator>=(const std::u8string &str) const -> bool
+{
+    return str_ >= std::string_view{reinterpret_cast<const char *const>(std::data(str)), std::size(str)};
+}
+
+inline constexpr auto string_view::operator>=(const value_type *const str) const -> bool
+{
+    return str_ >= str;
+}
+
+inline auto string_view::operator>=(const char8_t *const str) const -> bool
+{
+    return str_ >= reinterpret_cast<const char *const>(str);
 }
 
 [[nodiscard]] inline constexpr auto string_view::as_std_string_view() noexcept -> std::string_view

@@ -163,17 +163,65 @@ public:
 
     auto operator==(const char8_t *const str) const -> bool;
 
-    constexpr auto operator<=>(const string &str) const -> std::strong_ordering;
+    constexpr auto operator!=(const string &str) const -> bool;
 
-    constexpr auto operator<=>(const string_view &str) const -> std::strong_ordering;
+    constexpr auto operator!=(const string_view &str) const -> bool;
 
-    constexpr auto operator<=>(const std::string &str) const -> std::strong_ordering;
+    constexpr auto operator!=(const std::string &str) const -> bool;
 
-    auto operator<=>(const std::u8string &str) const -> std::strong_ordering;
+    auto operator!=(const std::u8string &str) const -> bool;
 
-    constexpr auto operator<=>(const value_type *const str) const -> std::strong_ordering;
+    constexpr auto operator!=(const value_type *const str) const -> bool;
 
-    auto operator<=>(const char8_t *const str) const -> std::strong_ordering;
+    auto operator!=(const char8_t *const str) const -> bool;
+
+    constexpr auto operator<(const string &str) const -> bool;
+
+    constexpr auto operator<(const string_view &str) const -> bool;
+
+    constexpr auto operator<(const std::string &str) const -> bool;
+
+    auto operator<(const std::u8string &str) const -> bool;
+
+    constexpr auto operator<(const value_type *const str) const -> bool;
+
+    auto operator<(const char8_t *const str) const -> bool;
+
+    constexpr auto operator<=(const string &str) const -> bool;
+
+    constexpr auto operator<=(const string_view &str) const -> bool;
+
+    constexpr auto operator<=(const std::string &str) const -> bool;
+
+    auto operator<=(const std::u8string &str) const -> bool;
+
+    constexpr auto operator<=(const value_type *const str) const -> bool;
+
+    auto operator<=(const char8_t *const str) const -> bool;
+
+    constexpr auto operator>(const string &str) const -> bool;
+
+    constexpr auto operator>(const string_view &str) const -> bool;
+
+    constexpr auto operator>(const std::string &str) const -> bool;
+
+    auto operator>(const std::u8string &str) const -> bool;
+
+    constexpr auto operator>(const value_type *const str) const -> bool;
+
+    auto operator>(const char8_t *const str) const -> bool;
+
+    constexpr auto operator>=(const string &str) const -> bool;
+
+    constexpr auto operator>=(const string_view &str) const -> bool;
+
+    constexpr auto operator>=(const std::string &str) const -> bool;
+
+    auto operator>=(const std::u8string &str) const -> bool;
+
+    constexpr auto operator>=(const value_type *const str) const -> bool;
+
+    auto operator>=(const char8_t *const str) const -> bool;
 
     constexpr auto append(const value_type *const str) -> string &;
 
