@@ -74,7 +74,6 @@ enable_component(plugins)
 enable_component(ptree)
 enable_component(rdp)
 enable_component(reflection)
-enable_component(serial)
 enable_component(sockets)
 enable_component(streams)
 enable_component(testing)
@@ -83,10 +82,14 @@ enable_component(unicode)
 enable_component(variant)
 enable_component(web)
 
-# If the LunarG Vulkan SDK is found on the system; attempt to build the vulkan subsystem
-find_package(Vulkan)
-if (Vulkan_FOUND)
-    enable_component(vulkan)
+if (NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    enable_component(serial)
+
+    # If a Vulkan SDK is found on the system; attempt to build the vulkan subsystem
+    find_package(Vulkan)
+    if (Vulkan_FOUND)
+        enable_component(vulkan)
+    endif ()
 endif ()
 
 ################################################################################
