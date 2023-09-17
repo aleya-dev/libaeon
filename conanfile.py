@@ -90,6 +90,7 @@ class LibAeonConan(ConanFile):
             del self.options.fPIC
 
         if self.settings.os == 'Macos' or self.settings.os == 'iOS':
+            del self.options.with_serial
             del self.options.with_vulkan
 
     def requirements(self):
