@@ -89,6 +89,9 @@ class LibAeonConan(ConanFile):
         if self.settings.os == 'Windows':
             del self.options.fPIC
 
+        if self.settings.os == 'Macos' or self.settings.os == 'iOS':
+            del self.options.with_vulkan
+
     def requirements(self):
         if self.options.get_safe('enable_unittests', False):
             self.requires('gtest/1.13.0')
