@@ -1,5 +1,9 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
+#include <aeon/common/compilers.h>
+
+#if (defined(AEON_HAS_MEMORY_RESOURCE_HEADER))
+
 #include <aeon/common/pmr.h>
 #include <gtest/gtest.h>
 #include <array>
@@ -34,3 +38,5 @@ TEST(test_pmr, test_pmr_make_unique)
     EXPECT_THROW([[maybe_unused]] auto ptr5 = common::pmr::make_unique<std::uint32_t>(&allocator, 0x12345678u),
                  std::bad_alloc);
 }
+
+#endif

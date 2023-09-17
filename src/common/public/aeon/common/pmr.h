@@ -3,6 +3,9 @@
 #pragma once
 
 #include <aeon/common/compilers.h>
+
+#if (defined(AEON_HAS_MEMORY_RESOURCE_HEADER))
+
 #include <memory_resource>
 #include <functional>
 #include <memory>
@@ -37,3 +40,5 @@ template <typename T, typename... args_t>
 }
 
 } // namespace aeon::common::pmr
+
+#endif
