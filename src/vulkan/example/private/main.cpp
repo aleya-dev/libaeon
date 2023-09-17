@@ -91,7 +91,11 @@ class vulkan_triangle_example
 public:
     vulkan_triangle_example()
         : logfile_{"debug_log.txt", streams::file_mode::text, streams::file_flag::truncate}
+#if (defined(AEON_PLATFORM_BACKEND_GLFW))
         , platform_context_{platform::create_context(platform::backend::glfw)}
+#elif (defined(AEON_PLATFORM_BACKEND_SDL2))
+        , platform_context_{platform::create_context(platform::backend::sdl2)}
+#endif
         , window_{create_window(*platform_context_)}
         , app_info_{window_title, common::version3<std::uint32_t>{1, 0}, "libaeon",
                     common::version3<std::uint32_t>{1, 0}}

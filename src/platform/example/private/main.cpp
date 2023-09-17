@@ -4,6 +4,7 @@
 #include <aeon/platform/window_create_info.h>
 #include <aeon/platform/window_events.h>
 #include <aeon/platform/input_events.h>
+#include <aeon/platform/platform_config.h>
 #include <aeon/math/vector2_stream.h>
 #include <aeon/math/size2d_stream.h>
 #include <aeon/platform/context.h>
@@ -119,7 +120,13 @@ int main()
     platform::window_create_info info;
     info.title = u8"I like Π, and らき☆すた, Raki☆Suta";
 
-    const auto context = platform::create_context(platform::backend::glfw);
+#if (defined(AEON_PLATFORM_BACKEND_GLFW))
+    constexpr auto backend = platform::backend::glfw;
+#elif (defined(AEON_PLATFORM_BACKEND_SDL2))
+    constexpr auto backend = platform::backend::sdl2;
+#endif
+
+    const auto context = platform::create_context(backend);
     test_input_events input_events;
     context->attach_input_listener(input_events);
 

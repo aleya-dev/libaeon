@@ -1,10 +1,15 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
 option(AEON_PLATFORM_BACKEND_GLFW "Use GLFW as backing library for Platform" ON)
+option(AEON_PLATFORM_BACKEND_SDL2 "Use SDL2 as backing library for Platform" ON)
 
 if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
     if (AEON_PLATFORM_BACKEND_GLFW)
         find_package(glfw3 CONFIG)
+    endif ()
+
+    if (AEON_PLATFORM_BACKEND_SDL2)
+        find_package(SDL2 CONFIG)
     endif ()
 endif ()
 
@@ -12,6 +17,10 @@ message(STATUS "Platform backends:")
 
 if (AEON_PLATFORM_BACKEND_GLFW)
     message(STATUS " - GLFW")
+endif ()
+
+if (AEON_PLATFORM_BACKEND_SDL2)
+    message(STATUS " - SDL2")
 endif ()
 
 include(GenerateExportHeader)
@@ -35,8 +44,10 @@ set(SOURCES
     public/aeon/platform/window_iconification_state.h
 )
 
+set(PLATFORM_SOURCES "")
+
 if (AEON_PLATFORM_BACKEND_GLFW)
-    set(PLATFORM_SOURCES
+    list(APPEND PLATFORM_SOURCES
         private/platforms/glfw/glfw_context.cpp
         private/platforms/glfw/glfw_context.h
         private/platforms/glfw/glfw_exception.h
@@ -47,6 +58,15 @@ if (AEON_PLATFORM_BACKEND_GLFW)
     )
 endif ()
 
+if (AEON_PLATFORM_BACKEND_SDL2)
+    list(APPEND PLATFORM_SOURCES
+        private/platforms/sdl2/sdl2_context.cpp
+        private/platforms/sdl2/sdl2_context.h
+        private/platforms/sdl2/sdl2_exception.h
+        private/platforms/sdl2/sdl2_window.cpp
+        private/platforms/sdl2/sdl2_window.h
+    )
+endif ()
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES} ${PLATFORM_SOURCES})
 
@@ -83,10 +103,22 @@ if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
             glfw::glfw
         )
     endif ()
+
+    if (AEON_PLATFORM_BACKEND_SDL2)
+        target_link_libraries(aeon_platform
+            SDL2::SDL2
+        )
+    endif ()
 else ()
     if (AEON_PLATFORM_BACKEND_GLFW)
         target_link_libraries(aeon_platform
             glfw3
+        )
+    endif ()
+
+    if (AEON_PLATFORM_BACKEND_SDL2)
+        target_link_libraries(aeon_platform
+            sdl
         )
     endif ()
 endif ()

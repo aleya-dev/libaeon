@@ -3,3 +3,5 @@
 #pragma once
 
 #cmakedefine AEON_PLATFORM_BACKEND_GLFW
+
+#cmakedefine AEON_PLATFORM_BACKEND_SDL2

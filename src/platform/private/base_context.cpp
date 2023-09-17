@@ -7,6 +7,10 @@
 #include "platforms/glfw/glfw_context.h"
 #endif
 
+#if (defined(AEON_PLATFORM_BACKEND_SDL2))
+#include "platforms/sdl2/sdl2_context.h"
+#endif
+
 namespace aeon::platform
 {
 
@@ -17,6 +21,11 @@ namespace aeon::platform
 #if (defined(AEON_PLATFORM_BACKEND_GLFW))
         case backend::glfw:
             return std::make_unique<glfw_context>();
+#endif
+
+#if (defined(AEON_PLATFORM_BACKEND_SDL2))
+        case backend::sdl2:
+            return std::make_unique<sdl2_context>();
 #endif
     }
 

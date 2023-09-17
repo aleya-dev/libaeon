@@ -27,6 +27,7 @@ class LibAeonConan(ConanFile):
         'with_math': [True, False],
         'with_platform': [True, False],
         'with_platform_glfw': [True, False],
+        'with_platform_sdl2': [True, False],
         'with_plugins': [True, False],
         'with_ptree': [True, False],
         'with_rdp': [True, False],
@@ -57,6 +58,7 @@ class LibAeonConan(ConanFile):
         'with_math': True,
         'with_platform': True,
         'with_platform_glfw': True,
+        'with_platform_sdl2': True,
         'with_plugins': True,
         'with_ptree': True,
         'with_rdp': True,
@@ -78,6 +80,7 @@ class LibAeonConan(ConanFile):
 
         if not self.options.with_platform:
             del self.options.with_platform_glfw
+            del self.options.with_platform_sdl2
 
     def config_options(self):
         if self.settings.os == 'Windows':
@@ -102,6 +105,9 @@ class LibAeonConan(ConanFile):
 
         if self.options.get_safe('with_platform', True) and self.options.get_safe('with_platform_glfw', True):
             self.requires('glfw/3.3.8')
+
+        if self.options.get_safe('with_platform', True) and self.options.get_safe('with_platform_sdl2', True):
+            self.requires('sdl/2.28.3')
 
         if self.options.get_safe('with_sockets', True):
             self.requires('asio/1.28.0')
@@ -142,6 +148,7 @@ class LibAeonConan(ConanFile):
         tc.variables['AEON_COMPONENT_WEB'] = self.options.get_safe('with_web', default=False)
 
         tc.variables['AEON_PLATFORM_BACKEND_GLFW'] = self.options.get_safe('with_platform_glfw', default=False)
+        tc.variables['AEON_PLATFORM_BACKEND_SDL2'] = self.options.get_safe('with_platform_sdl2', default=False)
 
         tc.generate()
         deps = CMakeDeps(self)

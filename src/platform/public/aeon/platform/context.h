@@ -16,7 +16,11 @@ class input_events;
 enum class backend
 {
 #if (defined(AEON_PLATFORM_BACKEND_GLFW))
-    glfw
+    glfw,
+#endif
+
+#if (defined(AEON_PLATFORM_BACKEND_SDL2))
+    sdl2,
 #endif
 };
 
