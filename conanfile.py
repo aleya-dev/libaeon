@@ -90,32 +90,32 @@ class LibAeonConan(ConanFile):
             del self.options.fPIC
 
     def requirements(self):
-        if self.options.get_safe('enable_unittests', True):
+        if self.options.get_safe('enable_unittests', False):
             self.requires('gtest/1.13.0')
 
-        if self.options.get_safe('enable_benchmarks', True):
+        if self.options.get_safe('enable_benchmarks', False):
             self.requires('benchmark/1.8.3')
 
-        if self.options.get_safe('with_compression', True):
+        if self.options.get_safe('with_compression', False):
             self.requires('zlib/1.2.13')
 
-        if self.options.get_safe('with_fonts', True):
+        if self.options.get_safe('with_fonts', False):
             self.requires('freetype/2.13.0')
 
-        if self.options.get_safe('with_imaging', True):
+        if self.options.get_safe('with_imaging', False):
             self.requires('libpng/1.6.40')
             self.requires('libjpeg-turbo/2.1.91')
 
-        if self.options.get_safe('with_platform', True) and self.options.get_safe('with_platform_glfw', True):
+        if self.options.get_safe('with_platform', False) and self.options.get_safe('with_platform_glfw', False):
             self.requires('glfw/3.3.8')
 
-        if self.options.get_safe('with_platform', True) and self.options.get_safe('with_platform_sdl2', True):
+        if self.options.get_safe('with_platform', False) and self.options.get_safe('with_platform_sdl2', False):
             self.requires('sdl/2.28.3')
 
-        if self.options.get_safe('with_sockets', True):
+        if self.options.get_safe('with_sockets', False):
             self.requires('asio/1.28.0')
 
-        if self.options.get_safe('with_vulkan', True):
+        if self.options.get_safe('with_vulkan', False):
             self.requires('vulkan-memory-allocator/3.0.1')
 
     def generate(self):
