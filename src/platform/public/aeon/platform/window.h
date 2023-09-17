@@ -24,6 +24,7 @@ struct window_state_flags
     std::uint32_t focus_changed : 1 = false;
     std::uint32_t visibility_changed : 1 = false;
     std::uint32_t iconification_state_changed : 1 = false;
+    std::uint32_t closing : 1 = false;
 };
 
 static_assert(sizeof(window_state_flags) == sizeof(std::uint32_t));
@@ -40,7 +41,7 @@ public:
     window(window &&) noexcept = delete;
     auto operator=(window &&) noexcept -> window & = delete;
 
-    [[nodiscard]] virtual auto state_flags() const noexcept -> window_state_flags = 0;
+    [[nodiscard]] virtual auto state_flags() noexcept -> window_state_flags = 0;
     virtual void reset_state_flags() noexcept = 0;
 
     [[nodiscard]] virtual auto position() const noexcept -> math::vector2<std::int32_t> = 0;
@@ -60,7 +61,7 @@ public:
 
     virtual void close() = 0;
 
-    [[nodiscard]] virtual auto closed() const noexcept -> bool = 0;
+    [[nodiscard]] virtual auto closed() noexcept -> bool = 0;
 
     [[nodiscard]] virtual auto native_handles() const noexcept -> native_handles = 0;
 

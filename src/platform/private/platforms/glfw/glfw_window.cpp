@@ -432,14 +432,16 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
 
 glfw_window::~glfw_window() = default;
 
-auto glfw_window::state_flags() const noexcept -> window_state_flags
+auto glfw_window::state_flags() noexcept -> window_state_flags
 {
+    flags_.closing = window_.is_closed();
     return flags_;
 }
 
 void glfw_window::reset_state_flags() noexcept
 {
     flags_ = {};
+    flags_.closing = window_.is_closed();
 }
 
 auto glfw_window::position() const noexcept -> math::vector2<std::int32_t>
@@ -501,12 +503,14 @@ auto glfw_window::is_visible() const noexcept -> bool
 
 void glfw_window::close()
 {
+    flags_.closing = true;
     window_.destroy();
 }
 
-auto glfw_window::closed() const noexcept -> bool
+auto glfw_window::closed() noexcept -> bool
 {
-    return window_.is_closed();
+    flags_.closing = window_.is_closed();
+    return flags_.closing;
 }
 
 auto glfw_window::native_handles() const noexcept -> platform::native_handles

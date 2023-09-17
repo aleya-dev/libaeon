@@ -24,7 +24,7 @@ public:
     glfw_window(glfw_window &&) noexcept = delete;
     auto operator=(glfw_window &&) noexcept -> glfw_window & = delete;
 
-    [[nodiscard]] auto state_flags() const noexcept -> window_state_flags final;
+    [[nodiscard]] auto state_flags() noexcept -> window_state_flags final;
     void reset_state_flags() noexcept final;
 
     [[nodiscard]] auto position() const noexcept -> math::vector2<std::int32_t> final;
@@ -44,7 +44,7 @@ public:
 
     void close() final;
 
-    [[nodiscard]] auto closed() const noexcept -> bool final;
+    [[nodiscard]] auto closed() noexcept -> bool final;
 
     [[nodiscard]] auto native_handles() const noexcept -> platform::native_handles final;
 
