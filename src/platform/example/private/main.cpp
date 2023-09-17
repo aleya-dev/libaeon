@@ -119,7 +119,7 @@ int main()
     platform::window_create_info info;
     info.title = u8"I like Π, and らき☆すた, Raki☆Suta";
 
-    const auto context = platform::create_context();
+    const auto context = platform::create_context(platform::backend::glfw);
     test_input_events input_events;
     context->attach_input_listener(input_events);
 

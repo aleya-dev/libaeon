@@ -6,11 +6,6 @@
 namespace aeon::platform
 {
 
-[[nodiscard]] AEON_PLATFORM_EXPORT auto create_context() -> std::unique_ptr<context>
-{
-    return std::make_unique<glfw_context>();
-}
-
 glfw_context::glfw_context() noexcept
     : base_context{}
 {

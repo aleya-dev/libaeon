@@ -3,6 +3,7 @@
 #pragma once
 
 #include <aeon/platform/platform_export.h>
+#include <aeon/platform/platform_config.h>
 #include <memory>
 
 namespace aeon::platform
@@ -11,6 +12,13 @@ namespace aeon::platform
 struct window_create_info;
 class window;
 class input_events;
+
+enum class backend
+{
+#if (defined(AEON_PLATFORM_BACKEND_GLFW))
+    glfw
+#endif
+};
 
 class context
 {
@@ -32,6 +40,6 @@ public:
     virtual void detach_all_input_listeners() = 0;
 };
 
-[[nodiscard]] AEON_PLATFORM_EXPORT auto create_context() -> std::unique_ptr<context>;
+[[nodiscard]] AEON_PLATFORM_EXPORT auto create_context(backend backend) -> std::unique_ptr<context>;
 
 } // namespace aeon::platform

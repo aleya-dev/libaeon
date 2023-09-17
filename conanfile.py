@@ -26,6 +26,7 @@ class LibAeonConan(ConanFile):
         'with_logger': [True, False],
         'with_math': [True, False],
         'with_platform': [True, False],
+        'with_platform_glfw': [True, False],
         'with_plugins': [True, False],
         'with_ptree': [True, False],
         'with_rdp': [True, False],
@@ -55,6 +56,7 @@ class LibAeonConan(ConanFile):
         'with_logger': True,
         'with_math': True,
         'with_platform': True,
+        'with_platform_glfw': True,
         'with_plugins': True,
         'with_ptree': True,
         'with_rdp': True,
@@ -73,6 +75,9 @@ class LibAeonConan(ConanFile):
     def configure(self):
         if self.options.shared:
             del self.options.fPIC
+
+        if not self.options.with_platform:
+            del self.options.with_platform_glfw
 
     def config_options(self):
         if self.settings.os == 'Windows':
@@ -95,7 +100,7 @@ class LibAeonConan(ConanFile):
             self.requires('libpng/1.6.40')
             self.requires('libjpeg-turbo/2.1.91')
 
-        if self.options.get_safe('with_platform', True):
+        if self.options.get_safe('with_platform', True) and self.options.get_safe('with_platform_glfw', True):
             self.requires('glfw/3.3.8')
 
         if self.options.get_safe('with_sockets', True):
@@ -135,6 +140,9 @@ class LibAeonConan(ConanFile):
         tc.variables['AEON_COMPONENT_VARIANT'] = self.options.get_safe('with_variant', default=False)
         tc.variables['AEON_COMPONENT_VULKAN'] = self.options.get_safe('with_vulkan', default=False)
         tc.variables['AEON_COMPONENT_WEB'] = self.options.get_safe('with_web', default=False)
+
+        tc.variables['AEON_PLATFORM_BACKEND_GLFW'] = self.options.get_safe('with_platform_glfw', default=False)
+
         tc.generate()
         deps = CMakeDeps(self)
         deps.generate()

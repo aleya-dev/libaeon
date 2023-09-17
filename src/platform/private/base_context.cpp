@@ -1,9 +1,27 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
 #include "base_context.h"
+#include <aeon/platform/platform_config.h>
+
+#if (defined(AEON_PLATFORM_BACKEND_GLFW))
+#include "platforms/glfw/glfw_context.h"
+#endif
 
 namespace aeon::platform
 {
+
+[[nodiscard]] AEON_PLATFORM_EXPORT auto create_context(backend backend) -> std::unique_ptr<context>
+{
+    switch (backend)
+    {
+#if (defined(AEON_PLATFORM_BACKEND_GLFW))
+        case backend::glfw:
+            return std::make_unique<glfw_context>();
+#endif
+    }
+
+    std::abort();
+}
 
 base_context::base_context() noexcept
     : input_listeners_{}
