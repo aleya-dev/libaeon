@@ -329,22 +329,28 @@ void sdl2_context::poll_events() noexcept
                 handle_key(convert_sdl_scancode(event.key.keysym.scancode), event.key.keysym.scancode,
                            keyboard_key_state::pressed);
                 break;
+
             case SDL_KEYUP:
                 handle_key(convert_sdl_scancode(event.key.keysym.scancode), event.key.keysym.scancode,
                            keyboard_key_state::released);
                 break;
+
             case SDL_MOUSEMOTION:
                 handle_mouse_move({static_cast<double>(event.motion.x), static_cast<double>(event.motion.y)});
                 break;
+
             case SDL_MOUSEBUTTONDOWN:
                 handle_mouse_button(convert_sdl_mouse_button_index(event.button.button), mouse_button_state::pressed);
                 break;
+
             case SDL_MOUSEBUTTONUP:
                 handle_mouse_button(convert_sdl_mouse_button_index(event.button.button), mouse_button_state::released);
                 break;
+
             case SDL_MOUSEWHEEL:
                 handle_mouse_scroll(static_cast<double>(event.wheel.y));
                 break;
+
             default:
                 break;
         }
