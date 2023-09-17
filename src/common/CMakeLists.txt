@@ -32,6 +32,7 @@ set(SOURCES
     public/aeon/common/element_type.h
     public/aeon/common/endianness.h
     public/aeon/common/expect.h
+    public/aeon/common/fence.h
     public/aeon/common/flags.h
     public/aeon/common/fmtflags.h
     public/aeon/common/fourcc.h
