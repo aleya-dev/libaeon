@@ -3,7 +3,7 @@ libAeon
 
 [![Linux x86_64 GCC 12](https://github.com/aleya-dev/libaeon/actions/workflows/linux_x86_64_gcc12.yml/badge.svg?branch=master)](https://github.com/aleya-dev/libaeon/actions/workflows/linux_x86_64_gcc12.yml)
 [![Windows x86_64 VS2022](https://github.com/aleya-dev/libaeon/actions/workflows/windows_x86_64_vs2022.yml/badge.svg?branch=master)](https://github.com/aleya-dev/libaeon/actions/workflows/windows_x86_64_vs2022.yml)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/00148aa1097f467b93ebcb4262a8fcf1)](https://www.codacy.com/gh/aeon-engine/libaeon/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aeon-engine/libaeon&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/4ac90bb028b34818a9a671792bb648e2)](https://app.codacy.com/gh/aleya-dev/libaeon/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/aeon-engine/libaeon/badge)](https://www.codefactor.io/repository/github/aeon-engine/libaeon)
 
 A general purpose C++23 support library.
