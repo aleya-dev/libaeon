@@ -91,7 +91,7 @@ class LibAeonConan(ConanFile):
             self.requires('gtest/1.13.0')
 
         if self.options.get_safe('enable_benchmarks', True):
-            self.requires('benchmark/1.8.0')
+            self.requires('benchmark/1.8.3')
 
         if self.options.get_safe('with_compression', True):
             self.requires('zlib/1.2.13')
