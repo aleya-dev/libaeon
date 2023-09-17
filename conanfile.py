@@ -4,6 +4,9 @@ from conan.tools.files import rmdir
 import os
 
 
+required_conan_version = ">=2.0"
+
+
 class LibAeonConan(ConanFile):
     name = 'libaeon'
     description = 'A general purpose C++20 support library.'
