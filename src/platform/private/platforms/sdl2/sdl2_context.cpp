@@ -304,12 +304,24 @@ void sdl2_context::poll_events() noexcept
     {
         switch (event.type)
         {
-            case SDL_QUIT:
+            case SDL_WINDOWEVENT:
             {
-                const auto sdl_window = SDL_GetWindowFromID(event.window.windowID);
+                switch (event.window.event)
+                {
+                    case SDL_WINDOWEVENT_CLOSE:
+                    {
+                        const auto sdl_window = SDL_GetWindowFromID(event.window.windowID);
 
-                if (auto *window = static_cast<sdl2_window *>(SDL_GetWindowData(sdl_window, sdl2_window::this_ptr_key)))
-                    window->on_closing();
+                        if (auto *window =
+                                static_cast<sdl2_window *>(SDL_GetWindowData(sdl_window, sdl2_window::this_ptr_key)))
+                            window->on_closing();
+
+                        break;
+                    }
+
+                    default:
+                        break;
+                }
 
                 break;
             }
