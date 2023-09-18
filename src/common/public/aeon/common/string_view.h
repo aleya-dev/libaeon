@@ -115,6 +115,7 @@ public:
 
     auto operator==(const char8_t *const str) const -> bool;
 
+#if __cplusplus < 202002L
     constexpr auto operator!=(const string &str) const -> bool;
 
     constexpr auto operator!=(const string_view &str) const -> bool;
@@ -126,6 +127,7 @@ public:
     constexpr auto operator!=(const value_type *const str) const -> bool;
 
     auto operator!=(const char8_t *const str) const -> bool;
+#endif
 
     constexpr auto operator<(const string &str) const -> bool;
 

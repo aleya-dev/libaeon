@@ -189,6 +189,7 @@ inline auto string_view::operator==(const char8_t *const str) const -> bool
     return str_ == reinterpret_cast<const char *const>(str);
 }
 
+#if __cplusplus < 202002L
 inline constexpr auto string_view::operator!=(const string &str) const -> bool
 {
     return !(*this == str);
@@ -218,6 +219,7 @@ inline auto string_view::operator!=(const char8_t *const str) const -> bool
 {
     return !(*this == str);
 }
+#endif
 
 inline constexpr auto string_view::operator<(const string &str) const -> bool
 {
