@@ -1,9 +1,4 @@
 #!/bin/bash
 
 rm -rf build
-mkdir build
-cd build
-conan install ..
-cmake ../ -G "Xcode"
-open .
-cd ..
+cmake . -G "Xcode" -B build -DCMAKE_INSTALL_PREFIX=$(pwd)/build/install -DCMAKE_BUILD_TYPE=Debug
