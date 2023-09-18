@@ -145,7 +145,7 @@ inline void length_prefixed_binary_protocol_socket<length_t>::on_data(const std:
         if (circular_buffer_.size() < expected_length_)
             break;
 
-        reader.read_to_vector<std::byte>(frame_buffer_, static_cast<std::streamoff>(expected_length_));
+        reader.template read_to_vector<std::byte>(frame_buffer_, static_cast<std::streamoff>(expected_length_));
         streams::memory_view_device device{frame_buffer_};
         on_frame(device);
         frame_buffer_.clear();
