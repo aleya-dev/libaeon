@@ -3,7 +3,6 @@ from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
 from conan.tools.files import rmdir
 import os
 
-
 required_conan_version = ">=2.0"
 
 
@@ -110,10 +109,12 @@ class LibAeonConan(ConanFile):
             self.requires('libpng/1.6.40')
             self.requires('libjpeg-turbo/2.1.91')
 
-        if self.options.get_safe('libaeon_with_platform', False) and self.options.get_safe('libaeon_with_platform_glfw', False):
+        if self.options.get_safe('libaeon_with_platform', False) and self.options.get_safe('libaeon_with_platform_glfw',
+                                                                                           False):
             self.requires('glfw/3.3.8')
 
-        if self.options.get_safe('libaeon_with_platform', False) and self.options.get_safe('libaeon_with_platform_sdl2', False):
+        if self.options.get_safe('libaeon_with_platform', False) and self.options.get_safe('libaeon_with_platform_sdl2',
+                                                                                           False):
             self.requires('sdl/2.28.3')
 
         if self.options.get_safe('libaeon_with_sockets', False):
@@ -134,7 +135,8 @@ class LibAeonConan(ConanFile):
         tc.variables['AEON_COMPONENT_COMMON'] = self.options.get_safe('libaeon_with_common', default=False)
         tc.variables['AEON_COMPONENT_COMPRESSION'] = self.options.get_safe('libaeon_with_compression', default=False)
         tc.variables['AEON_COMPONENT_CRYPTO'] = self.options.get_safe('libaeon_with_crypto', default=False)
-        tc.variables['AEON_COMPONENT_FILE_CONTAINER'] = self.options.get_safe('libaeon_with_file_container', default=False)
+        tc.variables['AEON_COMPONENT_FILE_CONTAINER'] = self.options.get_safe('libaeon_with_file_container',
+                                                                              default=False)
         tc.variables['AEON_COMPONENT_FONTS'] = self.options.get_safe('libaeon_with_fonts', default=False)
         tc.variables['AEON_COMPONENT_IMAGING'] = self.options.get_safe('libaeon_with_imaging', default=False)
         tc.variables['AEON_COMPONENT_LOGGER'] = self.options.get_safe('libaeon_with_logger', default=False)
