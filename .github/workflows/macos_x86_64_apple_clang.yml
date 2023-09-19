@@ -1,0 +1,42 @@
+name: MacOS x86_64 Apple Clang
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-13
+    env:
+      CONAN_REVISIONS_ENABLED: 1
+      JOB_COUNT: 2
+
+    steps:
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.11.5
+
+      - name: Conan install
+        run: python -m pip install conan
+
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Conan remote
+        run: conan config install remotes.json
+
+      - name: Conan install
+        run: conan install . -of build --profile:host=./dep/devops/Conan/profiles/macos/appleclang14_x86_64_debug --profile:build=./dep/devops/Conan/profiles/macos/appleclang14_x86_64_debug
+
+      - name: Cmake
+        run: cmake . -B build -DCMAKE_INSTALL_PREFIX=$(pwd)/build/install -DCMAKE_BUILD_TYPE=Debug -DAEON_ENABLE_CONAN_INTEGRATION=0
+
+      - name: Build
+        run: cmake --build build -- -j$JOB_COUNT
+
+      - name: Test
+        run: ctest --test-dir build
