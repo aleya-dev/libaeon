@@ -16,7 +16,6 @@ set(SOURCES
     public/aeon/common/bits.h
     public/aeon/common/bom.h
     public/aeon/common/cached_container.h
-    public/aeon/common/collection.h
     public/aeon/common/color.h
     public/aeon/common/color_limits.h
     public/aeon/common/commandline_parser.h
