@@ -58,8 +58,6 @@ set(SOURCES
     public/aeon/common/pmr.h
     public/aeon/common/preprocessor.h
     public/aeon/common/scope_guard.h
-    public/aeon/common/shared_vector.h
-    public/aeon/common/shared_vector_fwd.h
     public/aeon/common/signals.h
     public/aeon/common/signed_sizeof.h
     public/aeon/common/singleton.h
