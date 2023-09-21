@@ -48,6 +48,22 @@ libAeon requires at least GCC 12
 
 3.  Enter the `build` folder and run make
 
+### MacOS
+
+libAeon requires at least XCode 14.3
+
+1.  Make sure you have cloned the submodules
+
+    ```git submodule update --init```
+
+2.  Run `./bootstrap.sh`
+
+    This will download all dependencies and generate a Makefile in the `build` subfolder.
+
+3.  Enter the `build` folder and run make
+
+Alternatively you can also generate an XCode project to build. For this you can use the `./bootstrap_xcode.sh` script.
+
 ### Other platforms
 
 libAeon has also been successfully tested on other platforms like BSD and macOS. As long as you use a recent compiler this should work.
