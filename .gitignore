@@ -4,23 +4,10 @@
 # Vim
 *.swp
 
-# Cmake
-CMakeFiles/
-cmake_install.cmake
-
-# Infra
-external_dependencies*/
-
-# Linux
-Makefile
-*.a
-docs
-
 # CLion
 .idea
 
 # Build folders
-vs_build/
 build/
 cmake-build-*/
 
