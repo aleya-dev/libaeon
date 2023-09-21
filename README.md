@@ -15,7 +15,7 @@ A general purpose C++23 support library.
 How to build
 --------------
 ### Conan
-You must first install Conan. libAeon will pull in packages from both conan center and a private repository.
+You must first install Conan 2.x. libAeon will pull in packages from a private repository.
 
 The following remote must be added:
 https://artifactory.aleya.dev/artifactory/api/conan/aleya-group-conan
