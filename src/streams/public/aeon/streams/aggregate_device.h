@@ -83,16 +83,16 @@ public:
 
     ~aggregate_device() = default;
 
-    aggregate_device(aggregate_device &&) noexcept(
-        std::is_nothrow_move_constructible_v<filter_t> &&std::is_nothrow_move_constructible_v<device_t>) = default;
-    auto operator=(aggregate_device &&) noexcept(
-        std::is_nothrow_move_assignable_v<filter_t> &&std::is_nothrow_move_assignable_v<device_t>)
+    aggregate_device(aggregate_device &&) noexcept(std::is_nothrow_move_constructible_v<filter_t> &&
+                                                   std::is_nothrow_move_constructible_v<device_t>) = default;
+    auto operator=(aggregate_device &&) noexcept(std::is_nothrow_move_assignable_v<filter_t> &&
+                                                 std::is_nothrow_move_assignable_v<device_t>)
         -> aggregate_device & = default;
 
-    aggregate_device(const aggregate_device &) noexcept(
-        std::is_nothrow_copy_constructible_v<filter_t> &&std::is_nothrow_copy_constructible_v<device_t>) = default;
-    auto operator=(const aggregate_device &) noexcept(
-        std::is_nothrow_copy_assignable_v<filter_t> &&std::is_nothrow_copy_assignable_v<device_t>)
+    aggregate_device(const aggregate_device &) noexcept(std::is_nothrow_copy_constructible_v<filter_t> &&
+                                                        std::is_nothrow_copy_constructible_v<device_t>) = default;
+    auto operator=(const aggregate_device &) noexcept(std::is_nothrow_copy_assignable_v<filter_t> &&
+                                                      std::is_nothrow_copy_assignable_v<device_t>)
         -> aggregate_device & = default;
 
     auto read(std::byte *data, const std::streamsize size) -> std::streamsize;
