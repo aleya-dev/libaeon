@@ -64,12 +64,10 @@ libAeon requires at least XCode 14.3
 
 Alternatively you can also generate an XCode project to build. For this you can use the `./bootstrap_xcode.sh` script.
 
-### Other platforms
+### FreeBSD
 
-libAeon has also been successfully tested on other platforms like BSD and macOS. As long as you use a recent compiler this should work.
-However there are no prebuilt dependencies available for these platforms. You can try using `./bootstrap_local.sh`. This will try to use
-dependencies that are installed on the system already instead of downloading prebuilt ones. If you have any questions about this feel
-free to contact me. I will try to do my best to help, but I can't guarantee anything.
+libAeon requires Clang to build on FreeBSD. There is no official support for this platform and it is not tested regularly.
+There are no prebuilt dependencies available for this platform so you must build them manually through Conan.
 
 License
 --------------
