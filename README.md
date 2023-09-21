@@ -72,7 +72,7 @@ There are no prebuilt dependencies available for this platform so you must build
 Code style
 --------------
 A detailed description of code style is yet to be written. Please follow the
-style as established in the existing code. When in doubt, ask Robin Degen.
+style as established in the existing code. When in doubt, just ask!
 
 In short:
 
