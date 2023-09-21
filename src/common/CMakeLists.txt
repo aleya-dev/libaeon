@@ -15,7 +15,6 @@ set(SOURCES
     public/aeon/common/base64.h
     public/aeon/common/bits.h
     public/aeon/common/bom.h
-    public/aeon/common/cached_container.h
     public/aeon/common/color.h
     public/aeon/common/color_limits.h
     public/aeon/common/commandline_parser.h
@@ -23,6 +22,7 @@ set(SOURCES
     public/aeon/common/concepts.h
     public/aeon/common/container.h
     public/aeon/common/containers/buffer.h
+    public/aeon/common/containers/cached_container.h
     public/aeon/common/containers/general_tree.h
     public/aeon/common/containers/impl/general_tree_impl.h
     public/aeon/common/containers/unordered_flatmap.h
