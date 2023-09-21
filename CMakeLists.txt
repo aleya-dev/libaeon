@@ -18,7 +18,15 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}/dep/devops/CMake")
 set(CMAKE_PREFIX_PATH "${CMAKE_BINARY_DIR}")
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
+
+set(CMAKE_CXX_CLANG_TIDY
+    /usr/bin/clang-tidy;
+    -format-style='.clang-tidy';
+)
+
+list(PREPEND CMAKE_INCLUDE_PATH /usr/include/c++/v1/)
+include_directories(/usr/include/c++/v1/)
 
 option(AEON_ENABLE_SUBMODULE_DEPENDENCIES "Instead of using find_package and/or conan; assume the targets already exist" OFF)
 

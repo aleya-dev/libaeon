@@ -1,0 +1,21 @@
+---
+Checks:          'readability-identifier-naming'
+WarningsAsErrors: ''
+HeaderFilterRegex: ''
+AnalyzeTemporaryDtors: false
+FormatStyle:     file
+User:            robindegen
+CheckOptions:
+  readability-identifier-naming.AbstractClassCase: 'CamelCase'
+  readability-identifier-naming.ClassCase: 'CamelCase'
+  readability-identifier-naming.ClassMemberCase: 'camelBack'
+  readability-identifier-naming.ClassMemberPrefix: 'm_'
+  readability-identifier-naming.EnumCase: 'CamelCase'
+  readability-identifier-naming.EnumConstantCase: 'CamelCase'
+  readability-identifier-naming.FunctionCase: 'CamelCase'
+  readability-identifier-naming.LocalVariableCase: 'camelBack'
+  readability-identifier-naming.MethodCase: 'camelBack'
+  readability-identifier-naming.NamespaceCase: 'CamelCase'
+  readability-identifier-naming.ParameterCase: 'camelBack'
+  readability-identifier-naming.TypedefCase: 'CamelCase'
+...
