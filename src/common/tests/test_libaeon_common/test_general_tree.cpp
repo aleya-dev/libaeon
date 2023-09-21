@@ -1,6 +1,6 @@
 // Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-#include <aeon/common/general_tree.h>
+#include <aeon/common/containers/general_tree.h>
 #include <aeon/common/string.h>
 #include <gtest/gtest.h>
 
@@ -8,13 +8,13 @@ using namespace aeon;
 
 TEST(test_general_tree, test_create_empty)
 {
-    common::general_tree tree{123};
-    common::general_tree<common::string> tree2{"hello"};
+    common::containers::general_tree tree{123};
+    common::containers::general_tree<common::string> tree2{"hello"};
 }
 
 TEST(test_general_tree, test_tree_interface)
 {
-    common::general_tree<char> tree{'R'};
+    common::containers::general_tree<char> tree{'R'};
     auto root = tree.root();
     auto a_chd = root.emplace_child('A');
     auto b_chd = root.emplace_child('B');

@@ -23,6 +23,10 @@ set(SOURCES
     public/aeon/common/concepts.h
     public/aeon/common/container.h
     public/aeon/common/containers/buffer.h
+    public/aeon/common/containers/general_tree.h
+    public/aeon/common/containers/impl/general_tree_impl.h
+    public/aeon/common/containers/unordered_flatmap.h
+    public/aeon/common/containers/unordered_flatset.h
     public/aeon/common/delay.h
     public/aeon/common/deprecated.h
     public/aeon/common/dispatcher.h
@@ -36,11 +40,9 @@ set(SOURCES
     public/aeon/common/fmtflags.h
     public/aeon/common/fourcc.h
     public/aeon/common/from_chars.h
-    public/aeon/common/general_tree.h
     public/aeon/common/hash.h
     public/aeon/common/hexdump.h
     public/aeon/common/impl/color_impl.h
-    public/aeon/common/impl/general_tree_impl.h
     public/aeon/common/impl/string_impl.h
     public/aeon/common/impl/string_utils_impl.h
     public/aeon/common/impl/string_view_impl.h
@@ -76,8 +78,6 @@ set(SOURCES
     public/aeon/common/type_traits.h
     public/aeon/common/u8_stream.h
     public/aeon/common/unique_obj.h
-    public/aeon/common/unordered_flatmap.h
-    public/aeon/common/unordered_flatset.h
     public/aeon/common/uuid.h
     public/aeon/common/version.h
 )

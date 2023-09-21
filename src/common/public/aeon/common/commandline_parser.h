@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include <aeon/common/unordered_flatmap.h>
-#include <aeon/common/unordered_flatset.h>
+#include <aeon/common/containers/unordered_flatmap.h>
+#include <aeon/common/containers/unordered_flatset.h>
 #include <aeon/common/string.h>
 #include <aeon/common/string_view.h>
 #include <vector>
@@ -24,8 +24,9 @@ public:
     {
     }
 
-    explicit commandline_parse_result(std::vector<string_view> positional, unordered_flatset<string_view> options,
-                                      unordered_flatmap<string_view, string_view> arguments) noexcept
+    explicit commandline_parse_result(std::vector<string_view> positional,
+                                      containers::unordered_flatset<string_view> options,
+                                      containers::unordered_flatmap<string_view, string_view> arguments) noexcept
         : result_{true}
         , positional_{std::move(positional)}
         , options_{std::move(options)}
@@ -112,8 +113,8 @@ public:
 private:
     bool result_;
     std::vector<string_view> positional_;
-    unordered_flatset<string_view> options_;
-    unordered_flatmap<string_view, string_view> arguments_;
+    containers::unordered_flatset<string_view> options_;
+    containers::unordered_flatmap<string_view, string_view> arguments_;
 };
 
 class commandline_parser final
@@ -141,9 +142,9 @@ private:
     [[nodiscard]] auto is_option(const string_view arg) const noexcept -> bool;
     [[nodiscard]] auto is_argument(const string_view arg) const noexcept -> bool;
 
-    unordered_flatmap<string, string> positional_;
-    unordered_flatmap<string, string> options_;
-    unordered_flatmap<string, string> arguments_;
+    containers::unordered_flatmap<string, string> positional_;
+    containers::unordered_flatmap<string, string> options_;
+    containers::unordered_flatmap<string, string> arguments_;
 };
 
 } // namespace aeon::common

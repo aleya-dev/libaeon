@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-namespace aeon::common
+namespace aeon::common::containers
 {
 
 template <typename T>
@@ -305,4 +305,4 @@ inline auto general_tree<T>::root() -> tree_leaf_type
     return tree_leaf_type{&leafs_, &values_, 0};
 }
 
-} // namespace aeon::common
+} // namespace aeon::common::containers

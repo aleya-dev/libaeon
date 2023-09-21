@@ -8,7 +8,7 @@
 #include <initializer_list>
 #include <stdexcept>
 
-namespace aeon::common
+namespace aeon::common::containers
 {
 
 template <typename key_type_t, typename value_type_t>
@@ -233,4 +233,4 @@ private:
     map_type map_;
 };
 
-} // namespace aeon::common
+} // namespace aeon::common::containers

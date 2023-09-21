@@ -7,7 +7,7 @@
 #include <vector>
 #include <forward_list>
 
-namespace aeon::common
+namespace aeon::common::containers
 {
 
 namespace internal
@@ -167,6 +167,6 @@ private:
     std::vector<value_type> values_;
 };
 
-} // namespace aeon::common
+} // namespace aeon::common::containers
 
-#include <aeon/common/impl/general_tree_impl.h>
+#include <aeon/common/containers/impl/general_tree_impl.h>

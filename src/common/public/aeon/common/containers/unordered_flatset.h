@@ -7,7 +7,7 @@
 #include <vector>
 #include <initializer_list>
 
-namespace aeon::common
+namespace aeon::common::containers
 {
 
 template <typename key_type_t>
@@ -173,4 +173,4 @@ private:
     set_type set_;
 };
 
-} // namespace aeon::common
+} // namespace aeon::common::containers
