@@ -14,17 +14,17 @@ base_window::~base_window() = default;
 
 void base_window::attach_window_listener(window_events &events)
 {
-    window_listeners_.attach(events);
+    window_listeners_.Attach(events);
 }
 
 void base_window::detach_window_listener(window_events &events)
 {
-    window_listeners_.detach(events);
+    window_listeners_.Detach(events);
 }
 
 void base_window::detach_all_window_listeners()
 {
-    window_listeners_.detach_all();
+    window_listeners_.DetachAll();
 }
 
 } // namespace aeon::platform

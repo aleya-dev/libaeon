@@ -2,26 +2,26 @@
 
 #pragma once
 
-namespace aeon::common
+namespace aeon::Common
 {
 
 /*!
  * Base class for thread-safe singletons.
  */
-template <class type>
-class singleton
+template <class Type>
+class Singleton
 {
 public:
-    [[nodiscard]] static auto get_singleton() -> type &
+    [[nodiscard]] static auto GetSingleton() -> Type &
     {
-        static type instance;
+        static Type instance;
         return instance;
     }
 
-    [[nodiscard]] static auto get_singleton_ptr() -> type *
+    [[nodiscard]] static auto GetSingletonPtr() -> Type *
     {
-        return &get_singleton();
+        return &GetSingleton();
     }
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

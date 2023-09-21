@@ -22,7 +22,7 @@ public:
     auto operator=(stream_sink &&) noexcept -> stream_sink & = delete;
 
 private:
-    void log(const common::string &message, const common::string &module, const log_level level) override;
+    void log(const Common::String &message, const Common::String &module, const log_level level) override;
 
     streams::idynamic_stream &stream_;
 };

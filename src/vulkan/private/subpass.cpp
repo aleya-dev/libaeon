@@ -6,7 +6,7 @@
 namespace aeon::vulkan
 {
 
-subpass::subpass(const pipeline_bind_point bind_point, const common::flags<subpass_description_flag> flags) noexcept
+subpass::subpass(const pipeline_bind_point bind_point, const Common::Flags<subpass_description_flag> flags) noexcept
     : bind_point_{bind_point}
     , flags_{flags}
     , color_attachments_{}
@@ -21,7 +21,7 @@ subpass::subpass(std::vector<attachment_reference> color_attachments,
                  const attachment_reference depth_stencil_attachment,
                  std::vector<attachment_reference> input_attachments,
                  std::vector<attachment_reference> resolve_attachments, std::vector<std::uint32_t> preserve_attachments,
-                 const pipeline_bind_point bind_point, const common::flags<subpass_description_flag> flags) noexcept
+                 const pipeline_bind_point bind_point, const Common::Flags<subpass_description_flag> flags) noexcept
     : bind_point_{static_cast<VkPipelineBindPoint>(bind_point)}
     , flags_{flags}
     , color_attachments_{std::move(color_attachments)}
@@ -30,7 +30,7 @@ subpass::subpass(std::vector<attachment_reference> color_attachments,
     , resolve_attachments_{std::move(resolve_attachments)}
     , preserve_attachments_{std::move(preserve_attachments)}
 {
-    aeon_assert(std::size(color_attachments_) == std::size(resolve_attachments_),
+    AeonAssert(std::size(color_attachments_) == std::size(resolve_attachments_),
                 "The amount of color attachments must match the amount of resolve attachments.");
 }
 
@@ -39,12 +39,12 @@ auto subpass::bind_point() const noexcept -> pipeline_bind_point
     return bind_point_;
 }
 
-auto subpass::flags() const noexcept -> common::flags<subpass_description_flag>
+auto subpass::flags() const noexcept -> Common::Flags<subpass_description_flag>
 {
     return flags_;
 }
 
-auto subpass::set_flags(const common::flags<subpass_description_flag> flags) noexcept -> subpass &
+auto subpass::set_flags(const Common::Flags<subpass_description_flag> flags) noexcept -> subpass &
 {
     flags_ = flags;
     return *this;
@@ -52,7 +52,7 @@ auto subpass::set_flags(const common::flags<subpass_description_flag> flags) noe
 
 auto subpass::add_color_attachment(const attachment_reference reference) -> subpass &
 {
-    aeon_assert(!is_unused(reference), "A color attachment reference can not be unused.");
+    AeonAssert(!is_unused(reference), "A color attachment reference can not be unused.");
     color_attachments_.push_back(reference);
     return *this;
 }
@@ -142,7 +142,7 @@ auto subpass::depth_stencil_attachment_ptr() const noexcept -> const attachment_
 
 auto subpass::add_input_attachment(const attachment_reference reference) -> subpass &
 {
-    aeon_assert(!is_unused(reference), "An input attachment reference can not be unused.");
+    AeonAssert(!is_unused(reference), "An input attachment reference can not be unused.");
     input_attachments_.push_back(reference);
     return *this;
 }
@@ -211,8 +211,8 @@ auto subpass::preserve_attachments() const noexcept -> const std::vector<std::ui
 
 void subpass::add_resolve_attachment(const attachment_reference reference)
 {
-    aeon_assert(!is_unused(reference), "A resolve attachment reference can not be unused.");
-    aeon_assert(std::size(color_attachments_) == std::size(resolve_attachments_),
+    AeonAssert(!is_unused(reference), "A resolve attachment reference can not be unused.");
+    AeonAssert(std::size(color_attachments_) == std::size(resolve_attachments_),
                 "The amount of color attachments must match the amount of resolve attachments.");
     resolve_attachments_.push_back(reference);
 }

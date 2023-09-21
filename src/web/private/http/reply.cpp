@@ -27,12 +27,12 @@ auto reply::get_content() -> std::vector<std::byte>
     return vec;
 }
 
-auto reply::get_raw_headers() const -> const std::vector<common::string> &
+auto reply::get_raw_headers() const -> const std::vector<Common::String> &
 {
     return raw_headers_;
 }
 
-void reply::append_raw_http_header_line(const common::string &header_line)
+void reply::append_raw_http_header_line(const Common::String &header_line)
 {
     raw_headers_.push_back(header_line);
 }

@@ -8,23 +8,23 @@ using namespace aeon;
 using namespace std::literals;
 
 template <typename T>
-void test_basic_value(const common::string_view str, const T expected_value)
+void test_basic_value(const Common::StringView str, const T expected_value)
 {
     T value{};
-    const auto result = common::from_chars(str, value);
+    const auto result = Common::FromChars(str, value);
     EXPECT_EQ(value, expected_value);
-    EXPECT_EQ(result.ec, std::errc{});
-    EXPECT_EQ(result.ptr, std::data(str) + std::size(str));
+    EXPECT_EQ(result.Ec, std::errc{});
+    EXPECT_EQ(result.Ptr, std::data(str) + std::size(str));
 }
 
 template <typename T>
-void test_basic_value(const common::string_view str, const T expected_value, const int base)
+void test_basic_value(const Common::StringView str, const T expected_value, const int base)
 {
     T value{};
-    const auto result = common::from_chars(str, value, base);
+    const auto result = Common::FromChars(str, value, base);
     EXPECT_EQ(value, expected_value);
-    EXPECT_EQ(result.ec, std::errc{});
-    EXPECT_EQ(result.ptr, std::data(str) + std::size(str));
+    EXPECT_EQ(result.Ec, std::errc{});
+    EXPECT_EQ(result.Ptr, std::data(str) + std::size(str));
 }
 
 TEST(test_from_chars, test_parse_basic_integers)

@@ -11,8 +11,8 @@ namespace aeon::vulkan
 class vulkan_exception : public std::runtime_error
 {
 public:
-    explicit vulkan_exception(const common::string &str)
-        : std::runtime_error{str.c_str()}
+    explicit vulkan_exception(const Common::String &str)
+        : std::runtime_error{str.CStr()}
     {
     }
 

@@ -7,172 +7,172 @@ using namespace aeon;
 
 TEST(test_commandline_parser, test_commandline_parser_positional)
 {
-    common::commandline_parser parser;
-    parser.add_positional("a", "description 1");
-    parser.add_positional("b", "description 2");
-    parser.add_positional("c", "description 3");
+    Common::CommandlineParser parser;
+    parser.AddPositional("a", "description 1");
+    parser.AddPositional("b", "description 2");
+    parser.AddPositional("c", "description 3");
 
-    const auto result = parser.parse({"1", "2", "3"});
+    const auto result = parser.Parse({"1", "2", "3"});
 
     EXPECT_TRUE(result);
-    EXPECT_TRUE(result.success());
-    EXPECT_FALSE(result.failed());
+    EXPECT_TRUE(result.Success());
+    EXPECT_FALSE(result.Failed());
 
-    EXPECT_EQ(result.positional(0), "1");
-    EXPECT_EQ(result.positional(1), "2");
-    EXPECT_EQ(result.positional(2), "3");
+    EXPECT_EQ(result.Positional(0), "1");
+    EXPECT_EQ(result.Positional(1), "2");
+    EXPECT_EQ(result.Positional(2), "3");
 
-    EXPECT_ANY_THROW([[maybe_unused]] auto arg = result.positional(3));
+    EXPECT_ANY_THROW([[maybe_unused]] auto arg = result.Positional(3));
 }
 
 TEST(test_commandline_parser, test_commandline_parser_short_options)
 {
-    common::commandline_parser parser;
-    parser.add_option("a", "description 1");
-    parser.add_option("b", "description 2");
+    Common::CommandlineParser parser;
+    parser.AddOption("a", "description 1");
+    parser.AddOption("b", "description 2");
 
-    const auto result = parser.parse({"-a", "-b"});
+    const auto result = parser.Parse({"-a", "-b"});
 
     EXPECT_TRUE(result);
-    EXPECT_TRUE(result.success());
-    EXPECT_FALSE(result.failed());
+    EXPECT_TRUE(result.Success());
+    EXPECT_FALSE(result.Failed());
 
-    EXPECT_TRUE(result.has_option("a"));
-    EXPECT_TRUE(result.has_option("b"));
-    EXPECT_FALSE(result.has_option("c"));
+    EXPECT_TRUE(result.HasOption("a"));
+    EXPECT_TRUE(result.HasOption("b"));
+    EXPECT_FALSE(result.HasOption("c"));
 
-    EXPECT_TRUE(parser.parse({"-a"}));
-    EXPECT_TRUE(parser.parse({"-b"}));
-    EXPECT_FALSE(parser.parse({"-c"}));
-    EXPECT_FALSE(parser.parse({"--a"}));
-    EXPECT_FALSE(parser.parse({"--b"}));
-    EXPECT_FALSE(parser.parse({"--a", "--b"}));
+    EXPECT_TRUE(parser.Parse({"-a"}));
+    EXPECT_TRUE(parser.Parse({"-b"}));
+    EXPECT_FALSE(parser.Parse({"-c"}));
+    EXPECT_FALSE(parser.Parse({"--a"}));
+    EXPECT_FALSE(parser.Parse({"--b"}));
+    EXPECT_FALSE(parser.Parse({"--a", "--b"}));
 }
 
 TEST(test_commandline_parser, test_commandline_parser_long_options)
 {
-    common::commandline_parser parser;
-    parser.add_option("aaa", "description 1");
-    parser.add_option("bbb", "description 2");
+    Common::CommandlineParser parser;
+    parser.AddOption("aaa", "description 1");
+    parser.AddOption("bbb", "description 2");
 
-    const auto result = parser.parse({"--aaa", "--bbb"});
+    const auto result = parser.Parse({"--aaa", "--bbb"});
 
     EXPECT_TRUE(result);
-    EXPECT_TRUE(result.success());
-    EXPECT_FALSE(result.failed());
+    EXPECT_TRUE(result.Success());
+    EXPECT_FALSE(result.Failed());
 
-    EXPECT_TRUE(result.has_option("aaa"));
-    EXPECT_TRUE(result.has_option("bbb"));
-    EXPECT_FALSE(result.has_option("ccc"));
+    EXPECT_TRUE(result.HasOption("aaa"));
+    EXPECT_TRUE(result.HasOption("bbb"));
+    EXPECT_FALSE(result.HasOption("ccc"));
 
-    EXPECT_TRUE(parser.parse({"--aaa"}));
-    EXPECT_TRUE(parser.parse({"--bbb"}));
-    EXPECT_FALSE(parser.parse({"-aaa"}));
-    EXPECT_FALSE(parser.parse({"-bbb"}));
-    EXPECT_FALSE(parser.parse({"--ccc"}));
-    EXPECT_FALSE(parser.parse({"-aaa", "-bbb"}));
+    EXPECT_TRUE(parser.Parse({"--aaa"}));
+    EXPECT_TRUE(parser.Parse({"--bbb"}));
+    EXPECT_FALSE(parser.Parse({"-aaa"}));
+    EXPECT_FALSE(parser.Parse({"-bbb"}));
+    EXPECT_FALSE(parser.Parse({"--ccc"}));
+    EXPECT_FALSE(parser.Parse({"-aaa", "-bbb"}));
 }
 
 TEST(test_commandline_parser, test_commandline_parser_mixed_options)
 {
-    common::commandline_parser parser;
-    parser.add_option("aaa", "description 1");
-    parser.add_option("bbb", "description 2");
-    parser.add_option("a", "description 3");
-    parser.add_option("b", "description 4");
+    Common::CommandlineParser parser;
+    parser.AddOption("aaa", "description 1");
+    parser.AddOption("bbb", "description 2");
+    parser.AddOption("a", "description 3");
+    parser.AddOption("b", "description 4");
 
-    const auto result = parser.parse({"--aaa", "--bbb", "-a", "-b"});
+    const auto result = parser.Parse({"--aaa", "--bbb", "-a", "-b"});
 
     EXPECT_TRUE(result);
-    EXPECT_TRUE(result.success());
-    EXPECT_FALSE(result.failed());
+    EXPECT_TRUE(result.Success());
+    EXPECT_FALSE(result.Failed());
 
-    EXPECT_TRUE(result.has_option("aaa"));
-    EXPECT_TRUE(result.has_option("bbb"));
-    EXPECT_TRUE(result.has_option("a"));
-    EXPECT_TRUE(result.has_option("b"));
-    EXPECT_FALSE(result.has_option("ccc"));
+    EXPECT_TRUE(result.HasOption("aaa"));
+    EXPECT_TRUE(result.HasOption("bbb"));
+    EXPECT_TRUE(result.HasOption("a"));
+    EXPECT_TRUE(result.HasOption("b"));
+    EXPECT_FALSE(result.HasOption("ccc"));
 
-    EXPECT_TRUE(parser.parse({"--aaa"}));
-    EXPECT_TRUE(parser.parse({"--bbb"}));
-    EXPECT_TRUE(parser.parse({"-a"}));
-    EXPECT_TRUE(parser.parse({"-b"}));
-    EXPECT_TRUE(parser.parse({"--aaa", "-a"}));
-    EXPECT_TRUE(parser.parse({"--bbb", "-b"}));
-    EXPECT_FALSE(parser.parse({"-aaa", "--a"}));
-    EXPECT_FALSE(parser.parse({"-bbb", "--b"}));
-    EXPECT_FALSE(parser.parse({"-aaa"}));
-    EXPECT_FALSE(parser.parse({"-bbb"}));
-    EXPECT_FALSE(parser.parse({"--a"}));
-    EXPECT_FALSE(parser.parse({"--b"}));
+    EXPECT_TRUE(parser.Parse({"--aaa"}));
+    EXPECT_TRUE(parser.Parse({"--bbb"}));
+    EXPECT_TRUE(parser.Parse({"-a"}));
+    EXPECT_TRUE(parser.Parse({"-b"}));
+    EXPECT_TRUE(parser.Parse({"--aaa", "-a"}));
+    EXPECT_TRUE(parser.Parse({"--bbb", "-b"}));
+    EXPECT_FALSE(parser.Parse({"-aaa", "--a"}));
+    EXPECT_FALSE(parser.Parse({"-bbb", "--b"}));
+    EXPECT_FALSE(parser.Parse({"-aaa"}));
+    EXPECT_FALSE(parser.Parse({"-bbb"}));
+    EXPECT_FALSE(parser.Parse({"--a"}));
+    EXPECT_FALSE(parser.Parse({"--b"}));
 }
 
 TEST(test_commandline_parser, test_commandline_parser_short_args)
 {
-    common::commandline_parser parser;
-    parser.add_argument("a", "description 1");
-    parser.add_argument("b", "description 2");
+    Common::CommandlineParser parser;
+    parser.AddArgument("a", "description 1");
+    parser.AddArgument("b", "description 2");
 
-    const auto result = parser.parse({"-a", "value_a", "-b", "value_b"});
+    const auto result = parser.Parse({"-a", "value_a", "-b", "value_b"});
 
     EXPECT_TRUE(result);
-    EXPECT_TRUE(result.success());
-    EXPECT_FALSE(result.failed());
+    EXPECT_TRUE(result.Success());
+    EXPECT_FALSE(result.Failed());
 
-    ASSERT_TRUE(result.has_argument("a"));
-    EXPECT_EQ("value_a", result.get_argument("a"));
-    ASSERT_TRUE(result.has_argument("b"));
-    EXPECT_EQ("value_b", result.get_argument("b"));
+    ASSERT_TRUE(result.HasArgument("a"));
+    EXPECT_EQ("value_a", result.GetArgument("a"));
+    ASSERT_TRUE(result.HasArgument("b"));
+    EXPECT_EQ("value_b", result.GetArgument("b"));
 
-    EXPECT_TRUE(parser.parse({"-a", "value_a"}));
-    EXPECT_FALSE(parser.parse({"-a", "value_a", "-b"}));
-    EXPECT_FALSE(parser.parse({"--a", "value_a"}));
+    EXPECT_TRUE(parser.Parse({"-a", "value_a"}));
+    EXPECT_FALSE(parser.Parse({"-a", "value_a", "-b"}));
+    EXPECT_FALSE(parser.Parse({"--a", "value_a"}));
 }
 
 TEST(test_commandline_parser, test_commandline_parser_long_args)
 {
-    common::commandline_parser parser;
-    parser.add_argument("aaa", "description 1");
-    parser.add_argument("bbb", "description 2");
+    Common::CommandlineParser parser;
+    parser.AddArgument("aaa", "description 1");
+    parser.AddArgument("bbb", "description 2");
 
-    const auto result = parser.parse({"--aaa", "value_a", "--bbb", "value_b"});
+    const auto result = parser.Parse({"--aaa", "value_a", "--bbb", "value_b"});
 
     EXPECT_TRUE(result);
-    EXPECT_TRUE(result.success());
-    EXPECT_FALSE(result.failed());
+    EXPECT_TRUE(result.Success());
+    EXPECT_FALSE(result.Failed());
 
-    ASSERT_TRUE(result.has_argument("aaa"));
-    EXPECT_EQ("value_a", result.get_argument("aaa"));
-    ASSERT_TRUE(result.has_argument("bbb"));
-    EXPECT_EQ("value_b", result.get_argument("bbb"));
+    ASSERT_TRUE(result.HasArgument("aaa"));
+    EXPECT_EQ("value_a", result.GetArgument("aaa"));
+    ASSERT_TRUE(result.HasArgument("bbb"));
+    EXPECT_EQ("value_b", result.GetArgument("bbb"));
 
-    EXPECT_TRUE(parser.parse({"--aaa", "value_a"}));
-    EXPECT_FALSE(parser.parse({"--aaa", "value_a", "--bbb"}));
-    EXPECT_FALSE(parser.parse({"-aaa", "value_a"}));
+    EXPECT_TRUE(parser.Parse({"--aaa", "value_a"}));
+    EXPECT_FALSE(parser.Parse({"--aaa", "value_a", "--bbb"}));
+    EXPECT_FALSE(parser.Parse({"-aaa", "value_a"}));
 }
 
 TEST(test_commandline_parser, test_commandline_parser_all_mixed)
 {
-    common::commandline_parser parser;
-    parser.add_positional("a", "description 1");
-    parser.add_positional("bbb", "description 2");
-    parser.add_option("c", "description 3");
-    parser.add_option("ccc", "description 4");
-    parser.add_argument("d", "description 5");
-    parser.add_argument("ddd", "description 6");
+    Common::CommandlineParser parser;
+    parser.AddPositional("a", "description 1");
+    parser.AddPositional("bbb", "description 2");
+    parser.AddOption("c", "description 3");
+    parser.AddOption("ccc", "description 4");
+    parser.AddArgument("d", "description 5");
+    parser.AddArgument("ddd", "description 6");
 
-    const auto result = parser.parse({"1", "2", "--ccc", "-c", "--ddd", "value_ddd", "-d", "value_d"});
+    const auto result = parser.Parse({"1", "2", "--ccc", "-c", "--ddd", "value_ddd", "-d", "value_d"});
 
     EXPECT_TRUE(result);
-    EXPECT_TRUE(result.success());
-    EXPECT_FALSE(result.failed());
+    EXPECT_TRUE(result.Success());
+    EXPECT_FALSE(result.Failed());
 
-    EXPECT_EQ(result.positional(0), "1");
-    EXPECT_EQ(result.positional(1), "2");
-    EXPECT_TRUE(result.has_option("c"));
-    EXPECT_TRUE(result.has_option("ccc"));
-    ASSERT_TRUE(result.has_argument("ddd"));
-    EXPECT_EQ("value_ddd", result.get_argument("ddd"));
-    ASSERT_TRUE(result.has_argument("d"));
-    EXPECT_EQ("value_d", result.get_argument("d"));
+    EXPECT_EQ(result.Positional(0), "1");
+    EXPECT_EQ(result.Positional(1), "2");
+    EXPECT_TRUE(result.HasOption("c"));
+    EXPECT_TRUE(result.HasOption("ccc"));
+    ASSERT_TRUE(result.HasArgument("ddd"));
+    EXPECT_EQ("value_ddd", result.GetArgument("ddd"));
+    ASSERT_TRUE(result.HasArgument("d"));
+    EXPECT_EQ("value_d", result.GetArgument("d"));
 }

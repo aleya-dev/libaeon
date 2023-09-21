@@ -5,10 +5,10 @@
 #include <cstdint>
 #include <cctype>
 
-namespace aeon::common::hexdump
+namespace aeon::Common::HexDump
 {
 
-void pretty_print(FILE *dest, const void *src, const std::size_t len) noexcept
+void PrettyPrint(FILE *dest, const void *src, const std::size_t len) noexcept
 {
     fputs("--------|------------------------------------------------|----------------|\n", dest);
     fputs(" offset |00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F |0123456789ABCDEF|\n", dest);
@@ -53,13 +53,13 @@ void pretty_print(FILE *dest, const void *src, const std::size_t len) noexcept
     fputs("---------------------------------------------------------------------------\n", dest);
 }
 
-void cpp_array(FILE *dest, const char *const array_name, const void *src, const std::size_t len) noexcept
+void CppArray(FILE *dest, const char *const arrayName, const void *src, const std::size_t len) noexcept
 {
-    fprintf(dest, "std::array<char, %lu> %s = {\n", static_cast<unsigned long>(len), array_name);
+    fprintf(dest, "std::array<char, %lu> %s = {\n", static_cast<unsigned long>(len), arrayName);
 
     const auto *data = static_cast<const unsigned char *>(src);
 
-    auto bytes_per_line = 0ull;
+    auto bytesPerLine = 0ull;
 
     fputs("    ", dest);
 
@@ -67,16 +67,16 @@ void cpp_array(FILE *dest, const char *const array_name, const void *src, const 
     {
         fprintf(dest, "0x%02X, ", static_cast<int>(data[i]));
 
-        ++bytes_per_line;
+        ++bytesPerLine;
 
-        if (bytes_per_line >= 16)
+        if (bytesPerLine >= 16)
         {
             fputs("\n    ", dest);
-            bytes_per_line = 0;
+            bytesPerLine = 0;
         }
     }
 
     fputs("\n};\n", dest);
 }
 
-} // namespace aeon::common::hexdump
+} // namespace aeon::Common::hexdump

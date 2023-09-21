@@ -11,7 +11,7 @@ namespace aeon::unicode::concepts
 {
 
 template <typename T>
-concept utf_string_view = std::is_same_v<T, common::string_view> || std::is_same_v<T, std::string_view> ||
+concept utf_string_view = std::is_same_v<T, Common::StringView> || std::is_same_v<T, std::string_view> ||
                           std::is_same_v<T, std::u8string_view> || std::is_same_v<T, std::u16string_view> ||
                           std::is_same_v<T, std::u32string_view>;
 

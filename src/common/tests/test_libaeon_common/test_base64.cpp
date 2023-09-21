@@ -7,17 +7,17 @@ using namespace aeon;
 
 TEST(test_bits, test_base64_encode)
 {
-    EXPECT_EQ(common::base64::encode(""), "");
-    EXPECT_EQ(common::base64::encode(" "), "IA==");
-    EXPECT_EQ(common::base64::encode("  "), "ICA=");
-    EXPECT_EQ(common::base64::encode("   "), "ICAg");
-    EXPECT_EQ(common::base64::encode("This is a test"), "VGhpcyBpcyBhIHRlc3Q=");
+    EXPECT_EQ(Common::Base64::Encode(""), "");
+    EXPECT_EQ(Common::Base64::Encode(" "), "IA==");
+    EXPECT_EQ(Common::Base64::Encode("  "), "ICA=");
+    EXPECT_EQ(Common::Base64::Encode("   "), "ICAg");
+    EXPECT_EQ(Common::Base64::Encode("This is a test"), "VGhpcyBpcyBhIHRlc3Q=");
 }
 
-void check_decode(const common::string_view input)
+void check_decode(const Common::StringView input)
 {
-    const auto result = common::base64::encode(input);
-    EXPECT_EQ(common::base64::decode_string(result), input);
+    const auto result = Common::Base64::Encode(input);
+    EXPECT_EQ(Common::Base64::DecodeString(result), input);
 }
 
 TEST(test_bits, test_base64_decode)

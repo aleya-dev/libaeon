@@ -7,74 +7,74 @@ using namespace aeon;
 
 TEST(test_uuid, test_uuid_default_nil)
 {
-    common::uuid uuid;
-    ASSERT_TRUE(uuid.is_nil());
+    Common::Uuid Uuid;
+    ASSERT_TRUE(Uuid.IsNil());
 }
 
 TEST(test_uuid, test_uuid_is_nil)
 {
-    common::uuid uuid;
-    ASSERT_TRUE(uuid.is_nil());
-    ASSERT_TRUE(uuid == false);
+    Common::Uuid Uuid;
+    ASSERT_TRUE(Uuid.IsNil());
+    ASSERT_TRUE(Uuid == false);
 
-    uuid.data[0] = 1;
-    ASSERT_FALSE(uuid.is_nil());
-    ASSERT_FALSE(uuid == false);
+    Uuid.Data[0] = 1;
+    ASSERT_FALSE(Uuid.IsNil());
+    ASSERT_FALSE(Uuid == false);
 
-    uuid.data[0] = 0;
-    ASSERT_TRUE(uuid.is_nil());
-    ASSERT_TRUE(uuid == false);
+    Uuid.Data[0] = 0;
+    ASSERT_TRUE(Uuid.IsNil());
+    ASSERT_TRUE(Uuid == false);
 }
 
 TEST(test_uuid, test_uuid_create_nil_is_nil)
 {
-    auto uuid = common::uuid::nil();
-    common::uuid uuid2;
-    ASSERT_TRUE(uuid.is_nil());
-    ASSERT_EQ(uuid, uuid2);
+    auto Uuid = Common::Uuid::Nil();
+    Common::Uuid uuid2;
+    ASSERT_TRUE(Uuid.IsNil());
+    ASSERT_EQ(Uuid, uuid2);
 
-    ASSERT_TRUE(uuid == false);
-    ASSERT_FALSE(uuid != false);
+    ASSERT_TRUE(Uuid == false);
+    ASSERT_FALSE(Uuid != false);
 }
 
 TEST(test_uuid, test_uuid_random)
 {
-    auto uuid = common::uuid::generate();
-    ASSERT_FALSE(uuid.is_nil());
+    auto Uuid = Common::Uuid::Generate();
+    ASSERT_FALSE(Uuid.IsNil());
 
     for (int i = 0; i < 100; ++i)
     {
-        auto uuid2 = common::uuid::generate();
-        ASSERT_NE(uuid, uuid2);
+        auto uuid2 = Common::Uuid::Generate();
+        ASSERT_NE(Uuid, uuid2);
     }
 }
 
 TEST(test_uuid, test_uuid_nil_string)
 {
-    ASSERT_TRUE(common::uuid::parse("00000000-0000-0000-0000-000000000000").is_nil());
-    ASSERT_TRUE(common::uuid::parse("{00000000-0000-0000-0000-000000000000}").is_nil());
-    ASSERT_TRUE(common::uuid::parse("00000000000000000000000000000000").is_nil());
-    ASSERT_TRUE(common::uuid::parse("{00000000000000000000000000000000}").is_nil());
-    ASSERT_ANY_THROW(const auto result = common::uuid::parse("0"); (void)result;);
+    ASSERT_TRUE(Common::Uuid::Parse("00000000-0000-0000-0000-000000000000").IsNil());
+    ASSERT_TRUE(Common::Uuid::Parse("{00000000-0000-0000-0000-000000000000}").IsNil());
+    ASSERT_TRUE(Common::Uuid::Parse("00000000000000000000000000000000").IsNil());
+    ASSERT_TRUE(Common::Uuid::Parse("{00000000000000000000000000000000}").IsNil());
+    ASSERT_ANY_THROW(const auto result = Common::Uuid::Parse("0"); (void)result;);
 }
 
 TEST(test_uuid, test_uuid_from_and_to_string)
 {
     auto str = "00000000-0000-0000-0000-000000000000";
-    auto uuid = common::uuid::parse("00000000-0000-0000-0000-000000000000");
-    ASSERT_EQ(str, uuid.str());
+    auto Uuid = Common::Uuid::Parse("00000000-0000-0000-0000-000000000000");
+    ASSERT_EQ(str, Uuid.Str());
 }
 
 TEST(test_uuid, test_uuid_from_and_to_string_random)
 {
     for (int i = 0; i < 100; ++i)
     {
-        auto uuid = common::uuid::generate();
-        auto str = uuid.str();
+        auto Uuid = Common::Uuid::Generate();
+        auto str = Uuid.Str();
 
-        auto uuid2 = common::uuid::parse(str);
+        auto uuid2 = Common::Uuid::Parse(str);
 
-        ASSERT_EQ(uuid, uuid2);
-        ASSERT_EQ(str, uuid2.str());
+        ASSERT_EQ(Uuid, uuid2);
+        ASSERT_EQ(str, uuid2.Str());
     }
 }

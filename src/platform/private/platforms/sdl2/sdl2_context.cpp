@@ -360,22 +360,22 @@ void sdl2_context::poll_events() noexcept
 void sdl2_context::handle_key(const keyboard_key key, const std::uint32_t scan_code,
                               const keyboard_key_state state) const noexcept
 {
-    input_listeners().invoke_each(&input_events::on_key, *this, key, scan_code, state);
+    input_listeners().InvokeEach(&input_events::on_key, *this, key, scan_code, state);
 }
 
 void sdl2_context::handle_mouse_move(const math::vector2<double> position) const noexcept
 {
-    input_listeners().invoke_each(&input_events::on_mouse_move, *this, position);
+    input_listeners().InvokeEach(&input_events::on_mouse_move, *this, position);
 }
 
 void sdl2_context::handle_mouse_button(const mouse_button button, const mouse_button_state state) const noexcept
 {
-    input_listeners().invoke_each(&input_events::on_mouse_button, *this, button, state);
+    input_listeners().InvokeEach(&input_events::on_mouse_button, *this, button, state);
 }
 
 void sdl2_context::handle_mouse_scroll(const double delta) const noexcept
 {
-    input_listeners().invoke_each(&input_events::on_mouse_scroll, *this, delta);
+    input_listeners().InvokeEach(&input_events::on_mouse_scroll, *this, delta);
 }
 
 } // namespace aeon::platform

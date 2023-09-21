@@ -16,24 +16,24 @@ TEST(test_streams, test_circular_buffer_filter_read_write_basic)
 
     const char data1[] = {'A', 'B', 'C', 'D', 'E'};
     auto result = pipeline.write(reinterpret_cast<const std::byte *>(data1), sizeof(data1));
-    ASSERT_EQ(aeon_signed_sizeof(data1), result);
-    ASSERT_EQ(aeon_signed_sizeof(data1), pipeline.size());
+    ASSERT_EQ(AeonSignedSizeof(data1), result);
+    ASSERT_EQ(AeonSignedSizeof(data1), pipeline.size());
 
     char data1_readback[sizeof(data1)] = {0};
     result = pipeline.read(reinterpret_cast<std::byte *>(data1_readback), sizeof(data1_readback));
-    ASSERT_EQ(aeon_signed_sizeof(data1_readback), result);
+    ASSERT_EQ(AeonSignedSizeof(data1_readback), result);
     ASSERT_EQ(0, pipeline.size());
 
     ASSERT_THAT(data1_readback, ::testing::ElementsAreArray(data1));
 
     const char data2[] = {'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'};
     result = pipeline.write(reinterpret_cast<const std::byte *>(data2), sizeof(data2));
-    ASSERT_EQ(aeon_signed_sizeof(data2), result);
-    ASSERT_EQ(aeon_signed_sizeof(data2), pipeline.size());
+    ASSERT_EQ(AeonSignedSizeof(data2), result);
+    ASSERT_EQ(AeonSignedSizeof(data2), pipeline.size());
 
     char data2_readback[sizeof(data2)] = {0};
     result = pipeline.read(reinterpret_cast<std::byte *>(data2_readback), sizeof(data2_readback));
-    ASSERT_EQ(aeon_signed_sizeof(data2_readback), result);
+    ASSERT_EQ(AeonSignedSizeof(data2_readback), result);
     ASSERT_EQ(0, pipeline.size());
 
     ASSERT_THAT(data2_readback, ::testing::ElementsAreArray(data2));
@@ -47,13 +47,13 @@ TEST(test_streams, test_circular_buffer_filter_read_write)
     std::memset(magic_data, 'A', sizeof(magic_data));
     auto result = pipeline.write(magic_data, sizeof(magic_data));
 
-    ASSERT_EQ(aeon_signed_sizeof(magic_data), result);
-    ASSERT_EQ(aeon_signed_sizeof(magic_data), pipeline.size());
+    ASSERT_EQ(AeonSignedSizeof(magic_data), result);
+    ASSERT_EQ(AeonSignedSizeof(magic_data), pipeline.size());
 
     std::byte readbackdata[sizeof(magic_data)];
     result = pipeline.read(readbackdata, sizeof(readbackdata));
 
-    ASSERT_EQ(aeon_signed_sizeof(readbackdata), result);
+    ASSERT_EQ(AeonSignedSizeof(readbackdata), result);
     ASSERT_EQ(0, pipeline.size());
 
     ASSERT_THAT(readbackdata, ::testing::ElementsAreArray(magic_data));
@@ -67,8 +67,8 @@ TEST(test_streams, test_circular_buffer_filter_write_too_big)
     std::memset(magic_data, 'A', sizeof(magic_data));
     auto result = pipeline.write(magic_data, sizeof(magic_data));
 
-    ASSERT_EQ(aeon_signed_sizeof(magic_data), result);
-    ASSERT_EQ(aeon_signed_sizeof(magic_data), pipeline.size());
+    ASSERT_EQ(AeonSignedSizeof(magic_data), result);
+    ASSERT_EQ(AeonSignedSizeof(magic_data), pipeline.size());
 
     // Write data that is too big.
     std::byte fake_data[101];
@@ -76,13 +76,13 @@ TEST(test_streams, test_circular_buffer_filter_write_too_big)
     result = pipeline.write(fake_data, sizeof(fake_data));
 
     ASSERT_EQ(0, result);
-    ASSERT_EQ(aeon_signed_sizeof(magic_data), pipeline.size());
+    ASSERT_EQ(AeonSignedSizeof(magic_data), pipeline.size());
 
     // Now read back the original data and see if it's untouched
     std::byte readbackdata[sizeof(magic_data)];
     result = pipeline.read(readbackdata, sizeof(readbackdata));
 
-    ASSERT_EQ(aeon_signed_sizeof(readbackdata), result);
+    ASSERT_EQ(AeonSignedSizeof(readbackdata), result);
     ASSERT_EQ(0, pipeline.size());
 
     ASSERT_THAT(readbackdata, ::testing::ElementsAreArray(magic_data));
@@ -109,8 +109,8 @@ TEST(test_streams, test_circular_buffer_filter_write_wrap_around)
 
     auto result = pipeline.write(magic_data, sizeof(magic_data));
 
-    ASSERT_EQ(aeon_signed_sizeof(magic_data), result);
-    ASSERT_EQ(aeon_signed_sizeof(magic_data), pipeline.size());
+    ASSERT_EQ(AeonSignedSizeof(magic_data), result);
+    ASSERT_EQ(AeonSignedSizeof(magic_data), pipeline.size());
 
     // Now write some more data that would cause an exception
     std::byte magic_data2[60];
@@ -118,13 +118,13 @@ TEST(test_streams, test_circular_buffer_filter_write_wrap_around)
 
     ASSERT_THROW(pipeline.write(magic_data2, sizeof(magic_data2)), aeon::streams::stream_exception);
 
-    ASSERT_EQ(aeon_signed_sizeof(magic_data), pipeline.size());
+    ASSERT_EQ(AeonSignedSizeof(magic_data), pipeline.size());
 
     // Try to read back the 50 bytes we wrote earlier
     std::byte readbackdata2[sizeof(magic_data)];
     result = pipeline.read(readbackdata2, sizeof(readbackdata2));
 
-    ASSERT_EQ(aeon_signed_sizeof(readbackdata2), result);
+    ASSERT_EQ(AeonSignedSizeof(readbackdata2), result);
     ASSERT_EQ(0, pipeline.size());
 
     ASSERT_THAT(readbackdata2, ::testing::ElementsAreArray(magic_data));
@@ -142,13 +142,13 @@ TEST(test_streams, test_circular_buffer_filter_read_write_multiple)
         std::memset(magic_data, base_character + i, sizeof(magic_data));
         auto result = pipeline.write(magic_data, sizeof(magic_data));
 
-        ASSERT_EQ(aeon_signed_sizeof(magic_data), result);
-        ASSERT_EQ(aeon_signed_sizeof(magic_data), pipeline.size());
+        ASSERT_EQ(AeonSignedSizeof(magic_data), result);
+        ASSERT_EQ(AeonSignedSizeof(magic_data), pipeline.size());
 
         std::byte readbackdata[sizeof(magic_data)];
         result = pipeline.read(readbackdata, sizeof(readbackdata));
 
-        ASSERT_EQ(aeon_signed_sizeof(readbackdata), result);
+        ASSERT_EQ(AeonSignedSizeof(readbackdata), result);
         ASSERT_EQ(0, pipeline.size());
 
         ASSERT_THAT(readbackdata, ::testing::ElementsAreArray(magic_data));
@@ -180,20 +180,20 @@ TEST(test_streams, test_circular_buffer_filter_move_assignment)
     const char data[] = {'A', 'B', 'C', 'D', 'E'};
     auto result = pipeline.write(reinterpret_cast<const std::byte *>(data), sizeof(data));
 
-    ASSERT_EQ(aeon_signed_sizeof(data), result);
-    ASSERT_EQ(aeon_signed_sizeof(data), pipeline.size());
+    ASSERT_EQ(AeonSignedSizeof(data), result);
+    ASSERT_EQ(AeonSignedSizeof(data), pipeline.size());
 
     auto pipeline2 = streams::memory_device<std::vector<char>>{10} | streams::circular_buffer_filter{};
     ASSERT_EQ(0u, pipeline2.size());
 
     pipeline2 = std::move(pipeline);
 
-    ASSERT_EQ(aeon_signed_sizeof(data), pipeline2.size());
+    ASSERT_EQ(AeonSignedSizeof(data), pipeline2.size());
 
     char readbackdata[sizeof(data)];
     result = pipeline2.read(reinterpret_cast<std::byte *>(readbackdata), sizeof(readbackdata));
 
-    ASSERT_EQ(aeon_signed_sizeof(readbackdata), result);
+    ASSERT_EQ(AeonSignedSizeof(readbackdata), result);
     ASSERT_EQ(0u, pipeline2.size());
 
     ASSERT_THAT(readbackdata, ::testing::ElementsAreArray(data));

@@ -14,8 +14,8 @@ namespace internal
 
 template <typename T>
 static constexpr auto is_supported_variant_type_v =
-    common::type_traits::is_any_same_v<T, std::int8_t, std::uint8_t, std::int16_t, std::uint16_t, std::int32_t,
-                                       std::uint32_t, std::int64_t, std::uint64_t, float, double, common::string, bool>;
+    Common::TypeTraits::IsAnySameV<T, std::int8_t, std::uint8_t, std::int16_t, std::uint16_t, std::int32_t,
+                                       std::uint32_t, std::int64_t, std::uint64_t, float, double, Common::String, bool>;
 
 } // namespace internal
 
@@ -80,7 +80,7 @@ inline auto converting_variant::get_value() const -> T
             case type::boolean:
                 return get_value_internal<bool, T>();
             case type::string:
-                return get_value_internal<common::string, T>();
+                return get_value_internal<Common::String, T>();
             case type::user:
             case type::unknown:
             default:
@@ -127,7 +127,7 @@ inline auto converting_variant::get_value_internal() const -> to_t
     if constexpr (std::is_same_v<from_t, to_t>)
         return std::get<from_t>(data_);
     else
-        return converting_variant_conversion<from_t, to_t>::convert(std::get<from_t>(data_));
+        return converting_variant_conversion<from_t, to_t>::Convert(std::get<from_t>(data_));
 }
 
 template <typename from_t, typename to_t>
@@ -143,7 +143,7 @@ inline auto converting_variant::get_user_value_internal() const -> to_t
     else
     {
         if constexpr (internal::is_supported_variant_type_v<from_t>)
-            return converting_variant_conversion<from_t, to_t>::convert(value);
+            return converting_variant_conversion<from_t, to_t>::Convert(value);
         else
             return static_cast<to_t>(value);
     }

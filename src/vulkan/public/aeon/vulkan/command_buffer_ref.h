@@ -37,7 +37,7 @@ public:
     [[nodiscard]] auto handle_ptr() const noexcept -> const VkCommandBuffer *;
     [[nodiscard]] auto command_pool() const noexcept -> const command_pool &;
 
-    void begin(const common::flags<command_buffer_usage_flag> flags = command_buffer_usage_flag::none) const;
+    void begin(const Common::Flags<command_buffer_usage_flag> flags = command_buffer_usage_flag::none) const;
     void end() const;
 
     void begin_render_pass(const render_pass_begin_info &begin_info,
@@ -69,7 +69,7 @@ public:
                       const std::uint32_t vertex_offset = 0) const noexcept;
 
     /*!
-     * Submit the command buffer to the queue and wait for it to be flushed by using a fence.
+     * Submit the command buffer to the queue and wait for it to be flushed by using a Fence.
      */
     void flush(const queue &queue) const;
 

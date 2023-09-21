@@ -6,14 +6,14 @@
 #include <aeon/common/bits.h>
 #include <stdexcept>
 
-namespace aeon::common::base64
+namespace aeon::Common::Base64
 {
 
-namespace internal
+namespace Internal
 {
 
 // clang-format off
-static constexpr char encode_lookup[] =
+static constexpr char EncodeLookup[] =
 {
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
     'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
@@ -25,7 +25,7 @@ static constexpr char encode_lookup[] =
     '4', '5', '6', '7', '8', '9', '+', '/'
 };
 
-static constexpr unsigned char decode_lookup[] =
+static constexpr unsigned char DecodeLookup[] =
 {
     64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
     64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
@@ -46,56 +46,56 @@ static constexpr unsigned char decode_lookup[] =
 };
 // clang-format on
 
-auto decode_part(const string_view &str, unsigned int &i)
+auto DecodePart(const StringView &str, unsigned int &i)
 {
-    return str[i] == '=' ? 0 & i++ : decode_lookup[static_cast<int>(str[i++])];
+    return str[i] == '=' ? 0 & i++ : DecodeLookup[static_cast<int>(str[i++])];
 }
 
 } // namespace internal
 
-auto encode(const string_view &data) -> string
+auto Encode(const StringView &data) -> String
 {
-    return encode(reinterpret_cast<const std::uint8_t *>(std::data(data)),
+    return Encode(reinterpret_cast<const std::uint8_t *>(std::data(data)),
                   static_cast<std::streamsize>(std::size(data)));
 }
 
-auto encode(const std::vector<std::uint8_t> &data) -> string
+auto Encode(const std::vector<std::uint8_t> &data) -> String
 {
-    return encode(std::data(data), static_cast<std::streamsize>(std::size(data)));
+    return Encode(std::data(data), static_cast<std::streamsize>(std::size(data)));
 }
 
-auto encode(const std::uint8_t *data, const std::streamsize size) -> string
+auto Encode(const std::uint8_t *data, const std::streamsize size) -> String
 {
-    const auto output_length = 4 * ((size + 2) / 3);
+    const auto outputLength = 4 * ((size + 2) / 3);
 
-    if (output_length == 0)
+    if (outputLength == 0)
         return "";
 
-    string result(output_length, '\0');
+    String result(outputLength, '\0');
 
-    auto p = std::data(result);
+    auto p = result.Data();
 
     auto i = 0u;
     for (; i < size - 2; i += 3)
     {
-        *p++ = internal::encode_lookup[data[i] >> 2 & 0x3F];
-        *p++ = internal::encode_lookup[(data[i] & 0x3) << 4 | static_cast<int>(data[i + 1] & 0xF0) >> 4];
-        *p++ = internal::encode_lookup[(data[i + 1] & 0xF) << 2 | static_cast<int>(data[i + 2] & 0xC0) >> 6];
-        *p++ = internal::encode_lookup[data[i + 2] & 0x3F];
+        *p++ = Internal::EncodeLookup[data[i] >> 2 & 0x3F];
+        *p++ = Internal::EncodeLookup[(data[i] & 0x3) << 4 | static_cast<int>(data[i + 1] & 0xF0) >> 4];
+        *p++ = Internal::EncodeLookup[(data[i + 1] & 0xF) << 2 | static_cast<int>(data[i + 2] & 0xC0) >> 6];
+        *p++ = Internal::EncodeLookup[data[i + 2] & 0x3F];
     }
 
     if (i < size)
     {
-        *p++ = internal::encode_lookup[data[i] >> 2 & 0x3F];
+        *p++ = Internal::EncodeLookup[data[i] >> 2 & 0x3F];
         if (i == (size - 1))
         {
-            *p++ = internal::encode_lookup[((data[i] & 0x3) << 4)];
+            *p++ = Internal::EncodeLookup[((data[i] & 0x3) << 4)];
             *p++ = '=';
         }
         else
         {
-            *p++ = internal::encode_lookup[(data[i] & 0x3) << 4 | static_cast<int>(data[i + 1] & 0xF0) >> 4];
-            *p++ = internal::encode_lookup[((data[i + 1] & 0xF) << 2)];
+            *p++ = Internal::EncodeLookup[(data[i] & 0x3) << 4 | static_cast<int>(data[i + 1] & 0xF0) >> 4];
+            *p++ = Internal::EncodeLookup[((data[i + 1] & 0xF) << 2)];
         }
         *p++ = '=';
     }
@@ -103,9 +103,9 @@ auto encode(const std::uint8_t *data, const std::streamsize size) -> string
     return result;
 }
 
-auto decode(const string_view &str) -> std::vector<std::uint8_t>
+auto Decode(const StringView &str) -> std::vector<std::uint8_t>
 {
-    if (std::empty(str))
+    if (str.Empty())
         return {};
 
     const auto len = std::size(str);
@@ -113,38 +113,38 @@ auto decode(const string_view &str) -> std::vector<std::uint8_t>
     if (len % 4 != 0)
         throw std::invalid_argument{"Base64 requires multiple of 4."};
 
-    auto output_length = len / 4 * 3;
+    auto outputLength = len / 4 * 3;
 
     if (str[len - 1] == '=')
-        --output_length;
+        --outputLength;
 
     if (str[len - 2] == '=')
-        --output_length;
+        --outputLength;
 
-    std::vector<std::uint8_t> result(output_length);
+    std::vector<std::uint8_t> result(outputLength);
 
     for (auto i = 0u, j = 0u; i < len;)
     {
-        const auto triple = (internal::decode_part(str, i) << 3 * 6) + (internal::decode_part(str, i) << 2 * 6) +
-                            (internal::decode_part(str, i) << 1 * 6) + (internal::decode_part(str, i) << 0 * 6);
+        const auto triple = (Internal::DecodePart(str, i) << 3 * 6) + (Internal::DecodePart(str, i) << 2 * 6) +
+                            (Internal::DecodePart(str, i) << 1 * 6) + (Internal::DecodePart(str, i) << 0 * 6);
 
-        if (j < output_length)
-            result[j++] = bits::mask_u8(triple >> 2 * 8);
+        if (j < outputLength)
+            result[j++] = Bits::MaskU8(triple >> 2 * 8);
 
-        if (j < output_length)
-            result[j++] = bits::mask_u8(triple >> 1 * 8);
+        if (j < outputLength)
+            result[j++] = Bits::MaskU8(triple >> 1 * 8);
 
-        if (j < output_length)
-            result[j++] = bits::mask_u8(triple >> 0 * 8);
+        if (j < outputLength)
+            result[j++] = Bits::MaskU8(triple >> 0 * 8);
     }
 
     return result;
 }
 
-auto decode_string(const string_view &str) -> string
+auto DecodeString(const StringView &str) -> String
 {
-    const auto result = decode(str);
+    const auto result = Decode(str);
     return {std::begin(result), std::end(result)};
 }
 
-} // namespace aeon::common::base64
+} // namespace aeon::Common::base64

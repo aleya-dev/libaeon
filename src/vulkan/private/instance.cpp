@@ -29,8 +29,8 @@ namespace internal
     return layers;
 }
 
-[[nodiscard]] auto create_instance(const application_info &info, const std::vector<common::string> &required_layers,
-                                   const std::vector<common::string> &required_extensions) -> VkInstance
+[[nodiscard]] auto create_instance(const application_info &info, const std::vector<Common::String> &required_layers,
+                                   const std::vector<Common::String> &required_extensions) -> VkInstance
 {
     const auto available_extensions = instance::available_extensions();
     if (!are_available(available_extensions, required_extensions))
@@ -44,10 +44,10 @@ namespace internal
                                                                  info.engine_name(), info.engine_version());
 
     const auto required_extensions_str =
-        common::container::transform<const char *>(required_extensions, [](const auto &str) { return str.c_str(); });
+        Common::Container::Transform<const char *>(required_extensions, [](const auto &str) { return str.CStr(); });
 
     const auto required_layers_str =
-        common::container::transform<const char *>(required_layers, [](const auto &str) { return str.c_str(); });
+        Common::Container::Transform<const char *>(required_layers, [](const auto &str) { return str.CStr(); });
 
     const auto create_info =
         initializers::instance_create_info(application_info, required_extensions_str, required_layers_str);
@@ -80,10 +80,10 @@ instance::instance(const application_info &info)
 {
 }
 
-instance::instance(const application_info &info, const std::vector<common::string> &required_layers,
-                   const std::vector<common::string> &required_extensions)
+instance::instance(const application_info &info, const std::vector<Common::String> &required_layers,
+                   const std::vector<Common::String> &required_extensions)
     : instance_{internal::create_instance(info, required_layers, required_extensions)}
-    , physical_devices_{common::container::transform<physical_device>(internal::enumerate_physical_devices(instance_),
+    , physical_devices_{Common::Container::Transform<physical_device>(internal::enumerate_physical_devices(instance_),
                                                                       [this](const auto &device) {
                                                                           return physical_device{instance_, device};
                                                                       })}
@@ -128,12 +128,12 @@ auto instance::physical_devices() const noexcept -> const std::vector<physical_d
 
 auto instance::available_layers() -> std::vector<layer>
 {
-    return common::container::auto_transform<layer>(internal::enumerate_layer_properties());
+    return Common::Container::AutoTransform<layer>(internal::enumerate_layer_properties());
 }
 
 auto instance::available_extensions() -> std::vector<extension>
 {
-    return common::container::auto_transform<extension>(internal::enumerate_extension_properties());
+    return Common::Container::AutoTransform<extension>(internal::enumerate_extension_properties());
 }
 
 void instance::destroy() const noexcept

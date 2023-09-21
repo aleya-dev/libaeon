@@ -17,15 +17,15 @@ namespace aeon::file_container
 namespace internal
 {
 
-static constexpr std::uint32_t header_magic = common::fourcc('A', 'F', 'C', '1');
+static constexpr std::uint32_t header_magic = Common::Fourcc('A', 'F', 'C', '1');
 
 struct header
 {
     std::uint32_t fourcc = header_magic;
-    common::uuid id{};
+    Common::Uuid id{};
     std::uint32_t flags = 0;
     std::uint64_t size = 0;
-    common::string name{};
+    Common::String name{};
 };
 
 template <typename device_t>
@@ -52,7 +52,7 @@ inline auto &operator>>(streams::stream_reader<device_t> &reader, header &h)
 
 } // namespace internal
 
-container::container(streams::idynamic_stream &stream, const common::flags<read_items> items)
+container::container(streams::idynamic_stream &stream, const Common::Flags<read_items> items)
     : name_{}
     , id_{}
     , data_{}
@@ -69,21 +69,21 @@ container::container(streams::idynamic_stream &stream, const common::flags<read_
     id_ = header.id;
     name_ = std::move(header.name);
 
-    if (items.is_set(read_items::data))
+    if (items.IsSet(read_items::data))
         reader.read_to_vector(data_, static_cast<std::streamoff>(header.size));
-    else if (items.is_set(read_items::metadata))
+    else if (items.IsSet(read_items::metadata))
         reader.device().seekg(static_cast<std::streamoff>(header.size), streams::seek_direction::current);
 
-    if (items.is_set(read_items::metadata))
+    if (items.IsSet(read_items::metadata))
         ptree::serialization::from_abf(stream, metadata_);
 }
 
-container::container(common::string name) noexcept
-    : container{std::move(name), common::uuid::generate()}
+container::container(Common::String name) noexcept
+    : container{std::move(name), Common::Uuid::Generate()}
 {
 }
 
-container::container(common::string name, common::uuid id) noexcept
+container::container(Common::String name, Common::Uuid id) noexcept
     : name_{std::move(name)}
     , id_{std::move(id)}
     , data_{}
@@ -93,22 +93,22 @@ container::container(common::string name, common::uuid id) noexcept
 
 container::~container() = default;
 
-void container::name(common::string name) noexcept
+void container::name(Common::String name) noexcept
 {
     name_ = std::move(name);
 }
 
-auto container::name() const noexcept -> const common::string &
+auto container::name() const noexcept -> const Common::String &
 {
     return name_;
 }
 
-void container::id(common::uuid id) noexcept
+void container::id(Common::Uuid id) noexcept
 {
     id_ = std::move(id);
 }
 
-auto container::id() const noexcept -> const common::uuid &
+auto container::id() const noexcept -> const Common::Uuid &
 {
     return id_;
 }

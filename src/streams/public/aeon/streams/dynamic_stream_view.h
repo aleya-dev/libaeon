@@ -89,7 +89,7 @@ inline auto dynamic_stream_view<device_t>::read([[maybe_unused]] std::byte *data
         return device_ref_->read(data, size);
     else
     {
-        aeon_assert_fail("Device does not support read.");
+        AeonAssertFail("Device does not support read.");
         return 0;
     }
 }
@@ -102,7 +102,7 @@ inline auto dynamic_stream_view<device_t>::seekg([[maybe_unused]] const std::str
         return device_ref_->seekg(offset, direction);
     else
     {
-        aeon_assert_fail("Device does not support seekg.");
+        AeonAssertFail("Device does not support seekg.");
         return false;
     }
 }
@@ -114,7 +114,7 @@ template <typename device_t>
         return device_ref_->tellg();
     else
     {
-        aeon_assert_fail("Device does not support tellg.");
+        AeonAssertFail("Device does not support tellg.");
         return 0;
     }
 }
@@ -127,7 +127,7 @@ inline auto dynamic_stream_view<device_t>::write([[maybe_unused]] const std::byt
         return device_ref_->write(data, size);
     else
     {
-        aeon_assert_fail("Device does not support write.");
+        AeonAssertFail("Device does not support write.");
         return 0;
     }
 }
@@ -140,7 +140,7 @@ inline auto dynamic_stream_view<device_t>::seekp([[maybe_unused]] const std::str
         return device_ref_->seekp(offset, direction);
     else
     {
-        aeon_assert_fail("Device does not support seekp.");
+        AeonAssertFail("Device does not support seekp.");
         return false;
     }
 }
@@ -152,7 +152,7 @@ template <typename device_t>
         return device_ref_->tellp();
     else
     {
-        aeon_assert_fail("Device does not support tellp.");
+        AeonAssertFail("Device does not support tellp.");
         return 0;
     }
 }
@@ -164,7 +164,7 @@ template <typename device_t>
         return device_ref_->eof();
     else
     {
-        aeon_assert_fail("Device does not support eof.");
+        AeonAssertFail("Device does not support eof.");
         return false;
     }
 }
@@ -176,7 +176,7 @@ template <typename device_t>
         return device_ref_->good();
     else
     {
-        aeon_assert_fail("Device does not support good.");
+        AeonAssertFail("Device does not support good.");
         return false;
     }
 }
@@ -188,7 +188,7 @@ template <typename device_t>
         return device_ref_->fail();
     else
     {
-        aeon_assert_fail("Device does not support fail.");
+        AeonAssertFail("Device does not support fail.");
         return true;
     }
 }
@@ -199,7 +199,7 @@ inline void dynamic_stream_view<device_t>::flush()
     if constexpr (is_flushable_v<device_t>)
         device_ref_->flush();
     else
-        aeon_assert_fail("Device does not support flush.");
+        AeonAssertFail("Device does not support flush.");
 }
 
 template <typename device_t>
@@ -209,7 +209,7 @@ template <typename device_t>
         return device_ref_->size();
     else
     {
-        aeon_assert_fail("Device does not support size.");
+        AeonAssertFail("Device does not support size.");
         return 0;
     }
 }

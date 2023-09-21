@@ -18,8 +18,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     route->register_method({"subtract", [](const auto &params)
                             {
                                 return web::jsonrpc::result{
-                                    ptree::property_tree{params.object_value().at("a").integer_value() -
-                                                         params.object_value().at("b").integer_value()}};
+                                    ptree::property_tree{params.object_value().At("a").integer_value() -
+                                                         params.object_value().At("b").integer_value()}};
                             }});
     route->register_method({"raise_error", []([[maybe_unused]] const auto &params) {
                                 return web::jsonrpc::result{1337, "This is an error!"};

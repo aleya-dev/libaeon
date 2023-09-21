@@ -11,7 +11,7 @@ stream_sink::stream_sink(streams::idynamic_stream &stream)
 {
 }
 
-void stream_sink::log(const common::string &message, const common::string &module, const log_level level)
+void stream_sink::log(const Common::String &message, const Common::String &module, const log_level level)
 {
     streams::stream_writer writer(stream_);
 

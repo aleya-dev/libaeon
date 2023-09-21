@@ -33,7 +33,7 @@ void zlib_compress::write(const std::byte *data, const std::streamsize size, con
             throw zlib_compress_exception{};
 
         const auto write_size = static_cast<std::streamsize>(std::size(buffer_) - compress_->stream().avail_out);
-        aeon_assert(write_size >= 0, "Zlib compress write size can't be < 0.");
+        AeonAssert(write_size >= 0, "Zlib compress write size can't be < 0.");
 
         if (write_size != 0)
         {
@@ -42,7 +42,7 @@ void zlib_compress::write(const std::byte *data, const std::streamsize size, con
         }
     } while (compress_->stream().avail_out == 0);
 
-    aeon_assert(compress_->stream().avail_in == 0, "Did not write all expected compressed bytes.");
+    AeonAssert(compress_->stream().avail_in == 0, "Did not write all expected compressed bytes.");
 }
 
 zlib_decompress::zlib_decompress(const int buffer_size)

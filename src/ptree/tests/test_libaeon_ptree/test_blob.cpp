@@ -20,7 +20,7 @@ TEST(test_ptree, json_serialize_deserialize_blob)
     EXPECT_EQ(pt, pt2);
 
     ASSERT_TRUE(pt2.is_object());
-    const auto &data_blob = pt2.object_value().at("data");
+    const auto &data_blob = pt2.object_value().At("data");
     ASSERT_TRUE(data_blob.is_blob());
     EXPECT_EQ(blob, data_blob.blob_value());
 }
@@ -33,7 +33,7 @@ TEST(test_ptree, json_serialize_deserialize_skip_blob)
     EXPECT_NE(pt, pt2);
 
     ASSERT_TRUE(pt2.is_object());
-    const auto &data_blob = pt2.object_value().at("data");
+    const auto &data_blob = pt2.object_value().At("data");
     ASSERT_TRUE(data_blob.is_blob());
     EXPECT_TRUE(std::empty(data_blob.blob_value()));
 }

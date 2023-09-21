@@ -10,141 +10,141 @@
 #include <tuple>
 #include <stdexcept>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-class [[nodiscard]] commandline_parse_result final
+class [[nodiscard]] CommandlineParseResult final
 {
 public:
-    commandline_parse_result() noexcept
-        : result_{false}
-        , positional_{}
-        , options_{}
-        , arguments_{}
+    CommandlineParseResult() noexcept
+        : m_result{false}
+        , m_positional{}
+        , m_options{}
+        , m_arguments{}
     {
     }
 
-    explicit commandline_parse_result(std::vector<string_view> positional,
-                                      containers::unordered_flatset<string_view> options,
-                                      containers::unordered_flatmap<string_view, string_view> arguments) noexcept
-        : result_{true}
-        , positional_{std::move(positional)}
-        , options_{std::move(options)}
-        , arguments_{std::move(arguments)}
+    explicit CommandlineParseResult(std::vector<StringView> positional,
+                                    Containers::UnorderedFlatset<StringView> options,
+                                    Containers::UnorderedFlatmap<StringView, StringView> arguments) noexcept
+        : m_result{true}
+        , m_positional{std::move(positional)}
+        , m_options{std::move(options)}
+        , m_arguments{std::move(arguments)}
     {
     }
 
-    ~commandline_parse_result() = default;
+    ~CommandlineParseResult() = default;
 
-    commandline_parse_result(const commandline_parse_result &) = default;
-    auto operator=(const commandline_parse_result &) -> commandline_parse_result & = default;
+    CommandlineParseResult(const CommandlineParseResult &) = default;
+    auto operator=(const CommandlineParseResult &) -> CommandlineParseResult & = default;
 
-    commandline_parse_result(commandline_parse_result &&) noexcept = default;
-    commandline_parse_result &operator=(commandline_parse_result &&) noexcept = default;
+    CommandlineParseResult(CommandlineParseResult &&) noexcept = default;
+    CommandlineParseResult &operator=(CommandlineParseResult &&) noexcept = default;
 
-    [[nodiscard]] auto success() const noexcept -> bool
+    [[nodiscard]] auto Success() const noexcept -> bool
     {
-        return result_;
+        return m_result;
     }
 
-    [[nodiscard]] auto failed() const noexcept -> bool
+    [[nodiscard]] auto Failed() const noexcept -> bool
     {
-        return !success();
+        return !Success();
     }
 
     [[nodiscard]] operator bool() const noexcept
     {
-        return success();
+        return Success();
     }
 
-    [[nodiscard]] auto positional(const std::size_t i) const -> string_view
+    [[nodiscard]] auto Positional(const std::size_t i) const -> StringView
     {
-        if (failed())
+        if (Failed())
             throw std::logic_error{"Parse result failed."};
 
-        if (i >= std::size(positional_))
+        if (i >= std::size(m_positional))
             throw std::out_of_range{"index out of range"};
 
-        return positional_[i];
+        return m_positional[i];
     }
 
-    [[nodiscard]] auto has_option(const string_view option) const -> bool
+    [[nodiscard]] auto HasOption(const StringView option) const -> bool
     {
-        if (failed())
+        if (Failed())
             throw std::logic_error{"Parse result failed."};
 
-        return options_.contains(option);
+        return m_options.Contains(option);
     }
 
-    [[nodiscard]] auto has_argument(const string_view arg) const -> bool
+    [[nodiscard]] auto HasArgument(const StringView arg) const -> bool
     {
-        if (failed())
+        if (Failed())
             throw std::logic_error{"Parse result failed."};
 
-        return arguments_.contains(arg);
+        return m_arguments.Contains(arg);
     }
 
-    [[nodiscard]] auto get_argument(const string_view arg) const -> string_view
+    [[nodiscard]] auto GetArgument(const StringView arg) const -> StringView
     {
-        if (failed())
+        if (Failed())
             throw std::logic_error{"Parse result failed."};
 
-        const auto result = arguments_.find(arg);
+        const auto result = m_arguments.Find(arg);
 
-        if (result != std::end(arguments_))
+        if (result != std::end(m_arguments))
             return result->second;
 
         throw std::out_of_range{"Argument not found."};
     }
 
-    [[nodiscard]] auto get_argument(const string_view arg, const string_view default_value) const -> string_view
+    [[nodiscard]] auto GetArgument(const StringView arg, const StringView defaultValue) const -> StringView
     {
-        if (failed())
+        if (Failed())
             throw std::logic_error{"Parse result failed."};
 
-        const auto result = arguments_.find(arg);
+        const auto result = m_arguments.Find(arg);
 
-        if (result != std::end(arguments_))
+        if (result != std::end(m_arguments))
             return result->second;
 
-        return default_value;
+        return defaultValue;
     }
 
 private:
-    bool result_;
-    std::vector<string_view> positional_;
-    containers::unordered_flatset<string_view> options_;
-    containers::unordered_flatmap<string_view, string_view> arguments_;
+    bool m_result;
+    std::vector<StringView> m_positional;
+    Containers::UnorderedFlatset<StringView> m_options;
+    Containers::UnorderedFlatmap<StringView, StringView> m_arguments;
 };
 
-class commandline_parser final
+class CommandlineParser final
 {
 public:
-    commandline_parser();
-    ~commandline_parser();
+    CommandlineParser();
+    ~CommandlineParser();
 
-    commandline_parser(const commandline_parser &) = default;
-    auto operator=(const commandline_parser &) -> commandline_parser & = default;
+    CommandlineParser(const CommandlineParser &) = default;
+    auto operator=(const CommandlineParser &) -> CommandlineParser & = default;
 
-    commandline_parser(commandline_parser &&) noexcept = default;
-    commandline_parser &operator=(commandline_parser &&) noexcept = default;
+    CommandlineParser(CommandlineParser &&) noexcept = default;
+    CommandlineParser &operator=(CommandlineParser &&) noexcept = default;
 
-    void add_positional(string name, string description);
-    void add_option(const string &name, string description);
-    void add_argument(const string &name, string description);
+    void AddPositional(String name, String description);
+    void AddOption(const String &name, String description);
+    void AddArgument(const String &name, String description);
 
-    auto parse(const int argc, char *argv[]) const -> commandline_parse_result;
-    auto parse(const std::vector<string_view> &args) const -> commandline_parse_result;
+    auto Parse(const int argc, char *argv[]) const -> CommandlineParseResult;
+    auto Parse(const std::vector<StringView> &args) const -> CommandlineParseResult;
 
-    void print_help_text(const string_view exe_name) const;
+    void PrintHelpText(const StringView exeName) const;
 
 private:
-    [[nodiscard]] auto is_option(const string_view arg) const noexcept -> bool;
-    [[nodiscard]] auto is_argument(const string_view arg) const noexcept -> bool;
+    [[nodiscard]] auto IsOption(const StringView arg) const noexcept -> bool;
+    [[nodiscard]] auto IsArgument(const StringView arg) const noexcept -> bool;
 
-    containers::unordered_flatmap<string, string> positional_;
-    containers::unordered_flatmap<string, string> options_;
-    containers::unordered_flatmap<string, string> arguments_;
+    Containers::UnorderedFlatmap<String, String> m_positional;
+    Containers::UnorderedFlatmap<String, String> m_options;
+    Containers::UnorderedFlatmap<String, String> m_arguments;
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

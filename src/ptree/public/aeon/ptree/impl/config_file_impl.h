@@ -11,14 +11,14 @@ namespace aeon::ptree
 namespace internal
 {
 
-inline auto get_header_object(const property_tree &pt, const common::string &header) noexcept
+inline auto get_header_object(const property_tree &pt, const Common::String &header) noexcept
     -> std::optional<const object *>
 {
     if (!pt.is_object())
         return std::nullopt;
 
     const auto &root_object = pt.object_value();
-    const auto result = root_object.find(header);
+    const auto result = root_object.Find(header);
 
     if (result == std::end(root_object))
         return std::nullopt;
@@ -31,7 +31,7 @@ inline auto get_header_object(const property_tree &pt, const common::string &hea
     return &header_pt.object_value();
 }
 
-inline auto get_entry(const property_tree &pt, const common::string &header, const common::string &key) noexcept
+inline auto get_entry(const property_tree &pt, const Common::String &header, const Common::String &key) noexcept
     -> std::optional<const ptree::property_tree *>
 {
     const auto header_obj_ptr = get_header_object(pt, header);
@@ -40,7 +40,7 @@ inline auto get_entry(const property_tree &pt, const common::string &header, con
         return std::nullopt;
 
     const auto &header_obj = *header_obj_ptr.value();
-    const auto key_result = header_obj.find(key);
+    const auto key_result = header_obj.Find(key);
 
     if (key_result == std::end(header_obj))
         return std::nullopt;
@@ -55,23 +55,23 @@ inline config_file::config_file(property_tree &pt)
 {
 }
 
-inline auto config_file::has_header(const common::string &header) const noexcept -> bool
+inline auto config_file::has_header(const Common::String &header) const noexcept -> bool
 {
     return pt_->contains(header);
 }
 
-inline auto config_file::has_entry(const common::string &header, const common::string &key) const noexcept -> bool
+inline auto config_file::has_entry(const Common::String &header, const Common::String &key) const noexcept -> bool
 {
     const auto header_object_ptr = internal::get_header_object(*pt_, header);
 
     if (!header_object_ptr)
         return false;
 
-    return header_object_ptr.value()->contains(key);
+    return header_object_ptr.value()->Contains(key);
 }
 
 template <config_file_value T>
-inline auto config_file::get(const common::string &header, const common::string &key) const noexcept -> std::optional<T>
+inline auto config_file::get(const Common::String &header, const Common::String &key) const noexcept -> std::optional<T>
 {
     const auto key_object_ptr = internal::get_entry(*pt_, header, key);
 
@@ -104,14 +104,14 @@ inline auto config_file::get(const common::string &header, const common::string 
 
         return static_cast<T>(key_object.double_value());
     }
-    else if constexpr (std::is_same_v<T, common::string>)
+    else if constexpr (std::is_same_v<T, Common::String>)
     {
         if (!key_object.is_string())
             return std::nullopt;
 
         return key_object.string_value();
     }
-    else if constexpr (std::is_same_v<T, common::uuid>)
+    else if constexpr (std::is_same_v<T, Common::Uuid>)
     {
         if (!key_object.is_uuid())
             return std::nullopt;
@@ -125,7 +125,7 @@ inline auto config_file::get(const common::string &header, const common::string 
 }
 
 template <config_file_value T>
-inline auto config_file::get(const common::string &header, const common::string &key, const T &default_val) -> T
+inline auto config_file::get(const Common::String &header, const Common::String &key, const T &default_val) -> T
 {
     const auto result = get<T>(header, key);
 
@@ -139,7 +139,7 @@ inline auto config_file::get(const common::string &header, const common::string 
 }
 
 template <config_file_value T>
-inline auto config_file::get_or_except(const common::string &header, const common::string &key) const -> T
+inline auto config_file::get_or_except(const Common::String &header, const Common::String &key) const -> T
 {
     auto result = get<T>(header, key);
 
@@ -150,7 +150,7 @@ inline auto config_file::get_or_except(const common::string &header, const commo
 }
 
 template <config_file_value T>
-inline void config_file::set(const common::string &header, const common::string &key, const T &val)
+inline void config_file::set(const Common::String &header, const Common::String &key, const T &val)
 {
     if (pt_->is_null())
         *pt_ = object{};

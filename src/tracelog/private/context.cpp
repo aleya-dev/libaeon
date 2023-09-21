@@ -4,16 +4,16 @@
 #include <aeon/common/assert.h>
 #include <aeon/streams/stream_writer.h>
 
-namespace aeon::tracelog::detail
+namespace aeon::Tracelog::Internal
 {
 
 thread_local trace_log_thread_context trace_log_context::context_;
 
 void trace_log_context::initialize()
 {
-    aeon_assert(!context_.head && !context_.tail, "tracelog::initialize() already called on this thread.");
+    AeonAssert(!context_.head && !context_.tail, "tracelog::initialize() already called on this thread.");
 
-    context_.tail = std::make_unique<detail::trace_log_list>();
+    context_.tail = std::make_unique<Internal::trace_log_list>();
     context_.head = context_.tail.get();
     context_.index = 0;
     context_.thread_id = generate_unique_thread_id();
@@ -21,12 +21,12 @@ void trace_log_context::initialize()
     register_threadlocal_context(&context_);
 }
 
-[[nodiscard]] auto trace_log_context::add_scoped_log_entry(const char *func) const -> trace_log_entry *
+[[nodiscard]] auto trace_log_context::add_scoped_log_entry(const char *func) const -> TraceLogEntry *
 {
-    aeon_assert(context_.head && context_.tail, "tracelog::initialize() must be called before using the trace logger.");
+    AeonAssert(context_.head && context_.tail, "tracelog::initialize() must be called before using the trace logger.");
 
     const auto entry_ptr = &context_.head->entries[context_.index];
-    *entry_ptr = {context_.timer.get_time_difference(), 0.0, func, context_.thread_id, trace_log_entry_type::scope};
+    *entry_ptr = {context_.timer.GetTimeDifference(), 0.0, func, context_.thread_id, trace_log_entry_type::scope};
 
     if (++context_.index >= log_entry_count)
         allocate_new_list();
@@ -34,16 +34,16 @@ void trace_log_context::initialize()
     return entry_ptr;
 }
 
-void trace_log_context::add_scoped_log_exit(trace_log_entry *entry) const
+void trace_log_context::add_scoped_log_exit(TraceLogEntry *entry) const
 {
-    entry->end = context_.timer.get_time_difference();
+    entry->end = context_.timer.GetTimeDifference();
 }
 
 void trace_log_context::add_event(const char *func) const
 {
-    aeon_assert(context_.head && context_.tail, "tracelog::initialize() must be called before using the trace logger.");
+    AeonAssert(context_.head && context_.tail, "tracelog::initialize() must be called before using the trace logger.");
 
-    context_.head->entries[context_.index] = {context_.timer.get_time_difference(), 0.0f, func, context_.thread_id,
+    context_.head->entries[context_.index] = {context_.timer.GetTimeDifference(), 0.0f, func, context_.thread_id,
                                               trace_log_entry_type::event};
 
     if (++context_.index >= log_entry_count)
@@ -52,7 +52,7 @@ void trace_log_context::add_event(const char *func) const
 
 void trace_log_context::write(const std::filesystem::path &path)
 {
-    aeon_assert(context_.head && context_.tail, "tracelog::initialize() must be called before using the trace logger.");
+    AeonAssert(context_.head && context_.tail, "tracelog::initialize() must be called before using the trace logger.");
 
     streams::file_sink_device file(path, streams::file_mode::text);
     streams::stream_writer writer{file};
@@ -72,7 +72,7 @@ void trace_log_context::write(const std::filesystem::path &path)
 
 void trace_log_context::allocate_new_list() const
 {
-    context_.head->next = std::make_unique<detail::trace_log_list>();
+    context_.head->next = std::make_unique<Internal::trace_log_list>();
     context_.head = context_.head->next.get();
     context_.index = 0;
 }

@@ -7,103 +7,103 @@
 #include <vector>
 #include <forward_list>
 
-namespace aeon::common::containers
+namespace aeon::Common::Containers
 {
 
-namespace internal
+namespace Internal
 {
 
-struct general_tree_leaf_data
+struct GeneralTreeLeafData
 {
-    static constexpr auto npos = std::numeric_limits<std::size_t>::max();
+    static constexpr auto Npos = std::numeric_limits<std::size_t>::max();
 
-    std::size_t parent = npos;
-    std::size_t left = npos;
-    std::size_t right = npos;
+    std::size_t Parent = Npos;
+    std::size_t Left = Npos;
+    std::size_t Right = Npos;
 };
 
 } // namespace internal
 
 template <typename T>
-class general_tree_leaf;
+class GeneralTreeLeaf;
 
 template <typename T>
-class general_tree_iterator
+class GeneralTreeIterator
 {
-    using tree_leaf_data_type = internal::general_tree_leaf_data;
+    using TreeLeafDataType = Internal::GeneralTreeLeafData;
 
 public:
     using iterator_category = std::forward_iterator_tag;
-    using value_type = general_tree_leaf<T>;
+    using value_type = GeneralTreeLeaf<T>;
     using difference_type = std::size_t;
     using pointer = value_type *;
     using reference = value_type &;
 
-    explicit general_tree_iterator(std::vector<tree_leaf_data_type> *leafs, std::vector<T> *values,
-                                   const std::size_t current_index) noexcept;
+    explicit GeneralTreeIterator(std::vector<TreeLeafDataType> *leafs, std::vector<T> *values,
+                                 const std::size_t currentIndex) noexcept;
 
-    auto operator++() -> general_tree_iterator<T> &;
+    auto operator++() -> GeneralTreeIterator<T> &;
 
-    auto operator++(int) -> general_tree_iterator<T> &;
+    auto operator++(int) -> GeneralTreeIterator<T> &;
 
-    [[nodiscard]] auto operator==(const general_tree_iterator<T> &other) const -> bool;
+    [[nodiscard]] auto operator==(const GeneralTreeIterator<T> &other) const -> bool;
 
-    [[nodiscard]] auto operator!=(const general_tree_iterator<T> &other) const -> bool;
+    [[nodiscard]] auto operator!=(const GeneralTreeIterator<T> &other) const -> bool;
 
     auto operator*() -> value_type;
 
     auto operator*() const -> value_type;
 
 private:
-    std::vector<tree_leaf_data_type> *leafs_;
-    std::vector<T> *values_;
-    std::size_t current_index_;
+    std::vector<TreeLeafDataType> *m_leafs;
+    std::vector<T> *m_values;
+    std::size_t m_currentIndex;
 };
 
 template <typename T>
-class general_tree_leaf final
+class GeneralTreeLeaf final
 {
     template <typename>
-    friend class general_tree;
+    friend class GeneralTree;
 
     template <typename>
-    friend class general_tree_iterator;
+    friend class GeneralTreeIterator;
 
-    using tree_leaf_data_type = internal::general_tree_leaf_data;
+    using TreeLeafDataType = Internal::GeneralTreeLeafData;
 
 public:
     using value_type = T;
     using pointer = value_type *;
     using reference = value_type &;
-    using iterator_type = general_tree_iterator<value_type>;
+    using iterator_type = GeneralTreeIterator<value_type>;
 
-    general_tree_leaf(const general_tree_leaf<value_type> &) = delete;
-    auto operator=(const general_tree_leaf<value_type> &) -> general_tree_leaf<value_type> & = delete;
+    GeneralTreeLeaf(const GeneralTreeLeaf<value_type> &) = delete;
+    auto operator=(const GeneralTreeLeaf<value_type> &) -> GeneralTreeLeaf<value_type> & = delete;
 
-    general_tree_leaf(general_tree_leaf<value_type> &&) noexcept = delete;
-    auto operator=(general_tree_leaf<value_type> &&) noexcept -> general_tree_leaf<value_type> & = delete;
+    GeneralTreeLeaf(GeneralTreeLeaf<value_type> &&) noexcept = delete;
+    auto operator=(GeneralTreeLeaf<value_type> &&) noexcept -> GeneralTreeLeaf<value_type> & = delete;
 
-    void reserve(const std::size_t size) const;
+    void Reserve(const std::size_t size) const;
 
-    auto emplace_child(const value_type &value) -> general_tree_leaf<value_type>;
+    auto EmplaceChild(const value_type &value) -> GeneralTreeLeaf<value_type>;
 
-    auto emplace_child(value_type &&value) -> general_tree_leaf<value_type>;
+    auto EmplaceChild(value_type &&value) -> GeneralTreeLeaf<value_type>;
 
-    void add_child(const value_type &value);
+    void AddChild(const value_type &value);
 
-    void add_child(value_type &&value);
+    void AddChild(value_type &&value);
 
-    [[nodiscard]] auto parent() -> general_tree_leaf<value_type>;
+    [[nodiscard]] auto Parent() -> GeneralTreeLeaf<value_type>;
 
-    [[nodiscard]] auto parent() const -> general_tree_leaf<value_type>;
+    [[nodiscard]] auto Parent() const -> GeneralTreeLeaf<value_type>;
 
-    [[nodiscard]] auto is_root() const noexcept -> bool;
+    [[nodiscard]] auto IsRoot() const noexcept -> bool;
 
-    [[nodiscard]] auto at(const std::size_t i) -> general_tree_leaf<value_type>;
+    [[nodiscard]] auto At(const std::size_t i) -> GeneralTreeLeaf<value_type>;
 
-    [[nodiscard]] auto at(const std::size_t i) const -> general_tree_leaf<value_type>;
+    [[nodiscard]] auto At(const std::size_t i) const -> GeneralTreeLeaf<value_type>;
 
-    [[nodiscard]] auto child_count() const noexcept -> std::size_t;
+    [[nodiscard]] auto ChildCount() const noexcept -> std::size_t;
 
     [[nodiscard]] auto begin() noexcept -> iterator_type;
 
@@ -122,51 +122,51 @@ public:
     [[nodiscard]] auto operator*() const noexcept -> reference;
 
 private:
-    explicit general_tree_leaf(std::vector<tree_leaf_data_type> *leafs, std::vector<value_type> *values,
-                               const std::size_t index) noexcept;
+    explicit GeneralTreeLeaf(std::vector<TreeLeafDataType> *leafs, std::vector<value_type> *values,
+                             const std::size_t index) noexcept;
 
-    void update_indices(const std::size_t new_index) const noexcept;
+    void UpdateIndices(const std::size_t newIndex) const noexcept;
 
-    std::vector<tree_leaf_data_type> *leafs_;
-    std::vector<value_type> *values_;
-    std::size_t index_;
+    std::vector<TreeLeafDataType> *m_leafs;
+    std::vector<value_type> *m_values;
+    std::size_t m_index;
 };
 
 /*!
  * A general tree implemented as left-child right-sibling (LCRS).
  */
 template <typename T>
-class general_tree final
+class GeneralTree final
 {
-    using tree_leaf_data_type = internal::general_tree_leaf_data;
+    using TreeLeafDataType = Internal::GeneralTreeLeafData;
 
 public:
     using value_type = T;
-    using tree_leaf_type = general_tree_leaf<value_type>;
+    using TreeLeafType = GeneralTreeLeaf<value_type>;
 
-    explicit general_tree(value_type &&root_value);
+    explicit GeneralTree(value_type &&rootValue);
 
-    explicit general_tree(const value_type &root_value);
+    explicit GeneralTree(const value_type &rootValue);
 
-    ~general_tree() = default;
+    ~GeneralTree() = default;
 
-    general_tree(const general_tree &) = default;
-    auto operator=(const general_tree &) -> general_tree & = default;
+    GeneralTree(const GeneralTree &) = default;
+    auto operator=(const GeneralTree &) -> GeneralTree & = default;
 
-    general_tree(general_tree &&) noexcept = default;
-    auto operator=(general_tree &&) noexcept -> general_tree & = default;
+    GeneralTree(GeneralTree &&) noexcept = default;
+    auto operator=(GeneralTree &&) noexcept -> GeneralTree & = default;
 
-    void reserve(const std::size_t size);
+    void Reserve(const std::size_t size);
 
-    void clear() noexcept;
+    void Clear() noexcept;
 
-    [[nodiscard]] auto root() -> tree_leaf_type;
+    [[nodiscard]] auto Root() -> TreeLeafType;
 
 private:
-    std::vector<tree_leaf_data_type> leafs_;
-    std::vector<value_type> values_;
+    std::vector<TreeLeafDataType> m_leafs;
+    std::vector<value_type> m_values;
 };
 
-} // namespace aeon::common::containers
+} // namespace aeon::Common::containers
 
 #include <aeon/common/containers/impl/general_tree_impl.h>

@@ -4,7 +4,7 @@
 
 #include <cstdlib>
 
-namespace aeon::common::allocators
+namespace aeon::Common::Allocators
 {
 
 /*!
@@ -14,7 +14,7 @@ namespace aeon::common::allocators
  * not for arrays of objects.
  */
 template <typename T>
-struct ansi_allocator
+struct AnsiAllocator
 {
     static auto allocate(const std::size_t n) noexcept
     {
@@ -37,4 +37,4 @@ struct ansi_allocator
     }
 };
 
-} // namespace aeon::common::allocators
+} // namespace aeon::Common::allocators

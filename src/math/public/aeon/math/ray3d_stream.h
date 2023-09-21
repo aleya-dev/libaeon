@@ -9,7 +9,7 @@
 namespace aeon::math
 {
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline auto operator<<(std::ostream &os, const ray3d<T> &ray) -> std::ostream &
 {
     return os << "ray3d<" << typeid(T).name() << ">(normal: " << normal(ray) << ", origin: " << origin(ray) << ")";

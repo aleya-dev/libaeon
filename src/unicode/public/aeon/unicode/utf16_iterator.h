@@ -40,7 +40,7 @@ public:
 
     auto operator++() noexcept -> utf16_iterator &
     {
-        aeon_assert(offset_ < len_, "Iterator out of range.");
+        AeonAssert(offset_ < len_, "Iterator out of range.");
         advance();
         return *this;
     }
@@ -54,7 +54,7 @@ public:
 
     auto operator==(const utf16_iterator &other) const noexcept
     {
-        aeon_assert(str_ == other.str_ && len_ == other.len_, "utf8_string_iterator range mismatch.");
+        AeonAssert(str_ == other.str_ && len_ == other.len_, "utf8_string_iterator range mismatch.");
         return offset_ == other.offset_;
     }
 
@@ -69,7 +69,7 @@ private:
         if (len_ == 0)
             return;
 
-        if (str_[0] == common::bom::utf16::signature || str_[0] == common::bom::utf16::big_endian_signature)
+        if (str_[0] == Common::Bom::Utf16::Signature || str_[0] == Common::Bom::Utf16::BigEndianSignature)
             ++next_offset_;
     }
 

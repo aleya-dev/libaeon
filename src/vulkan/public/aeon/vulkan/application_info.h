@@ -14,8 +14,8 @@ class application_info final
 {
 public:
     application_info();
-    explicit application_info(common::string name, common::version3<uint32_t> application_version,
-                              common::string engine_name, common::version3<uint32_t> engine_version);
+    explicit application_info(Common::String name, Common::Version3<uint32_t> application_version,
+                              Common::String engine_name, Common::Version3<uint32_t> engine_version);
 
     ~application_info() = default;
 
@@ -25,16 +25,16 @@ public:
     application_info(application_info &&) noexcept = default;
     auto operator=(application_info &&) noexcept -> application_info & = default;
 
-    [[nodiscard]] auto name() const noexcept -> const common::string &;
-    [[nodiscard]] auto application_version() const noexcept -> const common::version3<uint32_t> &;
-    [[nodiscard]] auto engine_name() const noexcept -> const common::string &;
-    [[nodiscard]] auto engine_version() const noexcept -> const common::version3<uint32_t> &;
+    [[nodiscard]] auto name() const noexcept -> const Common::String &;
+    [[nodiscard]] auto application_version() const noexcept -> const Common::Version3<uint32_t> &;
+    [[nodiscard]] auto engine_name() const noexcept -> const Common::String &;
+    [[nodiscard]] auto engine_version() const noexcept -> const Common::Version3<uint32_t> &;
 
 private:
-    common::string name_;
-    common::version3<uint32_t> application_version_;
-    common::string engine_name_;
-    common::version3<uint32_t> engine_version_;
+    Common::String name_;
+    Common::Version3<uint32_t> application_version_;
+    Common::String engine_name_;
+    Common::Version3<uint32_t> engine_version_;
 };
 
 inline application_info::application_info()
@@ -45,8 +45,8 @@ inline application_info::application_info()
 {
 }
 
-inline application_info::application_info(common::string name, common::version3<uint32_t> application_version,
-                                          common::string engine_name, common::version3<uint32_t> engine_version)
+inline application_info::application_info(Common::String name, Common::Version3<uint32_t> application_version,
+                                          Common::String engine_name, Common::Version3<uint32_t> engine_version)
     : name_{std::move(name)}
     , application_version_{application_version}
     , engine_name_{std::move(engine_name)}
@@ -54,22 +54,22 @@ inline application_info::application_info(common::string name, common::version3<
 {
 }
 
-inline auto application_info::name() const noexcept -> const common::string &
+inline auto application_info::name() const noexcept -> const Common::String &
 {
     return name_;
 }
 
-inline auto application_info::application_version() const noexcept -> const common::version3<uint32_t> &
+inline auto application_info::application_version() const noexcept -> const Common::Version3<uint32_t> &
 {
     return application_version_;
 }
 
-inline auto application_info::engine_name() const noexcept -> const common::string &
+inline auto application_info::engine_name() const noexcept -> const Common::String &
 {
     return engine_name_;
 }
 
-inline auto application_info::engine_version() const noexcept -> const common::version3<uint32_t> &
+inline auto application_info::engine_version() const noexcept -> const Common::Version3<uint32_t> &
 {
     return engine_version_;
 }

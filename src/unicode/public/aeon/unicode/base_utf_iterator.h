@@ -66,7 +66,7 @@ protected:
         , cp_pos_{0}
         , char_{0}
     {
-        aeon_assert(std::size(str) < std::numeric_limits<std::int32_t>::max(), "String too long.");
+        AeonAssert(std::size(str) < std::numeric_limits<std::int32_t>::max(), "String too long.");
     }
 
     explicit base_utf_iterator(const string_view_type_t &str, const std::int32_t offset) noexcept
@@ -77,7 +77,7 @@ protected:
         , cp_pos_{0}
         , char_{0}
     {
-        aeon_assert(std::size(str) < std::numeric_limits<std::int32_t>::max(), "String too long.");
+        AeonAssert(std::size(str) < std::numeric_limits<std::int32_t>::max(), "String too long.");
     }
 
     ~base_utf_iterator() = default;

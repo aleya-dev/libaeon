@@ -5,67 +5,67 @@
 #include <concepts>
 #include <utility>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
 template <std::move_constructible T>
-class unique_obj final
+class UniqueObj final
 {
 public:
-    using element_type = T;
+    using ElementType = T;
 
-    unique_obj() noexcept = default;
-    ~unique_obj() = default;
+    UniqueObj() noexcept = default;
+    ~UniqueObj() = default;
 
-    unique_obj(unique_obj &&) noexcept = default;
-    unique_obj &operator=(unique_obj &&) noexcept = default;
+    UniqueObj(UniqueObj &&) noexcept = default;
+    UniqueObj &operator=(UniqueObj &&) noexcept = default;
 
-    unique_obj(const unique_obj &) noexcept = delete;
-    auto operator=(const unique_obj &) noexcept -> unique_obj & = delete;
+    UniqueObj(const UniqueObj &) noexcept = delete;
+    auto operator=(const UniqueObj &) noexcept -> UniqueObj & = delete;
 
-    unique_obj(element_type &&element) noexcept
-        : value_{std::move(element)}
+    UniqueObj(ElementType &&element) noexcept
+        : m_value{std::move(element)}
     {
     }
 
-    auto operator=(element_type &&element) noexcept -> unique_obj &
+    auto operator=(ElementType &&element) noexcept -> UniqueObj &
     {
-        value_ = std::move(element);
+        m_value = std::move(element);
         return *this;
     }
 
-    [[nodiscard]] auto get() noexcept -> element_type &
+    [[nodiscard]] auto Get() noexcept -> ElementType &
     {
-        return value_;
+        return m_value;
     }
 
-    [[nodiscard]] auto get() const noexcept -> const element_type &
+    [[nodiscard]] auto Get() const noexcept -> const ElementType &
     {
-        return value_;
+        return m_value;
     }
 
-    [[nodiscard]] auto operator*() noexcept -> element_type &
+    [[nodiscard]] auto operator*() noexcept -> ElementType &
     {
-        return get();
+        return Get();
     }
 
-    [[nodiscard]] auto operator*() const noexcept -> const element_type &
+    [[nodiscard]] auto operator*() const noexcept -> const ElementType &
     {
-        return get();
+        return Get();
     }
 
-    [[nodiscard]] auto operator->() const noexcept -> element_type *
+    [[nodiscard]] auto operator->() const noexcept -> ElementType *
     {
-        return &value_;
+        return &m_value;
     }
 
-    [[nodiscard]] auto release() noexcept -> element_type
+    [[nodiscard]] auto Release() noexcept -> ElementType
     {
-        return std::move(value_);
+        return std::move(m_value);
     }
 
 private:
-    element_type value_;
+    ElementType m_value;
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

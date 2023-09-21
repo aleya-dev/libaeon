@@ -16,10 +16,10 @@
 namespace aeon::vulkan::initializers
 {
 
-[[nodiscard]] inline auto application_info(const common::string_view application_name,
-                                           const common::version3<uint32_t> application_version,
-                                           const common::string_view engine_name,
-                                           const common::version3<uint32_t> engine_version) noexcept
+[[nodiscard]] inline auto application_info(const Common::StringView application_name,
+                                           const Common::Version3<uint32_t> application_version,
+                                           const Common::StringView engine_name,
+                                           const Common::Version3<uint32_t> engine_version) noexcept
 {
     VkApplicationInfo info{};
     info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -55,7 +55,7 @@ namespace aeon::vulkan::initializers
 }
 
 [[nodiscard]] inline auto command_pool_create_info(const std::uint32_t queue_family_index,
-                                                   const common::flags<command_pool_create_flag> flags = {}) noexcept
+                                                   const Common::Flags<command_pool_create_flag> flags = {}) noexcept
 {
     VkCommandPoolCreateInfo info{};
     info.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -75,7 +75,7 @@ namespace aeon::vulkan::initializers
     return info;
 }
 
-[[nodiscard]] inline auto command_buffer_begin_info(const common::flags<command_buffer_usage_flag> flags)
+[[nodiscard]] inline auto command_buffer_begin_info(const Common::Flags<command_buffer_usage_flag> flags)
 {
     VkCommandBufferBeginInfo info{};
     info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -83,8 +83,8 @@ namespace aeon::vulkan::initializers
     return info;
 }
 
-[[nodiscard]] inline auto debug_utils_messenger_create_info(const common::flags<message_severity> message_severity,
-                                                            const common::flags<message_type> message_type,
+[[nodiscard]] inline auto debug_utils_messenger_create_info(const Common::Flags<message_severity> message_severity,
+                                                            const Common::Flags<message_type> message_type,
                                                             const PFN_vkDebugUtilsMessengerCallbackEXT callback,
                                                             void *user_data) noexcept
 {
@@ -202,8 +202,8 @@ namespace aeon::vulkan::initializers
 [[nodiscard]] inline auto image_create_info(const image_type type, const VkExtent3D extent, const VkFormat format,
                                             const std::uint32_t mip_levels, const std::uint32_t array_layers,
                                             const sample_count samples, const image_tiling tiling,
-                                            const common::flags<image_usage_flag> usage,
-                                            const common::flags<image_create_flag> flags)
+                                            const Common::Flags<image_usage_flag> usage,
+                                            const Common::Flags<image_create_flag> flags)
 {
     VkImageCreateInfo info{};
     info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;

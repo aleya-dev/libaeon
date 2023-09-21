@@ -9,75 +9,75 @@
 #include <iterator>
 #include <algorithm>
 
-namespace aeon::common::container
+namespace aeon::Common::Container
 {
 
-template <class container_t>
-class back_emplace_iterator
+template <class ContainerT>
+class BackEmplaceIterator
 {
 public:
-    using container_type = container_t;
+    using ContainerType = ContainerT;
 
-    explicit back_emplace_iterator(container_type &x)
-        : container_{&x}
+    explicit BackEmplaceIterator(ContainerType &x)
+        : m_container{&x}
     {
     }
 
     template <typename T>
-    back_emplace_iterator<container_type> &operator=(const T &args)
+    BackEmplaceIterator<ContainerType> &operator=(const T &args)
     {
-        container_->emplace_back(args);
+        m_container->emplace_back(args);
         return *this;
     }
 
-    back_emplace_iterator &operator*()
-    {
-        return *this;
-    }
-
-    back_emplace_iterator &operator++()
+    BackEmplaceIterator &operator*()
     {
         return *this;
     }
 
-    back_emplace_iterator &operator++(int)
+    BackEmplaceIterator &operator++()
+    {
+        return *this;
+    }
+
+    BackEmplaceIterator &operator++(int)
     {
         return *this;
     }
 
 private:
-    container_type *container_;
+    ContainerType *m_container;
 };
 
 template <typename T>
-[[nodiscard]] inline auto back_emplacer(T &container)
+[[nodiscard]] inline auto BackEmplacer(T &container)
 {
-    return back_emplace_iterator{container};
+    return BackEmplaceIterator{container};
 }
 
-template <typename U, typename T, typename pred_t>
-[[nodiscard]] inline auto transform(const std::vector<T> &vec, pred_t pred) -> std::vector<U>
+template <typename U, typename T, typename PredT>
+[[nodiscard]] inline auto Transform(const std::vector<T> &vec, PredT pred) -> std::vector<U>
 {
-    std::vector<U> trans_vec;
-    trans_vec.reserve(std::size(vec));
+    std::vector<U> transVec;
+    transVec.reserve(std::size(vec));
 
-    std::transform(std::begin(vec), std::end(vec), std::back_inserter(trans_vec), pred);
-    return trans_vec;
+    std::transform(std::begin(vec), std::end(vec), std::back_inserter(transVec), pred);
+    return transVec;
 }
 
 template <typename U, typename T>
-[[nodiscard]] inline auto auto_transform(const std::vector<T> &vec) -> std::vector<U>
+[[nodiscard]] inline auto AutoTransform(const std::vector<T> &vec) -> std::vector<U>
 {
-    std::vector<U> trans_vec;
-    trans_vec.reserve(std::size(vec));
+    std::vector<U> transVec;
+    transVec.reserve(std::size(vec));
 
-    std::transform(std::begin(vec), std::end(vec), back_emplacer(trans_vec),
+    std::transform(std::begin(vec), std::end(vec), BackEmplacer(transVec),
                    [](const auto &v) { return static_cast<U>(v); });
-    return trans_vec;
+    return transVec;
 }
 
-template <typename container_t, typename unary_predicate_t>
-void erase_if(container_t &items, const unary_predicate_t &predicate)
+template <typename ContainerT, typename UnaryPredicateT>
+void EraseIf(ContainerT &items, const UnaryPredicateT &predicate)
 {
     for (auto itr = std::begin(items); itr != std::end(items);)
     {
@@ -89,7 +89,7 @@ void erase_if(container_t &items, const unary_predicate_t &predicate)
 }
 
 template <typename T, std::size_t N>
-[[nodiscard]] inline constexpr auto make_array(T &&value) noexcept
+[[nodiscard]] inline constexpr auto MakeArray(T &&value) noexcept
 {
     std::array<T, N> arr;
     arr.fill(std::forward<T>(value));
@@ -97,15 +97,15 @@ template <typename T, std::size_t N>
 }
 
 template <typename... T>
-[[nodiscard]] inline constexpr auto make_array2(T &&...values)
+[[nodiscard]] inline constexpr auto MakeArray2(T &&...values)
     -> std::array<typename std::decay<typename std::common_type<T...>::type>::type, sizeof...(T)>
 {
     return std::array<typename std::decay<typename std::common_type<T...>::type>::type, sizeof...(T)>{
         std::forward<T>(values)...};
 }
 
-template <typename input_itr_t, typename unary_predicate_t>
-[[nodiscard]] inline auto count_until(input_itr_t first, input_itr_t last, unary_predicate_t p) noexcept
+template <typename InputItrT, typename UnaryPredicateT>
+[[nodiscard]] inline auto CountUntil(InputItrT first, InputItrT last, UnaryPredicateT p) noexcept
 {
     auto count = 0_size_t;
 
@@ -118,8 +118,8 @@ template <typename input_itr_t, typename unary_predicate_t>
     return count;
 }
 
-template <typename map_type_t, typename value_type_t>
-[[nodiscard]] inline auto find_in_map_by_value(const map_type_t &map, const value_type_t &value) noexcept
+template <typename MapTypeT, typename ValueTypeT>
+[[nodiscard]] inline auto FindInMapByValue(const MapTypeT &map, const ValueTypeT &value) noexcept
 {
     return std::find_if(map.begin(), map.end(), [&value](const auto &pair) { return pair.second == value; });
 }
@@ -129,8 +129,8 @@ template <typename map_type_t, typename value_type_t>
  * actually search for something. If the predicate returns false, the loop is aborted.
  * The signature of the predicate should be equivalent to bool(const type1 &left, const type2 &right);
  */
-template <typename forward_itr_t, typename pred_t>
-inline void adjacent_execute(forward_itr_t first, forward_itr_t last, pred_t p) noexcept
+template <typename ForwardItrT, typename PredT>
+inline void AdjacentExecute(ForwardItrT first, ForwardItrT last, PredT p) noexcept
 {
     if (first == last)
         return;
@@ -145,8 +145,8 @@ inline void adjacent_execute(forward_itr_t first, forward_itr_t last, pred_t p) 
     }
 }
 
-template <typename iterator_t, typename value_t>
-inline auto contains(iterator_t first, iterator_t last, const value_t &value) noexcept -> bool
+template <typename IteratorT, typename ValueT>
+inline auto Contains(IteratorT first, IteratorT last, const ValueT &value) noexcept -> bool
 {
     if (first == last)
         return false;
@@ -160,4 +160,4 @@ inline auto contains(iterator_t first, iterator_t last, const value_t &value) no
     return false;
 }
 
-} // namespace aeon::common::container
+} // namespace aeon::Common::container

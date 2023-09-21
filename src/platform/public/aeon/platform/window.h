@@ -47,7 +47,7 @@ public:
     [[nodiscard]] virtual auto position() const noexcept -> math::vector2<std::int32_t> = 0;
     virtual void position(const math::vector2<std::int32_t> &pos) = 0;
 
-    virtual void title(const common::string &str) = 0;
+    virtual void title(const Common::String &str) = 0;
 
     [[nodiscard]] virtual auto dimensions() const noexcept -> math::size2d<std::uint32_t> = 0;
     virtual void dimensions(const math::size2d<std::uint32_t> &size) = 0;

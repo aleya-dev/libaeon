@@ -9,7 +9,7 @@
 namespace aeon::math
 {
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline auto operator<<(std::ostream &os, const circle<T> &c) -> std::ostream &
 {
     const auto pos = position(c);

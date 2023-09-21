@@ -9,20 +9,20 @@
 namespace aeon::rdp
 {
 
-inline parser::parser(const common::string_view &v)
+inline parser::parser(const Common::StringView &v)
     : view_{v}
     , current_{std::begin(view_)}
     , filename_{}
 {
-    aeon_assert(!std::empty(view_), "Given string_view can not be empty.");
+    AeonAssert(!view_.Empty(), "Given StringView can not be empty.");
 }
 
-inline parser::parser(const common::string_view &v, const common::string_view filename)
+inline parser::parser(const Common::StringView &v, const Common::StringView filename)
     : view_{v}
     , current_{std::begin(view_)}
     , filename_{filename}
 {
-    aeon_assert(!std::empty(view_), "Given string_view can not be empty.");
+    AeonAssert(!view_.Empty(), "Given StringView can not be empty.");
 }
 
 [[nodiscard]] inline auto parser::eof() const noexcept -> bool
@@ -35,7 +35,7 @@ inline parser::parser(const common::string_view &v, const common::string_view fi
     return current_ == std::begin(view_);
 }
 
-[[nodiscard]] inline auto parser::str() const noexcept -> const common::string_view &
+[[nodiscard]] inline auto parser::str() const noexcept -> const Common::StringView &
 {
     return view_;
 }
@@ -141,20 +141,20 @@ inline auto parser::remaining_size() const noexcept -> size_type
             --line_end;
     }
 
-    const auto line = common::string_utils::make_string_view(line_begin, line_end);
+    const auto line = Common::StringUtils::MakeStringView(line_begin, line_end);
     const auto line_number = std::count(std::begin(view_), current_, '\n');
     const auto column = std::distance(line_begin, current_);
 
     return rdp::cursor{filename(), line, line_number, column};
 }
 
-[[nodiscard]] inline auto parser::filename() const noexcept -> common::string_view
+[[nodiscard]] inline auto parser::filename() const noexcept -> Common::StringView
 {
     return filename_;
 }
 
 [[nodiscard]] inline auto parser::get_range(const size_type begin, const size_type end) const noexcept
-    -> parse_result<common::string_view>
+    -> parse_result<Common::StringView>
 {
     if (end <= begin)
         return parse_error{*this, "End <= Begin."};
@@ -162,10 +162,10 @@ inline auto parser::remaining_size() const noexcept -> size_type
     if (end >= std::size(view_))
         return parse_error{*this, "Index out of range."};
 
-    return matched{view_.substr(begin, end - begin)};
+    return matched{view_.Substr(begin, end - begin)};
 }
 
-inline auto parser::peek(const common::string_view str) noexcept -> bool
+inline auto parser::peek(const Common::StringView str) noexcept -> bool
 {
     if (eof()) [[unlikely]]
         return false;
@@ -197,7 +197,7 @@ inline auto parser::peek(const common::string_view str) noexcept -> bool
     return true;
 }
 
-[[nodiscard]] inline auto parser::check(const common::string_view str) noexcept -> bool
+[[nodiscard]] inline auto parser::check(const Common::StringView str) noexcept -> bool
 {
     if (!peek(str))
         return false;
@@ -212,7 +212,7 @@ inline auto parser::check(const std::initializer_list<char_type> c) noexcept -> 
     if (eof()) [[unlikely]]
         return false;
 
-    if (!common::container::contains(std::begin(c), std::end(c), current()))
+    if (!Common::Container::Contains(std::begin(c), std::end(c), current()))
         return false;
 
     ++current_;
@@ -228,7 +228,7 @@ inline void parser::skip(const char_type c) noexcept
 
 inline void parser::skip(const std::initializer_list<char_type> c) noexcept
 {
-    while (!eof() && common::container::contains(std::begin(c), std::end(c), current()))
+    while (!eof() && Common::Container::Contains(std::begin(c), std::end(c), current()))
         advance();
 }
 
@@ -240,17 +240,17 @@ inline void parser::skip_until(const char_type c) noexcept
 
 inline void parser::skip_until(const std::initializer_list<char_type> c) noexcept
 {
-    while (!eof() && !common::container::contains(std::begin(c), std::end(c), current()))
+    while (!eof() && !Common::Container::Contains(std::begin(c), std::end(c), current()))
         advance();
 }
 
-inline auto parser::match_each(const std::initializer_list<char_type> c) noexcept -> parse_result<common::string_view>
+inline auto parser::match_each(const std::initializer_list<char_type> c) noexcept -> parse_result<Common::StringView>
 {
-    return match([&c](const auto ch) { return common::container::contains(std::begin(c), std::end(c), ch); });
+    return match([&c](const auto ch) { return Common::Container::Contains(std::begin(c), std::end(c), ch); });
 }
 
 [[nodiscard]] inline auto parser::match_until(const char_type c, const eof_mode mode) noexcept
-    -> parse_result<common::string_view>
+    -> parse_result<Common::StringView>
 {
     auto itr = current_;
 
@@ -267,21 +267,20 @@ inline auto parser::match_each(const std::initializer_list<char_type> c) noexcep
         }
     } while (*itr != c);
 
-    const auto result = common::string_view{current_, itr};
+    const auto result = Common::StringView{current_, itr};
     current_ = itr;
     return matched{result};
 }
 
-[[nodiscard]] inline auto parser::match_until(const common::string_view str) noexcept
-    -> parse_result<common::string_view>
+[[nodiscard]] inline auto parser::match_until(const Common::StringView str) noexcept -> parse_result<Common::StringView>
 {
     auto itr = current_;
 
     while (itr + std::size(str) <= std::cend(view_))
     {
-        if (str == common::string_view{&*itr, std::size(str)})
+        if (str == Common::StringView{&*itr, std::size(str)})
         {
-            const auto result = common::string_view{current_, itr};
+            const auto result = Common::StringView{current_, itr};
             current_ = itr;
             return matched{result};
         }
@@ -293,7 +292,7 @@ inline auto parser::match_each(const std::initializer_list<char_type> c) noexcep
 }
 
 inline auto parser::match_until(const std::initializer_list<char_type> c, const eof_mode mode) noexcept
-    -> parse_result<common::string_view>
+    -> parse_result<Common::StringView>
 {
     auto itr = current_;
 
@@ -308,23 +307,23 @@ inline auto parser::match_until(const std::initializer_list<char_type> c, const 
             else
                 break;
         }
-    } while (!common::container::contains(std::begin(c), std::end(c), *itr));
+    } while (!Common::Container::Contains(std::begin(c), std::end(c), *itr));
 
-    const auto result = common::string_view{current_, itr};
+    const auto result = Common::StringView{current_, itr};
     current_ = itr;
     return matched{result};
 }
 
 template <std::contiguous_iterator iterator_t>
 inline parser::parser(iterator_t begin, iterator_t end)
-    : view_{common::string_utils::make_string_view(begin, end)}
+    : view_{Common::StringUtils::MakeStringView(begin, end)}
     , current_{std::begin(view_)}
 {
-    aeon_assert(!std::empty(view_), "Given string_view can not be empty.");
+    AeonAssert(!view_.Empty(), "Given StringView can not be empty.");
 }
 
 template <typename matcher_t>
-inline auto parser::match(matcher_t pred) noexcept -> parse_result<common::string_view>
+inline auto parser::match(matcher_t pred) noexcept -> parse_result<Common::StringView>
 {
     if (eof()) [[unlikely]]
         return unmatched{};
@@ -337,13 +336,13 @@ inline auto parser::match(matcher_t pred) noexcept -> parse_result<common::strin
     if (itr == current_)
         return unmatched{};
 
-    const auto result = common::string_view{current_, itr};
+    const auto result = Common::StringView{current_, itr};
     current_ = itr;
     return matched{result};
 }
 
 template <typename matcher_t>
-inline auto parser::match_indexed(matcher_t pred) noexcept -> parse_result<common::string_view>
+inline auto parser::match_indexed(matcher_t pred) noexcept -> parse_result<Common::StringView>
 {
     if (eof()) [[unlikely]]
         return unmatched{};
@@ -356,7 +355,7 @@ inline auto parser::match_indexed(matcher_t pred) noexcept -> parse_result<commo
     if (itr == current_)
         return unmatched{};
 
-    const auto result = common::string_view{current_, itr};
+    const auto result = Common::StringView{current_, itr};
     current_ = itr;
     return matched{result};
 }
@@ -381,7 +380,7 @@ inline auto parser::match_indexed(matcher_t pred) noexcept -> parse_result<commo
     return parser.offset();
 }
 
-[[nodiscard]] inline auto filename(const rdp::parser &parser) noexcept -> common::string_view
+[[nodiscard]] inline auto filename(const rdp::parser &parser) noexcept -> Common::StringView
 {
     return parser.filename();
 }

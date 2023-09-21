@@ -23,7 +23,7 @@ public:
     auto operator=(io_stream_sink &&) noexcept -> io_stream_sink & = delete;
 
 private:
-    void log(const common::string &message, const common::string &module, const log_level level) final;
+    void log(const Common::String &message, const Common::String &module, const log_level level) final;
     [[nodiscard]] auto log_level_to_color(const log_level level) const -> streams::color;
 
     streams::stdio_device &stream_;

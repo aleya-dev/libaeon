@@ -44,7 +44,7 @@ debug::debug() noexcept
 }
 
 debug::debug(const instance &instance, std::function<debug_callback_type> callback,
-             const common::flags<message_severity> severity, const common::flags<message_type> type)
+             const Common::Flags<message_severity> severity, const Common::Flags<message_type> type)
     : instance_{instance.handle()}
     , messenger_{VK_NULL_HANDLE}
     , callback_{std::move(callback)}
@@ -59,12 +59,12 @@ debug::~debug()
     destroy();
 }
 
-void debug::append_required_extensions(std::vector<common::string> &extensions)
+void debug::append_required_extensions(std::vector<Common::String> &extensions)
 {
     extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 }
 
-void debug::append_required_layers(std::vector<common::string> &layers)
+void debug::append_required_layers(std::vector<Common::String> &layers)
 {
     layers.emplace_back("VK_LAYER_KHRONOS_validation");
     // layers.emplace_back("VK_LAYER_LUNARG_api_dump");

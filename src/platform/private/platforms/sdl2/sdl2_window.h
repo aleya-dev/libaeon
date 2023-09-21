@@ -31,7 +31,7 @@ public:
     [[nodiscard]] auto position() const noexcept -> math::vector2<std::int32_t> final;
     void position(const math::vector2<std::int32_t> &pos) final;
 
-    void title(const common::string &str) final;
+    void title(const Common::String &str) final;
 
     [[nodiscard]] auto dimensions() const noexcept -> math::size2d<std::uint32_t> final;
     void dimensions(const math::size2d<std::uint32_t> &size) final;

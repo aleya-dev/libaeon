@@ -7,22 +7,22 @@
 #include <vector>
 #include <initializer_list>
 
-namespace aeon::common::containers
+namespace aeon::Common::Containers
 {
 
-template <typename key_type_t>
-class unordered_flatset final
+template <typename KeyTypeT>
+class UnorderedFlatset final
 {
 public:
-    using key_type = key_type_t;
-    using value_type = key_type_t;
+    using key_type = KeyTypeT;
+    using value_type = KeyTypeT;
     using set_type = std::vector<key_type>;
     using iterator = typename set_type::iterator;
 
-    unordered_flatset() = default;
+    UnorderedFlatset() = default;
 
-    unordered_flatset(std::initializer_list<key_type> init)
-        : set_{}
+    UnorderedFlatset(std::initializer_list<key_type> init)
+        : m_set{}
     {
         for (auto &&val : init)
         {
@@ -30,88 +30,88 @@ public:
         }
     }
 
-    ~unordered_flatset() = default;
+    ~UnorderedFlatset() = default;
 
-    unordered_flatset(const unordered_flatset &) = default;
-    auto operator=(const unordered_flatset &) -> unordered_flatset & = default;
-    unordered_flatset(unordered_flatset &&) noexcept = default;
-    auto operator=(unordered_flatset &&) noexcept -> unordered_flatset & = default;
+    UnorderedFlatset(const UnorderedFlatset &) = default;
+    auto operator=(const UnorderedFlatset &) -> UnorderedFlatset & = default;
+    UnorderedFlatset(UnorderedFlatset &&) noexcept = default;
+    auto operator=(UnorderedFlatset &&) noexcept -> UnorderedFlatset & = default;
 
-    auto insert(key_type key) -> iterator
+    auto Insert(key_type key) -> iterator
     {
-        auto itr = find(key);
+        auto itr = Find(key);
 
-        if (itr == std::end(set_))
-            return set_.insert(std::end(set_), std::move(key));
+        if (itr == std::end(m_set))
+            return m_set.insert(std::end(m_set), std::move(key));
 
         *itr = std::move(key);
         return itr;
     }
 
-    auto emplace(key_type &&key) -> iterator
+    auto Emplace(key_type &&key) -> iterator
     {
-        auto itr = find(key);
+        auto itr = Find(key);
 
-        if (itr == std::end(set_))
-            return set_.insert(std::end(set_), std::move(key));
+        if (itr == std::end(m_set))
+            return m_set.insert(std::end(m_set), std::move(key));
 
         *itr = std::move(key);
         return itr;
     }
 
-    [[nodiscard]] auto contains(const key_type &key) const noexcept -> bool
+    [[nodiscard]] auto Contains(const key_type &key) const noexcept -> bool
     {
-        return std::find_if(std::begin(set_), std::end(set_), [key](const auto &s) { return s == key; }) !=
-               std::end(set_);
+        return std::find_if(std::begin(m_set), std::end(m_set), [key](const auto &s) { return s == key; }) !=
+               std::end(m_set);
     }
 
-    [[nodiscard]] auto find(const key_type &key) noexcept
+    [[nodiscard]] auto Find(const key_type &key) noexcept
     {
-        return std::find_if(std::begin(set_), std::end(set_), [key](const auto &s) { return s == key; });
+        return std::find_if(std::begin(m_set), std::end(m_set), [key](const auto &s) { return s == key; });
     }
 
-    [[nodiscard]] auto find(const key_type &key) const noexcept
+    [[nodiscard]] auto Find(const key_type &key) const noexcept
     {
-        return std::find_if(std::begin(set_), std::end(set_), [key](const auto &s) { return s == key; });
+        return std::find_if(std::begin(m_set), std::end(m_set), [key](const auto &s) { return s == key; });
     }
 
     [[nodiscard]] auto begin() noexcept
     {
-        return std::begin(set_);
+        return std::begin(m_set);
     }
 
     [[nodiscard]] auto end() noexcept
     {
-        return std::end(set_);
+        return std::end(m_set);
     }
 
     [[nodiscard]] auto begin() const noexcept
     {
-        return std::begin(set_);
+        return std::begin(m_set);
     }
 
     [[nodiscard]] auto end() const noexcept
     {
-        return std::end(set_);
+        return std::end(m_set);
     }
 
-    auto erase(const key_type &key)
+    auto Erase(const key_type &key)
     {
-        auto itr = find(key);
+        auto itr = Find(key);
 
-        if (itr != std::end(set_))
-            return erase(itr);
+        if (itr != std::end(m_set))
+            return Erase(itr);
 
         return itr;
     }
 
-    void erase_if(std::function<bool(const key_type &)> pred)
+    void EraseIf(std::function<bool(const key_type &)> predicate)
     {
-        for (auto obj = std::begin(set_); obj != std::end(set_);)
+        for (auto obj = std::begin(m_set); obj != std::end(m_set);)
         {
-            if (pred(*obj))
+            if (predicate(*obj))
             {
-                obj = set_.erase(obj);
+                obj = m_set.erase(obj);
             }
             else
             {
@@ -120,39 +120,39 @@ public:
         }
     }
 
-    auto erase(typename set_type::iterator itr)
+    auto Erase(typename set_type::iterator itr)
     {
-        return set_.erase(itr);
+        return m_set.erase(itr);
     }
 
-    [[nodiscard]] auto empty() const
+    [[nodiscard]] auto Empty() const
     {
-        return std::empty(set_);
+        return std::empty(m_set);
     }
 
-    void clear()
+    void Clear()
     {
-        set_.clear();
+        m_set.clear();
     }
 
-    [[nodiscard]] auto size() const noexcept
+    [[nodiscard]] auto Size() const noexcept
     {
-        return std::size(set_);
+        return std::size(m_set);
     }
 
-    void reserve(const std::size_t size)
+    void Reserve(const std::size_t size)
     {
-        set_.reserve(size);
+        m_set.reserve(size);
     }
 
-    auto operator==(const unordered_flatset<key_type> &other) const noexcept -> bool
+    auto operator==(const UnorderedFlatset<key_type> &other) const noexcept -> bool
     {
-        if (size() != std::size(other))
+        if (Size() != other.Size())
             return false;
 
-        for (const auto &val : set_)
+        for (const auto &val : m_set)
         {
-            const auto result = other.find(val);
+            const auto result = other.Find(val);
 
             if (result == std::end(other))
                 return false;
@@ -164,13 +164,13 @@ public:
         return true;
     }
 
-    auto operator!=(const unordered_flatset<key_type> &other) const noexcept -> bool
+    auto operator!=(const UnorderedFlatset<key_type> &other) const noexcept -> bool
     {
         return !(*this == other);
     }
 
 private:
-    set_type set_;
+    set_type m_set;
 };
 
-} // namespace aeon::common::containers
+} // namespace aeon::Common::containers

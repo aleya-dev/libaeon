@@ -6,235 +6,233 @@
 #include <type_traits>
 #include <memory>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
 template <typename T>
-concept intrusive_reference_countable = requires(T val) {
-    val.intrusive_ptr_add_ref();
-    val.intrusive_ptr_release();
+concept IntrusiveReferenceCountable = requires(T val) {
+    val.IntrusivePtrAddRef();
+    val.IntrusivePtrRelease();
 };
 
-template <concepts::integral_or_atomic_integral T, typename derived_t,
-          typename deleter_t = std::default_delete<derived_t>>
-class intrusive_ref_counter
+template <Concepts::IntegralOrAtomicIntegral T, typename DerivedT, typename DeleterT = std::default_delete<DerivedT>>
+class IntrusiveRefCounter
 {
 public:
-    using ref_count_type = T;
+    using RefCountType = T;
 
-    constexpr intrusive_ref_counter() noexcept
+    constexpr IntrusiveRefCounter() noexcept
         : ref_count_{0}
     {
-        static_assert(std::is_base_of_v<intrusive_ref_counter<T, derived_t, deleter_t>, derived_t>,
+        static_assert(std::is_base_of_v<IntrusiveRefCounter<T, DerivedT, DeleterT>, DerivedT>,
                       "derived_t must be the inherited class.");
     }
 
-    constexpr intrusive_ref_counter(const intrusive_ref_counter<ref_count_type, derived_t, deleter_t> &) noexcept =
-        default;
-    constexpr auto operator=(const intrusive_ref_counter<ref_count_type, derived_t, deleter_t> &) noexcept
-        -> intrusive_ref_counter<ref_count_type, derived_t, deleter_t> & = default;
+    constexpr IntrusiveRefCounter(const IntrusiveRefCounter<RefCountType, DerivedT, DeleterT> &) noexcept = default;
+    constexpr auto operator=(const IntrusiveRefCounter<RefCountType, DerivedT, DeleterT> &) noexcept
+        -> IntrusiveRefCounter<RefCountType, DerivedT, DeleterT> & = default;
 
-    constexpr intrusive_ref_counter(intrusive_ref_counter<ref_count_type, derived_t, deleter_t> &&) noexcept = default;
-    constexpr auto operator=(intrusive_ref_counter<ref_count_type, derived_t, deleter_t> &&) noexcept
-        -> intrusive_ref_counter<ref_count_type, derived_t, deleter_t> & = default;
+    constexpr IntrusiveRefCounter(IntrusiveRefCounter<RefCountType, DerivedT, DeleterT> &&) noexcept = default;
+    constexpr auto operator=(IntrusiveRefCounter<RefCountType, DerivedT, DeleterT> &&) noexcept
+        -> IntrusiveRefCounter<RefCountType, DerivedT, DeleterT> & = default;
 
-    constexpr void intrusive_ptr_add_ref() noexcept
+    constexpr void IntrusivePtrAddRef() noexcept
     {
         ++ref_count_;
     }
 
-    constexpr void intrusive_ptr_release() noexcept
+    constexpr void IntrusivePtrRelease() noexcept
     {
         --ref_count_;
 
         if (ref_count_ == 0)
-            deleter_t{}(static_cast<derived_t *>(this));
+            DeleterT{}(static_cast<DerivedT *>(this));
     }
 
-    [[nodiscard]] constexpr auto intrusive_ptr_ref_count() const noexcept -> const T &
+    [[nodiscard]] constexpr auto IntrusivePtrRefCount() const noexcept -> const T &
     {
         return ref_count_;
     }
 
 protected:
-    ~intrusive_ref_counter() = default;
+    ~IntrusiveRefCounter() = default;
 
 private:
     T ref_count_;
 };
 
-template <intrusive_reference_countable T>
-class intrusive_ptr final
+template <IntrusiveReferenceCountable T>
+class IntrusivePtr final
 {
 public:
-    using element_type = std::remove_extent_t<T>;
+    using ElementType = std::remove_extent_t<T>;
 
-    explicit intrusive_ptr() noexcept
-        : ptr_{nullptr}
+    explicit IntrusivePtr() noexcept
+        : m_ptr{nullptr}
     {
     }
 
-    intrusive_ptr(element_type *p)
-        : ptr_{p}
+    IntrusivePtr(ElementType *p)
+        : m_ptr{p}
     {
-        if (ptr_ != nullptr)
-            ptr_->intrusive_ptr_add_ref();
+        if (m_ptr != nullptr)
+            m_ptr->IntrusivePtrAddRef();
     }
 
-    intrusive_ptr(std::unique_ptr<element_type> &&other)
-        : ptr_{other.release()}
+    IntrusivePtr(std::unique_ptr<ElementType> &&other)
+        : m_ptr{other.release()}
     {
-        if (ptr_ != nullptr)
-            ptr_->intrusive_ptr_add_ref();
+        if (m_ptr != nullptr)
+            m_ptr->IntrusivePtrAddRef();
     }
 
-    intrusive_ptr(const intrusive_ptr<element_type> &other)
-        : ptr_{other.get()}
+    IntrusivePtr(const IntrusivePtr<ElementType> &other)
+        : m_ptr{other.Get()}
     {
-        if (ptr_ != nullptr)
-            ptr_->intrusive_ptr_add_ref();
+        if (m_ptr != nullptr)
+            m_ptr->IntrusivePtrAddRef();
     }
 
-    auto operator=(const intrusive_ptr<element_type> &other) -> intrusive_ptr<element_type> &
+    auto operator=(const IntrusivePtr<ElementType> &other) -> IntrusivePtr<ElementType> &
     {
-        intrusive_ptr<element_type>{other}.swap(*this);
+        IntrusivePtr<ElementType>{other}.Swap(*this);
         return *this;
     }
 
-    intrusive_ptr(intrusive_ptr<element_type> &&other) noexcept
-        : ptr_{other.get()}
+    IntrusivePtr(IntrusivePtr<ElementType> &&other) noexcept
+        : m_ptr{other.Get()}
     {
-        other.ptr_ = nullptr;
+        other.m_ptr = nullptr;
     }
 
-    intrusive_ptr &operator=(intrusive_ptr<element_type> &&other) noexcept
+    IntrusivePtr &operator=(IntrusivePtr<ElementType> &&other) noexcept
     {
-        intrusive_ptr<element_type>{other}.swap(*this);
+        IntrusivePtr<ElementType>{other}.Swap(*this);
         return *this;
     }
 
-    template <typename U, std::enable_if_t<!std::is_convertible_v<element_type, U>> * = nullptr>
-    intrusive_ptr(const intrusive_ptr<U> &other)
-        : ptr_{other.get()}
+    template <typename U, std::enable_if_t<!std::is_convertible_v<ElementType, U>> * = nullptr>
+    IntrusivePtr(const IntrusivePtr<U> &other)
+        : m_ptr{other.Get()}
     {
-        if (ptr_ != nullptr)
-            ptr_->intrusive_ptr_add_ref();
+        if (m_ptr != nullptr)
+            m_ptr->IntrusivePtrAddRef();
     }
 
-    template <class U, std::enable_if_t<!std::is_convertible_v<element_type, U>> * = nullptr>
-    auto operator=(const intrusive_ptr<U> &other) -> intrusive_ptr<element_type> &
+    template <class U, std::enable_if_t<!std::is_convertible_v<ElementType, U>> * = nullptr>
+    auto operator=(const IntrusivePtr<U> &other) -> IntrusivePtr<ElementType> &
     {
-        intrusive_ptr<element_type>{other}.swap(*this);
+        IntrusivePtr<ElementType>{other}.Swap(*this);
         return *this;
     }
 
-    auto operator=(element_type *other) -> intrusive_ptr<element_type> &
+    auto operator=(ElementType *other) -> IntrusivePtr<ElementType> &
     {
-        intrusive_ptr<element_type>{other}.swap(*this);
+        IntrusivePtr<ElementType>{other}.Swap(*this);
         return *this;
     }
 
-    ~intrusive_ptr()
+    ~IntrusivePtr()
     {
-        if (ptr_ != nullptr)
-            ptr_->intrusive_ptr_release();
+        if (m_ptr != nullptr)
+            m_ptr->IntrusivePtrRelease();
     }
 
-    void reset()
+    void Reset()
     {
-        intrusive_ptr<element_type>{}.swap(*this);
+        IntrusivePtr<ElementType>{}.Swap(*this);
     }
 
-    void reset(T *other)
+    void Reset(T *other)
     {
-        intrusive_ptr<element_type>{other}.swap(*this);
+        IntrusivePtr<ElementType>{other}.Swap(*this);
     }
 
-    [[nodiscard]] auto get() const noexcept
+    [[nodiscard]] auto Get() const noexcept
     {
-        return ptr_;
+        return m_ptr;
     }
 
-    auto release() noexcept
+    auto Release() noexcept
     {
-        const auto ret = ptr_;
-        ptr_ = nullptr;
+        const auto ret = m_ptr;
+        m_ptr = nullptr;
         return ret;
     }
 
-    [[nodiscard]] auto operator*() const noexcept -> element_type &
+    [[nodiscard]] auto operator*() const noexcept -> ElementType &
     {
-        return *ptr_;
+        return *m_ptr;
     }
 
-    [[nodiscard]] auto operator->() const noexcept -> element_type *
+    [[nodiscard]] auto operator->() const noexcept -> ElementType *
     {
-        return ptr_;
+        return m_ptr;
     }
 
-    void swap(intrusive_ptr<element_type> &other) noexcept
+    void Swap(IntrusivePtr<ElementType> &other) noexcept
     {
-        auto *const temp = ptr_;
-        ptr_ = other.ptr_;
-        other.ptr_ = temp;
+        auto *const temp = m_ptr;
+        m_ptr = other.m_ptr;
+        other.m_ptr = temp;
     }
 
 private:
-    element_type *ptr_;
+    ElementType *m_ptr;
 };
 
-template <intrusive_reference_countable T, intrusive_reference_countable U>
-inline auto operator==(const intrusive_ptr<T> &lhs, const intrusive_ptr<U> &rhs) noexcept
+template <IntrusiveReferenceCountable T, IntrusiveReferenceCountable U>
+inline auto operator==(const IntrusivePtr<T> &lhs, const IntrusivePtr<U> &rhs) noexcept
 {
-    return lhs.get() == rhs.get();
+    return lhs.Get() == rhs.Get();
 }
 
-template <intrusive_reference_countable T, intrusive_reference_countable U>
-inline bool operator!=(const intrusive_ptr<T> &lhs, const intrusive_ptr<U> &rhs) noexcept
-{
-    return !(lhs == rhs);
-}
-
-template <intrusive_reference_countable T, intrusive_reference_countable U>
-inline bool operator==(const intrusive_ptr<T> &lhs, const U *rhs) noexcept
-{
-    return lhs.get() == rhs;
-}
-
-template <intrusive_reference_countable T, intrusive_reference_countable U>
-inline bool operator!=(const intrusive_ptr<T> &lhs, const U *rhs) noexcept
+template <IntrusiveReferenceCountable T, IntrusiveReferenceCountable U>
+inline bool operator!=(const IntrusivePtr<T> &lhs, const IntrusivePtr<U> &rhs) noexcept
 {
     return !(lhs == rhs);
 }
 
-template <intrusive_reference_countable T, intrusive_reference_countable U>
-inline bool operator==(const T *lhs, const intrusive_ptr<U> &rhs) noexcept
+template <IntrusiveReferenceCountable T, IntrusiveReferenceCountable U>
+inline bool operator==(const IntrusivePtr<T> &lhs, const U *rhs) noexcept
 {
-    return lhs == rhs.get();
+    return lhs.Get() == rhs;
 }
 
-template <intrusive_reference_countable T, intrusive_reference_countable U>
-inline bool operator!=(const T *lhs, const intrusive_ptr<U> &rhs) noexcept
+template <IntrusiveReferenceCountable T, IntrusiveReferenceCountable U>
+inline bool operator!=(const IntrusivePtr<T> &lhs, const U *rhs) noexcept
 {
     return !(lhs == rhs);
 }
 
-template <intrusive_reference_countable T>
-inline bool operator==(const intrusive_ptr<T> &lhs, const std::nullptr_t) noexcept
+template <IntrusiveReferenceCountable T, IntrusiveReferenceCountable U>
+inline bool operator==(const T *lhs, const IntrusivePtr<U> &rhs) noexcept
 {
-    return lhs.get() == nullptr;
+    return lhs == rhs.Get();
 }
 
-template <intrusive_reference_countable T, intrusive_reference_countable U>
-inline bool operator!=(const intrusive_ptr<T> &lhs, const std::nullptr_t) noexcept
+template <IntrusiveReferenceCountable T, IntrusiveReferenceCountable U>
+inline bool operator!=(const T *lhs, const IntrusivePtr<U> &rhs) noexcept
+{
+    return !(lhs == rhs);
+}
+
+template <IntrusiveReferenceCountable T>
+inline bool operator==(const IntrusivePtr<T> &lhs, const std::nullptr_t) noexcept
+{
+    return lhs.Get() == nullptr;
+}
+
+template <IntrusiveReferenceCountable T, IntrusiveReferenceCountable U>
+inline bool operator!=(const IntrusivePtr<T> &lhs, const std::nullptr_t) noexcept
 {
     return !(lhs == nullptr);
 }
 
-template <intrusive_reference_countable T, typename... args_t>
-[[nodiscard]] inline auto make_intrusive_ptr(args_t &&...args) -> intrusive_ptr<T>
+template <IntrusiveReferenceCountable T, typename... ArgsT>
+[[nodiscard]] inline auto make_intrusive_ptr(ArgsT &&...args) -> IntrusivePtr<T>
 {
-    return intrusive_ptr<T>{std::make_unique<T>(std::forward<args_t>(args)...)};
+    return IntrusivePtr<T>{std::make_unique<T>(std::forward<ArgsT>(args)...)};
 }
 
-} // namespace aeon::common
+} // namespace aeon::Common

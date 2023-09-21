@@ -20,7 +20,7 @@ public:
     log_sink(log_sink &&) = delete;
     auto operator=(log_sink &&) noexcept -> log_sink & = delete;
 
-    virtual void log(const common::string &message, const common::string &module, const log_level level) = 0;
+    virtual void log(const Common::String &message, const Common::String &module, const log_level level) = 0;
 };
 
 } // namespace aeon::logger

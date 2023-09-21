@@ -39,7 +39,7 @@ TEST(test_mat_view, test_mat_view_from_mat3)
     EXPECT_EQ(math::width(mat), 3);
     EXPECT_EQ(math::height(mat), 3);
     EXPECT_EQ(math::stride(mat), sizeof(float) * 3);
-    EXPECT_EQ(math::stride(mat), math::element_type(mat).size * 3);
+    EXPECT_EQ(math::stride(mat), math::ElementType(mat).Size * 3);
 }
 
 TEST(test_mat_view, test_mat_view_from_mat4)
@@ -53,7 +53,7 @@ TEST(test_mat_view, test_mat_view_from_mat4)
     EXPECT_EQ(math::width(mat), 4);
     EXPECT_EQ(math::height(mat), 4);
     EXPECT_EQ(math::stride(mat), sizeof(float) * 4);
-    EXPECT_EQ(math::stride(mat), math::element_type(mat).size * 4);
+    EXPECT_EQ(math::stride(mat), math::ElementType(mat).Size * 4);
 }
 
 TEST(test_mat_view, test_mat_row_column_order)
@@ -160,7 +160,7 @@ TEST(test_mat_view, test_swizzle_2)
 
     auto data = original_data;
     math::mat_view mat{
-        common::element_type::u32_2, {1, 1}, reinterpret_cast<math::mat_view::underlying_type *>(std::data(data))};
+        Common::ElementType::U32_2, {1, 1}, reinterpret_cast<math::mat_view::underlying_type *>(std::data(data))};
 
     math::swizzle<math::swizzle_r, math::swizzle_g>(mat);
     EXPECT_EQ(data, (std::array<std::uint32_t, 2>{10, 20}));
@@ -184,7 +184,7 @@ TEST(test_mat_view, test_swizzle_3)
 
     auto data = original_data;
     math::mat_view mat{
-        common::element_type::u32_3, {1, 1}, reinterpret_cast<math::mat_view::underlying_type *>(std::data(data))};
+        Common::ElementType::U32_3, {1, 1}, reinterpret_cast<math::mat_view::underlying_type *>(std::data(data))};
 
     math::swizzle<math::swizzle_r, math::swizzle_g, math::swizzle_b>(mat);
     EXPECT_EQ(data, (std::array<std::uint32_t, 3>{10, 20, 30}));

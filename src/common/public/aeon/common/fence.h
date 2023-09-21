@@ -5,51 +5,51 @@
 #include <mutex>
 #include <condition_variable>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
 /*!
  * A synchronization primitive that can be used to synchronize exactly two threads.
  * Trying to synchronize more than two threads with this class leads to undefined behavior.
  */
-class fence final
+class Fence final
 {
 public:
-    fence() noexcept
-        : waiting_{false}
+    Fence() noexcept
+        : m_waiting{false}
     {
     }
 
-    ~fence() = default;
+    ~Fence() = default;
 
-    fence(const fence &) noexcept = delete;
-    auto operator=(const fence &) noexcept -> fence & = delete;
+    Fence(const Fence &) noexcept = delete;
+    auto operator=(const Fence &) noexcept -> Fence & = delete;
 
-    fence(fence &&) noexcept = delete;
-    auto operator=(fence &&) noexcept -> fence & = delete;
+    Fence(Fence &&) noexcept = delete;
+    auto operator=(Fence &&) noexcept -> Fence & = delete;
 
     /*!
      * Wait for the other thread to call wait().
      */
-    void wait() noexcept
+    void Wait() noexcept
     {
-        std::unique_lock lock{mutex_};
-        if (!waiting_)
+        std::unique_lock lock{m_mutex};
+        if (!m_waiting)
         {
-            waiting_ = true;
-            cv_.wait(lock, [this] { return !waiting_; });
+            m_waiting = true;
+            m_cv.wait(lock, [this] { return !m_waiting; });
         }
         else
         {
-            waiting_ = false;
-            cv_.notify_all();
+            m_waiting = false;
+            m_cv.notify_all();
         }
     }
 
 private:
-    std::mutex mutex_;
-    std::condition_variable cv_;
-    bool waiting_;
+    std::mutex m_mutex;
+    std::condition_variable m_cv;
+    bool m_waiting;
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

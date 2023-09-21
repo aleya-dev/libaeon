@@ -14,11 +14,11 @@ namespace detail
 template <typename T>
 struct resize_bilinear_impl
 {
-    static auto process(const image_view &img, const common::element_type element_type,
+    static auto process(const image_view &img, const Common::ElementType ElementType,
                         const math::size2d<image::dimensions_type> size) -> image
     {
         const auto source_stride = math::stride(img);
-        image new_image{element_type, pixel_format(img), size};
+        image new_image{ElementType, pixel_format(img), size};
         const auto dest_stride = math::stride(new_image);
 
         const auto *const src = std::data(img);
@@ -36,16 +36,16 @@ struct resize_bilinear_impl
                 const auto x_diff = (x_ratio * j) - x;
                 const auto y_diff = (y_ratio * i) - y;
 
-                const auto A = *reinterpret_cast<const T *>(src + common::offset_of(element_type, source_stride, x, y));
+                const auto A = *reinterpret_cast<const T *>(src + Common::OffsetOf(ElementType, source_stride, x, y));
                 const auto B =
-                    *reinterpret_cast<const T *>(src + common::offset_of(element_type, source_stride, x + 1, y));
+                    *reinterpret_cast<const T *>(src + Common::OffsetOf(ElementType, source_stride, x + 1, y));
                 const auto C =
-                    *reinterpret_cast<const T *>(src + common::offset_of(element_type, source_stride, x, y + 1));
+                    *reinterpret_cast<const T *>(src + Common::OffsetOf(ElementType, source_stride, x, y + 1));
                 const auto D =
-                    *reinterpret_cast<const T *>(src + common::offset_of(element_type, source_stride, x + 1, y + 1));
+                    *reinterpret_cast<const T *>(src + Common::OffsetOf(ElementType, source_stride, x + 1, y + 1));
 
                 // Y = A(1-w)(1-h) + B(w)(1-h) + C(h)(1-w) + Dwh
-                *reinterpret_cast<T *>(dst + common::offset_of(element_type, dest_stride, j, i)) =
+                *reinterpret_cast<T *>(dst + Common::OffsetOf(ElementType, dest_stride, j, i)) =
                     static_cast<T>(((A * (1.0f - x_diff) * (1.0f - y_diff)) + (B * (x_diff) * (1.0f - y_diff)) +
                                     (C * (y_diff) * (1.0f - x_diff)) + (D * (x_diff * y_diff))));
             }
@@ -60,30 +60,30 @@ struct resize_bilinear_impl
 [[nodiscard]] inline auto resize_bilinear(const image_view &img, const math::size2d<image::dimensions_type> size)
     -> image
 {
-    const auto element_type = math::element_type(img);
+    const auto ElementType = math::ElementType(img);
     const auto format = pixel_format(img);
 
-    if (element_type == common::element_type::u8_3 || element_type == common::element_type::u8_3_stride_4)
+    if (ElementType == Common::ElementType::U8_3 || ElementType == Common::ElementType::U8_3_Stride_4)
     {
         if (format == format::r8g8b8_uint)
-            return detail::resize_bilinear_impl<rgb24>::process(img, element_type, size);
+            return detail::resize_bilinear_impl<rgb24>::process(img, ElementType, size);
         else if (format == format::b8g8r8_uint)
-            return detail::resize_bilinear_impl<bgr24>::process(img, element_type, size);
+            return detail::resize_bilinear_impl<bgr24>::process(img, ElementType, size);
     }
-    else if (element_type == common::element_type::u8_4)
+    else if (ElementType == Common::ElementType::U8_4)
     {
         if (format == format::r8g8b8a8_uint)
-            return detail::resize_bilinear_impl<rgba32>::process(img, element_type, size);
+            return detail::resize_bilinear_impl<rgba32>::process(img, ElementType, size);
         else if (format == format::b8g8r8a8_uint)
-            return detail::resize_bilinear_impl<bgra32>::process(img, element_type, size);
+            return detail::resize_bilinear_impl<bgra32>::process(img, ElementType, size);
     }
-    else if (element_type == common::element_type::f32_1 || element_type == common::element_type::f32_1_stride_8)
+    else if (ElementType == Common::ElementType::F32_1 || ElementType == Common::ElementType::F32_1_Stride_8)
     {
-        return detail::resize_bilinear_impl<float>::process(img, element_type, size);
+        return detail::resize_bilinear_impl<float>::process(img, ElementType, size);
     }
-    else if (element_type == common::element_type::f64_1)
+    else if (ElementType == Common::ElementType::F64_1)
     {
-        return detail::resize_bilinear_impl<double>::process(img, element_type, size);
+        return detail::resize_bilinear_impl<double>::process(img, ElementType, size);
     }
 
     throw std::runtime_error{"Unsupported format."};

@@ -36,7 +36,7 @@ namespace internal
     if (subpass.has_resolve_attachments())
     {
         const auto &resolve_attachments = subpass.resolve_attachments();
-        aeon_assert(std::size(resolve_attachments) == std::size(subpass.color_attachments()),
+        AeonAssert(std::size(resolve_attachments) == std::size(subpass.color_attachments()),
                     "Resolve attachments count must be equal to the amount of color attachments.");
         description.pResolveAttachments = std::data(resolve_attachments);
     }

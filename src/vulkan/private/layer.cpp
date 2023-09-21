@@ -7,8 +7,8 @@
 namespace aeon::vulkan
 {
 
-layer::layer(common::string name, const common::version3<uint32_t> &spec_version,
-             const common::version3<uint32_t> &implementation_version, common::string description)
+layer::layer(Common::String name, const Common::Version3<uint32_t> &spec_version,
+             const Common::Version3<uint32_t> &implementation_version, Common::String description)
     : name_{std::move(name)}
     , spec_version_{spec_version}
     , implementation_version_{implementation_version}
@@ -24,22 +24,22 @@ layer::layer(const VkLayerProperties &extension_properties)
 {
 }
 
-auto layer::name() const noexcept -> const common::string &
+auto layer::name() const noexcept -> const Common::String &
 {
     return name_;
 }
 
-auto layer::spec_version() const noexcept -> const common::version3<uint32_t> &
+auto layer::spec_version() const noexcept -> const Common::Version3<uint32_t> &
 {
     return spec_version_;
 }
 
-auto layer::implementation_version() const noexcept -> const common::version3<uint32_t> &
+auto layer::implementation_version() const noexcept -> const Common::Version3<uint32_t> &
 {
     return implementation_version_;
 }
 
-auto layer::description() const noexcept -> const common::string &
+auto layer::description() const noexcept -> const Common::String &
 {
     return description_;
 }

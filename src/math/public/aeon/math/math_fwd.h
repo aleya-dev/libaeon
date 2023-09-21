@@ -18,25 +18,25 @@ class mat4;
 
 class quaternion;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 class vector2;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 class vector3;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 class vector4;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 class size2d;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 class size3d;
 
 template <typename T>
 class range;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 class rectangle;
 
 } // namespace aeon::math

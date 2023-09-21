@@ -37,9 +37,9 @@ TEST_F(test_fixture_memory_device_default_data, test_memory_device_write)
     char data[] = {'F', 'G', 'H', 'I', 'J', 'K', 'L'};
     const auto data_written = device.write(reinterpret_cast<const std::byte *>(data), sizeof(data));
 
-    ASSERT_EQ(aeon_signed_sizeof(data), data_written);
-    ASSERT_EQ(fixture_data_written + aeon_signed_sizeof(data), device.tellp());
-    ASSERT_LE(device.size(), fixture_data_written + aeon_signed_sizeof(data));
+    ASSERT_EQ(AeonSignedSizeof(data), data_written);
+    ASSERT_EQ(fixture_data_written + AeonSignedSizeof(data), device.tellp());
+    ASSERT_LE(device.size(), fixture_data_written + AeonSignedSizeof(data));
 }
 
 TEST_F(test_fixture_memory_device_default_data, test_memory_device_write_read)

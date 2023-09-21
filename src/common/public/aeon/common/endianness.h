@@ -7,11 +7,11 @@
 
 #include <cstdint>
 
-namespace aeon::common::endianness
+namespace aeon::Common::Endianness
 {
 
 template <typename T>
-[[nodiscard]] inline T swap16(T val) noexcept
+[[nodiscard]] inline T Swap16(T val) noexcept
 {
     static_assert(sizeof(T) == sizeof(std::uint16_t), "swap16 used on type of different size.");
 
@@ -24,7 +24,7 @@ template <typename T>
 }
 
 template <typename T>
-[[nodiscard]] inline T swap32(T val) noexcept
+[[nodiscard]] inline T Swap32(T val) noexcept
 {
     static_assert(sizeof(T) == sizeof(std::uint32_t), "swap32 used on type of different size.");
 
@@ -39,7 +39,7 @@ template <typename T>
 }
 
 template <typename T>
-[[nodiscard]] inline T swap64(T val) noexcept
+[[nodiscard]] inline T Swap64(T val) noexcept
 {
     static_assert(sizeof(T) == sizeof(std::uint64_t), "swap64 used on type of different size.");
 
@@ -58,7 +58,7 @@ template <typename T>
 }
 
 template <typename T>
-[[nodiscard]] inline T swap(T val)
+[[nodiscard]] inline T Swap(T val)
 {
     switch (sizeof(T))
     {
@@ -104,4 +104,4 @@ template <typename T>
     }
 }
 
-} // namespace aeon::common::endianness
+} // namespace aeon::Common::endianness

@@ -53,13 +53,13 @@ TEST(test_fonts, test_load_rgb_glyph)
     imaging::file::png::save(rgb_image, "test_fonts_emoji.png");
 }
 
-static auto generate_text_image(const fonts::face &face, const common::string &str) -> imaging::image
+static auto generate_text_image(const fonts::face &face, const Common::String &str) -> imaging::image
 {
     imaging::image image{imaging::format::r8g8b8_uint, 1024, 256};
 
     math::vector2<int> position{30, 60};
 
-    unicode::utf_string_view view{common::string_view{str}};
+    unicode::utf_string_view view{Common::StringView{str}};
 
     for (const auto c : view)
     {
@@ -124,7 +124,7 @@ TEST(test_fonts, test_load_text_string_blit_emoji)
 
     // Generate text image
     const auto face = mgr.load_face(font_file, 40.0f);
-    const auto str = aeon_text("Lorem ipsum dolor sit amet...\nconsectetur adipiscing elit.\nsed do eiusmod tempor "
+    const auto str = AeonText("Lorem ipsum dolor sit amet...\nconsectetur adipiscing elit.\nsed do eiusmod tempor "
                                "incididunt ut\nlabore et dolore magna aliqua.");
     auto text_image = imaging::swizzle_copy<math::swizzle_r, math::swizzle_r, math::swizzle_r, math::swizzle_max>(
         generate_text_image(face, str), imaging::format::r8g8b8a8_uint);

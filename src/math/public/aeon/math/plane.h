@@ -11,7 +11,7 @@
 namespace aeon::math
 {
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 class plane
 {
 public:
@@ -35,33 +35,33 @@ public:
     T distance;
 };
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto normal(const plane<T> &plane) noexcept -> vector3<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto distance(const plane<T> &plane) noexcept -> T;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr void normalize(plane<T> &plane) noexcept;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto normalized(const plane<T> &p) noexcept -> plane<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto center(const plane<T> &plane) noexcept -> vector3<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto intersection(const plane<T> &plane1, const plane<T> &plane2,
                                                  const plane<T> &plane3) noexcept -> std::optional<vector3<T>>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto intersection(const plane<T> &plane, const ray3d<T> &ray) noexcept
     -> std::optional<vector3<T>>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator==(const plane<T> &lhs, const plane<T> &rhs) noexcept -> bool;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator!=(const plane<T> &lhs, const plane<T> &rhs) noexcept -> bool;
 
 } // namespace aeon::math

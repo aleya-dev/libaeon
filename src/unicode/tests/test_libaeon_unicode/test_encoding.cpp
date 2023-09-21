@@ -18,7 +18,7 @@ TEST(test_encoding, test_encoding_convert)
 
 TEST(test_encoding, test_encoding_convert_with_bom)
 {
-    const auto str = common::bom::utf8::string() + u8"I like Π, and らき☆すた, Raki☆Suta ";
+    const auto str = Common::Bom::Utf8::String() + u8"I like Π, and らき☆すた, Raki☆Suta ";
     const auto converted = unicode::utf8::to_utf16(str);
     const auto converted2 = unicode::utf16::to_utf8(converted);
 
@@ -28,17 +28,17 @@ TEST(test_encoding, test_encoding_convert_with_bom)
 TEST(test_encoding, test_encoding_utf32)
 {
     const auto str1 = unicode::utf32::to_utf8('A');
-    EXPECT_EQ(1u, std::size(str1));
+    EXPECT_EQ(1u, str1.Size());
 
     const auto str2 = unicode::utf32::to_utf8(U"ę");
-    EXPECT_EQ(2u, std::size(str2));
+    EXPECT_EQ(2u, str2.Size());
 
     const auto str3 = unicode::utf32::to_utf8(U"ら");
-    EXPECT_EQ(3u, std::size(str3));
+    EXPECT_EQ(3u, str3.Size());
 
     const auto str4 = unicode::utf32::to_utf8(U"𠜎");
-    EXPECT_EQ(4u, std::size(str4));
+    EXPECT_EQ(4u, str4.Size());
 
     const auto banana = unicode::utf32::to_utf8(U"🍌");
-    EXPECT_EQ(4u, std::size(banana));
+    EXPECT_EQ(4u, banana.Size());
 }

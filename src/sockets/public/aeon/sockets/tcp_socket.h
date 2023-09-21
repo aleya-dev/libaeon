@@ -59,7 +59,7 @@ private:
     asio::io_context &context_;
     asio::ip::tcp::socket socket_;
     std::array<std::byte, tcp_socket_max_buff_len> data_;
-    std::queue<common::unique_obj<std::vector<std::byte>>> send_data_queue_;
+    std::queue<Common::UniqueObj<std::vector<std::byte>>> send_data_queue_;
 };
 
 } // namespace aeon::sockets

@@ -4,7 +4,7 @@
 
 #include <aeon/imaging/pixel_encoding.h>
 
-namespace aeon::imaging::convert
+namespace aeon::imaging::Convert
 {
 
 template <typename pixel_type_t>
@@ -168,4 +168,4 @@ struct pixel<bgra32> final
     }
 };
 
-} // namespace aeon::imaging::convert
+} // namespace aeon::imaging::Convert

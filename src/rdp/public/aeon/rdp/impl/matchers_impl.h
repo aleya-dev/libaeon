@@ -12,22 +12,22 @@
 namespace aeon::rdp
 {
 
-inline auto match_regex(parser &parser, const common::string_view regex,
-                        std::basic_regex<parser::char_type>::flag_type flags) -> parse_result<common::string_view>
+inline auto match_regex(parser &parser, const Common::StringView regex,
+                        std::basic_regex<parser::char_type>::flag_type flags) -> parse_result<Common::StringView>
 {
     if (eof(parser)) [[unlikely]]
         return unmatched{};
 
     const std::basic_regex r{std::data(regex), flags};
-    std::match_results<common::string_view::const_iterator> match;
+    std::match_results<Common::StringView::const_iterator> match;
 
     if (!std::regex_search(parser.current_iterator(), std::end(parser.str()), match, r,
                            std::regex_constants::match_not_null | std::regex_constants::match_continuous))
         return unmatched{};
 
-    aeon_assert(!match.empty(), "Bug: expected at least 1 match result.");
+    AeonAssert(!match.empty(), "Bug: expected at least 1 match result.");
 
-    const auto result = common::string_view{match.begin()->first, match.begin()->second};
+    const auto result = Common::StringView{match.begin()->first, match.begin()->second};
 
     parser.advance(std::size(result));
 
@@ -99,17 +99,17 @@ inline void skip_byte_order_marker(parser &parser) noexcept
     state.accept();
 }
 
-inline auto match_alpha(parser &parser) noexcept -> parse_result<common::string_view>
+inline auto match_alpha(parser &parser) noexcept -> parse_result<Common::StringView>
 {
     return parser.match([](const auto c) { return std::isalpha(c) != 0; });
 }
 
-inline auto match_digit(parser &parser) noexcept -> parse_result<common::string_view>
+inline auto match_digit(parser &parser) noexcept -> parse_result<Common::StringView>
 {
     return parser.match([](const auto c) { return std::isdigit(c) != 0; });
 }
 
-inline auto match_signed_digit(parser &parser) noexcept -> parse_result<common::string_view>
+inline auto match_signed_digit(parser &parser) noexcept -> parse_result<Common::StringView>
 {
     return parser.match_indexed(
         [](const auto c, const auto i)
@@ -121,17 +121,17 @@ inline auto match_signed_digit(parser &parser) noexcept -> parse_result<common::
         });
 }
 
-inline auto match_alnum(parser &parser) noexcept -> parse_result<common::string_view>
+inline auto match_alnum(parser &parser) noexcept -> parse_result<Common::StringView>
 {
     return parser.match([](const auto c) { return std::isalnum(c) != 0; });
 }
 
-inline auto match_binary(parser &parser) noexcept -> parse_result<common::string_view>
+inline auto match_binary(parser &parser) noexcept -> parse_result<Common::StringView>
 {
     return parser.match([](const auto c) { return c == '0' || c == '1'; });
 }
 
-inline auto match_hexadecimal(parser &parser) noexcept -> parse_result<common::string_view>
+inline auto match_hexadecimal(parser &parser) noexcept -> parse_result<Common::StringView>
 {
     return parser.match([](const auto c) { return std::isxdigit(c) != 0; });
 }
@@ -141,7 +141,7 @@ inline auto parse_decimal(parser &parser) noexcept -> parse_result<IntTypeT>
 {
     scoped_state state{parser};
 
-    parse_result<common::string_view> result;
+    parse_result<Common::StringView> result;
 
     if constexpr (std::is_signed_v<IntTypeT>)
         result = match_signed_digit(parser);
@@ -152,7 +152,7 @@ inline auto parse_decimal(parser &parser) noexcept -> parse_result<IntTypeT>
         return unmatched{};
 
     IntTypeT value;
-    auto [ptr, ec] = common::from_chars(*result, value);
+    auto [ptr, ec] = Common::FromChars(*result, value);
 
     if (ec != std::errc{})
         return unmatched{};
@@ -181,7 +181,7 @@ inline auto parse_floating_point(parser &parser) noexcept -> parse_result<double
         return unmatched{};
 
     double value;
-    auto [ptr, ec] = common::from_chars(*result, value);
+    auto [ptr, ec] = Common::FromChars(*result, value);
 
     if (ec != std::errc{})
         return unmatched{};
@@ -200,7 +200,7 @@ inline auto parse_binary(parser &parser) noexcept -> parse_result<std::uint64_t>
         return unmatched{};
 
     std::uint64_t value;
-    auto [ptr, ec] = common::from_chars(*result, value, 2);
+    auto [ptr, ec] = Common::FromChars(*result, value, 2);
 
     if (ec != std::errc{})
         return unmatched{};
@@ -209,7 +209,7 @@ inline auto parse_binary(parser &parser) noexcept -> parse_result<std::uint64_t>
     return matched{value};
 }
 
-inline auto parse_binary(parser &parser, const common::string_view prefix) noexcept -> parse_result<std::uint64_t>
+inline auto parse_binary(parser &parser, const Common::StringView prefix) noexcept -> parse_result<std::uint64_t>
 {
     if (!parser.check(prefix))
         return unmatched{};
@@ -227,7 +227,7 @@ inline auto parse_hexadecimal(parser &parser) noexcept -> parse_result<std::uint
         return unmatched{};
 
     std::uint64_t value;
-    auto [ptr, ec] = common::from_chars(*result, value, 16);
+    auto [ptr, ec] = Common::FromChars(*result, value, 16);
 
     if (ec != std::errc{})
         return unmatched{};
@@ -236,7 +236,7 @@ inline auto parse_hexadecimal(parser &parser) noexcept -> parse_result<std::uint
     return matched{value};
 }
 
-inline auto parse_hexadecimal(parser &parser, const common::string_view prefix) noexcept -> parse_result<std::uint64_t>
+inline auto parse_hexadecimal(parser &parser, const Common::StringView prefix) noexcept -> parse_result<std::uint64_t>
 {
     if (!parser.check(prefix))
         return unmatched{};
@@ -255,7 +255,7 @@ inline auto parse_boolean(parser &parser) noexcept -> parse_result<bool>
     return unmatched{};
 }
 
-inline auto parse_uuid(parser &parser) noexcept -> parse_result<common::uuid>
+inline auto parse_uuid(parser &parser) noexcept -> parse_result<Common::Uuid>
 {
     scoped_state state{parser};
 
@@ -265,7 +265,7 @@ inline auto parse_uuid(parser &parser) noexcept -> parse_result<common::uuid>
     if (!result)
         return unmatched{};
 
-    const auto uuid_value = common::uuid::try_parse(result.value());
+    const auto uuid_value = Common::Uuid::TryParse(result.value());
 
     if (!uuid_value)
         return unmatched{};

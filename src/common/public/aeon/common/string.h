@@ -6,14 +6,14 @@
 #include <string>
 #include <ostream>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-class string_view;
+class StringView;
 
-class string
+class String
 {
-    friend class string_view;
+    friend class StringView;
 
 public:
     static_assert(alignof(char) == alignof(char8_t),
@@ -38,122 +38,121 @@ public:
     using reverse_iterator = std::string::reverse_iterator;
     using const_reverse_iterator = std::string::const_reverse_iterator;
 
-    constexpr string() noexcept;
+    constexpr String() noexcept;
 
-    constexpr string(const value_type c) noexcept;
+    constexpr String(const value_type c) noexcept;
 
-    constexpr string(const char8_t c) noexcept;
+    constexpr String(const char8_t c) noexcept;
 
-    constexpr string(const size_type count, const value_type c) noexcept;
+    constexpr String(const size_type count, const value_type c) noexcept;
 
-    constexpr string(const size_type count, const char8_t c) noexcept;
+    constexpr String(const size_type count, const char8_t c) noexcept;
 
-    constexpr string(const char *const str);
+    constexpr String(const char *const str);
 
-    string(const char8_t *const str);
+    String(const char8_t *const str);
 
-    constexpr string(std::string str) noexcept;
+    constexpr String(std::string str) noexcept;
 
-    constexpr string(const std::u8string &str);
+    constexpr String(const std::u8string &str);
 
-    constexpr explicit string(const string_view &str) noexcept;
+    constexpr explicit String(const StringView &str) noexcept;
 
-    template <std::contiguous_iterator iterator_t>
-    constexpr string(iterator_t begin, iterator_t end) noexcept;
+    template <std::contiguous_iterator IteratorT>
+    constexpr String(IteratorT begin, IteratorT end) noexcept;
 
-    constexpr string(const string &other) = default;
-    constexpr auto operator=(const string &other) -> string & = default;
+    constexpr String(const String &other) = default;
+    constexpr auto operator=(const String &other) -> String & = default;
 
-    constexpr string(string &&other) noexcept = default;
-    constexpr auto operator=(string &&other) noexcept -> string & = default;
+    constexpr String(String &&other) noexcept = default;
+    constexpr auto operator=(String &&other) noexcept -> String & = default;
 
-    constexpr ~string() = default;
+    constexpr ~String() = default;
 
-    constexpr auto operator=(const value_type *const str) -> string &;
+    constexpr auto operator=(const value_type *const str) -> String &;
 
-    constexpr auto operator=(std::string str) -> string &;
+    constexpr auto operator=(std::string str) -> String &;
 
-    auto operator=(const char8_t *const str) -> string &;
+    auto operator=(const char8_t *const str) -> String &;
 
-    constexpr auto operator=(const std::u8string &str) -> string &;
+    constexpr auto operator=(const std::u8string &str) -> String &;
 
-    constexpr auto operator=(const string_view &str) -> string &;
+    constexpr auto operator=(const StringView &str) -> String &;
 
-    constexpr void assign(const value_type *const str);
+    constexpr void Assign(const value_type *const str);
 
-    constexpr void assign(std::string &&str);
+    constexpr void Assign(std::string &&str);
 
-    void assign(const char8_t *const str);
+    void Assign(const char8_t *const str);
 
-    constexpr void assign(const std::u8string &str);
+    constexpr void Assign(const std::u8string &str);
 
-    constexpr void assign(const string &str);
+    constexpr void Assign(const String &str);
 
-    constexpr void assign(const string_view &str);
+    constexpr void Assign(const StringView &str);
 
-    constexpr auto insert(const size_type index, const value_type *const str) -> string &;
+    constexpr auto Insert(const size_type index, const value_type *const str) -> String &;
 
-    auto insert(const size_type index, const char8_t *const str) -> string &;
+    auto Insert(const size_type index, const char8_t *const str) -> String &;
 
-    constexpr auto insert(const size_type index, const std::string_view &str) -> string &;
+    constexpr auto Insert(const size_type index, const std::string_view &str) -> String &;
 
-    auto insert(const size_type index, const std::u8string_view &str) -> string &;
+    auto Insert(const size_type index, const std::u8string_view &str) -> String &;
 
-    auto insert(const size_type index, const string &str) -> string &;
+    auto Insert(const size_type index, const String &str) -> String &;
 
-    auto insert(const size_type index, const string_view &str) -> string &;
+    auto Insert(const size_type index, const StringView &str) -> String &;
 
-    template <typename position_iterator_t, typename input_iterator_t>
-    auto insert(const position_iterator_t pos, const input_iterator_t first, const input_iterator_t last) -> string &;
+    template <typename PositionIteratorT, typename InputIteratorT>
+    auto Insert(const PositionIteratorT pos, const InputIteratorT first, const InputIteratorT last) -> String &;
 
-    constexpr auto erase(const size_type index = 0, const size_type count = npos) -> string &;
+    constexpr auto Erase(const size_type index = 0, const size_type count = npos) -> String &;
 
-    constexpr auto erase(const_iterator position) -> iterator;
+    constexpr auto Erase(const_iterator position) -> iterator;
 
-    constexpr auto erase(const_iterator first, const_iterator last) -> iterator;
+    constexpr auto Erase(const_iterator first, const_iterator last) -> iterator;
 
-    [[nodiscard]] constexpr auto str() noexcept -> std::string &;
+    [[nodiscard]] constexpr auto Str() noexcept -> std::string &;
 
-    [[nodiscard]] constexpr auto str() const noexcept -> const std::string &;
+    [[nodiscard]] constexpr auto Str() const noexcept -> const std::string &;
 
-    [[nodiscard]] auto u8str() const noexcept -> std::u8string;
+    [[nodiscard]] auto U8Str() const noexcept -> std::u8string;
 
-    [[nodiscard]] constexpr auto size() const noexcept -> size_type;
+    [[nodiscard]] constexpr auto Size() const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto capacity() const noexcept -> size_type;
+    [[nodiscard]] constexpr auto Capacity() const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto data() noexcept -> pointer;
+    [[nodiscard]] constexpr auto Data() noexcept -> pointer;
 
-    [[nodiscard]] constexpr auto data() const noexcept -> const_pointer;
+    [[nodiscard]] constexpr auto Data() const noexcept -> const_pointer;
 
-    constexpr void shrink_to_fit();
+    constexpr void ShrinkToFit();
 
-    [[nodiscard]] constexpr auto c_str() const noexcept -> const_pointer;
+    [[nodiscard]] constexpr auto CStr() const noexcept -> const_pointer;
 
-    [[nodiscard]] auto u8_c_str() const noexcept -> const char8_t *;
+    [[nodiscard]] auto U8CStr() const noexcept -> const char8_t *;
 
-    constexpr void reserve(const size_type size);
+    constexpr void Reserve(const size_type size);
 
-    constexpr void resize(const size_type count);
+    constexpr void Resize(const size_type count);
 
-    [[nodiscard]] constexpr auto compare(const string &str) const noexcept -> int;
+    [[nodiscard]] constexpr auto Compare(const String &str) const noexcept -> int;
 
-    [[nodiscard]] constexpr auto compare(const string_view &str) const noexcept -> int;
+    [[nodiscard]] constexpr auto Compare(const StringView &str) const noexcept -> int;
 
-    [[nodiscard]] constexpr auto compare(const std::string &str) const noexcept -> int;
+    [[nodiscard]] constexpr auto Compare(const std::string &str) const noexcept -> int;
 
-    [[nodiscard]] auto compare(const std::u8string &str) const noexcept -> int;
+    [[nodiscard]] auto Compare(const std::u8string &str) const noexcept -> int;
 
-    [[nodiscard]] constexpr auto compare(const value_type *const str) const noexcept -> int;
+    [[nodiscard]] constexpr auto Compare(const value_type *const str) const noexcept -> int;
 
-    [[nodiscard]] auto compare(const char8_t *const str) const noexcept -> int;
+    [[nodiscard]] auto Compare(const char8_t *const str) const noexcept -> int;
 
-    [[nodiscard]] constexpr auto compare(const size_type pos, const size_type count, const string_view str) const
-        -> int;
+    [[nodiscard]] constexpr auto Compare(const size_type pos, const size_type count, const StringView str) const -> int;
 
-    constexpr auto operator==(const string &str) const -> bool;
+    constexpr auto operator==(const String &str) const -> bool;
 
-    constexpr auto operator==(const string_view &str) const -> bool;
+    constexpr auto operator==(const StringView &str) const -> bool;
 
     constexpr auto operator==(const std::string &str) const -> bool;
 
@@ -164,9 +163,9 @@ public:
     auto operator==(const char8_t *const str) const -> bool;
 
 #if __cplusplus < 202002L
-    constexpr auto operator!=(const string &str) const -> bool;
+    constexpr auto operator!=(const String &str) const -> bool;
 
-    constexpr auto operator!=(const string_view &str) const -> bool;
+    constexpr auto operator!=(const StringView &str) const -> bool;
 
     constexpr auto operator!=(const std::string &str) const -> bool;
 
@@ -177,9 +176,9 @@ public:
     auto operator!=(const char8_t *const str) const -> bool;
 #endif
 
-    constexpr auto operator<(const string &str) const -> bool;
+    constexpr auto operator<(const String &str) const -> bool;
 
-    constexpr auto operator<(const string_view &str) const -> bool;
+    constexpr auto operator<(const StringView &str) const -> bool;
 
     constexpr auto operator<(const std::string &str) const -> bool;
 
@@ -189,9 +188,9 @@ public:
 
     auto operator<(const char8_t *const str) const -> bool;
 
-    constexpr auto operator<=(const string &str) const -> bool;
+    constexpr auto operator<=(const String &str) const -> bool;
 
-    constexpr auto operator<=(const string_view &str) const -> bool;
+    constexpr auto operator<=(const StringView &str) const -> bool;
 
     constexpr auto operator<=(const std::string &str) const -> bool;
 
@@ -201,9 +200,9 @@ public:
 
     auto operator<=(const char8_t *const str) const -> bool;
 
-    constexpr auto operator>(const string &str) const -> bool;
+    constexpr auto operator>(const String &str) const -> bool;
 
-    constexpr auto operator>(const string_view &str) const -> bool;
+    constexpr auto operator>(const StringView &str) const -> bool;
 
     constexpr auto operator>(const std::string &str) const -> bool;
 
@@ -213,9 +212,9 @@ public:
 
     auto operator>(const char8_t *const str) const -> bool;
 
-    constexpr auto operator>=(const string &str) const -> bool;
+    constexpr auto operator>=(const String &str) const -> bool;
 
-    constexpr auto operator>=(const string_view &str) const -> bool;
+    constexpr auto operator>=(const StringView &str) const -> bool;
 
     constexpr auto operator>=(const std::string &str) const -> bool;
 
@@ -225,70 +224,70 @@ public:
 
     auto operator>=(const char8_t *const str) const -> bool;
 
-    constexpr auto append(const value_type *const str) -> string &;
+    constexpr auto Append(const value_type *const str) -> String &;
 
-    auto append(const char8_t *const str) -> string &;
+    auto Append(const char8_t *const str) -> String &;
 
-    constexpr auto append(const value_type *const str, const size_type size) -> string &;
+    constexpr auto Append(const value_type *const str, const size_type size) -> String &;
 
-    auto append(const char8_t *const str, const size_type size) -> string &;
+    auto Append(const char8_t *const str, const size_type size) -> String &;
 
-    constexpr auto append(const std::string &str) -> string &;
+    constexpr auto Append(const std::string &str) -> String &;
 
-    auto append(const std::u8string &str) -> string &;
+    auto Append(const std::u8string &str) -> String &;
 
-    constexpr auto append(const string &str) -> string &;
+    constexpr auto Append(const String &str) -> String &;
 
-    constexpr auto append(const string_view &str) -> string &;
+    constexpr auto Append(const StringView &str) -> String &;
 
-    template <std::contiguous_iterator iterator_t>
-    constexpr auto append(iterator_t begin, iterator_t end) noexcept -> string &;
+    template <std::contiguous_iterator IteratorT>
+    constexpr auto Append(IteratorT begin, IteratorT end) noexcept -> String &;
 
-    constexpr auto operator+=(const char *str) -> string &;
+    constexpr auto operator+=(const char *str) -> String &;
 
-    auto operator+=(const char8_t *str) -> string &;
+    auto operator+=(const char8_t *str) -> String &;
 
-    constexpr auto operator+=(const std::string &str) -> string &;
+    constexpr auto operator+=(const std::string &str) -> String &;
 
-    constexpr auto operator+=(const std::string_view &str) -> string &;
+    constexpr auto operator+=(const std::string_view &str) -> String &;
 
-    auto operator+=(const std::u8string_view &str) -> string &;
+    auto operator+=(const std::u8string_view &str) -> String &;
 
-    constexpr auto operator+=(const string &str) -> string &;
+    constexpr auto operator+=(const String &str) -> String &;
 
-    constexpr auto operator+=(const string_view &str) -> string &;
+    constexpr auto operator+=(const StringView &str) -> String &;
 
-    constexpr auto operator+=(const value_type c) -> string &;
+    constexpr auto operator+=(const value_type c) -> String &;
 
-    constexpr auto operator+=(const char8_t c) -> string &;
+    constexpr auto operator+=(const char8_t c) -> String &;
 
-    [[nodiscard]] constexpr auto as_std_string_view() noexcept -> std::string_view;
+    [[nodiscard]] constexpr auto AsStdStringView() noexcept -> std::string_view;
 
-    [[nodiscard]] constexpr auto as_std_string_view() const noexcept -> std::string_view;
+    [[nodiscard]] constexpr auto AsStdStringView() const noexcept -> std::string_view;
 
-    [[nodiscard]] auto as_std_u8string_view() noexcept -> std::u8string_view;
+    [[nodiscard]] auto AsStdU8StringView() noexcept -> std::u8string_view;
 
-    [[nodiscard]] auto as_std_u8string_view() const noexcept -> std::u8string_view;
+    [[nodiscard]] auto AsStdU8StringView() const noexcept -> std::u8string_view;
 
-    constexpr void clear();
+    constexpr void Clear();
 
-    [[nodiscard]] constexpr auto empty() const noexcept -> bool;
+    [[nodiscard]] constexpr auto Empty() const noexcept -> bool;
 
-    [[nodiscard]] constexpr auto at(const size_type pos) -> reference;
+    [[nodiscard]] constexpr auto At(const size_type pos) -> reference;
 
-    [[nodiscard]] constexpr auto at(const size_type pos) const -> const_reference;
+    [[nodiscard]] constexpr auto At(const size_type pos) const -> const_reference;
 
     [[nodiscard]] constexpr auto operator[](const size_type pos) -> reference;
 
     [[nodiscard]] constexpr auto operator[](const size_type pos) const -> const_reference;
 
-    [[nodiscard]] constexpr auto front() noexcept -> reference;
+    [[nodiscard]] constexpr auto Front() noexcept -> reference;
 
-    [[nodiscard]] constexpr auto front() const noexcept -> const_reference;
+    [[nodiscard]] constexpr auto Front() const noexcept -> const_reference;
 
-    [[nodiscard]] constexpr auto back() noexcept -> reference;
+    [[nodiscard]] constexpr auto Back() noexcept -> reference;
 
-    [[nodiscard]] constexpr auto back() const noexcept -> const_reference;
+    [[nodiscard]] constexpr auto Back() const noexcept -> const_reference;
 
     [[nodiscard]] constexpr auto begin() noexcept -> iterator;
 
@@ -314,185 +313,185 @@ public:
 
     [[nodiscard]] constexpr auto crend() const noexcept -> const_reverse_iterator;
 
-    [[nodiscard]] constexpr auto starts_with(const std::string_view &str) const noexcept -> bool;
+    [[nodiscard]] constexpr auto StartsWith(const std::string_view &str) const noexcept -> bool;
 
-    [[nodiscard]] auto starts_with(const std::u8string_view &str) const noexcept -> bool;
+    [[nodiscard]] auto StartsWith(const std::u8string_view &str) const noexcept -> bool;
 
-    [[nodiscard]] constexpr auto starts_with(const string &str) const noexcept -> bool;
+    [[nodiscard]] constexpr auto StartsWith(const String &str) const noexcept -> bool;
 
-    [[nodiscard]] constexpr auto starts_with(const string_view &str) const noexcept -> bool;
+    [[nodiscard]] constexpr auto StartsWith(const StringView &str) const noexcept -> bool;
 
-    [[nodiscard]] constexpr auto starts_with(const value_type c) const noexcept -> bool;
+    [[nodiscard]] constexpr auto StartsWith(const value_type c) const noexcept -> bool;
 
-    [[nodiscard]] constexpr auto starts_with(const char8_t c) const noexcept -> bool;
+    [[nodiscard]] constexpr auto StartsWith(const char8_t c) const noexcept -> bool;
 
-    [[nodiscard]] constexpr auto ends_with(const std::string_view &str) const noexcept -> bool;
+    [[nodiscard]] constexpr auto EndsWith(const std::string_view &str) const noexcept -> bool;
 
-    [[nodiscard]] auto ends_with(const std::u8string_view &str) const noexcept -> bool;
+    [[nodiscard]] auto EndsWith(const std::u8string_view &str) const noexcept -> bool;
 
-    [[nodiscard]] constexpr auto ends_with(const string &str) const noexcept -> bool;
+    [[nodiscard]] constexpr auto EndsWith(const String &str) const noexcept -> bool;
 
-    [[nodiscard]] constexpr auto ends_with(const string_view &str) const noexcept -> bool;
+    [[nodiscard]] constexpr auto EndsWith(const StringView &str) const noexcept -> bool;
 
-    [[nodiscard]] constexpr auto ends_with(const value_type c) const noexcept -> bool;
+    [[nodiscard]] constexpr auto EndsWith(const value_type c) const noexcept -> bool;
 
-    [[nodiscard]] constexpr auto ends_with(const char8_t c) const noexcept -> bool;
+    [[nodiscard]] constexpr auto EndsWith(const char8_t c) const noexcept -> bool;
 
-    [[nodiscard]] constexpr auto substr(const size_type pos = 0, const size_type count = npos) const -> string;
+    [[nodiscard]] constexpr auto Substr(const size_type pos = 0, const size_type count = npos) const -> String;
 
-    [[nodiscard]] auto find(const std::string_view &str, const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] auto Find(const std::string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] auto find(const std::u8string_view &str, const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] auto Find(const std::u8string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto find(const string &str, const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] constexpr auto Find(const String &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto find(const string_view &str, const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] constexpr auto Find(const StringView &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto find(const value_type *str, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto Find(const value_type *str, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] auto find(const char8_t *str, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] auto Find(const char8_t *str, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] constexpr auto find(const value_type c, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto Find(const value_type c, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] constexpr auto find(const char8_t c, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto Find(const char8_t c, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] auto rfind(const std::string_view &str, const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] auto Rfind(const std::string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] auto rfind(const std::u8string_view &str, const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] auto Rfind(const std::u8string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto rfind(const string &str, const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] constexpr auto Rfind(const String &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto rfind(const string_view &str, const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] constexpr auto Rfind(const StringView &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto rfind(const value_type *str, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto Rfind(const value_type *str, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] auto rfind(const char8_t *str, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] auto Rfind(const char8_t *str, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] constexpr auto rfind(const value_type c, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto Rfind(const value_type c, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] constexpr auto rfind(const char8_t c, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto Rfind(const char8_t c, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] auto find_first_of(const std::string_view &str, const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] auto FindFirstOf(const std::string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] auto find_first_of(const std::u8string_view &str, const size_type pos = 0) const noexcept
+    [[nodiscard]] auto FindFirstOf(const std::u8string_view &str, const size_type pos = 0) const noexcept
         -> size_type;
 
-    [[nodiscard]] constexpr auto find_first_of(const string &str, const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] constexpr auto FindFirstOf(const String &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto find_first_of(const string_view &str, const size_type pos = 0) const noexcept
+    [[nodiscard]] constexpr auto FindFirstOf(const StringView &str, const size_type pos = 0) const noexcept
         -> size_type;
 
-    [[nodiscard]] constexpr auto find_first_of(const value_type *str, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto FindFirstOf(const value_type *str, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] auto find_first_of(const char8_t *str, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] auto FindFirstOf(const char8_t *str, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] constexpr auto find_first_of(const value_type c, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto FindFirstOf(const value_type c, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] constexpr auto find_first_of(const char8_t c, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto FindFirstOf(const char8_t c, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] auto find_first_not_of(const std::string_view &str, const size_type pos = 0) const noexcept
+    [[nodiscard]] auto FindFirstNotOf(const std::string_view &str, const size_type pos = 0) const noexcept
         -> size_type;
 
-    [[nodiscard]] auto find_first_not_of(const std::u8string_view &str, const size_type pos = 0) const noexcept
+    [[nodiscard]] auto FindFirstNotOf(const std::u8string_view &str, const size_type pos = 0) const noexcept
         -> size_type;
 
-    [[nodiscard]] constexpr auto find_first_not_of(const string &str, const size_type pos = 0) const noexcept
+    [[nodiscard]] constexpr auto FindFirstNotOf(const String &str, const size_type pos = 0) const noexcept
         -> size_type;
 
-    [[nodiscard]] constexpr auto find_first_not_of(const string_view &str, const size_type pos = 0) const noexcept
+    [[nodiscard]] constexpr auto FindFirstNotOf(const StringView &str, const size_type pos = 0) const noexcept
         -> size_type;
 
-    [[nodiscard]] constexpr auto find_first_not_of(const value_type *str, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto FindFirstNotOf(const value_type *str, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] auto find_first_not_of(const char8_t *str, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] auto FindFirstNotOf(const char8_t *str, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] constexpr auto find_first_not_of(const value_type c, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto FindFirstNotOf(const value_type c, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] constexpr auto find_first_not_of(const char8_t c, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto FindFirstNotOf(const char8_t c, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] auto find_last_of(const std::string_view &str, const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] auto FindLastOf(const std::string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] auto find_last_of(const std::u8string_view &str, const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] auto FindLastOf(const std::u8string_view &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto find_last_of(const string &str, const size_type pos = 0) const noexcept -> size_type;
+    [[nodiscard]] constexpr auto FindLastOf(const String &str, const size_type pos = 0) const noexcept -> size_type;
 
-    [[nodiscard]] constexpr auto find_last_of(const string_view &str, const size_type pos = 0) const noexcept
+    [[nodiscard]] constexpr auto FindLastOf(const StringView &str, const size_type pos = 0) const noexcept
         -> size_type;
 
-    [[nodiscard]] constexpr auto find_last_of(const value_type *str, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto FindLastOf(const value_type *str, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] auto find_last_of(const char8_t *str, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] auto FindLastOf(const char8_t *str, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] constexpr auto find_last_of(const value_type c, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto FindLastOf(const value_type c, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] constexpr auto find_last_of(const char8_t c, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto FindLastOf(const char8_t c, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] auto find_last_not_of(const std::string_view &str, const size_type pos = 0) const noexcept
+    [[nodiscard]] auto FindLastNotOf(const std::string_view &str, const size_type pos = 0) const noexcept
         -> size_type;
 
-    [[nodiscard]] auto find_last_not_of(const std::u8string_view &str, const size_type pos = 0) const noexcept
+    [[nodiscard]] auto FindLastNotOf(const std::u8string_view &str, const size_type pos = 0) const noexcept
         -> size_type;
 
-    [[nodiscard]] constexpr auto find_last_not_of(const string &str, const size_type pos = 0) const noexcept
+    [[nodiscard]] constexpr auto FindLastNotOf(const String &str, const size_type pos = 0) const noexcept
         -> size_type;
 
-    [[nodiscard]] constexpr auto find_last_not_of(const string_view &str, const size_type pos = 0) const noexcept
+    [[nodiscard]] constexpr auto FindLastNotOf(const StringView &str, const size_type pos = 0) const noexcept
         -> size_type;
 
-    [[nodiscard]] constexpr auto find_last_not_of(const value_type *str, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto FindLastNotOf(const value_type *str, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] auto find_last_not_of(const char8_t *str, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] auto FindLastNotOf(const char8_t *str, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] constexpr auto find_last_not_of(const value_type c, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto FindLastNotOf(const value_type c, const size_type pos = 0) const -> size_type;
 
-    [[nodiscard]] constexpr auto find_last_not_of(const char8_t c, const size_type pos = 0) const -> size_type;
+    [[nodiscard]] constexpr auto FindLastNotOf(const char8_t c, const size_type pos = 0) const -> size_type;
 
-    void replace(const size_type pos, const size_type count, const string_view &str);
+    void Replace(const size_type pos, const size_type count, const StringView &str);
 
 private:
-    std::string str_;
+    std::string m_str;
 };
 
-inline constexpr auto operator+(const string &lhs, const string &rhs) -> string;
+inline constexpr auto operator+(const String &lhs, const String &rhs) -> String;
 
-inline constexpr auto operator+(const string &lhs, const std::string &rhs) -> string;
+inline constexpr auto operator+(const String &lhs, const std::string &rhs) -> String;
 
-inline constexpr auto operator+(const std::string &lhs, const string &rhs) -> string;
+inline constexpr auto operator+(const std::string &lhs, const String &rhs) -> String;
 
-inline auto operator+(const string &lhs, const std::u8string &rhs) -> string;
+inline auto operator+(const String &lhs, const std::u8string &rhs) -> String;
 
-inline auto operator+(const std::u8string &lhs, const string &rhs) -> string;
+inline auto operator+(const std::u8string &lhs, const String &rhs) -> String;
 
-inline constexpr auto operator+(const string &lhs, const char *const rhs) -> string;
+inline constexpr auto operator+(const String &lhs, const char *const rhs) -> String;
 
-inline constexpr auto operator+(const char *const lhs, const string &rhs) -> string;
+inline constexpr auto operator+(const char *const lhs, const String &rhs) -> String;
 
-inline auto operator+(const string &lhs, const char8_t *const rhs) -> string;
+inline auto operator+(const String &lhs, const char8_t *const rhs) -> String;
 
-inline auto operator+(const char8_t *const lhs, const string &rhs) -> string;
+inline auto operator+(const char8_t *const lhs, const String &rhs) -> String;
 
-inline constexpr auto operator+(const string_view &lhs, const string &rhs) -> string;
+inline constexpr auto operator+(const StringView &lhs, const String &rhs) -> String;
 
-inline constexpr auto operator+(const string_view &lhs, const string_view &rhs) -> string;
+inline constexpr auto operator+(const StringView &lhs, const StringView &rhs) -> String;
 
-inline constexpr auto operator+(const string_view &lhs, const std::string &rhs) -> string;
+inline constexpr auto operator+(const StringView &lhs, const std::string &rhs) -> String;
 
-inline constexpr auto operator+(const std::string &lhs, const string_view &rhs) -> string;
+inline constexpr auto operator+(const std::string &lhs, const StringView &rhs) -> String;
 
-inline auto operator+(const string_view &lhs, const std::u8string &rhs) -> string;
+inline auto operator+(const StringView &lhs, const std::u8string &rhs) -> String;
 
-inline auto operator+(const std::u8string &lhs, const string_view &rhs) -> string;
+inline auto operator+(const std::u8string &lhs, const StringView &rhs) -> String;
 
-inline constexpr auto operator+(const string_view &lhs, const char *const rhs) -> string;
+inline constexpr auto operator+(const StringView &lhs, const char *const rhs) -> String;
 
-inline constexpr auto operator+(const char *const lhs, const string_view &rhs) -> string;
+inline constexpr auto operator+(const char *const lhs, const StringView &rhs) -> String;
 
-inline auto operator+(const string_view &lhs, const char8_t *const rhs) -> string;
+inline auto operator+(const StringView &lhs, const char8_t *const rhs) -> String;
 
-inline auto operator+(const char8_t *const lhs, const string_view &rhs) -> string;
+inline auto operator+(const char8_t *const lhs, const StringView &rhs) -> String;
 
-inline auto operator<<(std::ostream &os, const string &str) -> std::ostream &;
+inline auto operator<<(std::ostream &os, const String &str) -> std::ostream &;
 
-} // namespace aeon::common
+} // namespace aeon::Common
 
 #include <aeon/common/impl/string_impl.h>

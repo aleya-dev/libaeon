@@ -19,7 +19,7 @@ class buffer final : public device_memory
 public:
     buffer() noexcept;
     explicit buffer(const vulkan::device &device, const std::size_t size,
-                    const common::flags<buffer_usage_flag> usage_flags, const memory_allocation_usage allocation_usage);
+                    const Common::Flags<buffer_usage_flag> usage_flags, const memory_allocation_usage allocation_usage);
     ~buffer() noexcept;
 
     buffer(const buffer &) noexcept = delete;

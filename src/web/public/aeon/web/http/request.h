@@ -17,7 +17,7 @@ class request
 
 public:
     explicit request(const http_method method);
-    explicit request(const common::string &method, common::string uri);
+    explicit request(const Common::String &method, Common::String uri);
 
     auto get_method() const noexcept
     {
@@ -29,7 +29,7 @@ public:
         return uri_;
     }
 
-    void set_uri(const common::string &uri)
+    void set_uri(const Common::String &uri)
     {
         uri_ = uri;
     }
@@ -46,25 +46,25 @@ public:
 
     auto get_content() const -> std::vector<std::uint8_t>;
 
-    auto get_content_string() const -> common::string;
+    auto get_content_string() const -> Common::String;
 
-    auto get_content_type() const -> common::string;
+    auto get_content_type() const -> Common::String;
 
-    auto get_raw_headers() const -> const std::vector<common::string> &;
+    auto get_raw_headers() const -> const std::vector<Common::String> &;
 
 private:
-    void append_raw_http_header_line(const common::string &header_line);
+    void append_raw_http_header_line(const Common::String &header_line);
     void append_raw_content_data(const std::vector<std::byte> &data) const;
-    void set_content_type(const common::string &content_type);
+    void set_content_type(const Common::String &content_type);
 
     http_method method_;
-    common::string uri_;
-    std::vector<common::string> raw_headers_;
+    Common::String uri_;
+    std::vector<Common::String> raw_headers_;
 
-    common::string content_type_;
+    Common::String content_type_;
     mutable streams::memory_device<std::vector<char>> content_;
 };
 
-auto parse_raw_http_headers(const std::vector<common::string> &raw_headers) -> std::map<common::string, common::string>;
+auto parse_raw_http_headers(const std::vector<Common::String> &raw_headers) -> std::map<Common::String, Common::String>;
 
 } // namespace aeon::web::http

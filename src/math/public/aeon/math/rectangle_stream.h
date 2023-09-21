@@ -8,7 +8,7 @@
 namespace aeon::math
 {
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline auto operator<<(std::ostream &os, const rectangle<T> &r) -> std::ostream &
 {
     return os << "rectangle<" << typeid(T).name() << ">(" << left(r) << ", " << top(r) << ", " << right(r) << ", "

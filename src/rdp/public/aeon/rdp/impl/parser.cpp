@@ -129,7 +129,7 @@ auto parser::remaining_size() const noexcept -> std::size_t
             --line_end;
     }
 
-    const auto line = common::string::make_string_view(line_begin, line_end);
+    const auto line = Common::string::make_string_view(line_begin, line_end);
     const auto line_number = std::count(std::begin(view_), current_, '\n');
     const auto column = std::distance(line_begin, current_);
 
@@ -200,7 +200,7 @@ auto parser::check(const std::initializer_list<char> c) noexcept -> bool
     if (eof()) [[unlikely]]
         return false;
 
-    if (!common::container::contains(std::begin(c), std::end(c), current()))
+    if (!Common::container::contains(std::begin(c), std::end(c), current()))
         return false;
 
     ++current_;
@@ -216,7 +216,7 @@ void parser::skip(const char c) noexcept
 
 void parser::skip(const std::initializer_list<char> c) noexcept
 {
-    while (!eof() && common::container::contains(std::begin(c), std::end(c), current()))
+    while (!eof() && Common::container::contains(std::begin(c), std::end(c), current()))
         advance();
 }
 
@@ -228,13 +228,13 @@ void parser::skip_until(const char c) noexcept
 
 void parser::skip_until(const std::initializer_list<char> c) noexcept
 {
-    while (!eof() && !common::container::contains(std::begin(c), std::end(c), current()))
+    while (!eof() && !Common::container::contains(std::begin(c), std::end(c), current()))
         advance();
 }
 
 auto parser::match_each(const std::initializer_list<char> c) noexcept -> parse_result<std::string_view>
 {
-    return match([&c](const char ch) { return common::container::contains(std::begin(c), std::end(c), ch); });
+    return match([&c](const char ch) { return Common::container::contains(std::begin(c), std::end(c), ch); });
 }
 
 [[nodiscard]] auto parser::match_regex(const std::string_view regex, std::basic_regex<char>::flag_type flags)
@@ -252,7 +252,7 @@ auto parser::match_each(const std::initializer_list<char> c) noexcept -> parse_r
 
     aeon_assert(!match.empty(), "Bug: expected at least 1 match result.");
 
-    const auto result = common::string::make_string_view(match.begin()->first, match.begin()->second);
+    const auto result = Common::string::make_string_view(match.begin()->first, match.begin()->second);
     current_ = match.begin()->second;
 
     return matched{result};
@@ -275,7 +275,7 @@ auto parser::match_each(const std::initializer_list<char> c) noexcept -> parse_r
         }
     } while (*itr != c);
 
-    const auto result = common::string::make_string_view(current_, itr);
+    const auto result = Common::string::make_string_view(current_, itr);
     current_ = itr;
     return matched{result};
 }
@@ -288,7 +288,7 @@ auto parser::match_each(const std::initializer_list<char> c) noexcept -> parse_r
     {
         if (str == std::string_view{&*itr, std::size(str)})
         {
-            const auto result = common::string::make_string_view(current_, itr);
+            const auto result = Common::string::make_string_view(current_, itr);
             current_ = itr;
             return matched{result};
         }
@@ -315,9 +315,9 @@ auto parser::match_until(const std::initializer_list<char> c, const eof_mode mod
             else
                 break;
         }
-    } while (!common::container::contains(std::begin(c), std::end(c), *itr));
+    } while (!Common::container::contains(std::begin(c), std::end(c), *itr));
 
-    const auto result = common::string::make_string_view(current_, itr);
+    const auto result = Common::string::make_string_view(current_, itr);
     current_ = itr;
     return matched{result};
 }

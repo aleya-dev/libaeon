@@ -34,9 +34,9 @@ TEST(test_ptree, serialize_xml_parse_simple_xml_file)
     const auto value1_attributes = value_nodes.at(0).attributes();
     EXPECT_EQ(2u, std::size(value1_attributes));
 
-    EXPECT_EQ("3", value1_attributes.at("a").get_value<common::string>());
+    EXPECT_EQ("3", value1_attributes.at("a").get_value<Common::String>());
     EXPECT_EQ(3, value1_attributes.at("a").get_value<int>());
-    EXPECT_EQ("4", value1_attributes.at("b").get_value<common::string>());
+    EXPECT_EQ("4", value1_attributes.at("b").get_value<Common::String>());
     EXPECT_EQ(4, value1_attributes.at("b").get_value<int>());
 
     const auto value2_attributes = value_nodes.at(1).attributes();
@@ -62,7 +62,7 @@ TEST(test_ptree, serialize_xml_parse_simple_xml_with_text)
     EXPECT_EQ(ptree::xml_dom::xml_node_type::text, text_values.at(0).type());
     EXPECT_TRUE(text_values.at(0).has_value());
     EXPECT_EQ("This is a string.", text_values.at(0).value());
-    EXPECT_EQ("This is a string.", text_values.at(0).value<common::string>());
+    EXPECT_EQ("This is a string.", text_values.at(0).value<Common::String>());
 }
 
 TEST(test_ptree, serialize_xml_parse_simple_xml_with_floats)

@@ -81,7 +81,7 @@ template <std::floating_point T>
  * \param[in] values - All other values (at least one). Must be the same type as first.
  * \return Lowest value out of all given values
  */
-template <common::concepts::arithmetic T, common::concepts::arithmetic... U>
+template <Common::Concepts::Arithmetic T, Common::Concepts::Arithmetic... U>
 [[nodiscard]] inline auto min(const T first, const U... values) noexcept -> T
 {
     auto retval = &first;
@@ -95,7 +95,7 @@ template <common::concepts::arithmetic T, common::concepts::arithmetic... U>
  * \param[in] values - All other values (at least one). Must be the same type as first.
  * \return Highest value out of all given values
  */
-template <common::concepts::arithmetic T, common::concepts::arithmetic... U>
+template <Common::Concepts::Arithmetic T, Common::Concepts::Arithmetic... U>
 [[nodiscard]] inline auto max(const T first, const U... values) noexcept -> T
 {
     auto retval = &first;
@@ -105,11 +105,11 @@ template <common::concepts::arithmetic T, common::concepts::arithmetic... U>
 
 /*!
  * Constexpr version of pow (base<SUP>exponent</SUP>)
- * \param[in] base - The base value (must be arithmetic type)
+ * \param[in] base - The base value (must be Arithmetic type)
  * \param[in] exponent - The exponent value
  * \return The result of base<SUP>exponent</SUP>
  */
-template <common::concepts::arithmetic T, std::integral U>
+template <Common::Concepts::Arithmetic T, std::integral U>
 [[nodiscard]] inline constexpr auto constexpr_pow(const T base, const U exponent) noexcept -> T
 {
     auto val = base;
@@ -238,7 +238,7 @@ template <std::uint64_t row>
 /*!
  * Round to the nearest integer value, rounding halfway cases away from zero, is returned
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto round(const T val) noexcept
 {
     return std::round(val);

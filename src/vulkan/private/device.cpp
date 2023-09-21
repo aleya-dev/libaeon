@@ -16,14 +16,14 @@ namespace aeon::vulkan
 namespace internal
 {
 
-[[nodiscard]] auto create_device(const physical_device &device, const std::vector<common::string> &enabled_layers,
-                                 const std::vector<common::string> &required_extensions,
+[[nodiscard]] auto create_device(const physical_device &device, const std::vector<Common::String> &enabled_layers,
+                                 const std::vector<Common::String> &required_extensions,
                                  [[maybe_unused]] const VkPhysicalDeviceFeatures &required_features,
                                  const queue_indices &indices)
 {
     const auto available_extensions = device.extensions();
     auto required_extensions_str =
-        common::container::transform<const char *>(required_extensions, [](const auto &str) { return str.c_str(); });
+        Common::Container::Transform<const char *>(required_extensions, [](const auto &str) { return str.CStr(); });
 
     // TODO: Check extension availability.
     (void)available_extensions;
@@ -41,7 +41,7 @@ namespace internal
     // VkPhysicalDeviceBufferDeviceAddressFeatures::bufferDeviceAddress is true.
 
     const auto enabled_layers_str =
-        common::container::transform<const char *>(enabled_layers, [](const auto &str) { return str.c_str(); });
+        Common::Container::Transform<const char *>(enabled_layers, [](const auto &str) { return str.CStr(); });
 
     auto priority = 0.0f;
     const auto queue_create_info_collection = indices.get_queue_create_info_collection(priority);
@@ -138,8 +138,8 @@ device::device() noexcept
 {
 }
 
-device::device(const vulkan::physical_device &d, const surface &surface, const std::vector<common::string> &layers,
-               const std::vector<common::string> &extensions, const VkPhysicalDeviceFeatures &features)
+device::device(const vulkan::physical_device &d, const surface &surface, const std::vector<Common::String> &layers,
+               const std::vector<Common::String> &extensions, const VkPhysicalDeviceFeatures &features)
     : physical_device_{&d}
     , queue_indices_{d, surface}
     , device_{internal::create_device(d, layers, extensions, features, queue_indices_)}
@@ -191,13 +191,13 @@ auto device::operator=(device &&other) noexcept -> device &
 
 auto device::handle() const noexcept -> VkDevice
 {
-    aeon_assert(device_, "Device is null");
+    AeonAssert(device_, "Device is null");
     return device_;
 }
 
 auto device::physical_device() const noexcept -> const vulkan::physical_device &
 {
-    aeon_assert(physical_device_, "Physical device is null");
+    AeonAssert(physical_device_, "Physical device is null");
     return *physical_device_;
 }
 

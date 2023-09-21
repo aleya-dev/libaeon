@@ -97,15 +97,15 @@ public:
         , platform_context_{platform::create_context(platform::backend::sdl2)}
 #endif
         , window_{create_window(*platform_context_)}
-        , app_info_{window_title, common::version3<std::uint32_t>{1, 0}, "libaeon",
-                    common::version3<std::uint32_t>{1, 0}}
+        , app_info_{window_title, Common::Version3<std::uint32_t>{1, 0}, "libaeon",
+                    Common::Version3<std::uint32_t>{1, 0}}
     {
-        std::vector<common::string> layers;
+        std::vector<Common::String> layers;
 
         if (enable_validation_layers)
             vulkan::debug::append_required_layers(layers);
 
-        std::vector<common::string> extensions;
+        std::vector<Common::String> extensions;
         extensions.emplace_back(VK_KHR_SURFACE_EXTENSION_NAME);
 
 #if (AEON_PLATFORM_OS_WINDOWS)

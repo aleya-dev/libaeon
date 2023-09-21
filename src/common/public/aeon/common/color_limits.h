@@ -5,49 +5,49 @@
 #include <aeon/common/concepts.h>
 #include <limits>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-template <concepts::arithmetic T>
-struct color_limits final
+template <Concepts::Arithmetic T>
+struct ColorLimits final
 {
-    [[nodiscard]] static constexpr auto min() noexcept -> T
+    [[nodiscard]] static constexpr auto Min() noexcept -> T
     {
         return std::numeric_limits<T>::min();
     }
 
-    [[nodiscard]] static constexpr auto max() noexcept -> T
+    [[nodiscard]] static constexpr auto Max() noexcept -> T
     {
         return std::numeric_limits<T>::max();
     }
 };
 
 template <>
-struct color_limits<float> final
+struct ColorLimits<float> final
 {
-    [[nodiscard]] static constexpr auto min() noexcept -> float
+    [[nodiscard]] static constexpr auto Min() noexcept -> float
     {
         return 0.0f;
     }
 
-    [[nodiscard]] static constexpr auto max() noexcept -> float
+    [[nodiscard]] static constexpr auto Max() noexcept -> float
     {
         return 1.0f;
     }
 };
 
 template <>
-struct color_limits<double> final
+struct ColorLimits<double> final
 {
-    [[nodiscard]] static constexpr auto min() noexcept -> double
+    [[nodiscard]] static constexpr auto Min() noexcept -> double
     {
         return 0.0;
     }
 
-    [[nodiscard]] static constexpr auto max() noexcept -> double
+    [[nodiscard]] static constexpr auto Max() noexcept -> double
     {
         return 1.0;
     }
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

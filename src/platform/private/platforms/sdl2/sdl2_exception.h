@@ -10,7 +10,7 @@ namespace aeon::platform
 class sdl2_platform_exception final : public platform_exception
 {
 public:
-    explicit sdl2_platform_exception(common::string msg) noexcept
+    explicit sdl2_platform_exception(Common::String msg) noexcept
         : platform_exception{std::move(msg)}
     {
     }

@@ -75,15 +75,15 @@ void plugin_loader::unload_all()
 
 [[nodiscard]] auto plugin_loader::load_plugin(const std::filesystem::path &path) -> plugin *
 {
-    common::dynamic_library lib{path};
+    Common::DynamicLibrary lib{path};
 
-    if (!lib.is_valid())
+    if (!lib.IsValid())
         return nullptr;
 
     const auto initialize_plugin =
-        reinterpret_cast<initialize_plugin_proc>(lib.get_proc_address(aeon_initialize_plugin_proc_name));
+        reinterpret_cast<initialize_plugin_proc>(lib.GetProcAddress(aeon_initialize_plugin_proc_name));
     const auto cleanup_plugin =
-        reinterpret_cast<cleanup_plugin_proc>(lib.get_proc_address(aeon_cleanup_plugin_proc_name));
+        reinterpret_cast<cleanup_plugin_proc>(lib.GetProcAddress(aeon_cleanup_plugin_proc_name));
 
     auto plugin_instance = std::unique_ptr<plugin, cleanup_plugin_proc>(initialize_plugin(), cleanup_plugin);
     const auto plugin_instance_ptr = plugin_instance.get();

@@ -48,7 +48,7 @@ auto command_buffer_ref::command_pool() const noexcept -> const vulkan::command_
     return *pool_;
 }
 
-void command_buffer_ref::begin(const common::flags<command_buffer_usage_flag> flags) const
+void command_buffer_ref::begin(const Common::Flags<command_buffer_usage_flag> flags) const
 {
     const auto info = initializers::command_buffer_begin_info(flags);
     checked_result{vkBeginCommandBuffer(buffer_, &info)};

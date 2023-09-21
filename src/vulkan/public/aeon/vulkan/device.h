@@ -19,8 +19,8 @@ class device final
 {
 public:
     device() noexcept;
-    explicit device(const vulkan::physical_device &d, const surface &surface, const std::vector<common::string> &layers,
-                    const std::vector<common::string> &extensions, const VkPhysicalDeviceFeatures &features);
+    explicit device(const vulkan::physical_device &d, const surface &surface, const std::vector<Common::String> &layers,
+                    const std::vector<Common::String> &extensions, const VkPhysicalDeviceFeatures &features);
 
     ~device();
 

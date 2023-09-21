@@ -9,49 +9,49 @@ using namespace aeon;
 
 TEST(test_signals, test_signals_connect)
 {
-    common::signal<> signal;
-    auto connection = signal.connect([]() {});
-    EXPECT_GT(connection.get_handle(), 0);
+    Common::Signal<> Signal;
+    auto connection = Signal.Connect([]() {});
+    EXPECT_GT(connection.Handle(), 0);
 }
 
 TEST(test_signals, test_signals_connection_default_zero)
 {
-    common::signal_connection<> connection;
-    EXPECT_EQ(0, connection.get_handle());
+    Common::SignalConnection<> connection;
+    EXPECT_EQ(0, connection.Handle());
 }
 
 TEST(test_signals, test_signals_connect_parameters)
 {
-    common::signal<int, int> signal;
-    auto connection = signal.connect([](int, int) {});
-    EXPECT_GT(connection.get_handle(), 0);
+    Common::Signal<int, int> Signal;
+    auto connection = Signal.Connect([](int, int) {});
+    EXPECT_GT(connection.Handle(), 0);
 }
 
 TEST(test_signals, test_signals_connect_one_and_call)
 {
-    common::signal<> signal;
+    Common::Signal<> Signal;
 
     bool signal_called = false;
-    auto connection = signal.connect([&signal_called]() { signal_called = true; });
+    auto connection = Signal.Connect([&signal_called]() { signal_called = true; });
 
-    signal();
+    Signal();
 
     EXPECT_TRUE(signal_called);
 }
 
 TEST(test_signals, test_signals_connect_multiple_and_call)
 {
-    common::signal<> signal;
+    Common::Signal<> Signal;
 
     bool signal_called = false;
     bool signal_called2 = false;
     bool signal_called3 = false;
 
-    auto connection1 = signal.connect([&signal_called]() { signal_called = true; });
-    auto connection2 = signal.connect([&signal_called2]() { signal_called2 = true; });
-    auto connection3 = signal.connect([&signal_called3]() { signal_called3 = true; });
+    auto connection1 = Signal.Connect([&signal_called]() { signal_called = true; });
+    auto connection2 = Signal.Connect([&signal_called2]() { signal_called2 = true; });
+    auto connection3 = Signal.Connect([&signal_called3]() { signal_called3 = true; });
 
-    signal();
+    Signal();
 
     EXPECT_TRUE(signal_called);
     EXPECT_TRUE(signal_called2);
@@ -60,12 +60,12 @@ TEST(test_signals, test_signals_connect_multiple_and_call)
 
 TEST(test_signals, test_signals_connect_one_and_call_parameters)
 {
-    common::signal<int, int> signal;
+    Common::Signal<int, int> Signal;
 
     bool signal_called = false;
     int value1 = 0;
     int value2 = 0;
-    auto connection = signal.connect(
+    auto connection = Signal.Connect(
         [&signal_called, &value1, &value2](int val1, int val2)
         {
             signal_called = true;
@@ -73,7 +73,7 @@ TEST(test_signals, test_signals_connect_one_and_call_parameters)
             value2 = val2;
         });
 
-    signal(42, 1337);
+    Signal(42, 1337);
 
     EXPECT_TRUE(signal_called);
     EXPECT_EQ(42, value1);
@@ -82,17 +82,17 @@ TEST(test_signals, test_signals_connect_one_and_call_parameters)
 
 TEST(test_signals, test_signals_connect_multiple_and_call_with_disconnect)
 {
-    common::signal<> signal;
+    Common::Signal<> Signal;
 
     bool signal_called = false;
     bool signal_called2 = false;
     bool signal_called3 = false;
 
-    auto connection1 = signal.connect([&signal_called]() { signal_called = true; });
-    auto connection2 = signal.connect([&signal_called2]() { signal_called2 = true; });
-    auto connection3 = signal.connect([&signal_called3]() { signal_called3 = true; });
+    auto connection1 = Signal.Connect([&signal_called]() { signal_called = true; });
+    auto connection2 = Signal.Connect([&signal_called2]() { signal_called2 = true; });
+    auto connection3 = Signal.Connect([&signal_called3]() { signal_called3 = true; });
 
-    signal();
+    Signal();
 
     EXPECT_TRUE(signal_called);
     EXPECT_TRUE(signal_called2);
@@ -102,9 +102,9 @@ TEST(test_signals, test_signals_connect_multiple_and_call_with_disconnect)
     signal_called2 = false;
     signal_called3 = false;
 
-    signal.disconnect(connection2);
+    Signal.Disconnect(connection2);
 
-    signal();
+    Signal();
 
     EXPECT_TRUE(signal_called);
     EXPECT_FALSE(signal_called2);
@@ -113,21 +113,21 @@ TEST(test_signals, test_signals_connect_multiple_and_call_with_disconnect)
 
 TEST(test_signals, test_signals_connect_multiple_and_call_scoped_disconnect)
 {
-    common::signal<> signal;
+    Common::Signal<> Signal;
 
     bool signal_called = false;
     bool signal_called2 = false;
     bool signal_called3 = false;
 
-    common::scoped_signal_connection<> connection1;
-    common::scoped_signal_connection<> connection3;
+    Common::ScopedSignalConnection<> connection1;
+    Common::ScopedSignalConnection<> connection3;
 
     {
-        connection1 = signal.connect([&signal_called]() { signal_called = true; });
-        auto connection2 = signal.connect([&signal_called2]() { signal_called2 = true; });
-        connection3 = signal.connect([&signal_called3]() { signal_called3 = true; });
+        connection1 = Signal.Connect([&signal_called]() { signal_called = true; });
+        auto connection2 = Signal.Connect([&signal_called2]() { signal_called2 = true; });
+        connection3 = Signal.Connect([&signal_called3]() { signal_called3 = true; });
 
-        signal();
+        Signal();
 
         EXPECT_TRUE(signal_called);
         EXPECT_TRUE(signal_called2);
@@ -138,7 +138,7 @@ TEST(test_signals, test_signals_connect_multiple_and_call_scoped_disconnect)
         signal_called3 = false;
     }
 
-    signal();
+    Signal();
 
     EXPECT_TRUE(signal_called);
     EXPECT_FALSE(signal_called2);
@@ -147,18 +147,18 @@ TEST(test_signals, test_signals_connect_multiple_and_call_scoped_disconnect)
 
 TEST(test_signals, test_signals_mt_sync_execution)
 {
-    common::signal_mt<> signal;
+    Common::SignalMt<> Signal;
     std::array<int, 200> destination{};
 
     int index = 0;
-    auto connection = signal.connect([&index, &destination] { destination[index++]++; });
+    auto connection = Signal.Connect([&index, &destination] { destination[index++]++; });
 
     std::vector<std::thread> threads;
-    auto thread_func = [&signal]
+    auto thread_func = [&Signal]
     {
         for (int i = 0; i < 100; ++i)
         {
-            signal();
+            Signal();
             std::this_thread::sleep_for(std::chrono::microseconds(0));
         }
     };

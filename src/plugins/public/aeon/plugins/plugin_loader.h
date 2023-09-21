@@ -76,7 +76,7 @@ private:
      */
     struct plugin_cache
     {
-        explicit plugin_cache(common::dynamic_library &&library,
+        explicit plugin_cache(Common::DynamicLibrary &&library,
                               std::unique_ptr<plugin, cleanup_plugin_proc> &&plugin_instance)
             : library{std::move(library)}
             , plugin_instance{std::move(plugin_instance)}
@@ -92,7 +92,7 @@ private:
         auto operator=(plugin_cache &&) noexcept -> plugin_cache & = default;
 
         // Order here is important. The plugin must be deleted before unloading the library.
-        common::dynamic_library library;
+        Common::DynamicLibrary library;
         std::unique_ptr<plugin, cleanup_plugin_proc> plugin_instance;
     };
 

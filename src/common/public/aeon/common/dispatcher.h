@@ -8,55 +8,55 @@
 #include <queue>
 #include <atomic>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
 /*!
- * Determines how the dispatcher should stop. Either by calling stop manually (manual_stop) or automaticly
+ * Determines how the dispatcher should stop. Either by calling stop manually (ManualStop) or automaticly
  * when the queue is determined to be empty. Be sure all jobs are queued before calling run when using this mode to
  * prevent race conditions.
  */
-enum dispatcher_stop_mode
+enum DispatcherStopMode
 {
-    manual_stop,
-    stop_on_empty_queue
+    ManualStop,
+    StopOnEmptyQueue
 };
 
-class dispatcher
+class Dispatcher
 {
 public:
-    static const int signal_wait_timeout_ms = 100;
+    static constexpr int SignalWaitTimeoutMs = 100;
 
-    explicit dispatcher(dispatcher_stop_mode stop_mode = dispatcher_stop_mode::manual_stop)
-        : running_{false}
-        , stop_mode_{stop_mode}
+    explicit Dispatcher(const DispatcherStopMode stopMode = DispatcherStopMode::ManualStop)
+        : m_running{false}
+        , m_stopMode{stopMode}
     {
     }
 
-    ~dispatcher() = default;
+    ~Dispatcher() = default;
 
-    dispatcher(const dispatcher &) noexcept = delete;
-    auto operator=(const dispatcher &) noexcept -> dispatcher & = delete;
-    dispatcher(dispatcher &&) noexcept = delete;
-    auto operator=(dispatcher &&) noexcept -> dispatcher & = delete;
+    Dispatcher(const Dispatcher &) noexcept = delete;
+    auto operator=(const Dispatcher &) noexcept -> Dispatcher & = delete;
+    Dispatcher(Dispatcher &&) noexcept = delete;
+    auto operator=(Dispatcher &&) noexcept -> Dispatcher & = delete;
 
-    void run_one()
+    void RunOne()
     {
         std::function<void()> func;
         {
-            std::unique_lock lock(mutex_);
-            signal_cv_.wait(lock, [this]() { return !queue_.empty() || !running_; });
+            std::unique_lock lock(m_mutex);
+            m_signalCv.wait(lock, [this]() { return !m_queue.empty() || !m_running; });
 
-            if (!queue_.empty())
+            if (!m_queue.empty())
             {
-                func = std::move(queue_.front());
-                queue_.pop();
+                func = std::move(m_queue.front());
+                m_queue.pop();
             }
 
-            if (stop_mode_ == dispatcher_stop_mode::stop_on_empty_queue)
+            if (m_stopMode == DispatcherStopMode::StopOnEmptyQueue)
             {
-                if (queue_.empty())
-                    running_ = false;
+                if (m_queue.empty())
+                    m_running = false;
             }
         }
 
@@ -64,29 +64,29 @@ public:
             func();
     }
 
-    void run()
+    void Run()
     {
-        running_ = true;
+        m_running = true;
 
-        while (running_)
+        while (m_running)
         {
-            run_one();
+            RunOne();
         }
     }
 
-    void post(std::function<void()> &&job)
+    void Post(std::function<void()> &&job)
     {
-        std::scoped_lock lock(mutex_);
-        queue_.push(std::move(job));
-        signal_cv_.notify_one();
+        std::scoped_lock lock(m_mutex);
+        m_queue.push(std::move(job));
+        m_signalCv.notify_one();
     }
 
-    void call(std::function<void()> &&job)
+    void Call(std::function<void()> &&job)
     {
         std::promise<void> promise;
         auto future = promise.get_future();
 
-        post(
+        Post(
             [job = std::move(job), &promise]()
             {
                 try
@@ -104,12 +104,12 @@ public:
     }
 
     template <typename T, std::enable_if_t<!std::is_void_v<T>> * = nullptr>
-    T call(std::function<T()> &&job)
+    T Call(std::function<T()> &&job)
     {
         std::promise<T> promise;
         auto future = promise.get_future();
 
-        post(
+        Post(
             [job = std::move(job), &promise]()
             {
                 try
@@ -125,33 +125,33 @@ public:
         return future.get();
     }
 
-    void sync_fence()
+    void SyncFence()
     {
         std::promise<void> promise;
         auto future = promise.get_future();
-        post([&promise]() { promise.set_value(); });
+        Post([&promise]() { promise.set_value(); });
         future.get();
     }
 
-    void stop()
+    void Stop()
     {
-        std::scoped_lock guard(mutex_);
-        running_ = false;
-        signal_cv_.notify_all();
+        std::scoped_lock guard(m_mutex);
+        m_running = false;
+        m_signalCv.notify_all();
     }
 
-    void reset()
+    void Reset()
     {
-        std::scoped_lock guard(mutex_);
-        queue_ = std::queue<std::function<void()>>();
+        std::scoped_lock guard(m_mutex);
+        m_queue = std::queue<std::function<void()>>();
     }
 
 private:
-    std::mutex mutex_;
-    std::condition_variable signal_cv_;
-    std::queue<std::function<void()>> queue_;
-    std::atomic<bool> running_;
-    dispatcher_stop_mode stop_mode_;
+    std::mutex m_mutex;
+    std::condition_variable m_signalCv;
+    std::queue<std::function<void()>> m_queue;
+    std::atomic<bool> m_running;
+    DispatcherStopMode m_stopMode;
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

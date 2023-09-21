@@ -7,7 +7,7 @@
 #include <memory>
 #include <cstdint>
 
-namespace aeon::tracelog::detail
+namespace aeon::Tracelog::Internal
 {
 
 enum class trace_log_entry_type
@@ -16,7 +16,7 @@ enum class trace_log_entry_type
     event
 };
 
-struct [[nodiscard]] trace_log_entry
+struct [[nodiscard]] TraceLogEntry
 {
     double begin;
     double end;
@@ -27,7 +27,7 @@ struct [[nodiscard]] trace_log_entry
 
 struct trace_log_list
 {
-    trace_log_entry entries[log_entry_count]; // Uninitialized on purpose.
+    TraceLogEntry entries[log_entry_count]; // Uninitialized on purpose.
     std::unique_ptr<trace_log_list> next;
 };
 
@@ -36,7 +36,7 @@ struct trace_log_thread_context
     trace_log_list *head = nullptr;
     std::unique_ptr<trace_log_list> tail;
     std::uint64_t index = 0;
-    common::timer timer;
+    Common::Timer timer;
     int thread_id = 0;
 };
 

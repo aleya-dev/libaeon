@@ -47,7 +47,7 @@ private:
 
 TEST(test_reflection, test_reflection_rt)
 {
-    auto test = common::dynamic_unique_ptr_cast<test_class>(test_class::reflection_info().create());
+    auto test = Common::DynamicUniquePtrCast<test_class>(test_class::reflection_info().create());
     ASSERT_NE(nullptr, test);
 
     EXPECT_EQ(test->get_integer(), 0);

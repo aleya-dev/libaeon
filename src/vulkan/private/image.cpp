@@ -22,9 +22,9 @@ namespace internal
 
 [[nodiscard]] auto create_image(VmaAllocation &out_allocation, const device &device, const image_type type,
                                 const VkExtent3D extent, const VkFormat format,
-                                const common::flags<image_usage_flag> usage_flags, const sample_count samples,
+                                const Common::Flags<image_usage_flag> usage_flags, const sample_count samples,
                                 const std::uint32_t mip_levels, const std::uint32_t array_layers,
-                                const image_tiling tiling, const common::flags<image_create_flag> create_flags,
+                                const image_tiling tiling, const Common::Flags<image_create_flag> create_flags,
                                 const memory_allocation_usage allocation_usage)
 {
     const auto info = initializers::image_create_info(type, extent, format, mip_levels, array_layers, samples, tiling,
@@ -47,10 +47,10 @@ image::image() noexcept
 }
 
 image::image(const vulkan::device &device, const image_type type, const math::size2d<std::uint32_t> size,
-             const format format, const common::flags<image_usage_flag> usage_flags,
+             const format format, const Common::Flags<image_usage_flag> usage_flags,
              const memory_allocation_usage allocation_usage, const sample_count samples, const std::uint32_t mip_levels,
              const std::uint32_t array_layers, const image_tiling tiling,
-             const common::flags<image_create_flag> create_flags)
+             const Common::Flags<image_create_flag> create_flags)
     : image{device,  type,        math::size3d<std::uint32_t>{size, 1},
             format,  usage_flags, allocation_usage,
             samples, mip_levels,  array_layers,
@@ -59,10 +59,10 @@ image::image(const vulkan::device &device, const image_type type, const math::si
 }
 
 image::image(const vulkan::device &device, const image_type type, const math::size3d<std::uint32_t> extent,
-             const format format, const common::flags<image_usage_flag> usage_flags,
+             const format format, const Common::Flags<image_usage_flag> usage_flags,
              const memory_allocation_usage allocation_usage, const sample_count samples, const std::uint32_t mip_levels,
              const std::uint32_t array_layers, const image_tiling tiling,
-             const common::flags<image_create_flag> create_flags)
+             const Common::Flags<image_create_flag> create_flags)
     : image{device,
             type,
             internal::to_extent3d(extent),
@@ -78,9 +78,9 @@ image::image(const vulkan::device &device, const image_type type, const math::si
 }
 
 image::image(const vulkan::device &device, const image_type type, const VkExtent3D extent, const VkFormat format,
-             const common::flags<image_usage_flag> usage_flags, const memory_allocation_usage allocation_usage,
+             const Common::Flags<image_usage_flag> usage_flags, const memory_allocation_usage allocation_usage,
              const sample_count samples, const std::uint32_t mip_levels, const std::uint32_t array_layers,
-             const image_tiling tiling, const common::flags<image_create_flag> create_flags)
+             const image_tiling tiling, const Common::Flags<image_create_flag> create_flags)
     : device_memory{device, 0}
     , handle_{internal::create_image(allocation_, device, type, extent, format, usage_flags, samples, mip_levels,
                                      array_layers, tiling, create_flags, allocation_usage)}

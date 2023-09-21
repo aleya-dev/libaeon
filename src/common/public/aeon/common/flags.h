@@ -7,232 +7,232 @@
 #include <type_traits>
 #include <cstdint>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-template <typename underlying_type_t>
-class flag
+template <typename UnderlyingTypeT>
+class Flag
 {
 public:
-    using underlying_type = underlying_type_t;
+    using UnderlyingType = UnderlyingTypeT;
 
-    constexpr flag(const std::int16_t ai) noexcept
-        : value{static_cast<underlying_type>(ai)}
+    constexpr Flag(const std::int16_t ai) noexcept
+        : Value{static_cast<UnderlyingType>(ai)}
     {
     }
 
-    constexpr flag(const std::uint16_t ai) noexcept
-        : value{static_cast<underlying_type>(ai)}
+    constexpr Flag(const std::uint16_t ai) noexcept
+        : Value{static_cast<UnderlyingType>(ai)}
     {
     }
 
-    constexpr flag(const std::int32_t ai) noexcept
-        : value{static_cast<underlying_type>(ai)}
+    constexpr Flag(const std::int32_t ai) noexcept
+        : Value{static_cast<UnderlyingType>(ai)}
     {
     }
 
-    constexpr flag(const std::uint32_t ai) noexcept
-        : value{static_cast<underlying_type>(ai)}
+    constexpr Flag(const std::uint32_t ai) noexcept
+        : Value{static_cast<UnderlyingType>(ai)}
     {
     }
 
-    constexpr flag(const std::int64_t ai) noexcept
-        : value{static_cast<underlying_type>(ai)}
+    constexpr Flag(const std::int64_t ai) noexcept
+        : Value{static_cast<UnderlyingType>(ai)}
     {
     }
 
-    constexpr flag(const std::uint64_t ai) noexcept
-        : value{static_cast<underlying_type>(ai)}
+    constexpr Flag(const std::uint64_t ai) noexcept
+        : Value{static_cast<UnderlyingType>(ai)}
     {
     }
 
-    constexpr operator underlying_type() const noexcept
+    constexpr operator UnderlyingType() const noexcept
     {
-        return value;
+        return Value;
     }
 
-    underlying_type value;
+    UnderlyingType Value;
 };
 
-template <concepts::unsigned_enumerable enum_type_t>
-class flags
+template <Concepts::UnsignedEnumerable enum_type_t>
+class Flags
 {
 public:
-    using enum_type = enum_type_t;
-    using underlying_type = std::underlying_type_t<enum_type_t>;
+    using EnumType = enum_type_t;
+    using UnderlyingType = std::underlying_type_t<enum_type_t>;
 
-    constexpr flags() noexcept
-        : value{}
+    constexpr Flags() noexcept
+        : Value{}
     {
     }
 
-    constexpr flags(const enum_type value) noexcept
-        : value{static_cast<underlying_type>(value)}
+    constexpr Flags(const EnumType value) noexcept
+        : Value{static_cast<UnderlyingType>(value)}
     {
     }
 
-    constexpr flags(const flag<underlying_type> value) noexcept
-        : value{value}
+    constexpr Flags(const Flag<UnderlyingType> value) noexcept
+        : Value{value}
     {
     }
 
-    constexpr flags(const flags<enum_type> &) noexcept = default;
-    constexpr auto operator=(const flags<enum_type> &) noexcept -> flags<enum_type> & = default;
+    constexpr Flags(const Flags<EnumType> &) noexcept = default;
+    constexpr auto operator=(const Flags<EnumType> &) noexcept -> Flags<EnumType> & = default;
 
-    constexpr flags(flags<enum_type> &&) noexcept = default;
-    constexpr auto operator=(flags<enum_type> &&) noexcept -> flags<enum_type> & = default;
+    constexpr Flags(Flags<EnumType> &&) noexcept = default;
+    constexpr auto operator=(Flags<EnumType> &&) noexcept -> Flags<EnumType> & = default;
 
-    ~flags() = default;
+    ~Flags() = default;
 
-    constexpr auto &operator&=(const underlying_type mask) noexcept
+    constexpr auto &operator&=(const UnderlyingType mask) noexcept
     {
-        value &= mask;
+        Value &= mask;
         return *this;
     }
 
-    constexpr auto &operator&=(const enum_type mask) noexcept
+    constexpr auto &operator&=(const EnumType mask) noexcept
     {
-        value &= static_cast<underlying_type>(mask);
+        Value &= static_cast<UnderlyingType>(mask);
         return *this;
     }
 
-    constexpr auto &operator|=(const flags<enum_type> f) noexcept
+    constexpr auto &operator|=(const Flags<EnumType> f) noexcept
     {
-        value |= f.value;
+        Value |= f.Value;
         return *this;
     }
 
-    constexpr auto &operator|=(const enum_type f) noexcept
+    constexpr auto &operator|=(const EnumType f) noexcept
     {
-        value |= static_cast<underlying_type>(f);
+        Value |= static_cast<UnderlyingType>(f);
         return *this;
     }
 
-    constexpr auto &operator^=(const flags<enum_type> f) noexcept
+    constexpr auto &operator^=(const Flags<EnumType> f) noexcept
     {
-        value ^= f.value;
+        Value ^= f.Value;
         return *this;
     }
 
-    constexpr auto &operator^=(const enum_type f) noexcept
+    constexpr auto &operator^=(const EnumType f) noexcept
     {
-        value ^= static_cast<underlying_type>(f);
+        Value ^= static_cast<UnderlyingType>(f);
         return *this;
     }
 
-    constexpr operator underlying_type() const noexcept
+    constexpr operator UnderlyingType() const noexcept
     {
-        return value;
+        return Value;
     }
 
-    constexpr auto operator|(const flags<enum_type> f) const noexcept
+    constexpr auto operator|(const Flags<EnumType> f) const noexcept
     {
-        return flags<enum_type>{flag<underlying_type>{value | f.value}};
+        return Flags<EnumType>{Flag<UnderlyingType>{Value | f.Value}};
     }
 
-    constexpr auto operator|(const enum_type f) const noexcept
+    constexpr auto operator|(const EnumType f) const noexcept
     {
-        return flags<enum_type>{flag<underlying_type>{value | static_cast<underlying_type>(f)}};
+        return Flags<EnumType>{Flag<UnderlyingType>{Value | static_cast<UnderlyingType>(f)}};
     }
 
-    constexpr auto operator^(const flags<enum_type> f) const noexcept
+    constexpr auto operator^(const Flags<EnumType> f) const noexcept
     {
-        return flags<enum_type>{flag<underlying_type>{value ^ f.value}};
+        return Flags<EnumType>{Flag<UnderlyingType>{Value ^ f.Value}};
     }
 
-    constexpr auto operator^(const enum_type f) const noexcept
+    constexpr auto operator^(const EnumType f) const noexcept
     {
-        return flags<enum_type>{flag<underlying_type>{value ^ static_cast<underlying_type>(f)}};
+        return Flags<EnumType>{Flag<UnderlyingType>{Value ^ static_cast<UnderlyingType>(f)}};
     }
 
-    constexpr auto operator&(const underlying_type mask) const noexcept
+    constexpr auto operator&(const UnderlyingType mask) const noexcept
     {
-        return flags<enum_type>{flag<underlying_type>{value & mask}};
+        return Flags<EnumType>{Flag<UnderlyingType>{Value & mask}};
     }
 
-    constexpr auto operator&(const enum_type f) const noexcept
+    constexpr auto operator&(const EnumType f) const noexcept
     {
-        return flags<enum_type>{flag<underlying_type>{value & static_cast<underlying_type>(f)}};
+        return Flags<EnumType>{Flag<UnderlyingType>{Value & static_cast<UnderlyingType>(f)}};
     }
 
     constexpr auto operator~() const noexcept
     {
-        return flags<enum_type>(flag<underlying_type>{~value});
+        return flags<EnumType>(Flag<UnderlyingType>{~Value});
     }
 
     constexpr auto operator!() const noexcept
     {
-        return !value;
+        return !Value;
     }
 
-    constexpr auto operator==(const flags<enum_type> f) const noexcept
+    constexpr auto operator==(const Flags<EnumType> f) const noexcept
     {
-        return value == f.value;
+        return Value == f.Value;
     }
 
-    constexpr auto operator!=(const flags<enum_type> f) const noexcept
+    constexpr auto operator!=(const Flags<EnumType> f) const noexcept
     {
-        return value != f.value;
+        return Value != f.Value;
     }
 
-    constexpr auto operator==(const underlying_type mask) const noexcept
+    constexpr auto operator==(const UnderlyingType mask) const noexcept
     {
-        return value == mask;
+        return Value == mask;
     }
 
-    constexpr auto operator!=(const underlying_type mask) const noexcept
+    constexpr auto operator!=(const UnderlyingType mask) const noexcept
     {
-        return value != mask;
+        return Value != mask;
     }
 
-    [[nodiscard]] constexpr auto is_set(const enum_type f) const noexcept
+    [[nodiscard]] constexpr auto IsSet(const EnumType f) const noexcept
     {
-        const auto new_value = static_cast<underlying_type>(f);
-        return bits::check_flag(value, new_value) && new_value != 0;
+        const auto newValue = static_cast<UnderlyingType>(f);
+        return Bits::CheckFlag(Value, newValue) && newValue != 0;
     }
 
-    constexpr void set(const enum_type f) noexcept
+    constexpr void Set(const EnumType f) noexcept
     {
-        value |= static_cast<underlying_type>(f);
+        Value |= static_cast<UnderlyingType>(f);
     }
 
-    constexpr void set(const enum_type f, const bool condition) noexcept
+    constexpr void Set(const EnumType f, const bool condition) noexcept
     {
         if (condition)
-            set(f);
+            Set(f);
         else
-            unset(f);
+            Unset(f);
     }
 
-    constexpr void unset(const enum_type f) noexcept
+    constexpr void Unset(const EnumType f) noexcept
     {
-        value &= ~static_cast<underlying_type>(f);
+        Value &= ~static_cast<UnderlyingType>(f);
     }
 
-    constexpr void conditional_set(const bool condition, const enum_type f) noexcept
+    constexpr void ConditionalSet(const bool condition, const EnumType f) noexcept
     {
         if (condition)
             set(f);
     }
 
-    constexpr void conditional_unset(const bool condition, const enum_type f) noexcept
+    constexpr void ConditionalUnset(const bool condition, const EnumType f) noexcept
     {
         if (condition)
             unset(f);
     }
 
-    constexpr void force_set(const underlying_type v) noexcept
+    constexpr void ForceSet(const UnderlyingType v) noexcept
     {
-        value = v;
+        Value = v;
     }
 
-    underlying_type value;
+    UnderlyingType Value;
 };
 
-#define aeon_declare_flag_operators(f)                                                                                 \
-    inline constexpr auto operator|(const f lhs, const f rhs) noexcept -> aeon::common::flags<f>                       \
+#define AeonDeclareFlagOperators(f)                                                                                 \
+    inline constexpr auto operator|(const f lhs, const f rhs) noexcept -> aeon::Common::Flags<f>                       \
     {                                                                                                                  \
-        return aeon::common::flags<f>(lhs) | rhs;                                                                      \
+        return aeon::Common::Flags<f>(lhs) | rhs;                                                                      \
     }
 
-} // namespace aeon::common
+} // namespace aeon::Common

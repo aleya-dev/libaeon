@@ -13,7 +13,7 @@ namespace aeon::vulkan
 class extension final
 {
 public:
-    explicit extension(common::string name, common::version3<uint32_t> version);
+    explicit extension(Common::String name, Common::Version3<uint32_t> version);
     explicit extension(const VkExtensionProperties &extension_properties);
     ~extension() = default;
 
@@ -23,15 +23,15 @@ public:
     extension(extension &&) noexcept = default;
     auto operator=(extension &&) noexcept -> extension & = default;
 
-    [[nodiscard]] auto name() const noexcept -> const common::string &;
-    [[nodiscard]] auto version() const noexcept -> const common::version3<uint32_t> &;
+    [[nodiscard]] auto name() const noexcept -> const Common::String &;
+    [[nodiscard]] auto version() const noexcept -> const Common::Version3<uint32_t> &;
 
     auto operator==(const extension &other) const noexcept -> bool;
     auto operator!=(const extension &other) const noexcept -> bool;
 
 private:
-    common::string name_;
-    common::version3<uint32_t> version_;
+    Common::String name_;
+    Common::Version3<uint32_t> version_;
 };
 
 } // namespace aeon::vulkan

@@ -11,7 +11,7 @@ io_stream_sink::io_stream_sink(streams::stdio_device &stream)
 {
 }
 
-void io_stream_sink::log(const common::string &message, const common::string &module, const log_level level)
+void io_stream_sink::log(const Common::String &message, const Common::String &module, const log_level level)
 {
     streams::stream_writer writer(stream_);
 

@@ -54,9 +54,9 @@ void server::register_method(const method &method)
     methods_.insert({name, method});
 }
 
-auto server::request(const common::string &str) const -> common::string
+auto server::request(const Common::String &str) const -> Common::String
 {
-    if (str.empty())
+    if (str.Empty())
         return ptree::serialization::to_json(detail::respond_error(result{json_rpc_error::parse_error, "No content"}));
 
     const auto json = ptree::serialization::from_json(str);

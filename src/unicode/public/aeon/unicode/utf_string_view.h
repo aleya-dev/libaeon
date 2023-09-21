@@ -32,7 +32,7 @@ struct utf_iterator_traits<std::u16string_view>
 };
 
 template <>
-struct utf_iterator_traits<common::string_view>
+struct utf_iterator_traits<Common::StringView>
 {
     using iterator_type = utf8_iterator;
 };

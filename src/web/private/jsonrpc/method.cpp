@@ -5,13 +5,13 @@
 namespace aeon::web::jsonrpc
 {
 
-method::method(common::string name, signature func)
+method::method(Common::String name, signature func)
     : name_{std::move(name)}
     , func_{std::move(func)}
 {
 }
 
-auto method::name() const noexcept -> const common::string &
+auto method::name() const noexcept -> const Common::String &
 {
     return name_;
 }

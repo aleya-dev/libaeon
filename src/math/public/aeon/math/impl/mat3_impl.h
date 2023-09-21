@@ -48,13 +48,13 @@ inline mat3::mat3(const quaternion &q) noexcept
 
 [[nodiscard]] inline constexpr auto mat3::operator[](const std::size_t i) noexcept -> vector3<float> &
 {
-    aeon_assert_array_bounds(column, i);
+    AeonAssertArrayBounds(column, i);
     return column[i];
 }
 
 [[nodiscard]] inline constexpr auto mat3::operator[](const std::size_t i) const noexcept -> const vector3<float> &
 {
-    aeon_assert_array_bounds(column, i);
+    AeonAssertArrayBounds(column, i);
     return column[i];
 }
 
@@ -96,19 +96,19 @@ inline mat3::mat3(const quaternion &q) noexcept
     // clang-format on
 }
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto mat3::scale(const T xy) noexcept -> mat3
 {
     return scale(static_cast<float>(xy));
 }
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto mat3::scale(const T x, const T y) noexcept -> mat3
 {
     return scale(static_cast<float>(x), static_cast<float>(y));
 }
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto mat3::scale(const vector2<T> &vec) noexcept -> mat3
 {
     return scale(vector2<float>{vec});
@@ -128,13 +128,13 @@ template <common::concepts::arithmetic_convertible T>
     // clang-format on
 }
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto mat3::translate(const T x, const T y) noexcept -> mat3
 {
     return translate(static_cast<float>(x), static_cast<float>(y));
 }
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto mat3::translate(const vector2<T> &vec) noexcept -> mat3
 {
     return translate(vector2<float>{vec});

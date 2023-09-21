@@ -7,14 +7,14 @@
 #include <cstddef>
 #include <algorithm>
 
-namespace aeon::common::containers
+namespace aeon::Common::Containers
 {
 
 template <typename T>
-struct buffer_default_pair
+struct BufferDefaultPair
 {
-    T *data;
-    std::size_t capacity;
+    T *Data;
+    std::size_t Capacity;
 };
 
 /*!
@@ -28,9 +28,9 @@ struct buffer_default_pair
  *
  * Typically this should only be used for raw data; for example std::byte or char.
  */
-template <typename T, allocators::allocator AllocatorT = allocators::ansi_allocator<T>,
-          typename StoragePairT = buffer_default_pair<T>>
-class buffer
+template <typename T, Allocators::Allocator AllocatorT = Allocators::AnsiAllocator<T>,
+          typename StoragePairT = BufferDefaultPair<T>>
+class Buffer
 {
 public:
     using value_type = T;
@@ -44,154 +44,154 @@ public:
     using reference = value_type &;
     using const_reference = const value_type &;
 
-    buffer()
+    Buffer()
     {
         // Do not default initialize the pair; as it may contain other values
         // or state that we shouldn't interfere with.
-        pair_.data = nullptr;
-        pair_.capacity = 0;
+        m_pair.Data = nullptr;
+        m_pair.Capacity = 0;
     }
 
-    explicit buffer(const size_type size)
-        : buffer{}
+    explicit Buffer(const size_type size)
+        : Buffer{}
     {
-        resize(size);
+        Resize(size);
     }
 
-    buffer(const buffer<T, AllocatorT> &other)
+    Buffer(const Buffer<T, AllocatorT> &other)
     {
         // Do not default initialize the pair; as it may contain other values
         // or state that we shouldn't interfere with.
-        pair_.data = nullptr;
-        pair_.capacity = 0;
+        m_pair.Data = nullptr;
+        m_pair.Capacity = 0;
 
-        resize(other.capacity());
-        std::copy_n(other.data(), other.capacity(), pair_.data);
+        Resize(other.Capacity());
+        std::copy_n(other.Data(), other.Capacity(), m_pair.Data);
     }
 
-    auto operator=(const buffer<T, AllocatorT> &other) -> buffer<T, AllocatorT> &
+    auto operator=(const Buffer<T, AllocatorT> &other) -> Buffer<T, AllocatorT> &
     {
-        reset();
+        Reset();
 
-        resize(other.capacity());
-        std::copy_n(other.data(), other.capacity(), pair_.data);
+        Resize(other.Capacity());
+        std::copy_n(other.Data(), other.Capacity(), m_pair.Data);
 
         return *this;
     }
 
-    buffer(buffer<T, AllocatorT> &&other) noexcept
+    Buffer(Buffer<T, AllocatorT> &&other) noexcept
     {
-        pair_.data = other.pair_.data;
-        pair_.capacity = other.pair_.capacity;
+        m_pair.Data = other.m_pair.Data;
+        m_pair.Capacity = other.m_pair.Capacity;
 
-        other.pair_.data = nullptr;
-        other.pair_.capacity = 0;
+        other.m_pair.Data = nullptr;
+        other.m_pair.Capacity = 0;
     }
 
-    auto operator=(buffer<T, AllocatorT> &&other) noexcept -> buffer<T, AllocatorT> &
+    auto operator=(Buffer<T, AllocatorT> &&other) noexcept -> Buffer<T, AllocatorT> &
     {
-        reset();
+        Reset();
 
-        pair_.data = other.pair_.data;
-        pair_.capacity = other.pair_.capacity;
-        other.pair_.data = nullptr;
-        other.pair_.capacity = 0;
+        m_pair.Data = other.m_pair.Data;
+        m_pair.Capacity = other.m_pair.Capacity;
+        other.m_pair.Data = nullptr;
+        other.m_pair.Capacity = 0;
 
         return *this;
     }
 
-    ~buffer()
+    ~Buffer()
     {
-        reset();
+        Reset();
     }
 
     [[nodiscard]] auto begin() noexcept -> pointer
     {
-        return pair_.data;
+        return m_pair.Data;
     }
 
     [[nodiscard]] auto end() noexcept -> pointer
     {
-        return pair_.data + pair_.capacity;
+        return m_pair.Data + m_pair.Capacity;
     }
 
     [[nodiscard]] auto begin() const noexcept -> pointer
     {
-        return pair_.data;
+        return m_pair.Data;
     }
 
     [[nodiscard]] auto end() const noexcept -> pointer
     {
-        return pair_.data + pair_.capacity;
+        return m_pair.Data + m_pair.Capacity;
     }
 
     [[nodiscard]] auto cbegin() const noexcept -> pointer
     {
-        return pair_.data;
+        return m_pair.data;
     }
 
     [[nodiscard]] auto cend() const noexcept -> pointer
     {
-        return pair_.data + pair_.capacity;
+        return m_pair.Data + m_pair.Capacity;
     }
 
-    [[nodiscard]] auto capacity() const noexcept -> size_type
+    [[nodiscard]] auto Capacity() const noexcept -> size_type
     {
-        return pair_.capacity;
+        return m_pair.Capacity;
     }
 
-    [[nodiscard]] auto data() noexcept -> pointer
+    [[nodiscard]] auto Data() noexcept -> pointer
     {
-        return pair_.data;
+        return m_pair.Data;
     }
 
-    [[nodiscard]] auto data() const noexcept -> const_pointer
+    [[nodiscard]] auto Data() const noexcept -> const_pointer
     {
-        return pair_.data;
+        return m_pair.Data;
     }
 
-    void resize(const size_type size)
+    void Resize(const size_type size)
     {
-        pair_.data = allocator::reallocate(pair_.data, size);
-        pair_.capacity = size;
+        m_pair.Data = allocator::reallocate(m_pair.Data, size);
+        m_pair.Capacity = size;
     }
 
-    void reset()
+    void Reset()
     {
         // Note that data is not checked for nullptr here. It is up
         // to the allocator to handle this case.
-        allocator::deallocate(pair_.data, pair_.capacity);
-        pair_.data = nullptr;
-        pair_.capacity = 0;
+        allocator::deallocate(m_pair.Data, m_pair.Capacity);
+        m_pair.Data = nullptr;
+        m_pair.Capacity = 0;
     }
 
-    [[nodiscard]] auto empty() const noexcept
+    [[nodiscard]] auto Empty() const noexcept
     {
-        return pair_.capacity == 0u;
+        return m_pair.Capacity == 0u;
     }
 
-    [[nodiscard]] auto at(const size_type pos) noexcept -> reference
+    [[nodiscard]] auto At(const size_type pos) noexcept -> reference
     {
-        return pair_.data[pos];
+        return m_pair.Data[pos];
     }
 
-    [[nodiscard]] auto at(const size_type pos) const noexcept -> const_reference
+    [[nodiscard]] auto At(const size_type pos) const noexcept -> const_reference
     {
-        return pair_.data[pos];
+        return m_pair.Data[pos];
     }
 
     auto operator[](const size_type pos) noexcept -> reference
     {
-        return at(pos);
+        return At(pos);
     }
 
     auto operator[](const size_type pos) const noexcept -> const_reference
     {
-        return at(pos);
+        return At(pos);
     }
 
 private:
-    storage_pair pair_;
+    storage_pair m_pair;
 };
 
-} // namespace aeon::common::containers
+} // namespace aeon::Common::containers

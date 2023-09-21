@@ -96,7 +96,7 @@ void queue::submit(const command_buffer &command_buffer, const semaphore_ref &wa
 }
 
 void queue::submit(const VkCommandBuffer command_buffer, const semaphore_ref &wait,
-                   const common::flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal) const
+                   const Common::Flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal) const
 {
     const auto wait_semaphore_handle = vulkan::handle(wait);
     const auto signal_semaphore_handle = vulkan::handle(signal);
@@ -106,13 +106,13 @@ void queue::submit(const VkCommandBuffer command_buffer, const semaphore_ref &wa
 }
 
 void queue::submit(const command_buffer &command_buffer, const semaphore_ref &wait,
-                   const common::flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal) const
+                   const Common::Flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal) const
 {
     submit(vulkan::handle(command_buffer), wait, wait_stage, signal);
 }
 
 void queue::submit(const VkCommandBuffer command_buffer, const semaphore_ref &wait,
-                   const common::flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal,
+                   const Common::Flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal,
                    const fence_ref &fence) const
 {
     const auto wait_semaphore_handle = vulkan::handle(wait);
@@ -123,7 +123,7 @@ void queue::submit(const VkCommandBuffer command_buffer, const semaphore_ref &wa
 }
 
 void queue::submit(const command_buffer &command_buffer, const semaphore_ref &wait,
-                   const common::flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal,
+                   const Common::Flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal,
                    const fence_ref &fence) const
 {
     submit(vulkan::handle(command_buffer), wait, wait_stage, signal, fence);

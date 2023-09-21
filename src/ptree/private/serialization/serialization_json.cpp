@@ -22,8 +22,8 @@ namespace internal
 static void to_json(const std::monostate, streams::idynamic_stream &);
 static void to_json(const array &arr, streams::idynamic_stream &stream);
 static void to_json(const object &obj, streams::idynamic_stream &stream);
-static void to_json(const common::string &obj_str, streams::idynamic_stream &stream);
-static void to_json(const common::uuid &uuid, streams::idynamic_stream &stream);
+static void to_json(const Common::String &obj_str, streams::idynamic_stream &stream);
+static void to_json(const Common::Uuid &Uuid, streams::idynamic_stream &stream);
 static void to_json(const std::int64_t val, streams::idynamic_stream &stream);
 static void to_json(const double val, streams::idynamic_stream &stream);
 static void to_json(const bool val, streams::idynamic_stream &stream);
@@ -82,17 +82,17 @@ static void to_json(const object &obj, streams::idynamic_stream &stream)
     writer << '}';
 }
 
-static void to_json(const common::uuid &uuid, streams::idynamic_stream &stream)
+static void to_json(const Common::Uuid &Uuid, streams::idynamic_stream &stream)
 {
-    to_json(uuid.str().u8str(), stream);
+    to_json(Uuid.Str().U8Str(), stream);
 }
 
-static void to_json(const common::string &obj_str, streams::idynamic_stream &stream)
+static void to_json(const Common::String &obj_str, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << '"';
     // TODO: Add utf8 support to ptree
-    common::string str{std::cbegin(obj_str), std::cend(obj_str)};
+    Common::String str{std::cbegin(obj_str), std::cend(obj_str)};
     writer << unicode::stringutils::escape(str);
     writer << '"';
 }
@@ -121,14 +121,14 @@ static void to_json(const bool val, streams::idynamic_stream &stream)
 
 static void to_json([[maybe_unused]] const blob &val, [[maybe_unused]] streams::idynamic_stream &stream)
 {
-    aeon_assert_fail("Json serializer does not support binary blobs.");
+    AeonAssertFail("Json serializer does not support binary blobs.");
     throw ptree_serialization_exception{};
 }
 
 class json_parser final
 {
 public:
-    explicit json_parser(const common::string_view &view)
+    explicit json_parser(const Common::StringView &view)
         : view_{view}
         , itr_{std::begin(view_)}
         , prev_itr_{itr_}
@@ -213,7 +213,7 @@ private:
             if (token != ':')
                 throw ptree_serialization_exception{};
 
-            data.emplace(std::move(key), parse());
+            data.Emplace(std::move(key), parse());
 
             token = next_token();
             if (token == '}')
@@ -256,21 +256,21 @@ private:
 
     [[nodiscard]] auto parse_number() -> property_tree
     {
-        const auto str = common::lexical_parse::extract_number_string(view_.str().substr(itr_.offset()));
-        const auto result = common::lexical_parse::number(str);
+        const auto str = Common::LexicalParse::ExtractNumberString(view_.str().Substr(itr_.offset()));
+        const auto result = Common::LexicalParse::Number(str);
 
-        std::advance(itr_, result.offset());
+        std::advance(itr_, result.Offset());
 
-        if (result.is_integer())
-            return result.integer_value();
+        if (result.IsInteger())
+            return result.IntegerValue();
 
-        return result.double_value();
+        return result.DoubleValue();
     }
 
-    void check(const common::string_view &expected)
+    void check(const Common::StringView &expected)
     {
         itr_ = prev_itr_;
-        if (view_.str().compare(itr_.offset(), std::size(expected), expected) == 0)
+        if (view_.str().Compare(itr_.offset(), std::size(expected), expected) == 0)
         {
             std::advance(itr_, std::size(expected));
         }
@@ -280,9 +280,9 @@ private:
         }
     }
 
-    [[nodiscard]] auto parse_string() -> common::string
+    [[nodiscard]] auto parse_string() -> Common::String
     {
-        common::string out;
+        Common::String out;
 
         while (true)
         {
@@ -354,9 +354,9 @@ private:
         return *itr_++;
     }
 
-    unicode::utf_string_view<common::string_view> view_;
-    unicode::utf_string_view<common::string_view>::iterator itr_;
-    unicode::utf_string_view<common::string_view>::iterator prev_itr_;
+    unicode::utf_string_view<Common::StringView> view_;
+    unicode::utf_string_view<Common::StringView>::iterator itr_;
+    unicode::utf_string_view<Common::StringView>::iterator prev_itr_;
 };
 
 } // namespace internal
@@ -366,9 +366,9 @@ void to_json(const property_tree &ptree, streams::idynamic_stream &stream)
     internal::to_json(ptree, stream);
 }
 
-[[nodiscard]] auto to_json(const property_tree &ptree) -> common::string
+[[nodiscard]] auto to_json(const property_tree &ptree) -> Common::String
 {
-    common::string str;
+    Common::String str;
     auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
     to_json(ptree, stream);
     return str;
@@ -389,7 +389,7 @@ void from_json(streams::idynamic_stream &stream, property_tree &ptree)
     return pt;
 }
 
-[[nodiscard]] auto from_json(const common::string &str) -> property_tree
+[[nodiscard]] auto from_json(const Common::String &str) -> property_tree
 {
     auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
     return from_json(stream);

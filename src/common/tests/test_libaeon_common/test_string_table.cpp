@@ -13,9 +13,9 @@ struct name3_tag
 {
 };
 
-using name1 = aeon::common::string_table<name1_tag>;
-using name2 = aeon::common::string_table<name2_tag>;
-using name3 = aeon::common::string_table<name3_tag>;
+using name1 = aeon::Common::StringTable<name1_tag>;
+using name2 = aeon::Common::StringTable<name2_tag>;
+using name3 = aeon::Common::StringTable<name3_tag>;
 
 // Since the string table uses static variables, we can't split up in multiple tests
 // since they would fail when ran out of order.

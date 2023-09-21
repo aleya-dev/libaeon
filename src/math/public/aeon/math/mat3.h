@@ -117,7 +117,7 @@ public:
      * \param[in] xy - Amount of scaling done over the X and Y axis.
      * \return A scaling matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static constexpr auto scale(const T xy) noexcept -> mat3;
 
     /*!
@@ -126,7 +126,7 @@ public:
      * \param[in] y - Amount of scaling done over the Y axis.
      * \return A scaling matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static constexpr auto scale(const T x, const T y) noexcept -> mat3;
 
     /*!
@@ -134,7 +134,7 @@ public:
      * \param[in] vec - Amount of scaling done over the X and Y axis.
      * \return A scaling matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static constexpr auto scale(const vector2<T> &vec) noexcept -> mat3;
 
     /*!
@@ -158,7 +158,7 @@ public:
      * \param[in] y - Amount of translation done over the Y axis.
      * \return A translation matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static constexpr auto translate(const T x, const T y) noexcept -> mat3;
 
     /*!
@@ -166,7 +166,7 @@ public:
      * \param[in] vec - Amount of translation done over the X and Y axis.
      * \return A translation matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static constexpr auto translate(const vector2<T> &vec) noexcept -> mat3;
 
     /*!

@@ -21,10 +21,10 @@ public:
      * Create a command pool on the graphics queue family index
      */
     explicit command_pool(const vulkan::device &device,
-                          const common::flags<command_pool_create_flag> create_flags = {});
+                          const Common::Flags<command_pool_create_flag> create_flags = {});
 
     explicit command_pool(const vulkan::device &device, const std::uint32_t queue_family_index,
-                          const common::flags<command_pool_create_flag> create_flags = {});
+                          const Common::Flags<command_pool_create_flag> create_flags = {});
     ~command_pool();
 
     command_pool(const command_pool &) noexcept = delete;

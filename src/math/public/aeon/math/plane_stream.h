@@ -9,7 +9,7 @@
 namespace aeon::math
 {
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline auto operator<<(std::ostream &os, const plane<T> &p) -> std::ostream &
 {
     return os << "plane<" << typeid(T).name() << ">(normal: " << normal(p) << ", distance: " << distance(p) << ")";

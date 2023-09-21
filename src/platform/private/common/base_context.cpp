@@ -41,17 +41,17 @@ base_context::~base_context() = default;
 
 void base_context::attach_input_listener(input_events &events)
 {
-    input_listeners_.attach(events);
+    input_listeners_.Attach(events);
 }
 
 void base_context::detach_input_listener(input_events &events)
 {
-    input_listeners_.detach(events);
+    input_listeners_.Detach(events);
 }
 
 void base_context::detach_all_input_listeners()
 {
-    input_listeners_.detach_all();
+    input_listeners_.DetachAll();
 }
 
 } // namespace aeon::platform

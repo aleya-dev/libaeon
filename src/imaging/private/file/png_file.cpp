@@ -197,7 +197,7 @@ void save(const image_view &image, streams::idynamic_stream &stream)
     const auto color_type = detail::convert_encoding_to_color_type(pixel_format(image));
     const auto width = static_cast<png_uint_32>(math::width(image));
     const auto height = static_cast<png_uint_32>(math::height(image));
-    const auto bit_depth = static_cast<int>(math::element_type(image).component_size * 8);
+    const auto bit_depth = static_cast<int>(math::ElementType(image).ComponentSize * 8);
 
     // Only 8 or 16 bit are supported bith depths
     if (bit_depth != 8 && bit_depth != 16)

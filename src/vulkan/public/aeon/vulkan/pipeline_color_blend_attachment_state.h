@@ -34,7 +34,7 @@ public:
     constexpr auto destination_alpha_blend_factor(const blend_factor factor) noexcept
         -> pipeline_color_blend_attachment_state &;
     constexpr auto alpha_blend_op(const blend_op op) noexcept -> pipeline_color_blend_attachment_state &;
-    constexpr auto color_write_mask(const common::flags<color_component_flag> mask) noexcept
+    constexpr auto color_write_mask(const Common::Flags<color_component_flag> mask) noexcept
         -> pipeline_color_blend_attachment_state &;
 };
 
@@ -107,7 +107,7 @@ inline constexpr auto pipeline_color_blend_attachment_state::alpha_blend_op(cons
 }
 
 inline constexpr auto
-    pipeline_color_blend_attachment_state::color_write_mask(const common::flags<color_component_flag> mask) noexcept
+    pipeline_color_blend_attachment_state::color_write_mask(const Common::Flags<color_component_flag> mask) noexcept
     -> pipeline_color_blend_attachment_state &
 {
     colorWriteMask = mask;

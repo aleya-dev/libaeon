@@ -32,7 +32,7 @@ public:
     /*!
      * Create a quaternion based on the given values.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     explicit constexpr quaternion(const T w, const T x, const T y, const T z) noexcept;
 
     /*!

@@ -20,7 +20,7 @@ namespace aeon::math
  *
  * The class is 16-bytes aligned to allow for SIMD optimizations (data layout [X Y Z W]).
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 class alignas(16) vector4
 {
 public:
@@ -52,26 +52,26 @@ public:
     /*!
      * Create a vector based on the given values. Z and W will be initialized to 0.
      */
-    template <common::concepts::arithmetic_convertible U>
+    template <Common::Concepts::ArithmeticConvertible U>
     explicit constexpr vector4(const U x, const U y) noexcept;
 
     /*!
      * Create a vector based on the given values. W will be initialized to 0.
      * Converting constructor.
      */
-    template <common::concepts::arithmetic_convertible U>
+    template <Common::Concepts::ArithmeticConvertible U>
     explicit constexpr vector4(const U x, const U y, const U z) noexcept;
 
     /*!
      * Create a vector based on the given values. Converting constructor
      */
-    template <common::concepts::arithmetic_convertible U>
+    template <Common::Concepts::ArithmeticConvertible U>
     explicit constexpr vector4(const U x, const U y, const U z, const U w) noexcept;
 
     /*!
      * Create a vector based on the given vector. Converting constructor.
      */
-    template <common::concepts::arithmetic_convertible U>
+    template <Common::Concepts::ArithmeticConvertible U>
     explicit constexpr vector4(const vector4<U> &vec) noexcept;
 
     /*!
@@ -142,82 +142,82 @@ public:
     T w;
 };
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator+(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator+(const vector4<T> &lhs, const T rhs) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator+(const T lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator-(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator-(const vector4<T> &lhs, const T rhs) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator-(const T lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator-(const vector4<T> &vec) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator*(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator*(const vector4<T> &lhs, const T rhs) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator*(const T lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator/(const vector4<T> &lhs, const T rhs) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+template <Common::Concepts::ArithmeticConvertible T, Common::Concepts::ArithmeticConvertible U>
 inline constexpr auto operator*(const vector4<T> &lhs, const vector4<U> &rhs) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+template <Common::Concepts::ArithmeticConvertible T, Common::Concepts::ArithmeticConvertible U>
 inline constexpr auto operator*(const vector4<T> &lhs, const U rhs) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+template <Common::Concepts::ArithmeticConvertible T, Common::Concepts::ArithmeticConvertible U>
 inline constexpr auto operator/(const vector4<T> &lhs, const U rhs) noexcept -> vector4<T>;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator+=(vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T> &;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator+=(vector4<T> &lhs, const T rhs) noexcept -> vector4<T> &;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator-=(vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T> &;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator-=(vector4<T> &lhs, const T rhs) noexcept -> vector4<T> &;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator*=(vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T> &;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator*=(vector4<T> &lhs, const T rhs) noexcept -> vector4<T> &;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator/=(vector4<T> &lhs, const T rhs) noexcept -> vector4<T> &;
 
-template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+template <Common::Concepts::ArithmeticConvertible T, Common::Concepts::ArithmeticConvertible U>
 inline constexpr auto operator*=(vector4<T> &lhs, const vector4<U> &rhs) noexcept -> vector4<T> &;
 
-template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+template <Common::Concepts::ArithmeticConvertible T, Common::Concepts::ArithmeticConvertible U>
 inline constexpr auto operator*=(vector4<T> &lhs, const U rhs) noexcept -> vector4<T> &;
 
-template <common::concepts::arithmetic_convertible T, common::concepts::arithmetic_convertible U>
+template <Common::Concepts::ArithmeticConvertible T, Common::Concepts::ArithmeticConvertible U>
 inline constexpr auto operator/=(vector4<T> &lhs, const U rhs) noexcept -> vector4<T> &;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator==(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> bool;
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr auto operator<=>(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> std::strong_ordering;
 
 /*!
@@ -228,7 +228,7 @@ inline constexpr auto operator<=>(const vector4<T> &lhs, const vector4<T> &rhs) 
  * \param[in] z - Relative Z coordinate
  * \param[in] w - Relative W coordinate
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr void translate(vector4<T> &lhs, const T x, const T y, const T z, const T w) noexcept;
 
 /*!
@@ -236,7 +236,7 @@ inline constexpr void translate(vector4<T> &lhs, const T x, const T y, const T z
  * \param[in,out] lhs - Vector
  * \param[in] rhs - Relative X, Y, Z and W coordinates
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr void translate(vector4<T> &lhs, const vector4<T> &rhs) noexcept;
 
 /*!
@@ -248,7 +248,7 @@ inline constexpr void translate(vector4<T> &lhs, const vector4<T> &rhs) noexcept
  * \param[in] w - Relative W coordinate
  * \return A new vector moved with the given offset
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto translated(const vector4<T> &lhs, const T x, const T y, const T z,
                                                const T w) noexcept -> vector4<T>;
 
@@ -258,7 +258,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] rhs - Relative X, Y, Z and W coordinates.
  * \return A new vector moved with the given offset
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto translated(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
 
 /*!
@@ -266,7 +266,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return The sum of each component (X+Y+Z+W);
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto sum(const vector4<T> &vec) noexcept -> T;
 
 /*!
@@ -275,7 +275,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] rhs - Vector
  * \return Dot product
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto dot(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> T;
 
 /*!
@@ -283,7 +283,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return Vector length
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto length(const vector4<T> &vec) noexcept -> T;
 
 /*!
@@ -291,14 +291,14 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return Vector length&sup2;
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto squared_length(const vector4<T> &vec) noexcept -> T;
 
 /*!
  * Normalize a given directional vector (so that length = 1)
  * \param[in,out] vec - Vector
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline constexpr void normalize(vector4<T> &vec) noexcept;
 
 /*!
@@ -306,7 +306,7 @@ inline constexpr void normalize(vector4<T> &vec) noexcept;
  * \param[in] vec - Vector
  * \return Normalized vector
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto normalized(const vector4<T> &vec) noexcept -> vector4<T>;
 
 /*!
@@ -314,7 +314,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return The lowest value component
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto min(const vector4<T> &vec) noexcept -> T;
 
 /*!
@@ -322,7 +322,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return The highest value component
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto max(const vector4<T> &vec) noexcept -> T;
 
 /*!
@@ -330,7 +330,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return Sine values of the given vector.
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto sin(const vector4<T> &vec) noexcept -> vector4<T>;
 
 /*!
@@ -338,7 +338,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return Cosine values of the given vector.
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto cos(const vector4<T> &vec) noexcept -> vector4<T>;
 
 /*!
@@ -346,7 +346,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return Tangent values of the given vector.
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto tan(const vector4<T> &vec) noexcept -> vector4<T>;
 
 /*!
@@ -354,7 +354,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return Arc since values of the given vector.
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto asin(const vector4<T> &vec) noexcept -> vector4<T>;
 
 /*!
@@ -362,7 +362,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return Arc cosine values of the given vector.
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto acos(const vector4<T> &vec) noexcept -> vector4<T>;
 
 /*!
@@ -370,7 +370,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return Arc tangent values of the given vector.
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto atan(const vector4<T> &vec) noexcept -> vector4<T>;
 
 /*!
@@ -378,7 +378,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return Absolute values of the given vector.
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto abs(const vector4<T> &vec) noexcept -> vector4<T>;
 
 /*!
@@ -387,7 +387,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] rhs - Vector
  * \return Distance
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto distance(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> T;
 
 /*!
@@ -396,7 +396,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] rhs - Vector
  * \return Distance&sup2;
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto squared_distance(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> T;
 
 /*!
@@ -405,7 +405,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] rhs - Vector
  * \return Vector with the absolute distances for each component;
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto absolute_distance(const vector4<T> &lhs, const vector4<T> &rhs) noexcept
     -> vector4<T>;
 
@@ -415,7 +415,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] rhs - Vector
  * \return Manhattan distance
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto manhattan_distance(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> T;
 
 /*!
@@ -424,7 +424,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] rhs - Vector
  * \return Chebyshev distance
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto chebyshev_distance(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> T;
 
 /*!
@@ -433,7 +433,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] rhs - Vector
  * \return Middle point
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto midpoint(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
 
 /*!
@@ -442,7 +442,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] rhs - Vector
  * \return Floor from 2 given vectors
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto floor(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
 
 /*!
@@ -450,7 +450,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return Floored values of a given vector
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto floor(const vector4<T> &vec) noexcept -> vector4<T>;
 
 /*!
@@ -459,7 +459,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] rhs - Vector
  * \return Ceil from 2 given vectors
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto ceil(const vector4<T> &lhs, const vector4<T> &rhs) noexcept -> vector4<T>;
 
 /*!
@@ -467,7 +467,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return Ceiled values of a given vector
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto ceil(const vector4<T> &vec) noexcept -> vector4<T>;
 
 /*!
@@ -475,7 +475,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return Rounded values of a given vector
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto round(const vector4<T> &vec) noexcept -> vector4<T>;
 
 /*!
@@ -485,7 +485,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] ratio - A ratio between 0.0 and 1.0
  * \return Interpolated vector
  */
-template <common::concepts::arithmetic_convertible T, std::floating_point U>
+template <Common::Concepts::ArithmeticConvertible T, std::floating_point U>
 [[nodiscard]] inline constexpr auto interpolate(const vector4<T> &val1, const vector4<T> &val2, const U ratio) noexcept
     -> vector4<T>;
 
@@ -495,7 +495,7 @@ template <common::concepts::arithmetic_convertible T, std::floating_point U>
  * \param[in] vec - Vector
  * \return Pointer to vector data.
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto ptr(vector4<T> &vec) noexcept -> T *;
 
 /*!
@@ -504,7 +504,7 @@ template <common::concepts::arithmetic_convertible T>
  * \param[in] vec - Vector
  * \return Const pointer to vector data.
  */
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto ptr(const vector4<T> &vec) noexcept -> const T *;
 
 } // namespace aeon::math

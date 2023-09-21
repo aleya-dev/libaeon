@@ -8,158 +8,158 @@ using namespace aeon;
 
 TEST(test_unordered_flatset, test_unordered_flatset_unique_insert)
 {
-    common::containers::unordered_flatset<common::string> set;
+    Common::Containers::UnorderedFlatset<Common::String> set;
 
-    EXPECT_EQ(0u, std::size(set));
-    EXPECT_TRUE(std::empty(set));
+    EXPECT_EQ(0u, set.Size());
+    EXPECT_TRUE(set.Empty());
 
-    set.insert("A");
-    EXPECT_EQ(1u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Insert("A");
+    EXPECT_EQ(1u, set.Size());
+    EXPECT_FALSE(set.Empty());
 
-    set.insert("B");
-    EXPECT_EQ(2u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Insert("B");
+    EXPECT_EQ(2u, set.Size());
+    EXPECT_FALSE(set.Empty());
 
-    set.insert("A");
-    EXPECT_EQ(2u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Insert("A");
+    EXPECT_EQ(2u, set.Size());
+    EXPECT_FALSE(set.Empty());
 
-    set.insert("B");
-    EXPECT_EQ(2u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Insert("B");
+    EXPECT_EQ(2u, set.Size());
+    EXPECT_FALSE(set.Empty());
 
-    set.insert("C");
-    EXPECT_EQ(3u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Insert("C");
+    EXPECT_EQ(3u, set.Size());
+    EXPECT_FALSE(set.Empty());
 }
 
 TEST(test_unordered_flatset, test_unordered_flatset_unique_emplace)
 {
-    common::containers::unordered_flatset<common::string> set;
+    Common::Containers::UnorderedFlatset<Common::String> set;
 
-    EXPECT_EQ(0u, std::size(set));
-    EXPECT_TRUE(std::empty(set));
+    EXPECT_EQ(0u, set.Size());
+    EXPECT_TRUE(set.Empty());
 
-    set.emplace("A");
-    EXPECT_EQ(1u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Emplace("A");
+    EXPECT_EQ(1u, set.Size());
+    EXPECT_FALSE(set.Empty());
 
-    set.emplace("B");
-    EXPECT_EQ(2u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Emplace("B");
+    EXPECT_EQ(2u, set.Size());
+    EXPECT_FALSE(set.Empty());
 
-    set.emplace("A");
-    EXPECT_EQ(2u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Emplace("A");
+    EXPECT_EQ(2u, set.Size());
+    EXPECT_FALSE(set.Empty());
 
-    set.emplace("B");
-    EXPECT_EQ(2u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Emplace("B");
+    EXPECT_EQ(2u, set.Size());
+    EXPECT_FALSE(set.Empty());
 
-    set.emplace("C");
-    EXPECT_EQ(3u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Emplace("C");
+    EXPECT_EQ(3u, set.Size());
+    EXPECT_FALSE(set.Empty());
 }
 
 TEST(test_unordered_flatset, test_unordered_flatset_unique_insert_emplace_mixed)
 {
-    common::containers::unordered_flatset<common::string> set;
+    Common::Containers::UnorderedFlatset<Common::String> set;
 
-    EXPECT_EQ(0u, std::size(set));
-    EXPECT_TRUE(std::empty(set));
+    EXPECT_EQ(0u, set.Size());
+    EXPECT_TRUE(set.Empty());
 
-    set.emplace("A");
-    EXPECT_EQ(1u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Emplace("A");
+    EXPECT_EQ(1u, set.Size());
+    EXPECT_FALSE(set.Empty());
 
-    set.emplace("B");
-    EXPECT_EQ(2u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Emplace("B");
+    EXPECT_EQ(2u, set.Size());
+    EXPECT_FALSE(set.Empty());
 
-    set.insert("A");
-    EXPECT_EQ(2u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Insert("A");
+    EXPECT_EQ(2u, set.Size());
+    EXPECT_FALSE(set.Empty());
 
-    set.insert("B");
-    EXPECT_EQ(2u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Insert("B");
+    EXPECT_EQ(2u, set.Size());
+    EXPECT_FALSE(set.Empty());
 
-    set.emplace("C");
-    EXPECT_EQ(3u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Emplace("C");
+    EXPECT_EQ(3u, set.Size());
+    EXPECT_FALSE(set.Empty());
 
-    set.insert("C");
-    EXPECT_EQ(3u, std::size(set));
-    EXPECT_FALSE(std::empty(set));
+    set.Insert("C");
+    EXPECT_EQ(3u, set.Size());
+    EXPECT_FALSE(set.Empty());
 }
 
 TEST(test_unordered_flatset, test_unordered_flatset_remove_by_value)
 {
-    common::containers::unordered_flatset<common::string> set;
-    set.emplace("A");
-    set.emplace("B");
-    set.emplace("C");
-    set.emplace("D");
+    Common::Containers::UnorderedFlatset<Common::String> set;
+    set.Emplace("A");
+    set.Emplace("B");
+    set.Emplace("C");
+    set.Emplace("D");
 
-    EXPECT_EQ(4u, std::size(set));
+    EXPECT_EQ(4u, set.Size());
 
-    EXPECT_TRUE(set.contains("B"));
-    set.erase("B");
-    EXPECT_EQ(3u, std::size(set));
-    EXPECT_FALSE(set.contains("B"));
+    EXPECT_TRUE(set.Contains("B"));
+    set.Erase("B");
+    EXPECT_EQ(3u, set.Size());
+    EXPECT_FALSE(set.Contains("B"));
 
-    set.erase("ABCD");
-    EXPECT_EQ(3u, std::size(set));
+    set.Erase("ABCD");
+    EXPECT_EQ(3u, set.Size());
 }
 
 TEST(test_unordered_flatset, test_unordered_flatset_remove_by_iterator)
 {
-    common::containers::unordered_flatset<common::string> set;
-    set.emplace("A");
-    set.emplace("B");
-    set.emplace("C");
-    set.emplace("D");
+    Common::Containers::UnorderedFlatset<Common::String> set;
+    set.Emplace("A");
+    set.Emplace("B");
+    set.Emplace("C");
+    set.Emplace("D");
 
-    EXPECT_EQ(4u, std::size(set));
+    EXPECT_EQ(4u, set.Size());
 
-    EXPECT_TRUE(set.contains("A"));
-    set.erase(std::begin(set));
-    EXPECT_FALSE(set.contains("A"));
-    EXPECT_EQ(3u, std::size(set));
+    EXPECT_TRUE(set.Contains("A"));
+    set.Erase(std::begin(set));
+    EXPECT_FALSE(set.Contains("A"));
+    EXPECT_EQ(3u, set.Size());
 
-    EXPECT_TRUE(set.contains("B"));
-    set.erase(std::begin(set));
-    EXPECT_FALSE(set.contains("B"));
-    EXPECT_EQ(2u, std::size(set));
+    EXPECT_TRUE(set.Contains("B"));
+    set.Erase(std::begin(set));
+    EXPECT_FALSE(set.Contains("B"));
+    EXPECT_EQ(2u, set.Size());
 
-    EXPECT_TRUE(set.contains("C"));
-    set.erase(std::begin(set));
-    EXPECT_FALSE(set.contains("C"));
-    EXPECT_EQ(1u, std::size(set));
+    EXPECT_TRUE(set.Contains("C"));
+    set.Erase(std::begin(set));
+    EXPECT_FALSE(set.Contains("C"));
+    EXPECT_EQ(1u, set.Size());
 
-    EXPECT_TRUE(set.contains("D"));
-    set.erase(std::begin(set));
-    EXPECT_FALSE(set.contains("D"));
-    EXPECT_EQ(0u, std::size(set));
+    EXPECT_TRUE(set.Contains("D"));
+    set.Erase(std::begin(set));
+    EXPECT_FALSE(set.Contains("D"));
+    EXPECT_EQ(0u, set.Size());
 }
 
 TEST(test_unordered_flatset, test_unordered_flatset_compare)
 {
-    common::containers::unordered_flatset<common::string> set;
-    set.emplace("A");
-    set.emplace("B");
-    set.emplace("C");
+    Common::Containers::UnorderedFlatset<Common::String> set;
+    set.Emplace("A");
+    set.Emplace("B");
+    set.Emplace("C");
 
-    common::containers::unordered_flatset<common::string> set2;
-    set2.emplace("A");
-    set2.emplace("B");
-    set2.emplace("C");
+    Common::Containers::UnorderedFlatset<Common::String> set2;
+    set2.Emplace("A");
+    set2.Emplace("B");
+    set2.Emplace("C");
 
     EXPECT_TRUE(set == set2);
     EXPECT_FALSE(set != set2);
 
-    set.emplace("D");
+    set.Emplace("D");
     EXPECT_FALSE(set == set2);
     EXPECT_TRUE(set != set2);
 }

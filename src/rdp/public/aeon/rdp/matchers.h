@@ -17,9 +17,9 @@ namespace aeon::rdp
  * "[a-zA-Z]+"
  * "[0-9]+"
  */
-[[nodiscard]] auto match_regex(parser &parser, const common::string_view regex,
-                               typename std::basic_regex<common::string_view::value_type>::flag_type flags =
-                                   std::regex_constants::ECMAScript) -> parse_result<common::string_view>;
+[[nodiscard]] auto match_regex(parser &parser, const Common::StringView regex,
+                               typename std::basic_regex<Common::StringView::value_type>::flag_type flags =
+                                   std::regex_constants::ECMAScript) -> parse_result<Common::StringView>;
 
 /*!
  * Check if there is a whitespace character at the current position (space or tab).
@@ -61,33 +61,33 @@ inline void skip_byte_order_marker(parser &parser) noexcept;
 /*!
  * Match alpha characters (a-zA-Z) and return the result if any were matched.
  */
-inline auto match_alpha(parser &parser) noexcept -> parse_result<common::string_view>;
+inline auto match_alpha(parser &parser) noexcept -> parse_result<Common::StringView>;
 
 /*!
  * Match digit characters (0-9) and return the result if any were matched.
  */
-inline auto match_digit(parser &parser) noexcept -> parse_result<common::string_view>;
+inline auto match_digit(parser &parser) noexcept -> parse_result<Common::StringView>;
 
 /*!
  * Match digit characters (optionally a '-' character followed by 0-9) and return the result if any were matched.
  */
 
-inline auto match_signed_digit(parser &parser) noexcept -> parse_result<common::string_view>;
+inline auto match_signed_digit(parser &parser) noexcept -> parse_result<Common::StringView>;
 
 /*!
  * Match alpha and digit characters (a-zA-Z0-9) and return the result if any were matched.
  */
-inline auto match_alnum(parser &parser) noexcept -> parse_result<common::string_view>;
+inline auto match_alnum(parser &parser) noexcept -> parse_result<Common::StringView>;
 
 /*!
  * Match binary characters (0 or 1) and return the result if any were matched.
  */
-inline auto match_binary(parser &parser) noexcept -> parse_result<common::string_view>;
+inline auto match_binary(parser &parser) noexcept -> parse_result<Common::StringView>;
 
 /*!
  * Match hexadecimal characters (0-9a-fA-F) and return the result if any were matched.
  */
-inline auto match_hexadecimal(parser &parser) noexcept -> parse_result<common::string_view>;
+inline auto match_hexadecimal(parser &parser) noexcept -> parse_result<Common::StringView>;
 
 /*!
  * Parse decimal characters (0-9) to an integer and return the result if any were matched and parsed.
@@ -113,7 +113,7 @@ inline auto parse_binary(parser &parser) noexcept -> parse_result<std::uint64_t>
  * Parse binary characters (0 or 1) to an integer and return the result if any were matched and parsed.
  * The result is only matched if the binary value is prefixed with the given prefix.
  */
-inline auto parse_binary(parser &parser, const common::string_view prefix) noexcept -> parse_result<std::uint64_t>;
+inline auto parse_binary(parser &parser, const Common::StringView prefix) noexcept -> parse_result<std::uint64_t>;
 
 /*!
  * Parse hexadecimal characters (0-9a-fA-F) to an integer and return the result if any were matched and parsed.
@@ -124,7 +124,7 @@ inline auto parse_hexadecimal(parser &parser) noexcept -> parse_result<std::uint
  * Parse hexadecimal characters (0-9a-fA-F) to an integer and return the result if any were matched and parsed.
  * The result is only matched if the binary value is prefixed with the given prefix.
  */
-inline auto parse_hexadecimal(parser &parser, const common::string_view prefix) noexcept -> parse_result<std::uint64_t>;
+inline auto parse_hexadecimal(parser &parser, const Common::StringView prefix) noexcept -> parse_result<std::uint64_t>;
 
 /*!
  * Parse a boolean value (true or false) case insensitive.
@@ -132,9 +132,9 @@ inline auto parse_hexadecimal(parser &parser, const common::string_view prefix) 
 inline auto parse_boolean(parser &parser) noexcept -> parse_result<bool>;
 
 /*!
- * Parse a uuid value
+ * Parse a Uuid value
  */
-inline auto parse_uuid(parser &parser) noexcept -> parse_result<common::uuid>;
+inline auto parse_uuid(parser &parser) noexcept -> parse_result<Common::Uuid>;
 
 } // namespace aeon::rdp
 

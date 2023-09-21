@@ -103,7 +103,7 @@ void multithreaded_sink_backend::handle_background_thread()
         });
 }
 
-void multithreaded_sink_backend::log(const common::string &message, const common::string &module, const log_level level)
+void multithreaded_sink_backend::log(const Common::String &message, const Common::String &module, const log_level level)
 {
     std::scoped_lock lock(queue_mutex_);
     log_queue_.push_back({message, module, level});

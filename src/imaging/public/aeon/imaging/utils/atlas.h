@@ -92,7 +92,7 @@ struct atlas_result
                                  std::tie(lhs_dimensions.height, rhs_dimensions.width);
                       });
 
-    const auto element_type = math::element_type(images[0]);
+    const auto ElementType = math::ElementType(images[0]);
     const auto format = imaging::pixel_format(images[0]);
 
     atlas_result result;
@@ -105,12 +105,12 @@ struct atlas_result
         dimensions *= 2;
     }
 
-    result.img = image{element_type, format, dimensions};
+    result.img = image{ElementType, format, dimensions};
 
     for (auto i = 0ull; i < std::size(images); ++i)
     {
         const auto &source_image = images[i];
-        if (element_type != math::element_type(source_image) || format != imaging::pixel_format(source_image))
+        if (ElementType != math::ElementType(source_image) || format != imaging::pixel_format(source_image))
             throw std::invalid_argument{"Image format mismatch."};
 
         math::blit(source_image, result.img, math::left_top(result.positions[i]));
@@ -123,7 +123,7 @@ struct atlas_result
                                        const math::size2d<image::dimensions_type> minimum_distance = {1, 1},
                                        const math::size2d<image::dimensions_type> initial_dimensions = {128, 128})
 {
-    const auto image_views = common::container::auto_transform<image_view>(images);
+    const auto image_views = Common::Container::AutoTransform<image_view>(images);
     return create_atlas(image_views, minimum_distance, initial_dimensions);
 }
 

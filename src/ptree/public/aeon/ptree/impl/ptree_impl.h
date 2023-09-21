@@ -58,32 +58,32 @@ inline property_tree::property_tree(const bool value)
 }
 
 inline property_tree::property_tree(const char *const value)
-    : value_{common::string{value}}
+    : value_{Common::String{value}}
 {
 }
 
 inline property_tree::property_tree(const char8_t *const value)
-    : value_{common::string{value}}
+    : value_{Common::String{value}}
 {
 }
 
-inline property_tree::property_tree(const common::string &value)
+inline property_tree::property_tree(const Common::String &value)
     : value_{value}
 {
 }
 
-inline property_tree::property_tree(common::string &&value)
+inline property_tree::property_tree(Common::String &&value)
     : value_{std::move(value)}
 {
 }
 
-inline property_tree::property_tree(const common::uuid &uuid)
-    : value_{uuid}
+inline property_tree::property_tree(const Common::Uuid &Uuid)
+    : value_{Uuid}
 {
 }
 
-inline property_tree::property_tree(common::uuid &&uuid)
-    : value_{std::move(uuid)}
+inline property_tree::property_tree(Common::Uuid &&Uuid)
+    : value_{std::move(Uuid)}
 {
 }
 
@@ -120,12 +120,12 @@ template <typename T>
 
 [[nodiscard]] inline auto property_tree::is_string() const noexcept
 {
-    return is_type<common::string>();
+    return is_type<Common::String>();
 }
 
 [[nodiscard]] inline auto property_tree::is_uuid() const noexcept
 {
-    return is_type<common::uuid>();
+    return is_type<Common::Uuid>();
 }
 
 [[nodiscard]] inline auto property_tree::is_integer() const noexcept
@@ -160,72 +160,72 @@ template <typename T>
 
 [[nodiscard]] inline auto property_tree::array_value() -> array &
 {
-    aeon_assert(is_array(), "Value is not an array.");
+    AeonAssert(is_array(), "Value is not an array.");
     return std::get<array>(value());
 }
 
 [[nodiscard]] inline auto property_tree::array_value() const -> const array &
 {
-    aeon_assert(is_array(), "Value is not an array.");
+    AeonAssert(is_array(), "Value is not an array.");
     return std::get<array>(value());
 }
 
 [[nodiscard]] inline auto property_tree::object_value() -> object &
 {
-    aeon_assert(is_object(), "Value is not an object.");
+    AeonAssert(is_object(), "Value is not an object.");
     return std::get<object>(value());
 }
 
 [[nodiscard]] inline auto property_tree::object_value() const -> const object &
 {
-    aeon_assert(is_object(), "Value is not an object.");
+    AeonAssert(is_object(), "Value is not an object.");
     return std::get<object>(value());
 }
 
-[[nodiscard]] inline auto property_tree::uuid_value() const -> const common::uuid &
+[[nodiscard]] inline auto property_tree::uuid_value() const -> const Common::Uuid &
 {
-    aeon_assert(is_uuid(), "Value is not a uuid.");
-    return std::get<common::uuid>(value());
+    AeonAssert(is_uuid(), "Value is not a Uuid.");
+    return std::get<Common::Uuid>(value());
 }
 
-[[nodiscard]] inline auto property_tree::string_value() const -> const common::string &
+[[nodiscard]] inline auto property_tree::string_value() const -> const Common::String &
 {
-    aeon_assert(is_string(), "Value is not a string.");
-    return std::get<common::string>(value());
+    AeonAssert(is_string(), "Value is not a string.");
+    return std::get<Common::String>(value());
 }
 
 [[nodiscard]] inline auto property_tree::integer_value() const -> std::int64_t
 {
-    aeon_assert(is_integer(), "Value is not an integer.");
+    AeonAssert(is_integer(), "Value is not an integer.");
     return std::get<std::int64_t>(value());
 }
 
 [[nodiscard]] inline auto property_tree::double_value() const -> double
 {
-    aeon_assert(is_double(), "Value is not a double.");
+    AeonAssert(is_double(), "Value is not a double.");
     return std::get<double>(value());
 }
 
 [[nodiscard]] inline auto property_tree::bool_value() const -> bool
 {
-    aeon_assert(is_bool(), "Value is not a bool.");
+    AeonAssert(is_bool(), "Value is not a bool.");
     return std::get<bool>(value());
 }
 
 [[nodiscard]] inline auto property_tree::blob_value() const -> const blob &
 {
-    aeon_assert(is_blob(), "Value is not a blob.");
+    AeonAssert(is_blob(), "Value is not a blob.");
     return std::get<blob>(value());
 }
 
 [[nodiscard]] inline auto property_tree::at(const object::key_type &key) -> object::value_type &
 {
-    return object_value().at(key);
+    return object_value().At(key);
 }
 
 [[nodiscard]] inline auto property_tree::at(const object::key_type &key) const -> const object::value_type &
 {
-    return object_value().at(key);
+    return object_value().At(key);
 }
 
 [[nodiscard]] inline auto property_tree::operator[](const object::key_type &key) -> object::value_type &
@@ -249,7 +249,7 @@ template <typename T>
     if (!is_object())
         return false;
 
-    return object_value().contains(key);
+    return object_value().Contains(key);
 }
 
 inline auto property_tree::operator=(const std::nullptr_t) -> property_tree &
@@ -302,35 +302,35 @@ inline auto property_tree::operator=(object &&value) -> property_tree &
 
 inline auto property_tree::operator=(const char *const value) -> property_tree &
 {
-    value_ = common::string{value};
+    value_ = Common::String{value};
     return *this;
 }
 
 inline auto property_tree::operator=(const char8_t *const value) -> property_tree &
 {
-    value_ = common::string{value};
+    value_ = Common::String{value};
     return *this;
 }
 
-inline auto property_tree::operator=(const common::string &value) -> property_tree &
+inline auto property_tree::operator=(const Common::String &value) -> property_tree &
 {
     value_ = value;
     return *this;
 }
 
-inline auto property_tree::operator=(common::string &&value) -> property_tree &
+inline auto property_tree::operator=(Common::String &&value) -> property_tree &
 {
     value_ = std::move(value);
     return *this;
 }
 
-inline auto property_tree::operator=(const common::uuid &value) -> property_tree &
+inline auto property_tree::operator=(const Common::Uuid &value) -> property_tree &
 {
     value_ = value;
     return *this;
 }
 
-inline auto property_tree::operator=(common::uuid &&value) -> property_tree &
+inline auto property_tree::operator=(Common::Uuid &&value) -> property_tree &
 {
     value_ = std::move(value);
     return *this;
@@ -539,7 +539,7 @@ inline auto operator!=(const char8_t *const lhs, const property_tree &rhs) -> bo
     return rhs != lhs;
 }
 
-inline auto operator==(const property_tree &lhs, const common::string &rhs) -> bool
+inline auto operator==(const property_tree &lhs, const Common::String &rhs) -> bool
 {
     if (!lhs.is_string())
         return false;
@@ -547,22 +547,22 @@ inline auto operator==(const property_tree &lhs, const common::string &rhs) -> b
     return lhs.string_value() == rhs;
 }
 
-inline auto operator!=(const property_tree &lhs, const common::string &rhs) -> bool
+inline auto operator!=(const property_tree &lhs, const Common::String &rhs) -> bool
 {
     return !(lhs == rhs);
 }
 
-inline auto operator==(const common::string &lhs, const property_tree &rhs) -> bool
+inline auto operator==(const Common::String &lhs, const property_tree &rhs) -> bool
 {
     return rhs == lhs;
 }
 
-inline auto operator!=(const common::string &lhs, const property_tree &rhs) -> bool
+inline auto operator!=(const Common::String &lhs, const property_tree &rhs) -> bool
 {
     return rhs != lhs;
 }
 
-inline auto operator==(const property_tree &lhs, const common::uuid &rhs) -> bool
+inline auto operator==(const property_tree &lhs, const Common::Uuid &rhs) -> bool
 {
     if (!lhs.is_uuid())
         return false;
@@ -570,17 +570,17 @@ inline auto operator==(const property_tree &lhs, const common::uuid &rhs) -> boo
     return lhs.uuid_value() == rhs;
 }
 
-inline auto operator!=(const property_tree &lhs, const common::uuid &rhs) -> bool
+inline auto operator!=(const property_tree &lhs, const Common::Uuid &rhs) -> bool
 {
     return !(lhs == rhs);
 }
 
-inline auto operator==(const common::uuid &lhs, const property_tree &rhs) -> bool
+inline auto operator==(const Common::Uuid &lhs, const property_tree &rhs) -> bool
 {
     return rhs == lhs;
 }
 
-inline auto operator!=(const common::uuid &lhs, const property_tree &rhs) -> bool
+inline auto operator!=(const Common::Uuid &lhs, const property_tree &rhs) -> bool
 {
     return rhs != lhs;
 }

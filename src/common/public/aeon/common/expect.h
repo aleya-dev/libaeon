@@ -8,60 +8,60 @@
 #include <type_traits>
 #include <exception>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-enum class expect_action
+enum class ExpectAction
 {
-    none,
-    assert,
-    log,
-    exception,
-    terminate
+    None,
+    Assert,
+    Log,
+    Exception,
+    Terminate
 };
 
-template <expect_action action_t = expect_action::terminate, typename condition_t>
-constexpr void expect([[maybe_unused]] condition_t c,
-                      [[maybe_unused]] const char *error_message) noexcept(action_t != expect_action::exception)
+template <ExpectAction ActionT = ExpectAction::Terminate, typename ConditionT>
+constexpr void Expect([[maybe_unused]] ConditionT c,
+                      [[maybe_unused]] const char *errorMessage) noexcept(ActionT != ExpectAction::Exception)
 {
-    bool condition_result;
-    if constexpr (std::is_same_v<std::decay_t<condition_t>, bool>)
-        condition_result = c;
+    bool conditionResult;
+    if constexpr (std::is_same_v<std::decay_t<ConditionT>, bool>)
+        conditionResult = c;
     else
-        condition_result = c();
+        conditionResult = c();
 
-    if constexpr (action_t == expect_action::assert)
+    if constexpr (ActionT == ExpectAction::Assert)
     {
-        assert(condition_result);
+        assert(conditionResult);
     }
-    else if constexpr (action_t == expect_action::log)
+    else if constexpr (ActionT == ExpectAction::Log)
     {
-        if (!condition_result)
-            std::cerr << error_message << '\n';
+        if (!conditionResult)
+            std::cerr << errorMessage << '\n';
     }
-    else if constexpr (action_t == expect_action::exception)
+    else if constexpr (ActionT == ExpectAction::Exception)
     {
-        if (!condition_result)
-            throw std::runtime_error{error_message};
+        if (!conditionResult)
+            throw std::runtime_error{errorMessage};
     }
-    else if constexpr (action_t == expect_action::terminate)
+    else if constexpr (ActionT == ExpectAction::Terminate)
     {
-        if (!condition_result)
+        if (!conditionResult)
             std::terminate();
     }
 }
 
-template <expect_action action_t = expect_action::terminate, typename condition_t>
-constexpr void expect([[maybe_unused]] condition_t c,
-                      [[maybe_unused]] const string_view error_message) noexcept(action_t != expect_action::exception)
+template <ExpectAction ActionT = ExpectAction::Terminate, typename ConditionT>
+constexpr void Expect([[maybe_unused]] ConditionT c,
+                      [[maybe_unused]] const StringView errorMessage) noexcept(ActionT != ExpectAction::Exception)
 {
-    expect<action_t>(std::forward<condition_t>(c), std::data(error_message));
+    expect<ActionT>(std::forward<ConditionT>(c), std::data(errorMessage));
 }
 
-template <expect_action action_t = expect_action::terminate, typename condition_t>
-constexpr void expect([[maybe_unused]] condition_t c) noexcept(action_t != expect_action::exception)
+template <ExpectAction ActionT = ExpectAction::Terminate, typename ConditionT>
+constexpr void Expect([[maybe_unused]] ConditionT c) noexcept(ActionT != ExpectAction::Exception)
 {
-    expect<action_t>(std::forward<condition_t>(c), "Expectation failed.");
+    expect<ActionT>(std::forward<ConditionT>(c), "Expectation failed.");
 }
 
-} // namespace aeon::common
+} // namespace aeon::Common

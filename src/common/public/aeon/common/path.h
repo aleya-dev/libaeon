@@ -5,7 +5,7 @@
 #include <aeon/common/platform.h>
 #include <filesystem>
 
-namespace aeon::common::path
+namespace aeon::Common::Path
 {
 
 /*!
@@ -25,12 +25,12 @@ namespace aeon::common::path
  * path = "C:\Data\Test.txt"
  * returns: "C:\Data\Test.txt"
  */
-[[nodiscard]] inline auto absolute_path(const std::filesystem::path &base_path, const std::filesystem::path &path)
+[[nodiscard]] inline auto AbsolutePath(const std::filesystem::path &basePath, const std::filesystem::path &path)
 {
     if (path.is_absolute())
         return path;
 
-    return std::filesystem::weakly_canonical(base_path / path);
+    return std::filesystem::weakly_canonical(basePath / path);
 }
 
-} // namespace aeon::common::path
+} // namespace aeon::Common::path

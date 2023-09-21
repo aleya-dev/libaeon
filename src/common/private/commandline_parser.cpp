@@ -3,85 +3,85 @@
 #include <aeon/common/fmtflags.h>
 #include <iostream>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-commandline_parser::commandline_parser() = default;
+CommandlineParser::CommandlineParser() = default;
 
-commandline_parser::~commandline_parser() = default;
+CommandlineParser::~CommandlineParser() = default;
 
-void commandline_parser::add_positional(string name, string description)
+void CommandlineParser::AddPositional(String name, String description)
 {
-    positional_.emplace(std::move(name), std::move(description));
+    m_positional.Emplace(std::move(name), std::move(description));
 }
 
-void commandline_parser::add_option(const string &name, string description)
+void CommandlineParser::AddOption(const String &name, String description)
 {
-    string arg_name;
+    String argName;
 
-    if (std::size(name) == 1)
-        arg_name = "-" + name;
+    if (name.Size() == 1)
+        argName = "-" + name;
     else
-        arg_name = "--" + name;
+        argName = "--" + name;
 
-    options_.emplace(std::move(arg_name), std::move(description));
+    m_options.Emplace(std::move(argName), std::move(description));
 }
 
-void commandline_parser::add_argument(const string &name, string description)
+void CommandlineParser::AddArgument(const String &name, String description)
 {
-    string arg_name;
+    String argName;
 
-    if (std::size(name) == 1)
-        arg_name = "-" + name;
+    if (name.Size() == 1)
+        argName = "-" + name;
     else
-        arg_name = "--" + name;
+        argName = "--" + name;
 
-    arguments_.emplace(std::move(arg_name), std::move(description));
+    m_arguments.Emplace(std::move(argName), std::move(description));
 }
 
-auto commandline_parser::parse(const int argc, char *argv[]) const -> commandline_parse_result
+auto CommandlineParser::Parse(const int argc, char *argv[]) const -> CommandlineParseResult
 {
-    std::vector<string_view> arguments;
+    std::vector<StringView> arguments;
 
     arguments.reserve(argc - 1);
     for (auto i = 1; i < argc; ++i)
         arguments.emplace_back(argv[i]);
 
-    return parse(arguments);
+    return Parse(arguments);
 }
 
-auto commandline_parser::parse(const std::vector<string_view> &args) const -> commandline_parse_result
+auto CommandlineParser::Parse(const std::vector<StringView> &args) const -> CommandlineParseResult
 {
-    if (std::size(args) < std::size(positional_))
+    if (std::size(args) < m_positional.Size())
         return {};
 
     auto itr = std::begin(args);
 
-    std::vector<string_view> positional;
-    for (auto i = 0u; i < std::size(positional_); ++i)
+    std::vector<StringView> positional;
+    for (auto i = 0u; i < m_positional.Size(); ++i)
     {
         positional.emplace_back(*itr);
         ++itr;
     }
 
-    containers::unordered_flatset<string_view> options;
-    containers::unordered_flatmap<string_view, string_view> arguments;
+    Containers::UnorderedFlatset<StringView> options;
+    Containers::UnorderedFlatmap<StringView, StringView> arguments;
 
     for (; itr != std::end(args); ++itr)
     {
-        if (is_option(*itr))
+        if (IsOption(*itr))
         {
-            options.insert(string_utils::char_stripped_leftsv(*itr, '-'));
+            options.Insert(StringUtils::CharStrippedLeftsv(*itr, '-'));
         }
-        else if (is_argument(*itr))
+        else if (IsArgument(*itr))
         {
-            const auto arg_name = string_utils::char_stripped_leftsv(*itr, '-');
+            const auto argName = StringUtils::CharStrippedLeftsv(*itr, '-');
             ++itr;
 
             if (itr == std::end(args))
                 return {};
 
-            arguments.insert(arg_name, *itr);
+            arguments.Insert(argName, *itr);
         }
         else
         {
@@ -89,76 +89,76 @@ auto commandline_parser::parse(const std::vector<string_view> &args) const -> co
         }
     }
 
-    return commandline_parse_result{std::move(positional), std::move(options), std::move(arguments)};
+    return CommandlineParseResult{std::move(positional), std::move(options), std::move(arguments)};
 }
 
-void commandline_parser::print_help_text(const string_view exe_name) const
+void CommandlineParser::PrintHelpText(const StringView exeName) const
 {
-    scoped_fmtflags flags{std::cout};
+    ScopedFmtFlags flags{std::cout};
 
-    std::cout << exe_name << ' ';
-    for (const auto &arg : positional_)
+    std::cout << exeName << ' ';
+    for (const auto &arg : m_positional)
     {
         std::cout << arg.first << ' ';
     }
 
-    if (!arguments_.empty())
+    if (!m_arguments.Empty())
     {
         std::cout << "[args] ";
     }
 
-    if (!options_.empty())
+    if (!m_options.Empty())
     {
         std::cout << "[options] ";
     }
 
     std::cout << '\n';
 
-    constexpr auto arg_column_width = 25;
+    constexpr auto argColumnWidth = 25;
 
-    if (!positional_.empty())
+    if (!m_positional.Empty())
     {
         std::cout << "\nPositional arguments: \n";
     }
 
-    for (const auto &arg : positional_)
+    for (const auto &arg : m_positional)
     {
-        std::cout << std::left << std::setw(arg_column_width) << arg.first << std::right << std::setw(10) << arg.second
+        std::cout << std::left << std::setw(argColumnWidth) << arg.first << std::right << std::setw(10) << arg.second
                   << '\n';
     }
 
-    if (!arguments_.empty())
+    if (!m_arguments.Empty())
     {
         std::cout << "\nArguments: \n";
     }
 
-    for (const auto &arg : arguments_)
+    for (const auto &arg : m_arguments)
     {
-        auto arg_str = arg.first + " value";
-        std::cout << std::left << std::setw(arg_column_width) << arg_str << std::right << std::setw(10) << arg.second
+        auto argStr = arg.first + " value";
+        std::cout << std::left << std::setw(argColumnWidth) << argStr << std::right << std::setw(10) << arg.second
                   << '\n';
     }
 
-    if (!options_.empty())
+    if (!m_options.Empty())
     {
         std::cout << "\nOptions: \n";
     }
 
-    for (const auto &arg : options_)
+    for (const auto &arg : m_options)
     {
-        std::cout << std::left << std::setw(arg_column_width) << arg.first << std::right << std::setw(10) << arg.second
+        std::cout << std::left << std::setw(argColumnWidth) << arg.first << std::right << std::setw(10) << arg.second
                   << '\n';
     }
 }
 
-auto commandline_parser::is_option(const string_view arg) const noexcept -> bool
+auto CommandlineParser::IsOption(const StringView arg) const noexcept -> bool
 {
-    return options_.contains(string{arg});
+    return m_options.Contains(String{arg});
 }
 
-auto commandline_parser::is_argument(const string_view arg) const noexcept -> bool
+auto CommandlineParser::IsArgument(const StringView arg) const noexcept -> bool
 {
-    return arguments_.contains(string{arg});
+    return m_arguments.Contains(String{arg});
 }
 
-} // namespace aeon::common
+} // namespace aeon::Common

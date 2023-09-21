@@ -6,7 +6,7 @@
 #include <map>
 #include <memory>
 
-namespace aeon::common
+namespace aeon::Common::Containers
 {
 
 /*!
@@ -16,46 +16,46 @@ namespace aeon::common
  *
  * This class does not take ownership of the cached objects, as it merely stores weak pointers.
  */
-template <typename key_t, typename value_t>
-class cached_container
+template <typename KeyT, typename ValueT>
+class CachedContainer
 {
 public:
-    using cached_objects = std::map<key_t, std::weak_ptr<value_t>>;
+    using CachedObjects = std::map<KeyT, std::weak_ptr<ValueT>>;
 
-    cached_container() = default;
-    ~cached_container() = default;
+    CachedContainer() = default;
+    ~CachedContainer() = default;
 
-    cached_container(cached_container<key_t, value_t> &&other) noexcept
-        : objects_(other.objects_)
+    CachedContainer(CachedContainer<KeyT, ValueT> &&other) noexcept
+        : m_objects(other.m_objects)
     {
     }
 
-    cached_container<key_t, value_t> &operator=(cached_container<key_t, value_t> &&other) noexcept
+    CachedContainer<KeyT, ValueT> &operator=(CachedContainer<KeyT, ValueT> &&other) noexcept
     {
-        objects_ = std::move(other.objects_);
+        m_objects = std::move(other.m_objects);
         return *this;
     }
 
-    cached_container(const cached_container<key_t, value_t> &) noexcept = delete;
-    auto operator=(const cached_container<key_t, value_t> &) noexcept -> cached_container<key_t, value_t> & = delete;
+    CachedContainer(const CachedContainer<KeyT, ValueT> &) noexcept = delete;
+    auto operator=(const CachedContainer<KeyT, ValueT> &) noexcept -> CachedContainer<KeyT, ValueT> & = delete;
 
     /*!
      * Get a cached object by name. This method will return a shared pointer to the requested object
      * or a nullptr. If the object was found to be expired, a garbage collection will be triggered to
      * clean up expired weak pointers.
      */
-    [[nodiscard]] auto get(const key_t &name) -> std::shared_ptr<value_t>
+    [[nodiscard]] auto Get(const KeyT &name) -> std::shared_ptr<ValueT>
     {
-        const auto result = objects_.find(name);
+        const auto result = m_objects.find(name);
 
-        if (result == objects_.end())
+        if (result == m_objects.end())
             return nullptr;
 
         auto object = result->second;
 
         if (object.expired())
         {
-            garbage_collect();
+            GarbageCollect();
             return nullptr;
         }
 
@@ -67,19 +67,19 @@ public:
      * an object_cache_name_exception is thrown. This method will take a weak pointer of the given shared pointer to
      * store internally.
      */
-    bool add(const key_t &name, const std::shared_ptr<value_t> &obj)
+    bool Add(const KeyT &name, const std::shared_ptr<ValueT> &obj)
     {
-        const auto result = objects_.find(name);
+        const auto result = m_objects.find(name);
 
-        if (result != objects_.end())
+        if (result != m_objects.end())
         {
             if (!result->second.expired())
                 return false;
 
-            garbage_collect();
+            GarbageCollect();
         }
 
-        objects_[name] = obj;
+        m_objects[name] = obj;
 
         return true;
     }
@@ -87,13 +87,13 @@ public:
     /*!
      * Garbage collect all expired cached objects.
      */
-    void garbage_collect()
+    void GarbageCollect()
     {
-        container::erase_if(objects_, [](const auto &obj) { return obj.second.expired(); });
+        Container::EraseIf(m_objects, [](const auto &obj) { return obj.second.expired(); });
     }
 
 private:
-    cached_objects objects_;
+    CachedObjects m_objects;
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

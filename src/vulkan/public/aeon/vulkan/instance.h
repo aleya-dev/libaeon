@@ -21,8 +21,8 @@ class instance final
 public:
     instance() noexcept;
     explicit instance(const application_info &info);
-    explicit instance(const application_info &info, const std::vector<common::string> &required_layers,
-                      const std::vector<common::string> &required_extensions);
+    explicit instance(const application_info &info, const std::vector<Common::String> &required_layers,
+                      const std::vector<Common::String> &required_extensions);
     ~instance();
 
     instance(const instance &) noexcept = delete;
@@ -81,7 +81,7 @@ private:
     return *best_device;
 }
 
-[[nodiscard]] inline auto is_available(const std::vector<layer> &layers, const common::string &layer_name) noexcept
+[[nodiscard]] inline auto is_available(const std::vector<layer> &layers, const Common::String &layer_name) noexcept
     -> bool
 {
     for (const auto &layer : layers)
@@ -94,7 +94,7 @@ private:
 }
 
 [[nodiscard]] inline auto are_available(const std::vector<layer> &layers,
-                                        const std::vector<common::string> &layer_names) noexcept -> bool
+                                        const std::vector<Common::String> &layer_names) noexcept -> bool
 {
     for (const auto &layer_name : layer_names)
     {
@@ -106,7 +106,7 @@ private:
 }
 
 [[nodiscard]] inline auto is_available(const std::vector<extension> &extensions,
-                                       const common::string &extension_name) noexcept -> bool
+                                       const Common::String &extension_name) noexcept -> bool
 {
     for (const auto &extension : extensions)
     {
@@ -118,7 +118,7 @@ private:
 }
 
 [[nodiscard]] inline auto are_available(const std::vector<extension> &extensions,
-                                        const std::vector<common::string> &extension_names) noexcept -> bool
+                                        const std::vector<Common::String> &extension_names) noexcept -> bool
 {
     for (const auto &extension_name : extension_names)
     {

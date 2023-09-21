@@ -6,41 +6,41 @@
 #include <aeon/common/concepts.h>
 #include <cstdint>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
 AEON_PACK_STRUCT_PUSH(1)
-template <concepts::arithmetic T>
-class color_rgb
+template <Concepts::Arithmetic T>
+class ColorRgb
 {
 public:
-    using type = T;
+    using Type = T;
 
-    constexpr color_rgb() noexcept;
-    constexpr explicit color_rgb(const type r, const type g, const type b) noexcept;
+    constexpr ColorRgb() noexcept;
+    constexpr explicit ColorRgb(const Type r, const Type g, const Type b) noexcept;
 
-    template <concepts::arithmetic U>
-    constexpr explicit color_rgb(const U r, const U g, const U b) noexcept;
+    template <Concepts::Arithmetic U>
+    constexpr explicit ColorRgb(const U r, const U g, const U b) noexcept;
 
-    template <concepts::arithmetic U>
-    constexpr explicit color_rgb(const color_rgb<U> color) noexcept;
+    template <Concepts::Arithmetic U>
+    constexpr explicit ColorRgb(const ColorRgb<U> color) noexcept;
 
-    ~color_rgb() = default;
+    ~ColorRgb() = default;
 
-    constexpr color_rgb(const color_rgb &) noexcept = default;
-    constexpr auto operator=(const color_rgb &) noexcept -> color_rgb & = default;
+    constexpr ColorRgb(const ColorRgb &) noexcept = default;
+    constexpr auto operator=(const ColorRgb &) noexcept -> ColorRgb & = default;
 
-    constexpr color_rgb(color_rgb &&) noexcept = default;
-    constexpr auto operator=(color_rgb &&) noexcept -> color_rgb & = default;
+    constexpr ColorRgb(ColorRgb &&) noexcept = default;
+    constexpr auto operator=(ColorRgb &&) noexcept -> ColorRgb & = default;
 
-    type r;
-    type g;
-    type b;
+    Type R;
+    Type G;
+    Type B;
 } AEON_PACK_STRUCT_POP(1);
 
-using color_rgb_u = color_rgb<std::uint8_t>;
-using color_rgb_f = color_rgb<float>;
-using color_rgb_d = color_rgb<double>;
+using ColorRgbU = ColorRgb<std::uint8_t>;
+using ColorRgbF = ColorRgb<float>;
+using ColorRgbD = ColorRgb<double>;
 
 /*!
  * Get a pointer into the underlying data structure of a given color.
@@ -48,8 +48,8 @@ using color_rgb_d = color_rgb<double>;
  * \param[in] color - Color
  * \return Pointer to color data.
  */
-template <concepts::arithmetic T>
-[[nodiscard]] inline constexpr auto ptr(color_rgb<T> &color) noexcept -> T *;
+template <Concepts::Arithmetic T>
+[[nodiscard]] inline constexpr auto Ptr(ColorRgb<T> &color) noexcept -> T *;
 
 /*!
  * Get a pointer into the underlying data structure of a given color.
@@ -57,62 +57,62 @@ template <concepts::arithmetic T>
  * \param[in] color - Color
  * \return Pointer to color data.
  */
-template <concepts::arithmetic T>
-[[nodiscard]] inline constexpr auto ptr(const color_rgb<T> &color) noexcept -> const T *;
+template <Concepts::Arithmetic T>
+[[nodiscard]] inline constexpr auto Ptr(const ColorRgb<T> &color) noexcept -> const T *;
 
-template <concepts::arithmetic T>
-inline constexpr auto operator==(const color_rgb<T> &lhs, const color_rgb<T> &rhs) noexcept -> bool;
+template <Concepts::Arithmetic T>
+inline constexpr auto operator==(const ColorRgb<T> &lhs, const ColorRgb<T> &rhs) noexcept -> bool;
 
-template <concepts::arithmetic T>
-inline constexpr auto operator!=(const color_rgb<T> &lhs, const color_rgb<T> &rhs) noexcept -> bool;
+template <Concepts::Arithmetic T>
+inline constexpr auto operator!=(const ColorRgb<T> &lhs, const ColorRgb<T> &rhs) noexcept -> bool;
 
 AEON_PACK_STRUCT_PUSH(1)
-template <concepts::arithmetic T>
-class color_rgba
+template <Concepts::Arithmetic T>
+class ColorRgba
 {
 public:
-    using type = T;
+    using Type = T;
 
-    constexpr color_rgba() noexcept;
+    constexpr ColorRgba() noexcept;
 
-    constexpr explicit color_rgba(const type r, const type g, const type b) noexcept;
-    constexpr explicit color_rgba(const type r, const type g, const type b, const type a) noexcept;
+    constexpr explicit ColorRgba(const Type r, const Type g, const Type b) noexcept;
+    constexpr explicit ColorRgba(const Type r, const Type g, const Type b, const Type a) noexcept;
 
-    constexpr explicit color_rgba(const color_rgb<type> color) noexcept;
-    constexpr explicit color_rgba(const color_rgb<type> color, const type a) noexcept;
+    constexpr explicit ColorRgba(const ColorRgb<Type> color) noexcept;
+    constexpr explicit ColorRgba(const ColorRgb<Type> color, const Type a) noexcept;
 
-    template <concepts::arithmetic U>
-    constexpr explicit color_rgba(const U r, const U g, const U b) noexcept;
+    template <Concepts::Arithmetic U>
+    constexpr explicit ColorRgba(const U r, const U g, const U b) noexcept;
 
-    template <concepts::arithmetic U>
-    constexpr explicit color_rgba(const U r, const U g, const U b, const U a) noexcept;
+    template <Concepts::Arithmetic U>
+    constexpr explicit ColorRgba(const U r, const U g, const U b, const U a) noexcept;
 
-    template <concepts::arithmetic U>
-    constexpr explicit color_rgba(const color_rgb<U> color) noexcept;
+    template <Concepts::Arithmetic U>
+    constexpr explicit ColorRgba(const ColorRgb<U> color) noexcept;
 
-    template <concepts::arithmetic U>
-    constexpr explicit color_rgba(const color_rgb<U> color, const U a) noexcept;
+    template <Concepts::Arithmetic U>
+    constexpr explicit ColorRgba(const ColorRgb<U> color, const U a) noexcept;
 
-    template <concepts::arithmetic U>
-    constexpr explicit color_rgba(const color_rgba<U> color) noexcept;
+    template <Concepts::Arithmetic U>
+    constexpr explicit ColorRgba(const ColorRgba<U> color) noexcept;
 
-    ~color_rgba() = default;
+    ~ColorRgba() = default;
 
-    constexpr color_rgba(const color_rgba &) noexcept = default;
-    constexpr auto operator=(const color_rgba &) noexcept -> color_rgba & = default;
+    constexpr ColorRgba(const ColorRgba &) noexcept = default;
+    constexpr auto operator=(const ColorRgba &) noexcept -> ColorRgba & = default;
 
-    constexpr color_rgba(color_rgba &&) noexcept = default;
-    constexpr auto operator=(color_rgba &&) noexcept -> color_rgba & = default;
+    constexpr ColorRgba(ColorRgba &&) noexcept = default;
+    constexpr auto operator=(ColorRgba &&) noexcept -> ColorRgba & = default;
 
-    type r;
-    type g;
-    type b;
-    type a;
+    Type R;
+    Type G;
+    Type B;
+    Type A;
 } AEON_PACK_STRUCT_POP(1);
 
-using color_rgba_u = color_rgba<std::uint8_t>;
-using color_rgba_f = color_rgba<float>;
-using color_rgba_d = color_rgba<double>;
+using ColorRgbaU = ColorRgba<std::uint8_t>;
+using ColorRgbaF = ColorRgba<float>;
+using ColorRgbaD = ColorRgba<double>;
 
 /*!
  * Get a pointer into the underlying data structure of a given color.
@@ -120,8 +120,8 @@ using color_rgba_d = color_rgba<double>;
  * \param[in] color - Color
  * \return Pointer to color data.
  */
-template <concepts::arithmetic T>
-[[nodiscard]] inline constexpr auto ptr(color_rgba<T> &color) noexcept -> T *;
+template <Concepts::Arithmetic T>
+[[nodiscard]] inline constexpr auto Ptr(ColorRgba<T> &color) noexcept -> T *;
 
 /*!
  * Get a pointer into the underlying data structure of a given color.
@@ -129,15 +129,15 @@ template <concepts::arithmetic T>
  * \param[in] color - Color
  * \return Pointer to color data.
  */
-template <concepts::arithmetic T>
-[[nodiscard]] inline constexpr auto ptr(const color_rgba<T> &color) noexcept -> const T *;
+template <Concepts::Arithmetic T>
+[[nodiscard]] inline constexpr auto Ptr(const ColorRgba<T> &color) noexcept -> const T *;
 
-template <concepts::arithmetic T>
-inline constexpr auto operator==(const color_rgba<T> &lhs, const color_rgba<T> &rhs) noexcept -> bool;
+template <Concepts::Arithmetic T>
+inline constexpr auto operator==(const ColorRgba<T> &lhs, const ColorRgba<T> &rhs) noexcept -> bool;
 
-template <concepts::arithmetic T>
-inline constexpr auto operator!=(const color_rgba<T> &lhs, const color_rgba<T> &rhs) noexcept -> bool;
+template <Concepts::Arithmetic T>
+inline constexpr auto operator!=(const ColorRgba<T> &lhs, const ColorRgba<T> &rhs) noexcept -> bool;
 
-} // namespace aeon::common
+} // namespace aeon::Common
 
 #include <aeon/common/impl/color_impl.h>

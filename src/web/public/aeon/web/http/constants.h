@@ -13,12 +13,12 @@ static const auto content_type_key = "content-type";
 
 static const auto default_response_content_type = "text/plain";
 
-static const auto http_version_string = common::string{"HTTP/1.1"};
+static const auto http_version_string = Common::String{"HTTP/1.1"};
 
-static const auto default_file_mime_type = common::string{"application/octet-stream"};
+static const auto default_file_mime_type = Common::String{"application/octet-stream"};
 
-static const auto default_files = std::vector<common::string>{"index.html", "index.htm"};
+static const auto default_files = std::vector<Common::String>{"index.html", "index.htm"};
 
-static const auto hidden_files = std::vector<common::string>{".ds_store", "thumbs.db"};
+static const auto hidden_files = std::vector<Common::String>{".ds_store", "thumbs.db"};
 
 } // namespace aeon::web::http::detail

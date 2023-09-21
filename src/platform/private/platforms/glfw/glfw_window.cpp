@@ -330,7 +330,7 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     glfwWindowHint(GLFW_RESIZABLE, info.resizable ? GLFW_TRUE : GLFW_FALSE);
     glfwWindowHint(GLFW_VISIBLE, info.visible ? GLFW_TRUE : GLFW_FALSE);
-    window_ = glfwCreateWindow(info.size.width, info.size.height, reinterpret_cast<const char *>(info.title.c_str()),
+    window_ = glfwCreateWindow(info.size.width, info.size.height, reinterpret_cast<const char *>(info.title.CStr()),
                                nullptr, nullptr);
 
     if (!window_)
@@ -346,7 +346,7 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
                              {
                                  const auto w = static_cast<glfw_window *>(glfwGetWindowUserPointer(window));
                                  w->flags_.position_changed = true;
-                                 w->window_listeners().invoke_each(&window_events::on_window_position_changed,
+                                 w->window_listeners().InvokeEach(&window_events::on_window_position_changed,
                                                                    w->context_, math::vector2{xpos, ypos});
                              });
 
@@ -355,7 +355,7 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
                               {
                                   const auto w = static_cast<glfw_window *>(glfwGetWindowUserPointer(window));
                                   w->flags_.dimensions_changed = true;
-                                  w->window_listeners().invoke_each(&window_events::on_window_size_changed, w->context_,
+                                  w->window_listeners().InvokeEach(&window_events::on_window_size_changed, w->context_,
                                                                     math::size2d{width, height});
                               });
 
@@ -364,7 +364,7 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
                                    {
                                        const auto w = static_cast<glfw_window *>(glfwGetWindowUserPointer(window));
                                        w->flags_.framebuffer_dimensions_changed = true;
-                                       w->window_listeners().invoke_each(
+                                       w->window_listeners().InvokeEach(
                                            &window_events::on_window_framebuffer_size_changed, w->context_,
                                            math::size2d{width, height});
                                    });
@@ -374,7 +374,7 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
                                {
                                    const auto w = static_cast<glfw_window *>(glfwGetWindowUserPointer(window));
                                    w->flags_.focus_changed = true;
-                                   w->window_listeners().invoke_each(&window_events::on_window_focus_changed,
+                                   w->window_listeners().InvokeEach(&window_events::on_window_focus_changed,
                                                                      w->context_, focused == GLFW_TRUE);
                                });
 
@@ -385,14 +385,14 @@ glfw_window::glfw_window(const window_create_info &info, glfw_context &context)
             const auto w = static_cast<glfw_window *>(glfwGetWindowUserPointer(window));
             w->flags_.iconification_state_changed = true;
             const auto state = iconified ? window_iconification_state::minimized : window_iconification_state::normal;
-            w->window_listeners().invoke_each(&window_events::on_window_iconification_changed, w->context_, state);
+            w->window_listeners().InvokeEach(&window_events::on_window_iconification_changed, w->context_, state);
         });
 
     glfwSetWindowCloseCallback(window_,
                                [](GLFWwindow *window)
                                {
                                    const auto w = static_cast<const glfw_window *>(glfwGetWindowUserPointer(window));
-                                   w->window_listeners().invoke_each(&window_events::on_window_closed, w->context_);
+                                   w->window_listeners().InvokeEach(&window_events::on_window_closed, w->context_);
                                });
 
     glfwSetKeyCallback(
@@ -456,9 +456,9 @@ void glfw_window::position(const math::vector2<std::int32_t> &pos)
     glfwSetWindowPos(window_, pos.x, pos.y);
 }
 
-void glfw_window::title(const common::string &str)
+void glfw_window::title(const Common::String &str)
 {
-    glfwSetWindowTitle(window_, str.c_str());
+    glfwSetWindowTitle(window_, str.CStr());
 }
 
 auto glfw_window::dimensions() const noexcept -> math::size2d<std::uint32_t>

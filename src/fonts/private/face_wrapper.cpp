@@ -73,11 +73,11 @@ static void freetype_select_emoji_pixel_size(FT_FaceRec_ *face, const int pixels
     if (!bitmap.buffer)
         return {};
 
-    aeon_assert(bitmap.pixel_mode == FT_PIXEL_MODE_GRAY || bitmap.pixel_mode == FT_PIXEL_MODE_LCD ||
+    AeonAssert(bitmap.pixel_mode == FT_PIXEL_MODE_GRAY || bitmap.pixel_mode == FT_PIXEL_MODE_LCD ||
                     bitmap.pixel_mode == FT_PIXEL_MODE_LCD_V,
                 "Expected uint8 pixel format.");
 
-    return imaging::image_view{common::element_type::u8_1, imaging::format::r8_uint,
+    return imaging::image_view{Common::ElementType::U8_1, imaging::format::r8_uint,
                                math::size2d<imaging::image_view::dimensions_type>{bitmap.width, bitmap.rows},
                                static_cast<imaging::image_view::stride_type>(bitmap.pitch),
                                reinterpret_cast<std::byte *>(bitmap.buffer)};
@@ -88,9 +88,9 @@ static void freetype_select_emoji_pixel_size(FT_FaceRec_ *face, const int pixels
     if (!bitmap.buffer)
         return {};
 
-    aeon_assert(bitmap.pixel_mode == FT_PIXEL_MODE_BGRA, "Expected BGRA32 pixel format.");
+    AeonAssert(bitmap.pixel_mode == FT_PIXEL_MODE_BGRA, "Expected BGRA32 pixel format.");
 
-    return imaging::image_view{common::element_type::u8_4, imaging::format::b8g8r8a8_uint,
+    return imaging::image_view{Common::ElementType::U8_4, imaging::format::b8g8r8a8_uint,
                                math::size2d<imaging::image_view::dimensions_type>{bitmap.width, bitmap.rows},
                                static_cast<imaging::image_view::stride_type>(bitmap.pitch),
                                reinterpret_cast<std::byte *>(bitmap.buffer)};

@@ -27,7 +27,7 @@ namespace internal
 
 [[nodiscard]] auto create_framebuffer(const device &device, const std::vector<image_view_ref> &attachments,
                                       const render_pass &render_pass, const math::size3d<std::uint32_t> size,
-                                      const common::flags<framebuffer_create_flag> flags)
+                                      const Common::Flags<framebuffer_create_flag> flags)
 {
     VkFramebufferCreateInfo info = {};
     info.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -57,14 +57,14 @@ framebuffer::framebuffer() noexcept
 
 framebuffer::framebuffer(const device &device, const std::vector<image_view_ref> &attachments,
                          const render_pass &render_pass, const math::size2d<std::uint32_t> size,
-                         const std::uint32_t layers, const common::flags<framebuffer_create_flag> flags) noexcept
+                         const std::uint32_t layers, const Common::Flags<framebuffer_create_flag> flags) noexcept
     : framebuffer{device, attachments, render_pass, math::size3d<std::uint32_t>{size, layers}, flags}
 {
 }
 
 framebuffer::framebuffer(const device &device, const std::vector<image_view_ref> &attachments,
                          const render_pass &render_pass, const math::size3d<std::uint32_t> size,
-                         const common::flags<framebuffer_create_flag> flags) noexcept
+                         const Common::Flags<framebuffer_create_flag> flags) noexcept
     : device_{&device}
     , handle_{internal::create_framebuffer(device, attachments, render_pass, size, flags)}
 {

@@ -14,7 +14,7 @@ class descriptor_pool_description final : public VkDescriptorPoolCreateInfo
 {
 public:
     explicit descriptor_pool_description(
-        const common::flags<descriptor_pool_create_flag> flags = descriptor_pool_create_flag::free_descriptor_set,
+        const Common::Flags<descriptor_pool_create_flag> flags = descriptor_pool_create_flag::free_descriptor_set,
         const std::uint32_t max_sets = 1) noexcept;
     ~descriptor_pool_description() noexcept = default;
 
@@ -24,7 +24,7 @@ public:
     descriptor_pool_description(descriptor_pool_description &&) noexcept = default;
     auto operator=(descriptor_pool_description &&) noexcept -> descriptor_pool_description & = default;
 
-    auto flags(const common::flags<descriptor_pool_create_flag> flags) noexcept -> descriptor_pool_description &;
+    auto flags(const Common::Flags<descriptor_pool_create_flag> flags) noexcept -> descriptor_pool_description &;
     auto max_sets(const std::uint32_t value) noexcept -> descriptor_pool_description &;
 
     auto add_pool_size(const descriptor_type type, const std::uint32_t count) -> descriptor_pool_description &;
@@ -36,7 +36,7 @@ private:
 
 static_assert(sizeof(descriptor_pool_description) >= sizeof(VkDescriptorPoolCreateInfo));
 
-inline descriptor_pool_description::descriptor_pool_description(const common::flags<descriptor_pool_create_flag> flags,
+inline descriptor_pool_description::descriptor_pool_description(const Common::Flags<descriptor_pool_create_flag> flags,
                                                                 const std::uint32_t max_sets) noexcept
     : VkDescriptorPoolCreateInfo{VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO, nullptr, flags, max_sets, 0, nullptr}
     , pool_sizes_{}
@@ -81,7 +81,7 @@ inline auto descriptor_pool_description::operator=(const descriptor_pool_descrip
     return *this;
 }
 
-inline auto descriptor_pool_description::flags(const common::flags<descriptor_pool_create_flag> flags) noexcept
+inline auto descriptor_pool_description::flags(const Common::Flags<descriptor_pool_create_flag> flags) noexcept
     -> descriptor_pool_description &
 {
     VkDescriptorPoolCreateInfo::flags = flags;

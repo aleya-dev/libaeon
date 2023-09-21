@@ -13,31 +13,31 @@ static_assert(false, "This header can only be used on windows.");
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
-namespace aeon::common::allocators
+namespace aeon::Common::Allocators
 {
 
-enum class windows_heap_allocator_flags : std::uint64_t
+enum class WindowsHeapAllocatorFlags : std::uint64_t
 {
-    no_serialize = HEAP_NO_SERIALIZE,
-    zero_memory = HEAP_ZERO_MEMORY,
-    generate_exceptions = HEAP_GENERATE_EXCEPTIONS,
-    align_16 = HEAP_CREATE_ALIGN_16
+    NoSerialize = HEAP_NO_SERIALIZE,
+    ZeroMemory = HEAP_ZERO_MEMORY,
+    GenerateExceptions = HEAP_GENERATE_EXCEPTIONS,
+    Align16 = HEAP_CREATE_ALIGN_16
 };
 
-aeon_declare_flag_operators(windows_heap_allocator_flags)
+AeonDeclareFlagOperators(WindowsHeapAllocatorFlags)
 
 /*!
  * Simple base class for the heap allocator that does not contain the type, to avoid creating
  * a different heap for every type.
  */
-template <flags<windows_heap_allocator_flags> flags = windows_heap_allocator_flags::no_serialize,
-          std::size_t initial_heap_size = 0, std::size_t maximum_heap_size = 0>
-struct windows_heap_allocator_base
+template <Flags<WindowsHeapAllocatorFlags> Flags = WindowsHeapAllocatorFlags::NoSerialize,
+          std::size_t InitialHeapSize = 0, std::size_t MaximumHeapSize = 0>
+struct WindowsHeapAllocatorBase
 {
 protected:
-    static auto get_heap() noexcept -> HANDLE
+    static auto GetHeap() noexcept -> HANDLE
     {
-        static auto heap = HeapCreate(static_cast<DWORD>(flags), initial_heap_size, maximum_heap_size);
+        static auto heap = HeapCreate(static_cast<DWORD>(Flags), InitialHeapSize, MaximumHeapSize);
         return heap;
     }
 };
@@ -53,15 +53,15 @@ protected:
  * call any constructors. These should only be used for raw data,
  * not for arrays of objects.
  */
-template <typename T, flags<windows_heap_allocator_flags> flags = windows_heap_allocator_flags::no_serialize,
-          std::size_t initial_heap_size = 0, std::size_t maximum_heap_size = 0>
-struct windows_heap_allocator : windows_heap_allocator_base<flags, initial_heap_size, maximum_heap_size>
+template <typename T, Flags<WindowsHeapAllocatorFlags> Flags = WindowsHeapAllocatorFlags::NoSerialize,
+          std::size_t InitialHeapSize = 0, std::size_t MaximumHeapSize = 0>
+struct WindowsHeapAllocator : WindowsHeapAllocatorBase<Flags, InitialHeapSize, MaximumHeapSize>
 {
     static auto allocate(const std::size_t n) noexcept
     {
         return static_cast<T *>(
-            HeapAlloc(windows_heap_allocator_base<flags, initial_heap_size, maximum_heap_size>::get_heap(),
-                      static_cast<DWORD>(flags), n * sizeof(T)));
+            HeapAlloc(WindowsHeapAllocatorBase<Flags, InitialHeapSize, MaximumHeapSize>::GetHeap(),
+                      static_cast<DWORD>(Flags), n * sizeof(T)));
     }
 
     static auto allocate_at_least(const std::size_t n) noexcept
@@ -75,15 +75,15 @@ struct windows_heap_allocator : windows_heap_allocator_base<flags, initial_heap_
             return allocate(n);
 
         return static_cast<T *>(
-            HeapReAlloc(windows_heap_allocator_base<flags, initial_heap_size, maximum_heap_size>::get_heap(),
-                        static_cast<DWORD>(flags), ptr, n * sizeof(T)));
+            HeapReAlloc(WindowsHeapAllocatorBase<Flags, InitialHeapSize, MaximumHeapSize>::GetHeap(),
+                        static_cast<DWORD>(Flags), ptr, n * sizeof(T)));
     }
 
     static void deallocate(T *ptr, [[maybe_unused]] const std::size_t n) noexcept
     {
-        HeapFree(windows_heap_allocator_base<flags, initial_heap_size, maximum_heap_size>::get_heap(),
-                 static_cast<DWORD>(flags), ptr);
+        HeapFree(WindowsHeapAllocatorBase<Flags, InitialHeapSize, MaximumHeapSize>::GetHeap(),
+                 static_cast<DWORD>(Flags), ptr);
     }
 };
 
-} // namespace aeon::common::allocators
+} // namespace aeon::Common::allocators

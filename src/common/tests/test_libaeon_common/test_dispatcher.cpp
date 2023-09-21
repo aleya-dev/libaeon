@@ -8,12 +8,12 @@ using namespace aeon;
 
 TEST(test_dispatcher, test_dispatcher_basic_run)
 {
-    common::dispatcher dispatcher;
+    Common::Dispatcher dispatcher;
 
-    std::thread t([&]() { dispatcher.run(); });
+    std::thread t([&]() { dispatcher.Run(); });
 
     bool called1 = false;
-    dispatcher.post(
+    dispatcher.Post(
         [&called1]()
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
@@ -21,7 +21,7 @@ TEST(test_dispatcher, test_dispatcher_basic_run)
         });
 
     bool called2 = false;
-    dispatcher.post(
+    dispatcher.Post(
         [&called2]()
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
@@ -29,7 +29,7 @@ TEST(test_dispatcher, test_dispatcher_basic_run)
         });
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    dispatcher.stop();
+    dispatcher.Stop();
 
     t.join();
 
@@ -39,12 +39,12 @@ TEST(test_dispatcher, test_dispatcher_basic_run)
 
 TEST(test_dispatcher, test_dispatcher_call_void)
 {
-    common::dispatcher dispatcher;
+    Common::Dispatcher dispatcher;
 
-    std::thread t([&]() { dispatcher.run(); });
+    std::thread t([&]() { dispatcher.Run(); });
 
     bool called = false;
-    dispatcher.call(
+    dispatcher.Call(
         [&called]()
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
@@ -53,18 +53,18 @@ TEST(test_dispatcher, test_dispatcher_call_void)
 
     EXPECT_TRUE(called);
 
-    dispatcher.stop();
+    dispatcher.Stop();
     t.join();
 }
 
 TEST(test_dispatcher, test_dispatcher_call_int)
 {
-    common::dispatcher dispatcher;
+    Common::Dispatcher dispatcher;
 
-    std::thread t([&]() { dispatcher.run(); });
+    std::thread t([&]() { dispatcher.Run(); });
 
     auto called = false;
-    const auto value = dispatcher.call<int>(
+    const auto value = dispatcher.Call<int>(
         [&called]()
         {
             called = true;
@@ -74,6 +74,6 @@ TEST(test_dispatcher, test_dispatcher_call_int)
     EXPECT_TRUE(called);
     EXPECT_EQ(1337, value);
 
-    dispatcher.stop();
+    dispatcher.Stop();
     t.join();
 }

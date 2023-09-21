@@ -14,7 +14,7 @@ class routable_http_server_session;
 class route
 {
 public:
-    explicit route(common::string mount_point);
+    explicit route(Common::String mount_point);
     virtual ~route() = default;
 
     route(route &&) = default;
@@ -26,18 +26,18 @@ public:
     virtual void on_http_request(http_server_socket &source, routable_http_server_session &session,
                                  const request &request) = 0;
 
-    [[nodiscard]] auto mount_point() const noexcept -> const common::string &;
+    [[nodiscard]] auto mount_point() const noexcept -> const Common::String &;
 
 private:
-    common::string mount_point_;
+    Common::String mount_point_;
 };
 
-inline route::route(common::string mount_point)
+inline route::route(Common::String mount_point)
     : mount_point_{std::move(mount_point)}
 {
 }
 
-inline auto route::mount_point() const noexcept -> const common::string &
+inline auto route::mount_point() const noexcept -> const Common::String &
 {
     return mount_point_;
 }

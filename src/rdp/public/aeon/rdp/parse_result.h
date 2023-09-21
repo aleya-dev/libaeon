@@ -48,7 +48,7 @@ class parse_error final
     friend class parse_result;
 
 public:
-    explicit parse_error(const parser &parser, common::string message) noexcept;
+    explicit parse_error(const parser &parser, Common::String message) noexcept;
 
     ~parse_error() = default;
 
@@ -60,11 +60,11 @@ public:
 
     [[nodiscard]] auto cursor() const noexcept -> const rdp::cursor &;
 
-    [[nodiscard]] auto message() const noexcept -> const common::string &;
+    [[nodiscard]] auto message() const noexcept -> const Common::String &;
 
 private:
     rdp::cursor cursor_;
-    common::string message_;
+    Common::String message_;
 };
 
 template <typename ResultT = bool>

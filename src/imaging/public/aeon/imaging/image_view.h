@@ -40,7 +40,7 @@ public:
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] data - Raw matrix data
      */
-    explicit image_view(const common::element_type type, const imaging::format format,
+    explicit image_view(const Common::ElementType type, const imaging::format format,
                         const math::size2d<dimensions_type> dimensions, underlying_type *data) noexcept;
 
     /*!
@@ -52,7 +52,7 @@ public:
      * \param[in] height - The height of the matrix.
      * \param[in] data - Raw matrix data
      */
-    explicit image_view(const common::element_type type, const imaging::format format, const dimensions_type width,
+    explicit image_view(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                         const dimensions_type height, underlying_type *data) noexcept;
 
     /*!
@@ -64,7 +64,7 @@ public:
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Raw matrix data
      */
-    explicit image_view(const common::element_type type, const imaging::format format,
+    explicit image_view(const Common::ElementType type, const imaging::format format,
                         const math::size2d<dimensions_type> dimensions, const stride_type stride,
                         underlying_type *data) noexcept;
 
@@ -78,7 +78,7 @@ public:
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Raw matrix data
      */
-    explicit image_view(const common::element_type type, const imaging::format format, const dimensions_type width,
+    explicit image_view(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                         const dimensions_type height, const stride_type stride, underlying_type *data) noexcept;
 
     /*!

@@ -16,12 +16,12 @@ http_server_session::http_server_session()
 
 http_server_session::~http_server_session() = default;
 
-void http_server_session::register_mine_type(const common::string &extension, const common::string &mime_type)
+void http_server_session::register_mine_type(const Common::String &extension, const Common::String &mime_type)
 {
     mime_types_.emplace(extension, mime_type);
 }
 
-auto http_server_session::find_mime_type_by_extension(const common::string &extension) const -> common::string
+auto http_server_session::find_mime_type_by_extension(const Common::String &extension) const -> Common::String
 {
     const auto result = mime_types_.find(extension);
 
@@ -31,9 +31,9 @@ auto http_server_session::find_mime_type_by_extension(const common::string &exte
     return detail::default_file_mime_type;
 }
 
-auto http_server_session::find_extension_by_mime_type(const common::string &mime_type) const -> common::string
+auto http_server_session::find_extension_by_mime_type(const Common::String &mime_type) const -> Common::String
 {
-    const auto result = common::container::find_in_map_by_value(mime_types_, mime_type);
+    const auto result = Common::Container::FindInMapByValue(mime_types_, mime_type);
 
     if (result != mime_types_.end())
         return result->second;
@@ -41,12 +41,12 @@ auto http_server_session::find_extension_by_mime_type(const common::string &mime
     return "";
 }
 
-void http_server_session::set_default_mime_type(const common::string &mime_type)
+void http_server_session::set_default_mime_type(const Common::String &mime_type)
 {
     default_mime_type_ = mime_type;
 }
 
-auto http_server_session::get_default_mime_type() const noexcept -> const common::string &
+auto http_server_session::get_default_mime_type() const noexcept -> const Common::String &
 {
     return default_mime_type_;
 }

@@ -17,8 +17,8 @@ class tcp_client
 {
 public:
     explicit tcp_client(asio::io_context &io_context);
-    explicit tcp_client(asio::io_context &io_context, const common::string &host, const std::uint16_t port);
-    explicit tcp_client(asio::io_context &io_context, const common::string &host, const common::string &service);
+    explicit tcp_client(asio::io_context &io_context, const Common::String &host, const std::uint16_t port);
+    explicit tcp_client(asio::io_context &io_context, const Common::String &host, const Common::String &service);
     ~tcp_client() = default;
 
     tcp_client(tcp_client &&) = delete;
@@ -27,8 +27,8 @@ public:
     tcp_client(const tcp_client &) = delete;
     auto operator=(const tcp_client &) -> tcp_client & = delete;
 
-    void connect(const common::string &host, const std::uint16_t port);
-    void connect(const common::string &host, const common::string &service);
+    void connect(const Common::String &host, const std::uint16_t port);
+    void connect(const Common::String &host, const Common::String &service);
 
     auto operator->() const -> socket_handler_t *;
 
@@ -47,7 +47,7 @@ inline tcp_client<socket_handler_t>::tcp_client(asio::io_context &io_context)
 }
 
 template <typename socket_handler_t>
-inline tcp_client<socket_handler_t>::tcp_client(asio::io_context &io_context, const common::string &host,
+inline tcp_client<socket_handler_t>::tcp_client(asio::io_context &io_context, const Common::String &host,
                                                 const std::uint16_t port)
     : tcp_client{io_context}
 {
@@ -55,23 +55,23 @@ inline tcp_client<socket_handler_t>::tcp_client(asio::io_context &io_context, co
 }
 
 template <typename socket_handler_t>
-inline tcp_client<socket_handler_t>::tcp_client(asio::io_context &io_context, const common::string &host,
-                                                const common::string &service)
+inline tcp_client<socket_handler_t>::tcp_client(asio::io_context &io_context, const Common::String &host,
+                                                const Common::String &service)
     : tcp_client{io_context}
 {
     connect(host, service);
 }
 
 template <typename socket_handler_t>
-inline void tcp_client<socket_handler_t>::connect(const common::string &host, const std::uint16_t port)
+inline void tcp_client<socket_handler_t>::connect(const Common::String &host, const std::uint16_t port)
 {
     connect(host, std::to_string(port));
 }
 
 template <typename socket_handler_t>
-inline void tcp_client<socket_handler_t>::connect(const common::string &host, const common::string &service)
+inline void tcp_client<socket_handler_t>::connect(const Common::String &host, const Common::String &service)
 {
-    auto result = resolver_.resolve(host.as_std_string_view(), service.as_std_string_view());
+    auto result = resolver_.resolve(host.AsStdStringView(), service.AsStdStringView());
     socket_->internal_connect(result);
 }
 

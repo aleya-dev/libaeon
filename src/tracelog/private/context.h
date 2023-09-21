@@ -10,15 +10,15 @@
 #include <vector>
 #include <mutex>
 
-namespace aeon::tracelog::detail
+namespace aeon::Tracelog::Internal
 {
 
-class trace_log_context : public common::singleton<trace_log_context>
+class trace_log_context : public Common::Singleton<trace_log_context>
 {
 public:
     void initialize();
-    [[nodiscard]] auto add_scoped_log_entry(const char *func) const -> trace_log_entry *;
-    void add_scoped_log_exit(trace_log_entry *entry) const;
+    [[nodiscard]] auto add_scoped_log_entry(const char *func) const -> TraceLogEntry *;
+    void add_scoped_log_exit(TraceLogEntry *entry) const;
 
     void add_event(const char *func) const;
 

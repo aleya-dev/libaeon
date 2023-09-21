@@ -7,13 +7,13 @@
 #include <stdexcept>
 #include <cstring>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-namespace detail
+namespace Internal
 {
 
-[[nodiscard]] static auto to_char(const size_t i) noexcept
+[[nodiscard]] static auto ToChar(const size_t i) noexcept
 {
     if (i <= 9)
         return static_cast<char>('0' + i);
@@ -21,7 +21,7 @@ namespace detail
     return static_cast<char>('a' + (i - 10));
 }
 
-[[nodiscard]] static auto get_next_char(string_view::const_iterator &begin, string_view::const_iterator &end,
+[[nodiscard]] static auto GetNextChar(StringView::const_iterator &begin, StringView::const_iterator &end,
                                         char &c) noexcept
 {
     if (begin == end)
@@ -31,46 +31,46 @@ namespace detail
     return true;
 }
 
-[[nodiscard]] static auto is_open_brace(const char c) noexcept
+[[nodiscard]] static auto IsOpenBrace(const char c) noexcept
 {
     return (c == '{');
 }
 
-[[nodiscard]] static auto is_dash(const char c) noexcept
+[[nodiscard]] static auto IsDash(const char c) noexcept
 {
     return c == '-';
 }
 
-[[nodiscard]] static auto get_value(const char c) noexcept
+[[nodiscard]] static auto GetValue(const char c) noexcept
 {
-    static char const *const digits_begin = "0123456789abcdefABCDEF";
-    static char const *const digits_end = digits_begin + 22;
+    static char const *const DigitsBegin = "0123456789abcdefABCDEF";
+    static char const *const DigitsEnd = DigitsBegin + 22;
 
-    static unsigned char const values[] = {
+    static constexpr unsigned char values[] = {
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 10, 11, 12, 13, 14, 15, static_cast<unsigned char>(-1)};
 
-    char const *d = std::find(digits_begin, digits_end, c);
-    return values[d - digits_begin];
+    char const *d = std::find(DigitsBegin, DigitsEnd, c);
+    return values[d - DigitsBegin];
 }
 
-[[nodiscard]] static auto check_close_brace(const char c, const char open_brace) noexcept -> bool
+[[nodiscard]] static auto CheckCloseBrace(const char c, const char openBrace) noexcept -> bool
 {
-    return open_brace == '{' && c == '}';
+    return openBrace == '{' && c == '}';
 }
 
-[[nodiscard]] auto to_string(const uuid::data_type &data) -> string
+[[nodiscard]] auto ToString(const Uuid::DataType &data) -> String
 {
-    string result;
-    result.reserve(36);
+    String result;
+    result.Reserve(36);
 
     auto i = 0_size_t;
     for (const auto val : data)
     {
         const size_t hi = (val >> 4) & 0x0F;
-        result += detail::to_char(hi);
+        result += Internal::ToChar(hi);
 
         const size_t lo = val & 0x0F;
-        result += detail::to_char(lo);
+        result += Internal::ToChar(lo);
 
         if (i == 3 || i == 5 || i == 7 || i == 9)
         {
@@ -84,42 +84,42 @@ namespace detail
 
 } // namespace detail
 
-uuid::uuid() noexcept
-    : data{}
+Uuid::Uuid() noexcept
+    : Data{}
 {
-    std::ranges::fill(data, 0_uint8_t);
+    std::ranges::fill(Data, 0_uint8_t);
 }
 
-uuid::uuid(data_type data) noexcept
-    : data{data}
+Uuid::Uuid(DataType data) noexcept
+    : Data{data}
 {
 }
 
-uuid::~uuid() noexcept = default;
+Uuid::~Uuid() noexcept = default;
 
-[[nodiscard]] auto uuid::begin() noexcept -> data_type::iterator
+[[nodiscard]] auto Uuid::begin() noexcept -> DataType::iterator
 {
-    return data.begin();
+    return Data.begin();
 }
 
-[[nodiscard]] auto uuid::begin() const noexcept -> data_type::const_iterator
+[[nodiscard]] auto Uuid::begin() const noexcept -> DataType::const_iterator
 {
-    return data.cbegin();
+    return Data.cbegin();
 }
 
-[[nodiscard]] auto uuid::end() noexcept -> data_type::iterator
+[[nodiscard]] auto Uuid::end() noexcept -> DataType::iterator
 {
-    return data.end();
+    return Data.end();
 }
 
-[[nodiscard]] auto uuid::end() const noexcept -> data_type::const_iterator
+[[nodiscard]] auto Uuid::end() const noexcept -> DataType::const_iterator
 {
-    return data.cend();
+    return Data.cend();
 }
 
-[[nodiscard]] auto uuid::is_nil() const noexcept -> bool
+[[nodiscard]] auto Uuid::IsNil() const noexcept -> bool
 {
-    for (auto i : data)
+    for (auto i : Data)
     {
         if (i != 0)
             return false;
@@ -127,89 +127,89 @@ uuid::~uuid() noexcept = default;
     return true;
 }
 
-[[nodiscard]] auto uuid::variant() const noexcept -> variant_type
+[[nodiscard]] auto Uuid::Variant() const noexcept -> VariantType
 {
     // variant is stored in octet 7
     // which is index 8, since indexes count backwards
-    const auto octet7 = data[8]; // octet 7 is array index 8
+    const auto octet7 = Data[8]; // octet 7 is array index 8
     if ((octet7 & 0x80) == 0x00)
     { // 0b0xxxxxxx
-        return variant_type::variant_ncs;
+        return VariantType::VariantNcs;
     }
     else if ((octet7 & 0xC0) == 0x80)
     { // 0b10xxxxxx
-        return variant_type::variant_rfc_4122;
+        return VariantType::VariantRfc4122;
     }
     else if ((octet7 & 0xE0) == 0xC0)
     { // 0b110xxxxx
-        return variant_type::variant_microsoft;
+        return VariantType::VariantMicrosoft;
     }
     else
     {
-        return variant_type::variant_future;
+        return VariantType::VariantFuture;
     }
 }
 
-[[nodiscard]] auto uuid::version() const noexcept -> version_type
+[[nodiscard]] auto Uuid::Version() const noexcept -> VersionType
 {
     // version is stored in octet 9
     // which is index 6, since indexes count backwards
-    const auto octet9 = data[6];
+    const auto octet9 = Data[6];
     if ((octet9 & 0xF0) == 0x10)
     {
-        return version_type::version_time_based;
+        return VersionType::VersionTimeBased;
     }
     else if ((octet9 & 0xF0) == 0x20)
     {
-        return version_type::version_dce_security;
+        return VersionType::VersionDceSecurity;
     }
     else if ((octet9 & 0xF0) == 0x30)
     {
-        return version_type::version_name_based_md5;
+        return VersionType::VersionNameBasedMd5;
     }
     else if ((octet9 & 0xF0) == 0x40)
     {
-        return version_type::version_random_number_based;
+        return VersionType::VersionRandomNumberBased;
     }
     else if ((octet9 & 0xF0) == 0x50)
     {
-        return version_type::version_name_based_sha1;
+        return VersionType::VersionNameBasedSha1;
     }
     else
     {
-        return version_type::version_unknown;
+        return VersionType::VersionUnknown;
     }
 }
 
-[[nodiscard]] auto uuid::str() const -> string
+[[nodiscard]] auto Uuid::Str() const -> String
 {
-    return detail::to_string(data);
+    return Internal::ToString(Data);
 }
 
-[[nodiscard]] auto uuid::size() const noexcept -> std::size_t
+[[nodiscard]] auto Uuid::Size() const noexcept -> std::size_t
 {
-    return data.size();
+    return Data.size();
 }
 
-[[nodiscard]] auto uuid::generate() noexcept -> uuid
+[[nodiscard]] auto Uuid::Generate() noexcept -> Uuid
 {
     std::random_device r;
     std::default_random_engine e1(r());
-    std::uniform_int_distribution<unsigned long> uniform_dist;
+    std::uniform_int_distribution<unsigned long> uniformDist;
 
-    uuid u;
+    Uuid u;
 
     int i = 0;
-    auto random_value = uniform_dist(e1);
-    for (auto &val : u.data)
+    auto randomValue = uniformDist(e1);
+    for (auto &val : u.Data)
     {
         if (i == sizeof(unsigned long))
         {
-            random_value = uniform_dist(e1);
+            randomValue = uniformDist(e1);
             i = 0;
         }
 
-        val = static_cast<uuid::value_type>((random_value >> (i * 8)) & 0xFF);
+        val = static_cast<Uuid::value_type>((randomValue >> (i * 8)) & 0xFF);
         ++i;
     }
 
@@ -226,22 +226,22 @@ uuid::~uuid() noexcept = default;
     return u;
 }
 
-[[nodiscard]] auto uuid::nil() noexcept -> uuid
+[[nodiscard]] auto Uuid::Nil() noexcept -> Uuid
 {
     return {};
 }
 
-auto uuid::parse(const string_view &str) -> uuid
+auto Uuid::Parse(const StringView &str) -> Uuid
 {
-    const auto result = try_parse(str);
+    const auto result = TryParse(str);
 
     if (!result)
-        throw uuid_parse_exception{};
+        throw UuidParseException{};
 
     return *result;
 }
 
-auto uuid::try_parse(const string_view &str) noexcept -> std::optional<uuid>
+auto Uuid::TryParse(const StringView &str) noexcept -> std::optional<Uuid>
 {
     auto begin = str.begin();
     auto end = str.end();
@@ -249,48 +249,48 @@ auto uuid::try_parse(const string_view &str) noexcept -> std::optional<uuid>
     char c;
 
     // check open brace
-    if (!detail::get_next_char(begin, end, c))
+    if (!Internal::GetNextChar(begin, end, c))
         return std::nullopt;
 
-    const bool has_open_brace = detail::is_open_brace(c);
-    const auto open_brace_char = c;
+    const bool hasOpenBrace = Internal::IsOpenBrace(c);
+    const auto openBraceChar = c;
 
-    if (has_open_brace)
+    if (hasOpenBrace)
     {
-        if (!detail::get_next_char(begin, end, c))
+        if (!Internal::GetNextChar(begin, end, c))
             return std::nullopt;
     }
 
-    bool has_dashes = false;
+    bool hasDashes = false;
 
     int i = 0;
-    data_type data;
+    DataType data;
 
     for (auto &val : data)
     {
         if (i != 0)
         {
-            if (!detail::get_next_char(begin, end, c))
+            if (!Internal::GetNextChar(begin, end, c))
                 return std::nullopt;
         }
 
         if (i == 4)
         {
-            has_dashes = detail::is_dash(c);
-            if (has_dashes)
+            hasDashes = Internal::IsDash(c);
+            if (hasDashes)
             {
-                if (!detail::get_next_char(begin, end, c))
+                if (!Internal::GetNextChar(begin, end, c))
                     return std::nullopt;
             }
         }
 
-        if (has_dashes)
+        if (hasDashes)
         {
             if (i == 6 || i == 8 || i == 10)
             {
-                if (detail::is_dash(c))
+                if (Internal::IsDash(c))
                 {
-                    if (!detail::get_next_char(begin, end, c))
+                    if (!Internal::GetNextChar(begin, end, c))
                         return std::nullopt;
                 }
                 else
@@ -300,41 +300,41 @@ auto uuid::try_parse(const string_view &str) noexcept -> std::optional<uuid>
             }
         }
 
-        val = detail::get_value(c);
+        val = Internal::GetValue(c);
 
-        if (!detail::get_next_char(begin, end, c))
+        if (!Internal::GetNextChar(begin, end, c))
             return std::nullopt;
 
         val <<= 4;
-        val |= detail::get_value(c);
+        val |= Internal::GetValue(c);
         ++i;
     }
 
     // check close brace
-    if (has_open_brace)
+    if (hasOpenBrace)
     {
-        if (!detail::get_next_char(begin, end, c))
+        if (!Internal::GetNextChar(begin, end, c))
             return std::nullopt;
 
-        if (!detail::check_close_brace(c, open_brace_char))
+        if (!Internal::CheckCloseBrace(c, openBraceChar))
             return std::nullopt;
     }
 
-    return uuid{data};
+    return Uuid{data};
 }
 
-uuid::operator bool() const noexcept
+Uuid::operator bool() const noexcept
 {
-    return !is_nil();
+    return !IsNil();
 }
 
-bool operator==(uuid const &lhs, uuid const &rhs) noexcept
+bool operator==(Uuid const &lhs, Uuid const &rhs) noexcept
 {
     return std::equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
-bool operator<(uuid const &lhs, uuid const &rhs) noexcept
+bool operator<(Uuid const &lhs, Uuid const &rhs) noexcept
 {
-    return std::memcmp(lhs.data.data(), rhs.data.data(), lhs.data.size()) < 0;
+    return std::memcmp(lhs.Data.data(), rhs.Data.data(), lhs.Data.size()) < 0;
 }
-} // namespace aeon::common
+} // namespace aeon::Common

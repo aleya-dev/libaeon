@@ -18,27 +18,27 @@ constexpr auto default_data_type = "std::uint8_t";
 
 constexpr auto max_hex_bytes_per_line = 16;
 
-[[nodiscard]] auto parse_arguments(common::commandline_parser &parser, int argc, char *argv[])
+[[nodiscard]] auto parse_arguments(Common::CommandlineParser &parser, int argc, char *argv[])
 {
-    parser.add_positional("source_file", "The source header file for which to generate reflection data.");
-    parser.add_positional("dest_file", "The destination for the generated reflection data.");
-    parser.add_option("v", "Verbose.");
-    parser.add_option("h", "Show help text.");
-    parser.add_argument("n", "Set a custom name for the namespace. The default is aeon::data");
-    parser.add_argument(
+    parser.AddPositional("source_file", "The source header file for which to generate reflection data.");
+    parser.AddPositional("dest_file", "The destination for the generated reflection data.");
+    parser.AddOption("v", "Verbose.");
+    parser.AddOption("h", "Show help text.");
+    parser.AddArgument("n", "Set a custom name for the namespace. The default is aeon::data");
+    parser.AddArgument(
         "d", "Set a custom name for the data variable. The default is to base this on the source file name.");
-    parser.add_argument("t", "Override the std::uint8_t type with a custom one (must be 8 bits)");
+    parser.AddArgument("t", "Override the std::uint8_t type with a custom one (must be 8 bits)");
 
-    return parser.parse(argc, argv);
+    return parser.Parse(argc, argv);
 }
 
 [[nodiscard]] auto generate_variable_name(const std::filesystem::path &path)
 {
-    auto filename = common::string{path.filename().string()};
-    common::string_utils::trim(filename);
-    common::string_utils::replace(filename, " ", "-");
-    common::string_utils::replace(filename, ".", "_");
-    common::string_utils::to_lower(filename);
+    auto filename = Common::String{path.filename().string()};
+    Common::StringUtils::Trim(filename);
+    Common::StringUtils::Replace(filename, " ", "-");
+    Common::StringUtils::Replace(filename, ".", "_");
+    Common::StringUtils::ToLower(filename);
     return filename;
 }
 
@@ -50,7 +50,7 @@ constexpr auto max_hex_bytes_per_line = 16;
 }
 
 void generate(const std::filesystem::path &source, const std::filesystem::path &destination,
-              const common::string_view namespace_name, const common::string_view data_name, const common::string_view data_type,
+              const Common::StringView namespace_name, const Common::StringView data_name, const Common::StringView data_type,
               const bool verbose)
 {
     if (verbose)
@@ -81,7 +81,7 @@ void generate(const std::filesystem::path &source, const std::filesystem::path &
     auto hex_bytes_per_line = 0;
     for (const auto b : data)
     {
-        dst_writer << "0x" << common::string_utils::uint8_to_hex_string(b) << ", ";
+        dst_writer << "0x" << Common::StringUtils::Uint8ToHexString(b) << ", ";
 
         if (++hex_bytes_per_line >= max_hex_bytes_per_line)
         {
@@ -102,24 +102,24 @@ void generate(const std::filesystem::path &source, const std::filesystem::path &
 
 auto application::main(const int argc, char *argv[]) noexcept -> int // NOLINT(bugprone-exception-escape)
 {
-    common::commandline_parser commandline_parser;
-    auto args = parse_arguments(commandline_parser, argc, argv);
+    Common::CommandlineParser CommandlineParser;
+    auto args = parse_arguments(CommandlineParser, argc, argv);
 
     if (!args)
     {
         std::cerr << "Invalid arguments.\n";
-        commandline_parser.print_help_text(exe_name);
+        CommandlineParser.PrintHelpText(exe_name);
         return 1;
     }
 
-    if (args.has_option("h"))
+    if (args.HasOption("h"))
     {
-        commandline_parser.print_help_text(exe_name);
+        CommandlineParser.PrintHelpText(exe_name);
         return 0;
     }
 
-    const auto source_file = std::filesystem::path{args.positional(0).as_std_string_view()};
-    const auto destination_file = std::filesystem::path{args.positional(1).as_std_string_view()};
+    const auto source_file = std::filesystem::path{args.Positional(0).AsStdStringView()};
+    const auto destination_file = std::filesystem::path{args.Positional(1).AsStdStringView()};
 
     if (!std::filesystem::exists(source_file))
     {
@@ -127,11 +127,11 @@ auto application::main(const int argc, char *argv[]) noexcept -> int // NOLINT(b
         return 1;
     }
 
-    const auto namespace_name = args.get_argument("n", default_namespace_name);
+    const auto namespace_name = args.GetArgument("n", default_namespace_name);
     const auto generated_variable_name = generate_variable_name(source_file);
-    const auto data_name = args.get_argument("d", generated_variable_name.as_std_string_view());
-    const auto data_type = args.get_argument("t", default_data_type);
-    const auto verbose = args.has_option("v");
+    const auto data_name = args.GetArgument("d", generated_variable_name.AsStdStringView());
+    const auto data_type = args.GetArgument("t", default_data_type);
+    const auto verbose = args.HasOption("v");
 
     generate(source_file, destination_file, namespace_name, data_name, data_type, verbose);
 

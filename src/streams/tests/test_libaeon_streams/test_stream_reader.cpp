@@ -40,7 +40,7 @@ TEST(test_streams, test_streams_stream_reader_read_line)
     writer << "Hello! 12345\n";
 
     streams::stream_reader reader{device};
-    common::string line;
+    Common::String line;
     reader >> line;
 
     EXPECT_EQ("Hello! 12345", line);
@@ -69,7 +69,7 @@ TEST(test_streams, test_streams_stream_reader_read_string)
     streams::stream_reader reader{device};
     const auto str = reader.read_to_string();
 
-    EXPECT_EQ(12u, std::size(str));
+    EXPECT_EQ(12u, str.Size());
     EXPECT_EQ("Hello! 12345", str);
 }
 
@@ -80,13 +80,13 @@ TEST(test_streams, test_streams_stream_reader_stdstring_prefixed)
 
     ASSERT_EQ(0u, std::size(device));
 
-    common::string val = "Hello! 12345";
+    Common::String val = "Hello! 12345";
     writer << streams::length_prefix_string{val};
-    ASSERT_EQ(static_cast<std::streamoff>(std::size(val)) + aeon_signed_sizeof(std::uint32_t), device.tellp());
+    ASSERT_EQ(static_cast<std::streamoff>(val.Size()) + AeonSignedSizeof(std::uint32_t), device.tellp());
 
     streams::stream_reader reader{device};
 
-    common::string val2;
+    Common::String val2;
     reader >> streams::length_prefix_string{val2};
 
     EXPECT_EQ(val, val2);
@@ -123,20 +123,20 @@ TEST(test_streams, test_streams_stream_reader_varint)
     test_varint(268435456, 5);
 }
 
-void test_prefixed_varint_string(const common::string &str)
+void test_prefixed_varint_string(const Common::String &str)
 {
     auto device = streams::memory_device<std::vector<char>>{};
     streams::stream_writer writer{device};
 
     ASSERT_EQ(0u, std::size(device));
 
-    common::string val = str;
+    Common::String val = str;
     writer << streams::length_prefix_string<streams::varint>{val};
-    ASSERT_EQ(static_cast<std::streamoff>(std::size(val)) + 1, device.tellp());
+    ASSERT_EQ(static_cast<std::streamoff>(val.Size()) + 1, device.tellp());
 
     streams::stream_reader reader{device};
 
-    common::string val2;
+    Common::String val2;
     reader >> streams::length_prefix_string<streams::varint>{val2};
 
     EXPECT_EQ(val, val2);

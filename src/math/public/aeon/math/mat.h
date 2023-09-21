@@ -29,7 +29,7 @@ public:
      * \param[in] type - The real format that the data represents (for example f32_4, 4 floats per element)
      * \param[in] dimensions - The width and height of the matrix.
      */
-    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions) noexcept;
+    explicit mat(const Common::ElementType type, const size2d<dimensions_type> dimensions) noexcept;
 
     /*!
      * Create a matrix with the given dimensions
@@ -37,7 +37,7 @@ public:
      * \param[in] width - The width of the matrix.
      * \param[in] height - The height of the matrix.
      */
-    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height) noexcept;
+    explicit mat(const Common::ElementType type, const dimensions_type width, const dimensions_type height) noexcept;
 
     /*!
      * Create a matrix with the given dimensions and data pointer.
@@ -45,7 +45,7 @@ public:
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      */
-    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions,
+    explicit mat(const Common::ElementType type, const size2d<dimensions_type> dimensions,
                  const stride_type stride) noexcept;
 
     /*!
@@ -55,7 +55,7 @@ public:
      * \param[in] height - The height of the matrix.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      */
-    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+    explicit mat(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                  const stride_type stride) noexcept;
 
     /*!
@@ -64,7 +64,7 @@ public:
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] data - Data to be moved into the matrix. The size of the data must match the given dimensions.
      */
-    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions,
+    explicit mat(const Common::ElementType type, const size2d<dimensions_type> dimensions,
                  std::vector<underlying_type> data) noexcept;
 
     /*!
@@ -74,7 +74,7 @@ public:
      * \param[in] height - The height of the matrix.
      * \param[in] data - Data to be moved into the matrix. The size of the data must match the given dimensions.
      */
-    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+    explicit mat(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                  std::vector<underlying_type> data) noexcept;
 
     /*!
@@ -85,7 +85,7 @@ public:
      * \param[in] data - Data to be moved into the matrix. The size of the data must match the given dimensions and
      * stride.
      */
-    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions, const stride_type stride,
+    explicit mat(const Common::ElementType type, const size2d<dimensions_type> dimensions, const stride_type stride,
                  std::vector<underlying_type> data) noexcept;
 
     /*!
@@ -97,7 +97,7 @@ public:
      * \param[in] data - Data to be moved into the matrix. The size of the data must match the given dimensions and
      * stride.
      */
-    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+    explicit mat(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                  const stride_type stride, std::vector<underlying_type> data) noexcept;
 
     /*!
@@ -106,8 +106,7 @@ public:
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] data - Data to be copied into the matrix. The size of the data must match the given dimensions.
      */
-    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions,
-                 const underlying_type *data);
+    explicit mat(const Common::ElementType type, const size2d<dimensions_type> dimensions, const underlying_type *data);
 
     /*!
      * Create a matrix with the given dimensions
@@ -116,7 +115,7 @@ public:
      * \param[in] height - The height of the matrix.
      * \param[in] data - Data to be copied into the matrix. The size of the data must match the given dimensions.
      */
-    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+    explicit mat(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                  const underlying_type *data);
 
     /*!
@@ -127,7 +126,7 @@ public:
      * \param[in] data - Data to be copied into the matrix. The size of the data must match the given dimensions.
      * stride.
      */
-    explicit mat(const common::element_type type, const size2d<dimensions_type> dimensions, const stride_type stride,
+    explicit mat(const Common::ElementType type, const size2d<dimensions_type> dimensions, const stride_type stride,
                  const underlying_type *data);
 
     /*!
@@ -139,7 +138,7 @@ public:
      * \param[in] data - Data to be copied into the matrix. The size of the data must match the given dimensions.
      * stride.
      */
-    explicit mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+    explicit mat(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                  const stride_type stride, const underlying_type *data);
 
     ~mat() noexcept = default;

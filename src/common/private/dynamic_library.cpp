@@ -10,13 +10,13 @@
 #include <dlfcn.h>
 #endif
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-namespace internal
+namespace Internal
 {
 
-[[nodiscard]] static auto load_library(const std::filesystem::path &path) noexcept -> void *
+[[nodiscard]] static auto LoadLibrary(const std::filesystem::path &path) noexcept -> void *
 {
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
     auto result = LoadLibraryW(path.wstring().c_str());
@@ -34,7 +34,7 @@ namespace internal
     return result;
 }
 
-[[nodiscard]] static auto get_proc_address(void *handle, const string_view &name) noexcept -> void *
+[[nodiscard]] static auto GetProcAddress(void *handle, const StringView &name) noexcept -> void *
 {
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
     return reinterpret_cast<void *>(GetProcAddress(static_cast<const HMODULE>(handle), std::data(name)));
@@ -43,7 +43,7 @@ namespace internal
 #endif
 }
 
-void free_library(void *handle) noexcept
+void FreeLibrary(void *handle) noexcept
 {
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
     FreeLibrary(static_cast<HMODULE>(handle));
@@ -54,72 +54,72 @@ void free_library(void *handle) noexcept
 
 } // namespace internal
 
-dynamic_library::dynamic_library() noexcept
-    : handle_{nullptr}
+DynamicLibrary::DynamicLibrary() noexcept
+    : m_handle{nullptr}
 {
 }
 
-dynamic_library::dynamic_library(void *handle) noexcept
-    : handle_{handle}
+DynamicLibrary::DynamicLibrary(void *handle) noexcept
+    : m_handle{handle}
 {
 }
 
-dynamic_library::dynamic_library(const std::filesystem::path &path) noexcept
-    : handle_{internal::load_library(path)}
+DynamicLibrary::DynamicLibrary(const std::filesystem::path &path) noexcept
+    : m_handle{Internal::LoadLibrary(path)}
 {
 }
 
-dynamic_library::~dynamic_library()
+DynamicLibrary::~DynamicLibrary()
 {
-    destroy();
+    Destroy();
 }
 
-dynamic_library::dynamic_library(dynamic_library &&other) noexcept
-    : handle_{other.handle_}
+DynamicLibrary::DynamicLibrary(DynamicLibrary &&other) noexcept
+    : m_handle{other.m_handle}
 {
-    other.handle_ = nullptr;
+    other.m_handle = nullptr;
 }
 
-auto dynamic_library::operator=(dynamic_library &&other) noexcept -> dynamic_library &
+auto DynamicLibrary::operator=(DynamicLibrary &&other) noexcept -> DynamicLibrary &
 {
     if (this != &other) [[likely]]
     {
-        destroy();
-        handle_ = other.handle_;
-        other.handle_ = nullptr;
+        Destroy();
+        m_handle = other.m_handle;
+        other.m_handle = nullptr;
     }
 
     return *this;
 }
 
-auto dynamic_library::is_valid() const noexcept -> bool
+auto DynamicLibrary::IsValid() const noexcept -> bool
 {
-    return handle_ != nullptr;
+    return m_handle != nullptr;
 }
 
-auto dynamic_library::handle() const noexcept -> void *
+auto DynamicLibrary::Handle() const noexcept -> void *
 {
-    return handle_;
+    return m_handle;
 }
 
-auto dynamic_library::get_proc_address(const string_view &name) const noexcept -> void *
+auto DynamicLibrary::GetProcAddress(const StringView &name) const noexcept -> void *
 {
-    return internal::get_proc_address(handle_, name);
+    return Internal::GetProcAddress(m_handle, name);
 }
 
-auto dynamic_library::release() noexcept -> void *
+auto DynamicLibrary::Release() noexcept -> void *
 {
-    const auto handle = handle_;
-    handle_ = nullptr;
+    const auto handle = m_handle;
+    m_handle = nullptr;
     return handle;
 }
 
-void dynamic_library::destroy()
+void DynamicLibrary::Destroy()
 {
-    if (handle_)
-        internal::free_library(handle_);
+    if (m_handle)
+        Internal::FreeLibrary(m_handle);
 
-    handle_ = nullptr;
+    m_handle = nullptr;
 }
 
-} // namespace aeon::common
+} // namespace aeon::Common

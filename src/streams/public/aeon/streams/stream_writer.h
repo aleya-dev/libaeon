@@ -56,7 +56,7 @@ inline stream_writer<device_t>::stream_writer(device_t &device) noexcept
     : device_{&device}
 {
     if constexpr (std::is_same_v<std::decay_t<device_t>, idynamic_stream>)
-        aeon_assert(device_->is_output(), "Stream writer requires an output device.");
+        AeonAssert(device_->is_output(), "Stream writer requires an output device.");
 }
 
 template <stream_writable device_t>
@@ -96,15 +96,15 @@ inline void stream_writer<device_t>::array_write(const std::array<T, size> &arr)
 template <stream_writable device_t, typename T, class = std::enable_if_t<std::is_arithmetic_v<T>>>
 inline auto &operator<<(stream_writer<device_t> &writer, const T &val)
 {
-    if (writer.device().write(reinterpret_cast<const std::byte *>(&val), aeon_signed_sizeof(T)) !=
-        aeon_signed_sizeof(T))
+    if (writer.device().write(reinterpret_cast<const std::byte *>(&val), AeonSignedSizeof(T)) !=
+        AeonSignedSizeof(T))
         throw stream_exception{};
 
     return writer;
 }
 
 template <stream_writable device_t>
-inline auto &operator<<(stream_writer<device_t> &writer, const common::string_view &val)
+inline auto &operator<<(stream_writer<device_t> &writer, const Common::StringView &val)
 {
     const auto size = static_cast<std::streamsize>(std::size(val));
 

@@ -25,7 +25,7 @@ class graphics_pipeline_description final
 public:
     explicit graphics_pipeline_description(
         const vulkan::pipeline_layout &layout, const vulkan::render_pass &render_pass, const std::uint32_t subpass = 0,
-        const common::flags<pipeline_create_flag> flags = pipeline_create_flag::none) noexcept;
+        const Common::Flags<pipeline_create_flag> flags = pipeline_create_flag::none) noexcept;
     ~graphics_pipeline_description() = default;
 
     graphics_pipeline_description(const graphics_pipeline_description &) = default;
@@ -34,8 +34,8 @@ public:
     graphics_pipeline_description(graphics_pipeline_description &&) noexcept = default;
     auto operator=(graphics_pipeline_description &&) noexcept -> graphics_pipeline_description & = default;
 
-    auto set_flags(const common::flags<pipeline_create_flag> flags) noexcept -> graphics_pipeline_description &;
-    [[nodiscard]] auto flags() const noexcept -> common::flags<pipeline_create_flag>;
+    auto set_flags(const Common::Flags<pipeline_create_flag> flags) noexcept -> graphics_pipeline_description &;
+    [[nodiscard]] auto flags() const noexcept -> Common::Flags<pipeline_create_flag>;
 
     auto add_shader_stage(const shader_stage stage, const shader_module &module,
                           const char *const entry_point_name = pipeline_shader_stage::default_entry_point_name)
@@ -74,7 +74,7 @@ public:
     [[nodiscard]] auto subpass() const noexcept -> std::uint32_t;
 
 private:
-    common::flags<pipeline_create_flag> flags_;
+    Common::Flags<pipeline_create_flag> flags_;
     std::vector<pipeline_shader_stage> shader_stages_;
     pipeline_vertex_input_state_description vertex_input_state_;
     pipeline_input_assembly_state_description input_assembly_state_;
@@ -92,7 +92,7 @@ private:
 
 inline graphics_pipeline_description::graphics_pipeline_description(
     const vulkan::pipeline_layout &layout, const vulkan::render_pass &render_pass, const std::uint32_t subpass,
-    const common::flags<pipeline_create_flag> flags) noexcept
+    const Common::Flags<pipeline_create_flag> flags) noexcept
     : flags_{flags}
     , layout_{&layout}
     , render_pass_{&render_pass}
@@ -100,14 +100,14 @@ inline graphics_pipeline_description::graphics_pipeline_description(
 {
 }
 
-inline auto graphics_pipeline_description::set_flags(const common::flags<pipeline_create_flag> flags) noexcept
+inline auto graphics_pipeline_description::set_flags(const Common::Flags<pipeline_create_flag> flags) noexcept
     -> graphics_pipeline_description &
 {
     flags_ = flags;
     return *this;
 }
 
-inline auto graphics_pipeline_description::flags() const noexcept -> common::flags<pipeline_create_flag>
+inline auto graphics_pipeline_description::flags() const noexcept -> Common::Flags<pipeline_create_flag>
 {
     return flags_;
 }

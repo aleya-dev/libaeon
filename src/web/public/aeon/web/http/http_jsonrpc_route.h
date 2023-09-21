@@ -15,9 +15,9 @@ class rpc_result;
 class http_jsonrpc_route final : public route
 {
 public:
-    explicit http_jsonrpc_route(const common::string &mount_point);
-    explicit http_jsonrpc_route(const common::string &mount_point, std::unique_ptr<jsonrpc::server> json_rpc_server);
-    explicit http_jsonrpc_route(const common::string &mount_point, jsonrpc::server &json_rpc_server);
+    explicit http_jsonrpc_route(const Common::String &mount_point);
+    explicit http_jsonrpc_route(const Common::String &mount_point, std::unique_ptr<jsonrpc::server> json_rpc_server);
+    explicit http_jsonrpc_route(const Common::String &mount_point, jsonrpc::server &json_rpc_server);
     ~http_jsonrpc_route() final;
 
     http_jsonrpc_route(http_jsonrpc_route &&) = delete;

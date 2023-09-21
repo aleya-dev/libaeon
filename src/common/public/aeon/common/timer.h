@@ -4,42 +4,42 @@
 
 #include <chrono>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-class timer
+class Timer
 {
 public:
-    using clock_type = std::chrono::high_resolution_clock;
+    using ClockType = std::chrono::high_resolution_clock;
 
-    timer() noexcept
+    Timer() noexcept
     {
-        reset();
+        Reset();
     }
 
-    ~timer() = default;
+    ~Timer() = default;
 
-    timer(timer &&) = delete;
-    auto operator=(timer &&) -> timer & = delete;
+    Timer(Timer &&) = delete;
+    auto operator=(Timer &&) -> Timer & = delete;
 
-    timer(const timer &) = delete;
-    auto operator=(const timer &) -> timer & = delete;
+    Timer(const Timer &) = delete;
+    auto operator=(const Timer &) -> Timer & = delete;
 
-    void reset() noexcept
+    void Reset() noexcept
     {
-        start_time_ = clock_type::now();
+        m_startTime = ClockType::now();
     }
 
     template <typename T = float>
-    [[nodiscard]] auto get_time_difference() const noexcept
+    [[nodiscard]] auto GetTimeDifference() const noexcept
     {
-        const auto now = clock_type::now();
-        const std::chrono::duration<T> elapsed_seconds = now - start_time_;
-        return elapsed_seconds.count();
+        const auto now = ClockType::now();
+        const std::chrono::duration<T> elapsedSeconds = now - m_startTime;
+        return elapsedSeconds.count();
     }
 
 private:
-    std::chrono::time_point<clock_type> start_time_;
+    std::chrono::time_point<ClockType> m_startTime;
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

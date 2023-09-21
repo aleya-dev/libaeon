@@ -5,43 +5,43 @@
 #include <aeon/common/color_limits.h>
 #include <algorithm>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-namespace internal
+namespace Internal
 {
 
-template <concepts::arithmetic from_t, concepts::arithmetic to_t>
-struct convert_rgb_color_type
+template <Concepts::Arithmetic FromT, Concepts::Arithmetic ToT>
+struct ConvertRgbColorType
 {
-    [[nodiscard]] constexpr static auto convert(const from_t from) noexcept -> to_t
+    [[nodiscard]] constexpr static auto Convert(const FromT from) noexcept -> ToT
     {
-        return static_cast<to_t>(from);
+        return static_cast<ToT>(from);
     }
 };
 
 template <>
-struct convert_rgb_color_type<std::uint8_t, float>
+struct ConvertRgbColorType<std::uint8_t, float>
 {
-    [[nodiscard]] constexpr static auto convert(const std::uint8_t from) noexcept -> float
+    [[nodiscard]] constexpr static auto Convert(const std::uint8_t from) noexcept -> float
     {
         return static_cast<float>(from) / 255.0f;
     }
 };
 
 template <>
-struct convert_rgb_color_type<std::uint8_t, double>
+struct ConvertRgbColorType<std::uint8_t, double>
 {
-    [[nodiscard]] constexpr static auto convert(const std::uint8_t from) noexcept -> double
+    [[nodiscard]] constexpr static auto Convert(const std::uint8_t from) noexcept -> double
     {
         return static_cast<double>(from) / 255.0;
     }
 };
 
 template <>
-struct convert_rgb_color_type<float, std::uint8_t>
+struct ConvertRgbColorType<float, std::uint8_t>
 {
-    [[nodiscard]] constexpr static auto convert(const float from) noexcept -> std::uint8_t
+    [[nodiscard]] constexpr static auto Convert(const float from) noexcept -> std::uint8_t
     {
         const auto result = static_cast<int>(from * 255.0f);
         return static_cast<std::uint8_t>(std::clamp(result, 0, 255));
@@ -49,9 +49,9 @@ struct convert_rgb_color_type<float, std::uint8_t>
 };
 
 template <>
-struct convert_rgb_color_type<double, std::uint8_t>
+struct ConvertRgbColorType<double, std::uint8_t>
 {
-    [[nodiscard]] constexpr static auto convert(const double from) noexcept -> std::uint8_t
+    [[nodiscard]] constexpr static auto Convert(const double from) noexcept -> std::uint8_t
     {
         const auto result = static_cast<int>(from * 255.0);
         return static_cast<std::uint8_t>(std::clamp(result, 0, 255));
@@ -60,165 +60,165 @@ struct convert_rgb_color_type<double, std::uint8_t>
 
 } // namespace internal
 
-template <concepts::arithmetic T>
-inline constexpr color_rgb<T>::color_rgb() noexcept
-    : color_rgb<T>{color_limits<T>::min(), color_limits<T>::min(), color_limits<T>::min()}
+template <Concepts::Arithmetic T>
+inline constexpr ColorRgb<T>::ColorRgb() noexcept
+    : ColorRgb<T>{ColorLimits<T>::Min(), ColorLimits<T>::Min(), ColorLimits<T>::Min()}
 {
 }
 
-template <concepts::arithmetic T>
-inline constexpr color_rgb<T>::color_rgb(const type r, const type g, const type b) noexcept
-    : r{r}
-    , g{g}
-    , b{b}
+template <Concepts::Arithmetic T>
+inline constexpr ColorRgb<T>::ColorRgb(const Type r, const Type g, const Type b) noexcept
+    : R{r}
+    , G{g}
+    , B{b}
 {
 }
 
-template <concepts::arithmetic T>
-template <concepts::arithmetic U>
-inline constexpr color_rgb<T>::color_rgb(const U r, const U g, const U b) noexcept
-    : color_rgb<T>{internal::convert_rgb_color_type<U, T>::convert(r),
-                   internal::convert_rgb_color_type<U, T>::convert(g),
-                   internal::convert_rgb_color_type<U, T>::convert(b)}
+template <Concepts::Arithmetic T>
+template <Concepts::Arithmetic U>
+inline constexpr ColorRgb<T>::ColorRgb(const U r, const U g, const U b) noexcept
+    : ColorRgb<T>{Internal::ConvertRgbColorType<U, T>::Convert(r),
+                  Internal::ConvertRgbColorType<U, T>::Convert(g),
+                  Internal::ConvertRgbColorType<U, T>::Convert(b)}
 {
 }
 
-template <concepts::arithmetic T>
-template <concepts::arithmetic U>
-inline constexpr color_rgb<T>::color_rgb(const color_rgb<U> color) noexcept
-    : color_rgb<T>{internal::convert_rgb_color_type<U, T>::convert(color.r),
-                   internal::convert_rgb_color_type<U, T>::convert(color.g),
-                   internal::convert_rgb_color_type<U, T>::convert(color.b)}
+template <Concepts::Arithmetic T>
+template <Concepts::Arithmetic U>
+inline constexpr ColorRgb<T>::ColorRgb(const ColorRgb<U> color) noexcept
+    : ColorRgb<T>{Internal::ConvertRgbColorType<U, T>::Convert(color.r),
+                  Internal::ConvertRgbColorType<U, T>::Convert(color.g),
+                  Internal::ConvertRgbColorType<U, T>::Convert(color.b)}
 {
 }
 
-template <concepts::arithmetic T>
-[[nodiscard]] inline constexpr auto ptr(color_rgb<T> &color) noexcept -> T *
+template <Concepts::Arithmetic T>
+[[nodiscard]] inline constexpr auto Ptr(ColorRgb<T> &color) noexcept -> T *
 {
-    return &color.r;
+    return &color.R;
 }
 
-template <concepts::arithmetic T>
-[[nodiscard]] inline constexpr auto ptr(const color_rgb<T> &color) noexcept -> const T *
+template <Concepts::Arithmetic T>
+[[nodiscard]] inline constexpr auto Ptr(const ColorRgb<T> &color) noexcept -> const T *
 {
-    return &color.r;
+    return &color.R;
 }
 
-template <concepts::arithmetic T>
-inline constexpr auto operator==(const color_rgb<T> &lhs, const color_rgb<T> &rhs) noexcept -> bool
+template <Concepts::Arithmetic T>
+inline constexpr auto operator==(const ColorRgb<T> &lhs, const ColorRgb<T> &rhs) noexcept -> bool
 {
-    return lhs.r == rhs.r && lhs.g == rhs.g && lhs.b == rhs.b;
+    return lhs.R == rhs.R && lhs.G == rhs.G && lhs.B == rhs.B;
 }
 
-template <concepts::arithmetic T>
-inline constexpr auto operator!=(const color_rgb<T> &lhs, const color_rgb<T> &rhs) noexcept -> bool
-{
-    return !(lhs == rhs);
-}
-
-template <concepts::arithmetic T>
-inline constexpr color_rgba<T>::color_rgba() noexcept
-    : color_rgba<T>{color_limits<type>::min(), color_limits<type>::min(), color_limits<type>::min(),
-                    color_limits<type>::max()}
-{
-}
-
-template <concepts::arithmetic T>
-inline constexpr color_rgba<T>::color_rgba(const type r, const type g, const type b) noexcept
-    : color_rgba<T>{r, g, b, color_limits<type>::max()}
-{
-}
-
-template <concepts::arithmetic T>
-inline constexpr color_rgba<T>::color_rgba(const type r, const type g, const type b, const type a) noexcept
-    : r{r}
-    , g{g}
-    , b{b}
-    , a{a}
-{
-}
-
-template <concepts::arithmetic T>
-inline constexpr color_rgba<T>::color_rgba(const color_rgb<type> color) noexcept
-    : color_rgba<T>{color.r, color.g, color.b, color_limits<type>::max()}
-{
-}
-
-template <concepts::arithmetic T>
-inline constexpr color_rgba<T>::color_rgba(const color_rgb<type> color, const type a) noexcept
-    : color_rgba<T>{color.r, color.g, color.b, a}
-{
-}
-
-template <concepts::arithmetic T>
-template <concepts::arithmetic U>
-inline constexpr color_rgba<T>::color_rgba(const U r, const U g, const U b) noexcept
-    : color_rgba<T>{internal::convert_rgb_color_type<U, T>::convert(r),
-                    internal::convert_rgb_color_type<U, T>::convert(g),
-                    internal::convert_rgb_color_type<U, T>::convert(b), color_limits<type>::max()}
-{
-}
-
-template <concepts::arithmetic T>
-template <concepts::arithmetic U>
-inline constexpr color_rgba<T>::color_rgba(const U r, const U g, const U b, const U a) noexcept
-    : color_rgba<T>{
-          internal::convert_rgb_color_type<U, T>::convert(r), internal::convert_rgb_color_type<U, T>::convert(g),
-          internal::convert_rgb_color_type<U, T>::convert(b), internal::convert_rgb_color_type<U, T>::convert(a)}
-{
-}
-
-template <concepts::arithmetic T>
-template <concepts::arithmetic U>
-inline constexpr color_rgba<T>::color_rgba(const color_rgb<U> color) noexcept
-    : color_rgba<T>{internal::convert_rgb_color_type<U, T>::convert(color.r),
-                    internal::convert_rgb_color_type<U, T>::convert(color.g),
-                    internal::convert_rgb_color_type<U, T>::convert(color.b), color_limits<type>::max()}
-{
-}
-
-template <concepts::arithmetic T>
-template <concepts::arithmetic U>
-inline constexpr color_rgba<T>::color_rgba(const color_rgb<U> color, const U a) noexcept
-    : color_rgba<T>{internal::convert_rgb_color_type<U, T>::convert(color.r),
-                    internal::convert_rgb_color_type<U, T>::convert(color.g),
-                    internal::convert_rgb_color_type<U, T>::convert(color.b),
-                    internal::convert_rgb_color_type<U, T>::convert(a)}
-{
-}
-
-template <concepts::arithmetic T>
-template <concepts::arithmetic U>
-inline constexpr color_rgba<T>::color_rgba(const color_rgba<U> color) noexcept
-    : color_rgba<T>{internal::convert_rgb_color_type<U, T>::convert(color.r),
-                    internal::convert_rgb_color_type<U, T>::convert(color.g),
-                    internal::convert_rgb_color_type<U, T>::convert(color.b),
-                    internal::convert_rgb_color_type<U, T>::convert(color.a)}
-{
-}
-
-template <concepts::arithmetic T>
-[[nodiscard]] inline constexpr auto ptr(color_rgba<T> &color) noexcept -> T *
-{
-    return &color.r;
-}
-
-template <concepts::arithmetic T>
-[[nodiscard]] inline constexpr auto ptr(const color_rgba<T> &color) noexcept -> const T *
-{
-    return &color.r;
-}
-
-template <concepts::arithmetic T>
-inline constexpr auto operator==(const color_rgba<T> &lhs, const color_rgba<T> &rhs) noexcept -> bool
-{
-    return lhs.r == rhs.r && lhs.g == rhs.g && lhs.b == rhs.b && lhs.a == rhs.a;
-}
-
-template <concepts::arithmetic T>
-inline constexpr auto operator!=(const color_rgba<T> &lhs, const color_rgba<T> &rhs) noexcept -> bool
+template <Concepts::Arithmetic T>
+inline constexpr auto operator!=(const ColorRgb<T> &lhs, const ColorRgb<T> &rhs) noexcept -> bool
 {
     return !(lhs == rhs);
 }
 
-} // namespace aeon::common
+template <Concepts::Arithmetic T>
+inline constexpr ColorRgba<T>::ColorRgba() noexcept
+    : ColorRgba<T>{ColorLimits<Type>::Min(), ColorLimits<Type>::Min(), ColorLimits<Type>::Min(),
+                   ColorLimits<Type>::Max()}
+{
+}
+
+template <Concepts::Arithmetic T>
+inline constexpr ColorRgba<T>::ColorRgba(const Type r, const Type g, const Type b) noexcept
+    : ColorRgba<T>{r, g, b, ColorLimits<Type>::Max()}
+{
+}
+
+template <Concepts::Arithmetic T>
+inline constexpr ColorRgba<T>::ColorRgba(const Type r, const Type g, const Type b, const Type a) noexcept
+    : R{r}
+    , G{g}
+    , B{b}
+    , A{a}
+{
+}
+
+template <Concepts::Arithmetic T>
+inline constexpr ColorRgba<T>::ColorRgba(const ColorRgb<Type> color) noexcept
+    : ColorRgba<T>{color.Rr, color.G, color.B, ColorLimits<Type>::max()}
+{
+}
+
+template <Concepts::Arithmetic T>
+inline constexpr ColorRgba<T>::ColorRgba(const ColorRgb<Type> color, const Type a) noexcept
+    : ColorRgba<T>{color.R, color.G, color.B, a}
+{
+}
+
+template <Concepts::Arithmetic T>
+template <Concepts::Arithmetic U>
+inline constexpr ColorRgba<T>::ColorRgba(const U r, const U g, const U b) noexcept
+    : ColorRgba<T>{Internal::ConvertRgbColorType<U, T>::Convert(r),
+                   Internal::ConvertRgbColorType<U, T>::Convert(g),
+                   Internal::ConvertRgbColorType<U, T>::Convert(b), ColorLimits<Type>::max()}
+{
+}
+
+template <Concepts::Arithmetic T>
+template <Concepts::Arithmetic U>
+inline constexpr ColorRgba<T>::ColorRgba(const U r, const U g, const U b, const U a) noexcept
+    : ColorRgba<T>{
+          Internal::ConvertRgbColorType<U, T>::Convert(r), Internal::ConvertRgbColorType<U, T>::Convert(g),
+          Internal::ConvertRgbColorType<U, T>::Convert(b), Internal::ConvertRgbColorType<U, T>::Convert(a)}
+{
+}
+
+template <Concepts::Arithmetic T>
+template <Concepts::Arithmetic U>
+inline constexpr ColorRgba<T>::ColorRgba(const ColorRgb<U> color) noexcept
+    : ColorRgba<T>{Internal::ConvertRgbColorType<U, T>::Convert(color.R),
+                   Internal::ConvertRgbColorType<U, T>::Convert(color.G),
+                   Internal::ConvertRgbColorType<U, T>::Convert(color.B), ColorLimits<Type>::max()}
+{
+}
+
+template <Concepts::Arithmetic T>
+template <Concepts::Arithmetic U>
+inline constexpr ColorRgba<T>::ColorRgba(const ColorRgb<U> color, const U a) noexcept
+    : ColorRgba<T>{Internal::ConvertRgbColorType<U, T>::Convert(color.R),
+                   Internal::ConvertRgbColorType<U, T>::Convert(color.G),
+                   Internal::ConvertRgbColorType<U, T>::Convert(color.B),
+                   Internal::ConvertRgbColorType<U, T>::Convert(a)}
+{
+}
+
+template <Concepts::Arithmetic T>
+template <Concepts::Arithmetic U>
+inline constexpr ColorRgba<T>::ColorRgba(const ColorRgba<U> color) noexcept
+    : ColorRgba<T>{Internal::ConvertRgbColorType<U, T>::Convert(color.R),
+                   Internal::ConvertRgbColorType<U, T>::Convert(color.G),
+                   Internal::ConvertRgbColorType<U, T>::Convert(color.B),
+                   Internal::ConvertRgbColorType<U, T>::Convert(color.A)}
+{
+}
+
+template <Concepts::Arithmetic T>
+[[nodiscard]] inline constexpr auto Ptr(ColorRgba<T> &color) noexcept -> T *
+{
+    return &color.R;
+}
+
+template <Concepts::Arithmetic T>
+[[nodiscard]] inline constexpr auto Ptr(const ColorRgba<T> &color) noexcept -> const T *
+{
+    return &color.R;
+}
+
+template <Concepts::Arithmetic T>
+inline constexpr auto operator==(const ColorRgba<T> &lhs, const ColorRgba<T> &rhs) noexcept -> bool
+{
+    return lhs.R == rhs.R && lhs.G == rhs.G && lhs.B == rhs.B && lhs.A == rhs.A;
+}
+
+template <Concepts::Arithmetic T>
+inline constexpr auto operator!=(const ColorRgba<T> &lhs, const ColorRgba<T> &rhs) noexcept -> bool
+{
+    return !(lhs == rhs);
+}
+
+} // namespace aeon::Common

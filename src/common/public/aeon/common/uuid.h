@@ -8,97 +8,97 @@
 #include <optional>
 #include <stdexcept>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-class uuid_parse_exception : public std::exception
+class UuidParseException : public std::exception
 {
 };
 
 /*!
  * UUID class based on boost::uuid.
  */
-class uuid
+class Uuid
 {
 public:
     using value_type = std::uint8_t;
-    using data_type = std::array<value_type, 16>;
+    using DataType = std::array<value_type, 16>;
 
-    enum class variant_type
+    enum class VariantType
     {
-        variant_ncs,
-        variant_rfc_4122,
-        variant_microsoft,
-        variant_future
+        VariantNcs,
+        VariantRfc4122,
+        VariantMicrosoft,
+        VariantFuture
     };
 
-    enum class version_type
+    enum class VersionType
     {
-        version_unknown = -1,
-        version_time_based = 1,
-        version_dce_security = 2,
-        version_name_based_md5 = 3,
-        version_random_number_based = 4,
-        version_name_based_sha1 = 5
+        VersionUnknown = -1,
+        VersionTimeBased = 1,
+        VersionDceSecurity = 2,
+        VersionNameBasedMd5 = 3,
+        VersionRandomNumberBased = 4,
+        VersionNameBasedSha1 = 5
     };
 
-    uuid() noexcept;
-    explicit uuid(data_type data) noexcept;
-    ~uuid() noexcept;
+    Uuid() noexcept;
+    explicit Uuid(DataType data) noexcept;
+    ~Uuid() noexcept;
 
-    uuid(const uuid &) noexcept = default;
-    auto operator=(const uuid &) noexcept -> uuid & = default;
+    Uuid(const Uuid &) noexcept = default;
+    auto operator=(const Uuid &) noexcept -> Uuid & = default;
 
-    uuid(uuid &&) noexcept = default;
-    auto operator=(uuid &&) noexcept -> uuid & = default;
+    Uuid(Uuid &&) noexcept = default;
+    auto operator=(Uuid &&) noexcept -> Uuid & = default;
 
-    [[nodiscard]] auto begin() noexcept -> data_type::iterator;
-    [[nodiscard]] auto begin() const noexcept -> data_type::const_iterator;
-    [[nodiscard]] auto end() noexcept -> data_type::iterator;
-    [[nodiscard]] auto end() const noexcept -> data_type::const_iterator;
+    [[nodiscard]] auto begin() noexcept -> DataType::iterator;
+    [[nodiscard]] auto begin() const noexcept -> DataType::const_iterator;
+    [[nodiscard]] auto end() noexcept -> DataType::iterator;
+    [[nodiscard]] auto end() const noexcept -> DataType::const_iterator;
 
-    [[nodiscard]] auto is_nil() const noexcept -> bool;
+    [[nodiscard]] auto IsNil() const noexcept -> bool;
 
-    [[nodiscard]] auto variant() const noexcept -> variant_type;
+    [[nodiscard]] auto Variant() const noexcept -> VariantType;
 
-    [[nodiscard]] auto version() const noexcept -> version_type;
+    [[nodiscard]] auto Version() const noexcept -> VersionType;
 
-    [[nodiscard]] auto str() const -> string;
+    [[nodiscard]] auto Str() const -> String;
 
-    [[nodiscard]] auto size() const noexcept -> std::size_t;
+    [[nodiscard]] auto Size() const noexcept -> std::size_t;
 
-    [[nodiscard]] static auto generate() noexcept -> uuid;
+    [[nodiscard]] static auto Generate() noexcept -> Uuid;
 
-    [[nodiscard]] static auto nil() noexcept -> uuid;
+    [[nodiscard]] static auto Nil() noexcept -> Uuid;
 
-    [[nodiscard]] static auto parse(const string_view &str) -> uuid;
-    [[nodiscard]] static auto try_parse(const string_view &str) noexcept -> std::optional<uuid>;
+    [[nodiscard]] static auto Parse(const StringView &str) -> Uuid;
+    [[nodiscard]] static auto TryParse(const StringView &str) noexcept -> std::optional<Uuid>;
 
     [[nodiscard]] operator bool() const noexcept;
 
-    data_type data;
+    DataType Data;
 };
 
-bool operator==(uuid const &lhs, uuid const &rhs) noexcept;
-bool operator<(uuid const &lhs, uuid const &rhs) noexcept;
+bool operator==(Uuid const &lhs, Uuid const &rhs) noexcept;
+bool operator<(Uuid const &lhs, Uuid const &rhs) noexcept;
 
-inline bool operator!=(uuid const &lhs, uuid const &rhs) noexcept
+inline bool operator!=(Uuid const &lhs, Uuid const &rhs) noexcept
 {
     return !(lhs == rhs);
 }
 
-inline bool operator>(uuid const &lhs, uuid const &rhs) noexcept
+inline bool operator>(Uuid const &lhs, Uuid const &rhs) noexcept
 {
     return rhs < lhs;
 }
-inline bool operator<=(uuid const &lhs, uuid const &rhs) noexcept
+inline bool operator<=(Uuid const &lhs, Uuid const &rhs) noexcept
 {
-    return !(rhs < lhs);
+    return rhs >= lhs;
 }
 
-inline bool operator>=(uuid const &lhs, uuid const &rhs) noexcept
+inline bool operator>=(Uuid const &lhs, Uuid const &rhs) noexcept
 {
     return !(lhs < rhs);
 }
 
-} // namespace aeon::common
+} // namespace aeon::Common

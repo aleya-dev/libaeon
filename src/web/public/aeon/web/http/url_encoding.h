@@ -7,7 +7,7 @@
 namespace aeon::web::http
 {
 
-auto url_encode(const common::string &str) -> common::string;
-auto url_decode(const common::string &str) -> common::string;
+auto url_encode(const Common::String &str) -> Common::String;
+auto url_decode(const Common::String &str) -> Common::String;
 
 } // namespace aeon::web::http

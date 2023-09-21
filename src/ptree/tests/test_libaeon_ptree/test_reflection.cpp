@@ -34,7 +34,7 @@ class test_class final : public test_class_base
     AEON_REFLECTION_FIELD(std::int64_t, base_integer_value)
     AEON_REFLECTION_FIELD(std::int64_t, integer_value)
     AEON_REFLECTION_FIELD(double, double_value)
-    AEON_REFLECTION_FIELD(aeon::common::string, string_value)
+    AEON_REFLECTION_FIELD(aeon::Common::String, string_value)
     AEON_REFLECTION_FIELD(std::vector<std::uint8_t>, blob_value)
     AEON_REFLECTION_END()
 
@@ -50,7 +50,7 @@ public:
 
     std::int64_t integer_value = 0;
     double double_value = 0.0;
-    common::string string_value;
+    Common::String string_value;
     std::vector<std::uint8_t> blob_value;
 };
 

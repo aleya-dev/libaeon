@@ -11,21 +11,21 @@ inline mat::mat() noexcept
 {
 }
 
-inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions) noexcept
+inline mat::mat(const Common::ElementType type, const size2d<dimensions_type> dimensions) noexcept
     : mat_view{type, dimensions, nullptr}
     , data_(mat_view::stride_ * math::height(mat_view::dimensions_))
 {
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height) noexcept
+inline mat::mat(const Common::ElementType type, const dimensions_type width, const dimensions_type height) noexcept
     : mat_view{type, width, height, nullptr}
     , data_(mat_view::stride_ * math::height(mat_view::dimensions_))
 {
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions,
+inline mat::mat(const Common::ElementType type, const size2d<dimensions_type> dimensions,
                 const stride_type stride) noexcept
     : mat_view{type, dimensions, stride, nullptr}
     , data_(mat_view::stride_ * math::height(mat_view::dimensions_))
@@ -33,7 +33,7 @@ inline mat::mat(const common::element_type type, const size2d<dimensions_type> d
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+inline mat::mat(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                 const stride_type stride) noexcept
     : mat_view{type, width, height, stride, nullptr}
     , data_(mat_view::stride_ * math::height(mat_view::dimensions_))
@@ -41,7 +41,7 @@ inline mat::mat(const common::element_type type, const dimensions_type width, co
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions,
+inline mat::mat(const Common::ElementType type, const size2d<dimensions_type> dimensions,
                 std::vector<underlying_type> data) noexcept
     : mat_view{type, dimensions, nullptr}
     , data_{std::move(data)}
@@ -49,7 +49,7 @@ inline mat::mat(const common::element_type type, const size2d<dimensions_type> d
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+inline mat::mat(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                 std::vector<underlying_type> data) noexcept
     : mat_view{type, width, height, nullptr}
     , data_{std::move(data)}
@@ -57,7 +57,7 @@ inline mat::mat(const common::element_type type, const dimensions_type width, co
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions, const stride_type stride,
+inline mat::mat(const Common::ElementType type, const size2d<dimensions_type> dimensions, const stride_type stride,
                 std::vector<underlying_type> data) noexcept
     : mat_view{type, dimensions, stride, nullptr}
     , data_{std::move(data)}
@@ -65,7 +65,7 @@ inline mat::mat(const common::element_type type, const size2d<dimensions_type> d
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+inline mat::mat(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                 const stride_type stride, std::vector<underlying_type> data) noexcept
     : mat_view{type, width, height, stride, nullptr}
     , data_{std::move(data)}
@@ -73,14 +73,14 @@ inline mat::mat(const common::element_type type, const dimensions_type width, co
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions, const underlying_type *data)
+inline mat::mat(const Common::ElementType type, const size2d<dimensions_type> dimensions, const underlying_type *data)
     : mat_view{type, dimensions, nullptr}
     , data_{}
 {
     copy_from_pointer(data);
 }
 
-inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+inline mat::mat(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                 const underlying_type *data)
     : mat_view{type, width, height, nullptr}
     , data_{}
@@ -88,7 +88,7 @@ inline mat::mat(const common::element_type type, const dimensions_type width, co
     copy_from_pointer(data);
 }
 
-inline mat::mat(const common::element_type type, const size2d<dimensions_type> dimensions, const stride_type stride,
+inline mat::mat(const Common::ElementType type, const size2d<dimensions_type> dimensions, const stride_type stride,
                 const underlying_type *data)
     : mat_view{type, dimensions, stride, nullptr}
     , data_{}
@@ -96,7 +96,7 @@ inline mat::mat(const common::element_type type, const size2d<dimensions_type> d
     copy_from_pointer(data);
 }
 
-inline mat::mat(const common::element_type type, const dimensions_type width, const dimensions_type height,
+inline mat::mat(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                 const stride_type stride, const underlying_type *data)
     : mat_view{type, width, height, stride, nullptr}
     , data_{}
@@ -105,7 +105,7 @@ inline mat::mat(const common::element_type type, const dimensions_type width, co
 }
 
 inline mat::mat(const mat_view &other)
-    : mat_view{math::element_type(other), math::dimensions(other), math::stride(other), nullptr}
+    : mat_view{math::ElementType(other), math::dimensions(other), math::stride(other), nullptr}
     , data_{}
 {
     copy_from_pointer(std::data(other));
@@ -115,7 +115,7 @@ inline auto mat::operator=(const mat_view &other) -> mat &
 {
     if (this != &other) [[likely]]
     {
-        mat_view::type_ = math::element_type(other);
+        mat_view::type_ = math::ElementType(other);
         mat_view::dimensions_ = math::dimensions(other);
         mat_view::stride_ = math::stride(other);
         copy_from_pointer(std::data(other));
@@ -155,12 +155,11 @@ template <typename T, typename MatType_T, swizzle_component... components>
 inline void swizzle_copy(const mat_view &src, MatType_T &dst) noexcept
 {
     constexpr auto component_count = sizeof...(components);
-    const auto source_component_count = src.element_type().count;
+    const auto source_component_count = src.ElementType().Count;
 
     auto src_data = reinterpret_cast<const T *>(src.data());
     auto dst_data = reinterpret_cast<T *>(dst.data());
 
-    // const auto size = area(view.dimensions()) * component_count;
     const auto area = math::area(src.dimensions());
 
     for (auto i = 0; i < area; ++i)
@@ -179,49 +178,49 @@ template <swizzle_component... components>
 [[nodiscard]] inline auto swizzle_copy(const mat_view &view) noexcept -> mat
 {
     // Currently strides are not supported. They may be in the future.
-    if (!view.element_type().continuous() || !math::continuous(view))
+    if (!view.ElementType().Continuous() || !math::continuous(view))
         std::abort();
 
-    if (view.element_type().is_undefined())
+    if (view.ElementType().IsUndefined())
         std::abort();
 
-    auto new_element_type = view.element_type();
-    new_element_type.count = sizeof...(components);
-    new_element_type.size = new_element_type.component_size * new_element_type.count;
-    new_element_type.stride = new_element_type.size;
+    auto new_element_type = view.ElementType();
+    new_element_type.Count = sizeof...(components);
+    new_element_type.Size = new_element_type.ComponentSize * new_element_type.Count;
+    new_element_type.Stride = new_element_type.Size;
 
     mat new_mat{new_element_type, dimensions(view)};
 
-    switch (view.element_type().name)
+    switch (view.ElementType().Name)
     {
-        case common::element_type_name::u8:
+        case Common::ElementTypeName::U8:
             internal::swizzle_copy<std::uint8_t, mat, components...>(view, new_mat);
             break;
-        case common::element_type_name::s8:
+        case Common::ElementTypeName::S8:
             internal::swizzle_copy<std::int8_t, mat, components...>(view, new_mat);
             break;
-        case common::element_type_name::u16:
+        case Common::ElementTypeName::U16:
             internal::swizzle_copy<std::uint16_t, mat, components...>(view, new_mat);
             break;
-        case common::element_type_name::s16:
+        case Common::ElementTypeName::S16:
             internal::swizzle_copy<std::int16_t, mat, components...>(view, new_mat);
             break;
-        case common::element_type_name::u32:
+        case Common::ElementTypeName::U32:
             internal::swizzle_copy<std::uint32_t, mat, components...>(view, new_mat);
             break;
-        case common::element_type_name::s32:
+        case Common::ElementTypeName::S32:
             internal::swizzle_copy<std::int32_t, mat, components...>(view, new_mat);
             break;
-        case common::element_type_name::u64:
+        case Common::ElementTypeName::U64:
             internal::swizzle_copy<std::uint64_t, mat, components...>(view, new_mat);
             break;
-        case common::element_type_name::s64:
+        case Common::ElementTypeName::S64:
             internal::swizzle_copy<std::int64_t, mat, components...>(view, new_mat);
             break;
-        case common::element_type_name::f32:
+        case Common::ElementTypeName::F32:
             internal::swizzle_copy<float, mat, components...>(view, new_mat);
             break;
-        case common::element_type_name::f64:
+        case Common::ElementTypeName::F64:
             internal::swizzle_copy<double, mat, components...>(view, new_mat);
             break;
         default:

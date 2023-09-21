@@ -37,7 +37,7 @@ protected:
     }
 
 private:
-    common::listener_subject<input_events> input_listeners_;
+    Common::ListenerSubject<input_events> input_listeners_;
 };
 
 } // namespace aeon::platform

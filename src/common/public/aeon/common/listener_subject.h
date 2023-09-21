@@ -6,24 +6,24 @@
 #include <algorithm>
 #include <vector>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
 /*!
  * Subject of a observer pattern (listener class).
  */
 template <typename T>
-class listener_subject final
+class ListenerSubject final
 {
 public:
-    listener_subject() = default;
-    ~listener_subject() = default;
+    ListenerSubject() = default;
+    ~ListenerSubject() = default;
 
-    listener_subject(listener_subject<T> &&) = default;
-    auto operator=(listener_subject<T> &&) -> listener_subject<T> & = default;
+    ListenerSubject(ListenerSubject<T> &&) = default;
+    auto operator=(ListenerSubject<T> &&) -> ListenerSubject<T> & = default;
 
-    listener_subject(const listener_subject<T> &) = default;
-    auto operator=(const listener_subject<T> &) -> listener_subject<T> & = default;
+    ListenerSubject(const ListenerSubject<T> &) = default;
+    auto operator=(const ListenerSubject<T> &) -> ListenerSubject<T> & = default;
 
     /*!
      * Attach a listener/observer to this subject.
@@ -31,9 +31,9 @@ public:
      * This does not take ownership of this pointer, so it's up to
      * the caller to keep this pointer alive, and delete it appropriately.
      */
-    void attach(T &listener)
+    void Attach(T &listener)
     {
-        listeners_.push_back(&listener);
+        m_listeners.push_back(&listener);
     }
 
     /*!
@@ -41,9 +41,9 @@ public:
      *
      * This will not delete the object, but merely detach it.
      */
-    void detach(T &listener)
+    void Detach(T &listener)
     {
-        listeners_.erase(std::remove(std::begin(listeners_), std::end(listeners_), &listener), std::end(listeners_));
+        m_listeners.erase(std::remove(std::begin(m_listeners), std::end(m_listeners), &listener), std::end(m_listeners));
     }
 
     /*!
@@ -51,41 +51,41 @@ public:
      *
      * This will not delete the objects, but merely detach them.
      */
-    void detach_all()
+    void DetachAll()
     {
-        listeners_.clear();
+        m_listeners.clear();
     }
 
     /*!
      * Invoke a method in every attached listener
      */
-    template <typename func_t, class... args_t>
-    void invoke_each(func_t &&func, args_t &&...args)
+    template <typename FuncT, class... ArgsT>
+    void InvokeEach(FuncT &&func, ArgsT &&...args)
     {
-        for (const auto &listener : listeners_)
-            std::invoke(func, listener, std::forward<args_t>(args)...);
+        for (const auto &listener : m_listeners)
+            std::invoke(func, listener, std::forward<ArgsT>(args)...);
     }
 
     /*!
      * Invoke a method in every attached listener
      */
-    template <typename func_t, class... args_t>
-    void invoke_each(func_t &&func, args_t &&...args) const
+    template <typename FuncT, class... ArgsT>
+    void InvokeEach(FuncT &&func, ArgsT &&...args) const
     {
-        for (const auto &listener : listeners_)
-            std::invoke(func, listener, std::forward<args_t>(args)...);
+        for (const auto &listener : m_listeners)
+            std::invoke(func, listener, std::forward<ArgsT>(args)...);
     }
 
     /*!
      * Access all attached listeners
      */
-    [[nodiscard]] const auto &listeners() const noexcept
+    [[nodiscard]] const auto &Listeners() const noexcept
     {
-        return listeners_;
+        return m_listeners;
     }
 
 private:
-    std::vector<T *> listeners_;
+    std::vector<T *> m_listeners;
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

@@ -25,7 +25,7 @@ enum class file_flag : std::uint32_t
     truncate = 0x04
 };
 
-aeon_declare_flag_operators(file_flag)
+AeonDeclareFlagOperators(file_flag)
 
 namespace internal
 {
@@ -38,7 +38,7 @@ public:
 
 protected:
     explicit file_device_base(const std::filesystem::path &path, const std::ios::openmode mode, const file_mode fm,
-                              const common::flags<file_flag> flags);
+                              const Common::Flags<file_flag> flags);
 
     ~file_device_base() = default;
 

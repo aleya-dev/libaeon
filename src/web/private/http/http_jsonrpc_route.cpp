@@ -12,12 +12,12 @@ namespace aeon::web::http
 
 static const auto json_rpc_content_type = "application/json";
 
-http_jsonrpc_route::http_jsonrpc_route(const common::string &mount_point)
+http_jsonrpc_route::http_jsonrpc_route(const Common::String &mount_point)
     : http_jsonrpc_route{mount_point, std::make_unique<jsonrpc::server>()}
 {
 }
 
-http_jsonrpc_route::http_jsonrpc_route(const common::string &mount_point,
+http_jsonrpc_route::http_jsonrpc_route(const Common::String &mount_point,
                                        std::unique_ptr<jsonrpc::server> json_rpc_server)
     : route{mount_point}
     , rpc_server_{std::move(json_rpc_server)}
@@ -25,7 +25,7 @@ http_jsonrpc_route::http_jsonrpc_route(const common::string &mount_point,
 {
 }
 
-http_jsonrpc_route::http_jsonrpc_route(const common::string &mount_point, jsonrpc::server &json_rpc_server)
+http_jsonrpc_route::http_jsonrpc_route(const Common::String &mount_point, jsonrpc::server &json_rpc_server)
     : route{mount_point}
     , rpc_server_{}
     , rpc_server_ref_{json_rpc_server}

@@ -7,7 +7,7 @@ TEST(test_scope_guard, test_scope_guard_fail_discard)
 {
     int a = 3;
     {
-        aeon_scope_fail
+        AeonScopeFail
         {
             a = 4;
         };
@@ -22,7 +22,7 @@ TEST(test_scope_guard, test_scope_guard_fail_exception)
 
     try
     {
-        aeon_scope_fail
+        AeonScopeFail
         {
             a = 4;
         };
@@ -44,18 +44,18 @@ TEST(test_scope_guard, test_scope_guard_fail_exception_multiple)
 
     try
     {
-        aeon_scope_fail
+        AeonScopeFail
         {
             a = 4;
         };
 
-        aeon_scope_fail
+        AeonScopeFail
         {
             a = 5;
             second_called = true;
         };
 
-        aeon_scope_fail
+        AeonScopeFail
         {
             a = 6;
             third_called = true;

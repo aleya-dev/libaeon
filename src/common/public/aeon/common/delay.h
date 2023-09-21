@@ -2,52 +2,52 @@
 
 #pragma once
 
-namespace aeon::common
+namespace aeon::Common
 {
 
 template <typename T>
-class delay
+class Delay
 {
 public:
-    using time_type = T;
+    using TimeType = T;
 
-    explicit delay(const T timeout)
-        : current_time_{}
-        , timeout_{timeout}
+    explicit Delay(const T timeout)
+        : m_currentTime{}
+        , m_timeout{timeout}
     {
     }
 
-    ~delay() = default;
+    ~Delay() = default;
 
-    delay(const delay &) noexcept = default;
-    auto operator=(const delay &) noexcept -> delay & = default;
+    Delay(const Delay &) noexcept = default;
+    auto operator=(const Delay &) noexcept -> Delay & = default;
 
-    delay(delay &&) noexcept = default;
-    auto operator=(delay &&) noexcept -> delay & = default;
+    Delay(Delay &&) noexcept = default;
+    auto operator=(Delay &&) noexcept -> Delay & = default;
 
-    void timeout(const time_type timeout) noexcept
+    void Timeout(const TimeType timeout) noexcept
     {
-        reset();
-        timeout_ = timeout;
+        Reset();
+        m_timeout = timeout;
     }
 
-    [[nodiscard]] auto timeout() const noexcept -> time_type
+    [[nodiscard]] auto Timeout() const noexcept -> TimeType
     {
-        return timeout_;
+        return m_timeout;
     }
 
-    void reset() noexcept
+    void Reset() noexcept
     {
-        current_time_ = {};
+        m_currentTime = {};
     }
 
-    [[nodiscard]] auto expired(const time_type dt) noexcept -> bool
+    [[nodiscard]] auto Expired(const TimeType dt) noexcept -> bool
     {
-        current_time_ += dt;
+        m_currentTime += dt;
 
-        if (current_time_ >= timeout_)
+        if (m_currentTime >= m_timeout)
         {
-            current_time_ = 0;
+            m_currentTime = 0;
             return true;
         }
 
@@ -55,8 +55,8 @@ public:
     }
 
 private:
-    time_type current_time_;
-    time_type timeout_;
+    TimeType m_currentTime;
+    TimeType m_timeout;
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

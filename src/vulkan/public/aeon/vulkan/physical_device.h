@@ -65,7 +65,7 @@ private:
     return static_cast<physical_device_type>(device.properties().deviceType);
 }
 
-[[nodiscard]] inline auto name(const physical_device &device) -> common::string
+[[nodiscard]] inline auto name(const physical_device &device) -> Common::String
 {
     return device.properties().deviceName;
 }
@@ -103,7 +103,7 @@ private:
 }
 
 [[nodiscard]] inline auto extension_supported(const std::vector<extension> &extensions,
-                                              const common::string &name) noexcept -> bool
+                                              const Common::String &name) noexcept -> bool
 {
     for (const auto &extension : extensions)
     {
@@ -120,7 +120,7 @@ private:
  */
 [[nodiscard]] inline auto find_memory_type_index(const VkPhysicalDeviceMemoryProperties &properties,
                                                  const std::uint32_t required_memory_type_bits,
-                                                 const common::flags<memory_flag> flags) noexcept -> std::int32_t
+                                                 const Common::Flags<memory_flag> flags) noexcept -> std::int32_t
 {
     const auto memory_count = properties.memoryTypeCount;
 
@@ -141,7 +141,7 @@ private:
 
 [[nodiscard]] inline auto find_memory_type_index(const VkPhysicalDeviceMemoryProperties &properties,
                                                  const VkMemoryRequirements &requirements,
-                                                 const common::flags<memory_flag> flags) noexcept
+                                                 const Common::Flags<memory_flag> flags) noexcept
 {
     return find_memory_type_index(properties, requirements.memoryTypeBits, flags);
 }
@@ -149,7 +149,7 @@ private:
 [[nodiscard]] inline auto find_optimal_memory_type_index(const VkPhysicalDeviceMemoryProperties &properties,
                                                          const std::uint32_t optimal_memory_type_bits,
                                                          const std::uint32_t required_memory_type_bits,
-                                                         const common::flags<memory_flag> flags) noexcept
+                                                         const Common::Flags<memory_flag> flags) noexcept
 {
     const auto result = find_memory_type_index(properties, optimal_memory_type_bits, flags);
 
@@ -162,7 +162,7 @@ private:
 [[nodiscard]] inline auto find_optimal_memory_type_index(const VkPhysicalDeviceMemoryProperties &properties,
                                                          const VkMemoryRequirements &optimal_requirements,
                                                          const VkMemoryRequirements &requirements,
-                                                         const common::flags<memory_flag> flags) noexcept
+                                                         const Common::Flags<memory_flag> flags) noexcept
 {
     return find_optimal_memory_type_index(properties, optimal_requirements.memoryTypeBits, requirements.memoryTypeBits,
                                           flags);

@@ -8,12 +8,12 @@
 namespace aeon::streams
 {
 
-template <memory_viewable T = common::string>
+template <memory_viewable T = Common::String>
 class string_stream
 {
 public:
     using value_type = T;
-    using element_type = typename value_type::value_type;
+    using ElementType = typename value_type::value_type;
 
     string_stream() noexcept
         : device_{}
@@ -39,7 +39,7 @@ public:
         device_.reserve(size);
     }
 
-    void append(const common::string_view &val)
+    void append(const Common::StringView &val)
     {
         const auto size = static_cast<std::streamsize>(std::size(val));
 
@@ -47,7 +47,7 @@ public:
             throw stream_exception{};
     }
 
-    auto &operator<<(const common::string_view &val)
+    auto &operator<<(const Common::StringView &val)
     {
         append(val);
         return *this;

@@ -11,27 +11,27 @@ using namespace aeon;
 
 TEST(test_uuid_stream, test_write_to_stream)
 {
-    auto uuid = common::uuid::generate();
+    auto Uuid = Common::Uuid::Generate();
 
     streams::memory_device<std::vector<char>> memstream;
     streams::stream_writer writer{memstream};
 
-    writer << uuid;
+    writer << Uuid;
 
-    ASSERT_EQ(static_cast<std::streamoff>(uuid.size()), memstream.size());
+    ASSERT_EQ(static_cast<std::streamoff>(Uuid.Size()), memstream.size());
 }
 
 TEST(test_uuid_stream, test_read_from_stream)
 {
-    auto uuid = common::uuid::generate();
+    auto Uuid = Common::Uuid::Generate();
 
     streams::memory_device<std::vector<char>> memstream;
-    memstream.write(reinterpret_cast<const std::byte *>(uuid.data.data()), uuid.size());
+    memstream.write(reinterpret_cast<const std::byte *>(Uuid.Data.data()), Uuid.Size());
 
     streams::stream_reader reader(memstream);
 
-    common::uuid uuid2;
+    Common::Uuid uuid2;
     reader >> uuid2;
 
-    ASSERT_EQ(uuid, uuid2);
+    ASSERT_EQ(Uuid, uuid2);
 }

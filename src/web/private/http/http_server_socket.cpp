@@ -24,14 +24,14 @@ http_server_socket::http_server_socket(asio::ip::tcp::socket socket)
 
 http_server_socket::~http_server_socket() = default;
 
-void http_server_socket::respond(const common::string &content_type, const common::string &data, const status_code code)
+void http_server_socket::respond(const Common::String &content_type, const Common::String &data, const status_code code)
 {
-    streams::string_stream<std::vector<std::byte>> sstream{std::size(data)};
+    streams::string_stream<std::vector<std::byte>> sstream{data.Size()};
     sstream << data;
     respond(content_type, sstream.release(), code);
 }
 
-void http_server_socket::respond(const common::string &content_type, std::vector<std::byte> data,
+void http_server_socket::respond(const Common::String &content_type, std::vector<std::byte> data,
                                  const status_code code)
 {
     streams::string_stream<std::vector<std::byte>> sstream{64};
@@ -83,7 +83,7 @@ void http_server_socket::on_data(const std::span<const std::byte> &data)
     }
 }
 
-auto http_server_socket::__on_line(const common::string &line) -> status_code
+auto http_server_socket::__on_line(const Common::String &line) -> status_code
 {
     switch (state_)
     {
@@ -125,7 +125,7 @@ auto http_server_socket::__parse_expected_content_length_and_type() -> status_co
     if (content_type_result == http_headers.end())
         return status_code::bad_request;
 
-    expected_content_length_ = std::stoll(content_length_result->second.str());
+    expected_content_length_ = std::stoll(content_length_result->second.Str());
     request_.set_content_type(content_type_result->second);
     return status_code::ok;
 }
@@ -155,9 +155,9 @@ void http_server_socket::__enter_reply_state()
     on_http_request(request_);
 }
 
-auto http_server_socket::__handle_read_method_state(const common::string &line) -> status_code
+auto http_server_socket::__handle_read_method_state(const Common::String &line) -> status_code
 {
-    auto method_line_split = common::string_utils::split(line, ' ');
+    auto method_line_split = Common::StringUtils::Split(line, ' ');
 
     if (method_line_split.size() != 3)
         return status_code::bad_request;
@@ -166,10 +166,10 @@ auto http_server_socket::__handle_read_method_state(const common::string &line) 
     const auto request_uri = method_line_split[1];
     const auto version_string = method_line_split[2];
 
-    if (!detail::validate_http_version_string(common::string{version_string.as_std_u8string_view()}))
+    if (!detail::validate_http_version_string(Common::String{version_string.AsStdU8StringView()}))
         return status_code::http_version_not_supported;
 
-    if (!detail::validate_uri(common::string{request_uri.as_std_u8string_view()}))
+    if (!detail::validate_uri(Common::String{request_uri.AsStdU8StringView()}))
         return status_code::bad_request;
 
     const request request(method, url_decode(request_uri));
@@ -183,9 +183,9 @@ auto http_server_socket::__handle_read_method_state(const common::string &line) 
     return status_code::ok;
 }
 
-auto http_server_socket::__handle_read_headers_state(const common::string &line) -> status_code
+auto http_server_socket::__handle_read_headers_state(const Common::String &line) -> status_code
 {
-    if (line.empty())
+    if (line.Empty())
     {
         if (request_.get_method() == http_method::post)
             return __enter_parse_body_state();

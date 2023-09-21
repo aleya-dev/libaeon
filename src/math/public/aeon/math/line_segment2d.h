@@ -9,7 +9,7 @@
 namespace aeon::math
 {
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 class line_segment2d : public range<vector2<T>>
 {
 public:

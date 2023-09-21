@@ -10,12 +10,12 @@ namespace aeon::vulkan::version
 
 inline auto from_vulkan(const std::uint32_t v) noexcept
 {
-    return common::version3<uint32_t>{VK_VERSION_MAJOR(v), VK_VERSION_MINOR(v), VK_VERSION_PATCH(v)};
+    return Common::Version3<uint32_t>{VK_VERSION_MAJOR(v), VK_VERSION_MINOR(v), VK_VERSION_PATCH(v)};
 }
 
-inline auto to_vulkan(const common::version3<uint32_t> &v) noexcept
+inline auto to_vulkan(const Common::Version3<uint32_t> &v) noexcept
 {
-    return VK_MAKE_VERSION(v.major, v.minor, v.patch);
+    return VK_MAKE_VERSION(v.Major, v.Minor, v.Patch);
 }
 
 } // namespace aeon::vulkan::version

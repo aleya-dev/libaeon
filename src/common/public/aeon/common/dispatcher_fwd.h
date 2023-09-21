@@ -2,9 +2,9 @@
 
 #pragma once
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-class dispatcher;
+class Dispatcher;
 
-} // namespace aeon::common
+} // namespace aeon::Common

@@ -45,17 +45,17 @@ public:
     void submit(const command_buffer &command_buffer, const semaphore_ref &wait, const semaphore_ref &signal) const;
 
     void submit(const VkCommandBuffer command_buffer, const semaphore_ref &wait,
-                const common::flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal) const;
+                const Common::Flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal) const;
 
     void submit(const command_buffer &command_buffer, const semaphore_ref &wait,
-                const common::flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal) const;
+                const Common::Flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal) const;
 
     void submit(const VkCommandBuffer command_buffer, const semaphore_ref &wait,
-                const common::flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal,
+                const Common::Flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal,
                 const fence_ref &fence) const;
 
     void submit(const command_buffer &command_buffer, const semaphore_ref &wait,
-                const common::flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal,
+                const Common::Flags<pipeline_stage_flag> wait_stage, const semaphore_ref &signal,
                 const fence_ref &fence) const;
 
     void wait_idle() const;

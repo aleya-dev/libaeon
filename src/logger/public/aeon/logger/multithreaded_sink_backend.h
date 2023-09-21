@@ -19,8 +19,8 @@ class multithreaded_sink_backend final : public base_backend
 private:
     struct log_message_queue_entry
     {
-        common::string message;
-        common::string module;
+        Common::String message;
+        Common::String module;
         log_level level;
     };
 
@@ -49,7 +49,7 @@ public:
 private:
     void handle_background_thread();
 
-    void log(const common::string &message, const common::string &module, const log_level level) final;
+    void log(const Common::String &message, const Common::String &module, const log_level level) final;
 
     std::thread thread_;
     std::mutex signal_mutex_;

@@ -23,14 +23,14 @@ enum class read_items : std::uint32_t
     all = 0xff
 };
 
-aeon_declare_flag_operators(read_items)
+AeonDeclareFlagOperators(read_items)
 
 class container final
 {
 public:
-    explicit container(streams::idynamic_stream &stream, const common::flags<read_items> items = read_items::all);
-    explicit container(common::string name) noexcept;
-    explicit container(common::string name, common::uuid id) noexcept;
+    explicit container(streams::idynamic_stream &stream, const Common::Flags<read_items> items = read_items::all);
+    explicit container(Common::String name) noexcept;
+    explicit container(Common::String name, Common::Uuid id) noexcept;
     ~container();
 
     container(container &&) = delete;
@@ -39,11 +39,11 @@ public:
     container(const container &) = delete;
     auto operator=(const container &) -> container & = delete;
 
-    void name(common::string name) noexcept;
-    [[nodiscard]] auto name() const noexcept -> const common::string &;
+    void name(Common::String name) noexcept;
+    [[nodiscard]] auto name() const noexcept -> const Common::String &;
 
-    void id(common::uuid id) noexcept;
-    [[nodiscard]] auto id() const noexcept -> const common::uuid &;
+    void id(Common::Uuid id) noexcept;
+    [[nodiscard]] auto id() const noexcept -> const Common::Uuid &;
 
     [[nodiscard]] auto stream() noexcept -> streams::memory_view_device<std::vector<std::uint8_t>>;
     [[nodiscard]] auto stream() const noexcept -> streams::memory_view_device<std::vector<std::uint8_t>>;
@@ -54,8 +54,8 @@ public:
     void write(streams::idynamic_stream &stream) const;
 
 private:
-    common::string name_;
-    common::uuid id_;
+    Common::String name_;
+    Common::Uuid id_;
     std::vector<std::uint8_t> data_;
     ptree::property_tree metadata_;
 };

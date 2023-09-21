@@ -13,134 +13,134 @@ using namespace aeon;
 
 TEST(test_containers_buffer, test_containers_buffer_default_create)
 {
-    common::containers::buffer<int> a;
-    EXPECT_EQ(0, a.capacity());
-    EXPECT_EQ(nullptr, a.data());
+    Common::Containers::Buffer<int> a;
+    EXPECT_EQ(0, a.Capacity());
+    EXPECT_EQ(nullptr, a.Data());
 
-    common::containers::buffer<float> b;
-    EXPECT_EQ(0, b.capacity());
-    EXPECT_EQ(nullptr, b.data());
+    Common::Containers::Buffer<float> b;
+    EXPECT_EQ(0, b.Capacity());
+    EXPECT_EQ(nullptr, b.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_create_with_size)
 {
-    common::containers::buffer<int> a{100};
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    Common::Containers::Buffer<int> a{100};
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    common::containers::buffer<float> b{100};
-    EXPECT_EQ(100, b.capacity());
-    EXPECT_NE(nullptr, b.data());
+    Common::Containers::Buffer<float> b{100};
+    EXPECT_EQ(100, b.Capacity());
+    EXPECT_NE(nullptr, b.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_resize_from_empty)
 {
-    common::containers::buffer<int> a;
-    EXPECT_EQ(0, a.capacity());
-    EXPECT_EQ(nullptr, a.data());
+    Common::Containers::Buffer<int> a;
+    EXPECT_EQ(0, a.Capacity());
+    EXPECT_EQ(nullptr, a.Data());
 
-    a.resize(100);
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    a.Resize(100);
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    common::containers::buffer<float> b;
-    EXPECT_EQ(0, b.capacity());
-    EXPECT_EQ(nullptr, b.data());
+    Common::Containers::Buffer<float> b;
+    EXPECT_EQ(0, b.Capacity());
+    EXPECT_EQ(nullptr, b.Data());
 
-    b.resize(100);
-    EXPECT_EQ(100, b.capacity());
-    EXPECT_NE(nullptr, b.data());
+    b.Resize(100);
+    EXPECT_EQ(100, b.Capacity());
+    EXPECT_NE(nullptr, b.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_reset)
 {
-    common::containers::buffer<int> a{100};
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    Common::Containers::Buffer<int> a{100};
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    a.reset();
-    EXPECT_EQ(0, a.capacity());
-    EXPECT_EQ(nullptr, a.data());
+    a.Reset();
+    EXPECT_EQ(0, a.Capacity());
+    EXPECT_EQ(nullptr, a.Data());
 
-    common::containers::buffer<float> b{100};
-    EXPECT_EQ(100, b.capacity());
-    EXPECT_NE(nullptr, b.data());
+    Common::Containers::Buffer<float> b{100};
+    EXPECT_EQ(100, b.Capacity());
+    EXPECT_NE(nullptr, b.Data());
 
-    b.reset();
-    EXPECT_EQ(0, b.capacity());
-    EXPECT_EQ(nullptr, b.data());
+    b.Reset();
+    EXPECT_EQ(0, b.Capacity());
+    EXPECT_EQ(nullptr, b.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_move_ctor)
 {
-    common::containers::buffer<int> a(100);
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    Common::Containers::Buffer<int> a(100);
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    const auto data_ptr = a.data();
+    const auto data_ptr = a.Data();
 
-    common::containers::buffer b{std::move(a)};
-    EXPECT_EQ(100, b.capacity());
-    EXPECT_EQ(data_ptr, b.data());
+    Common::Containers::Buffer b{std::move(a)};
+    EXPECT_EQ(100, b.Capacity());
+    EXPECT_EQ(data_ptr, b.Data());
 
-    EXPECT_EQ(0, a.capacity());
-    EXPECT_EQ(nullptr, a.data());
+    EXPECT_EQ(0, a.Capacity());
+    EXPECT_EQ(nullptr, a.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_move_assignment)
 {
-    common::containers::buffer<int> a(100);
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    Common::Containers::Buffer<int> a(100);
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    const auto data_ptr = a.data();
+    const auto data_ptr = a.Data();
 
-    common::containers::buffer<int> b(50);
-    EXPECT_EQ(50, b.capacity());
-    EXPECT_NE(nullptr, b.data());
+    Common::Containers::Buffer<int> b(50);
+    EXPECT_EQ(50, b.Capacity());
+    EXPECT_NE(nullptr, b.Data());
 
-    const auto b_data_ptr = b.data();
+    const auto b_data_ptr = b.Data();
 
     b = std::move(a);
-    EXPECT_EQ(100, b.capacity());
-    EXPECT_EQ(data_ptr, b.data());
-    EXPECT_NE(b_data_ptr, b.data());
+    EXPECT_EQ(100, b.Capacity());
+    EXPECT_EQ(data_ptr, b.Data());
+    EXPECT_NE(b_data_ptr, b.Data());
 
-    EXPECT_EQ(0, a.capacity());
-    EXPECT_EQ(nullptr, a.data());
+    EXPECT_EQ(0, a.Capacity());
+    EXPECT_EQ(nullptr, a.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_copy_ctor)
 {
-    common::containers::buffer<int> a(100);
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    Common::Containers::Buffer<int> a(100);
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    common::containers::buffer b{a};
-    EXPECT_EQ(100, b.capacity());
+    Common::Containers::Buffer b{a};
+    EXPECT_EQ(100, b.Capacity());
 
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(a.data(), b.data());
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(a.Data(), b.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_copy_assignment)
 {
-    common::containers::buffer<int> a(100);
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    Common::Containers::Buffer<int> a(100);
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    common::containers::buffer<int> b;
+    Common::Containers::Buffer<int> b;
     b = a;
 
-    EXPECT_EQ(100, b.capacity());
+    EXPECT_EQ(100, b.Capacity());
 
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(a.data(), b.data());
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(a.Data(), b.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_iterators)
 {
-    common::containers::buffer<int> a(10);
+    Common::Containers::Buffer<int> a(10);
 
     int value = 0;
     for (auto &val : a)
@@ -155,7 +155,7 @@ TEST(test_containers_buffer, test_containers_buffer_iterators)
 
 TEST(test_containers_buffer, test_containers_data_is_copied)
 {
-    common::containers::buffer<int> a(10);
+    Common::Containers::Buffer<int> a(10);
 
     int value = 0;
     for (auto &val : a)
@@ -163,7 +163,7 @@ TEST(test_containers_buffer, test_containers_data_is_copied)
 
     EXPECT_EQ(10, value);
 
-    common::containers::buffer b(a);
+    Common::Containers::Buffer b(a);
 
     value = 0;
     for (auto &val : b)
@@ -173,134 +173,134 @@ TEST(test_containers_buffer, test_containers_data_is_copied)
 #if (defined(AEON_PLATFORM_OS_WINDOWS))
 TEST(test_containers_buffer, test_containers_buffer_default_create_windows_heap_allocator)
 {
-    common::containers::buffer<int, common::allocators::windows_heap_allocator<int>> a;
-    EXPECT_EQ(0, a.capacity());
-    EXPECT_EQ(nullptr, a.data());
+    Common::Containers::Buffer<int, Common::Allocators::WindowsHeapAllocator<int>> a;
+    EXPECT_EQ(0, a.Capacity());
+    EXPECT_EQ(nullptr, a.Data());
 
-    common::containers::buffer<float, common::allocators::windows_heap_allocator<float>> b;
-    EXPECT_EQ(0, b.capacity());
-    EXPECT_EQ(nullptr, b.data());
+    Common::Containers::Buffer<float, Common::Allocators::WindowsHeapAllocator<float>> b;
+    EXPECT_EQ(0, b.Capacity());
+    EXPECT_EQ(nullptr, b.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_create_with_size_windows_heap_allocator)
 {
-    common::containers::buffer<int, common::allocators::windows_heap_allocator<int>> a{100};
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    Common::Containers::Buffer<int, Common::Allocators::WindowsHeapAllocator<int>> a{100};
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    common::containers::buffer<float, common::allocators::windows_heap_allocator<float>> b{100};
-    EXPECT_EQ(100, b.capacity());
-    EXPECT_NE(nullptr, b.data());
+    Common::Containers::Buffer<float, Common::Allocators::WindowsHeapAllocator<float>> b{100};
+    EXPECT_EQ(100, b.Capacity());
+    EXPECT_NE(nullptr, b.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_resize_from_empty_windows_heap_allocator)
 {
-    common::containers::buffer<int, common::allocators::windows_heap_allocator<int>> a;
-    EXPECT_EQ(0, a.capacity());
-    EXPECT_EQ(nullptr, a.data());
+    Common::Containers::Buffer<int, Common::Allocators::WindowsHeapAllocator<int>> a;
+    EXPECT_EQ(0, a.Capacity());
+    EXPECT_EQ(nullptr, a.Data());
 
-    a.resize(100);
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    a.Resize(100);
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    common::containers::buffer<float, common::allocators::windows_heap_allocator<float>> b;
-    EXPECT_EQ(0, b.capacity());
-    EXPECT_EQ(nullptr, b.data());
+    Common::Containers::Buffer<float, Common::Allocators::WindowsHeapAllocator<float>> b;
+    EXPECT_EQ(0, b.Capacity());
+    EXPECT_EQ(nullptr, b.Data());
 
-    b.resize(100);
-    EXPECT_EQ(100, b.capacity());
-    EXPECT_NE(nullptr, b.data());
+    b.Resize(100);
+    EXPECT_EQ(100, b.Capacity());
+    EXPECT_NE(nullptr, b.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_reset_windows_heap_allocator)
 {
-    common::containers::buffer<int, common::allocators::windows_heap_allocator<int>> a{100};
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    Common::Containers::Buffer<int, Common::Allocators::WindowsHeapAllocator<int>> a{100};
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    a.reset();
-    EXPECT_EQ(0, a.capacity());
-    EXPECT_EQ(nullptr, a.data());
+    a.Reset();
+    EXPECT_EQ(0, a.Capacity());
+    EXPECT_EQ(nullptr, a.Data());
 
-    common::containers::buffer<float, common::allocators::windows_heap_allocator<float>> b{100};
-    EXPECT_EQ(100, b.capacity());
-    EXPECT_NE(nullptr, b.data());
+    Common::Containers::Buffer<float, Common::Allocators::WindowsHeapAllocator<float>> b{100};
+    EXPECT_EQ(100, b.Capacity());
+    EXPECT_NE(nullptr, b.Data());
 
-    b.reset();
-    EXPECT_EQ(0, b.capacity());
-    EXPECT_EQ(nullptr, b.data());
+    b.Reset();
+    EXPECT_EQ(0, b.Capacity());
+    EXPECT_EQ(nullptr, b.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_move_ctor_windows_heap_allocator)
 {
-    common::containers::buffer<int, common::allocators::windows_heap_allocator<int>> a(100);
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    Common::Containers::Buffer<int, Common::Allocators::WindowsHeapAllocator<int>> a(100);
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    const auto data_ptr = a.data();
+    const auto data_ptr = a.Data();
 
-    common::containers::buffer b{std::move(a)};
-    EXPECT_EQ(100, b.capacity());
-    EXPECT_EQ(data_ptr, b.data());
+    Common::Containers::Buffer b{std::move(a)};
+    EXPECT_EQ(100, b.Capacity());
+    EXPECT_EQ(data_ptr, b.Data());
 
-    EXPECT_EQ(0, a.capacity());
-    EXPECT_EQ(nullptr, a.data());
+    EXPECT_EQ(0, a.Capacity());
+    EXPECT_EQ(nullptr, a.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_move_assignment_windows_heap_allocator)
 {
-    common::containers::buffer<int, common::allocators::windows_heap_allocator<int>> a(100);
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    Common::Containers::Buffer<int, Common::Allocators::WindowsHeapAllocator<int>> a(100);
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    const auto data_ptr = a.data();
+    const auto data_ptr = a.Data();
 
-    common::containers::buffer<int, common::allocators::windows_heap_allocator<int>> b(50);
-    EXPECT_EQ(50, b.capacity());
-    EXPECT_NE(nullptr, b.data());
+    Common::Containers::Buffer<int, Common::Allocators::WindowsHeapAllocator<int>> b(50);
+    EXPECT_EQ(50, b.Capacity());
+    EXPECT_NE(nullptr, b.Data());
 
-    const auto b_data_ptr = b.data();
+    const auto b_data_ptr = b.Data();
 
     b = std::move(a);
-    EXPECT_EQ(100, b.capacity());
-    EXPECT_EQ(data_ptr, b.data());
-    EXPECT_NE(b_data_ptr, b.data());
+    EXPECT_EQ(100, b.Capacity());
+    EXPECT_EQ(data_ptr, b.Data());
+    EXPECT_NE(b_data_ptr, b.Data());
 
-    EXPECT_EQ(0, a.capacity());
-    EXPECT_EQ(nullptr, a.data());
+    EXPECT_EQ(0, a.Capacity());
+    EXPECT_EQ(nullptr, a.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_copy_ctor_windows_heap_allocator)
 {
-    common::containers::buffer<int, common::allocators::windows_heap_allocator<int>> a(100);
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    Common::Containers::Buffer<int, Common::Allocators::WindowsHeapAllocator<int>> a(100);
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    common::containers::buffer b{a};
-    EXPECT_EQ(100, b.capacity());
+    Common::Containers::Buffer b{a};
+    EXPECT_EQ(100, b.Capacity());
 
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(a.data(), b.data());
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(a.Data(), b.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_copy_assignment_windows_heap_allocator)
 {
-    common::containers::buffer<int, common::allocators::windows_heap_allocator<int>> a(100);
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(nullptr, a.data());
+    Common::Containers::Buffer<int, Common::Allocators::WindowsHeapAllocator<int>> a(100);
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(nullptr, a.Data());
 
-    common::containers::buffer<int, common::allocators::windows_heap_allocator<int>> b;
+    Common::Containers::Buffer<int, Common::Allocators::WindowsHeapAllocator<int>> b;
     b = a;
 
-    EXPECT_EQ(100, b.capacity());
+    EXPECT_EQ(100, b.Capacity());
 
-    EXPECT_EQ(100, a.capacity());
-    EXPECT_NE(a.data(), b.data());
+    EXPECT_EQ(100, a.Capacity());
+    EXPECT_NE(a.Data(), b.Data());
 }
 
 TEST(test_containers_buffer, test_containers_buffer_iterators_windows_heap_allocator)
 {
-    common::containers::buffer<int, common::allocators::windows_heap_allocator<int>> a(10);
+    Common::Containers::Buffer<int, Common::Allocators::WindowsHeapAllocator<int>> a(10);
 
     int value = 0;
     for (auto &val : a)
@@ -315,7 +315,7 @@ TEST(test_containers_buffer, test_containers_buffer_iterators_windows_heap_alloc
 
 TEST(test_containers_buffer, test_containers_data_is_copied_windows_heap_allocator)
 {
-    common::containers::buffer<int, common::allocators::windows_heap_allocator<int>> a(10);
+    Common::Containers::Buffer<int, Common::Allocators::WindowsHeapAllocator<int>> a(10);
 
     int value = 0;
     for (auto &val : a)
@@ -323,7 +323,7 @@ TEST(test_containers_buffer, test_containers_data_is_copied_windows_heap_allocat
 
     EXPECT_EQ(10, value);
 
-    common::containers::buffer b(a);
+    Common::Containers::Buffer b(a);
 
     value = 0;
     for (auto &val : b)

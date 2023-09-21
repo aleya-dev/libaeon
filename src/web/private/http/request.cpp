@@ -16,7 +16,7 @@ request::request(const http_method method)
 {
 }
 
-request::request(const common::string &method, common::string uri)
+request::request(const Common::String &method, Common::String uri)
     : method_{string_to_method(method)}
     , uri_{std::move(uri)}
     , raw_headers_{}
@@ -33,24 +33,24 @@ auto request::get_content() const -> std::vector<std::uint8_t>
     return vec;
 }
 
-auto request::get_content_string() const -> common::string
+auto request::get_content_string() const -> Common::String
 {
     streams::stream_reader reader{content_};
     const auto data = reader.read_to_string();
     return data;
 }
 
-auto request::get_content_type() const -> common::string
+auto request::get_content_type() const -> Common::String
 {
     return content_type_;
 }
 
-auto request::get_raw_headers() const -> const std::vector<common::string> &
+auto request::get_raw_headers() const -> const std::vector<Common::String> &
 {
     return raw_headers_;
 }
 
-void request::append_raw_http_header_line(const common::string &header_line)
+void request::append_raw_http_header_line(const Common::String &header_line)
 {
     raw_headers_.push_back(header_line);
 }
@@ -60,27 +60,27 @@ void request::append_raw_content_data(const std::vector<std::byte> &data) const
     content_.write(std::data(data), std::size(data));
 }
 
-void request::set_content_type(const common::string &content_type)
+void request::set_content_type(const Common::String &content_type)
 {
     content_type_ = content_type;
 }
 
-auto parse_raw_http_headers(const std::vector<common::string> &raw_headers) -> std::map<common::string, common::string>
+auto parse_raw_http_headers(const std::vector<Common::String> &raw_headers) -> std::map<Common::String, Common::String>
 {
-    std::map<common::string, common::string> headers;
+    std::map<Common::String, Common::String> headers;
 
     for (const auto &header_line : raw_headers)
     {
-        const auto header_name_end = header_line.find_first_of(':');
+        const auto header_name_end = header_line.FindFirstOf(':');
 
-        if (header_name_end == common::string::npos)
+        if (header_name_end == Common::String::npos)
             return {};
 
-        if (header_name_end + 2 >= header_line.size())
+        if (header_name_end + 2 >= header_line.Size())
             return {};
 
-        const auto header_name = common::string_utils::to_lower_copy(header_line.substr(0, header_name_end));
-        const auto header_value = header_line.substr(header_name_end + 2);
+        const auto header_name = Common::StringUtils::ToLowerCopy(header_line.Substr(0, header_name_end));
+        const auto header_value = header_line.Substr(header_name_end + 2);
 
         headers.insert({header_name, header_value});
     }

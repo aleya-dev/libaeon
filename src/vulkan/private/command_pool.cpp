@@ -13,7 +13,7 @@ namespace internal
 {
 
 [[nodiscard]] auto create_command_pool(const device &device, const std::uint32_t queue_family_index,
-                                       const common::flags<command_pool_create_flag> create_flags)
+                                       const Common::Flags<command_pool_create_flag> create_flags)
 {
     const auto info = initializers::command_pool_create_info(queue_family_index, create_flags);
 
@@ -30,13 +30,13 @@ command_pool::command_pool() noexcept
 {
 }
 
-command_pool::command_pool(const vulkan::device &device, const common::flags<command_pool_create_flag> create_flags)
+command_pool::command_pool(const vulkan::device &device, const Common::Flags<command_pool_create_flag> create_flags)
     : command_pool{device, device.get_queue_indices().graphics_queue_index(), create_flags}
 {
 }
 
 command_pool::command_pool(const vulkan::device &device, const std::uint32_t queue_family_index,
-                           const common::flags<command_pool_create_flag> create_flags)
+                           const Common::Flags<command_pool_create_flag> create_flags)
     : device_{&device}
     , pool_{internal::create_command_pool(device, queue_family_index, create_flags)}
 

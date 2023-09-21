@@ -16,7 +16,7 @@ void expect_buffer(pipeline_t &pipeline, const std::array<char, size> &expected)
     std::array<char, size> data_readback{};
 
     const auto result =
-        pipeline.read(reinterpret_cast<std::byte *>(std::data(data_readback)), aeon_signed_sizeof(data_readback));
+        pipeline.read(reinterpret_cast<std::byte *>(std::data(data_readback)), AeonSignedSizeof(data_readback));
     EXPECT_EQ(static_cast<std::size_t>(result), size);
     EXPECT_THAT(data_readback, ::testing::ElementsAreArray(expected));
     pipeline.seekg(0, streams::seek_direction::begin);
@@ -35,20 +35,20 @@ TEST(test_streams, test_sink_buffer_filter_write)
 
     const char data1[] = {'A', 'B', 'C', 'D', 'E'};
     auto result = pipeline.write(reinterpret_cast<const std::byte *>(data1), sizeof(data1));
-    EXPECT_EQ(result, aeon_signed_sizeof(data1));
+    EXPECT_EQ(result, AeonSignedSizeof(data1));
 
     expect_zero_buffer<decltype(pipeline), 5>(pipeline);
 
     const char data2[] = {'F', 'G', 'H', 'I', 'J'};
     result = pipeline.write(reinterpret_cast<const std::byte *>(data2), sizeof(data2));
-    EXPECT_EQ(result, aeon_signed_sizeof(data2));
+    EXPECT_EQ(result, AeonSignedSizeof(data2));
 
     const std::array expected_data{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
     expect_buffer(pipeline, expected_data);
 
     const char data3[] = {'K', 'L', 'M', 'N', 'O'};
     result = pipeline.write(reinterpret_cast<const std::byte *>(data3), sizeof(data3));
-    EXPECT_EQ(result, aeon_signed_sizeof(data3));
+    EXPECT_EQ(result, AeonSignedSizeof(data3));
 
     const std::array expected_data2{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', '\0', '\0', '\0', '\0', '\0'};
     expect_buffer(pipeline, expected_data2);

@@ -22,7 +22,7 @@ auto xml_node::has_name() const noexcept -> bool
     return name_ != nullptr;
 }
 
-auto xml_node::name() const -> const common::string &
+auto xml_node::name() const -> const Common::String &
 {
     if (!name_)
         throw xml_dom_exception{};
@@ -40,7 +40,7 @@ auto xml_node::children() const -> std::vector<xml_node>
     return children("");
 }
 
-auto xml_node::children(const common::string_view child_name) const -> std::vector<xml_node>
+auto xml_node::children(const Common::StringView child_name) const -> std::vector<xml_node>
 {
     if (type_ != xml_node_type::document && type_ != xml_node_type::element)
         return {};
@@ -55,7 +55,7 @@ auto xml_node::children(const common::string_view child_name) const -> std::vect
 
     for (const auto &pt_child : pt_children)
     {
-        if (std::empty(child_name) && pt_child.is_string())
+        if (child_name.Empty() && pt_child.is_string())
         {
             // emplace_back is not possible because the ctor is protected.
             children.push_back(xml_node{*document_, pt_child, xml_node_type::text}); // NOLINT(modernize-use-emplace)
@@ -64,7 +64,7 @@ auto xml_node::children(const common::string_view child_name) const -> std::vect
         {
             const auto &pt_object = pt_child.object_value();
 
-            if (std::size(pt_object) != 1)
+            if (pt_object.Size() != 1)
                 throw xml_dom_exception{};
 
             const auto &[name, value] = *pt_object.begin();
@@ -72,7 +72,7 @@ auto xml_node::children(const common::string_view child_name) const -> std::vect
             if (name == document_->attribute_placeholder())
                 continue;
 
-            if (std::empty(child_name) || name == child_name)
+            if (child_name.Empty() || name == child_name)
                 children.push_back(
                     xml_node{*document_, value, name, xml_node_type::element}); // NOLINT(modernize-use-emplace)
         }
@@ -86,7 +86,7 @@ auto xml_node::child() const noexcept -> xml_node
     return child("");
 }
 
-auto xml_node::child(const common::string_view child_name) const noexcept -> xml_node
+auto xml_node::child(const Common::StringView child_name) const noexcept -> xml_node
 {
     if (type_ != xml_node_type::document && type_ != xml_node_type::element)
         return xml_node{*document_};
@@ -97,7 +97,7 @@ auto xml_node::child(const common::string_view child_name) const noexcept -> xml
     const auto &pt_children = pt_->array_value();
     for (const auto &pt_child : pt_children)
     {
-        if (std::empty(child_name) && pt_child.is_string())
+        if (child_name.Empty() && pt_child.is_string())
         {
             return xml_node{*document_, pt_child, xml_node_type::text};
         }
@@ -105,7 +105,7 @@ auto xml_node::child(const common::string_view child_name) const noexcept -> xml
         {
             const auto &pt_object = pt_child.object_value();
 
-            if (std::size(pt_object) != 1)
+            if (pt_object.Size() != 1)
                 continue;
 
             const auto &[name, value] = *pt_object.begin();
@@ -113,7 +113,7 @@ auto xml_node::child(const common::string_view child_name) const noexcept -> xml
             if (name == document_->attribute_placeholder())
                 continue;
 
-            if (std::empty(child_name) || name == child_name)
+            if (child_name.Empty() || name == child_name)
                 return xml_node{*document_, value, name, xml_node_type::element};
         }
     }
@@ -121,12 +121,12 @@ auto xml_node::child(const common::string_view child_name) const noexcept -> xml
     return xml_node{*document_};
 }
 
-auto xml_node::operator[](const common::string_view child_name) const noexcept -> xml_node
+auto xml_node::operator[](const Common::StringView child_name) const noexcept -> xml_node
 {
     return child(child_name);
 }
 
-auto xml_node::attributes() const -> std::map<common::string, variant::converting_variant>
+auto xml_node::attributes() const -> std::map<Common::String, variant::converting_variant>
 {
     if (type_ != xml_node_type::element)
         return {};
@@ -141,7 +141,7 @@ auto xml_node::attributes() const -> std::map<common::string, variant::convertin
         {
             const auto &pt_object = pt_child.object_value();
 
-            if (std::size(pt_object) != 1)
+            if (pt_object.Size() != 1)
                 continue;
 
             const auto &[name, pt_attrib_value] = *pt_object.begin();
@@ -154,7 +154,7 @@ auto xml_node::attributes() const -> std::map<common::string, variant::convertin
 
             const auto &pt_attributes = pt_attrib_value.object_value();
 
-            std::map<common::string, variant::converting_variant> attributes;
+            std::map<Common::String, variant::converting_variant> attributes;
             for (const auto &[key, value] : pt_attributes)
             {
                 if (!value.is_string())
@@ -170,7 +170,7 @@ auto xml_node::attributes() const -> std::map<common::string, variant::convertin
     return {};
 }
 
-auto xml_node::value_impl() const -> const common::string &
+auto xml_node::value_impl() const -> const Common::String &
 {
     if (!pt_ || !pt_->is_string())
         throw xml_dom_exception{};
@@ -194,7 +194,7 @@ xml_node::xml_node(const xml_document &document, const property_tree &pt, const 
 {
 }
 
-xml_node::xml_node(const xml_document &document, const property_tree &pt, const common::string &name,
+xml_node::xml_node(const xml_document &document, const property_tree &pt, const Common::String &name,
                    const xml_node_type type) noexcept
     : document_{&document}
     , pt_{&pt}

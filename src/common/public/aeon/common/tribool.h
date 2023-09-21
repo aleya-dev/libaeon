@@ -2,199 +2,199 @@
 
 #pragma once
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-namespace detail
+namespace Internal
 {
 
-struct indeterminate_t
+struct Indeterminate
 {
 };
 
 } // namespace detail
 
-class tribool;
+class Tribool;
 
-constexpr auto indeterminate(const tribool value,
-                             const detail::indeterminate_t dummy = detail::indeterminate_t()) noexcept -> bool;
-using indeterminate_keyword_t = decltype(indeterminate);
+constexpr auto Indeterminate(const Tribool value, const Internal::Indeterminate dummy = Internal::Indeterminate()) noexcept
+    -> bool;
+using IndeterminateKeyword = decltype(Indeterminate);
 
 /*!
  * Tribool that can be true, false or indeterminate
  */
-class tribool
+class Tribool
 {
 public:
-    enum class value_t
+    enum class Value
     {
-        false_value,
-        true_value,
-        indeterminate_value
+        False,
+        True,
+        Indeterminate
     };
 
-    constexpr tribool() noexcept
-        : value{value_t::false_value}
+    constexpr Tribool() noexcept
+        : Value{Value::False}
     {
     }
 
-    constexpr tribool(const bool value) noexcept
-        : value{value ? value_t::true_value : value_t::false_value}
+    constexpr Tribool(const bool value) noexcept
+        : Value{value ? Value::True : Value::False}
     {
     }
 
-    constexpr tribool(indeterminate_keyword_t) noexcept
-        : value{value_t::indeterminate_value}
+    constexpr Tribool(IndeterminateKeyword) noexcept
+        : Value{Value::Indeterminate}
     {
     }
 
-    ~tribool() noexcept = default;
+    ~Tribool() noexcept = default;
 
-    constexpr tribool(const tribool &) noexcept = default;
-    constexpr auto operator=(const tribool &) noexcept -> tribool & = default;
+    constexpr Tribool(const Tribool &) noexcept = default;
+    constexpr auto operator=(const Tribool &) noexcept -> Tribool & = default;
 
-    constexpr tribool(tribool &&) noexcept = default;
-    constexpr auto operator=(tribool &&) noexcept -> tribool & = default;
+    constexpr Tribool(Tribool &&) noexcept = default;
+    constexpr auto operator=(Tribool &&) noexcept -> Tribool & = default;
 
     constexpr operator bool() const noexcept
     {
-        return value == value_t::true_value;
+        return Value == Value::True;
     }
 
     constexpr explicit operator int() const noexcept
     {
-        return value == value_t::true_value ? 1 : 0;
+        return Value == Value::True ? 1 : 0;
     }
 
-    [[nodiscard]] constexpr auto is_indeterminate() const noexcept
+    [[nodiscard]] constexpr auto IsIndeterminate() const noexcept
     {
-        return indeterminate(*this);
+        return Indeterminate(*this);
     }
 
-    value_t value;
+    Value Value;
 };
 
-constexpr auto indeterminate(const tribool val, const detail::indeterminate_t) noexcept -> bool
+constexpr auto Indeterminate(const Tribool value, const Internal::Indeterminate) noexcept -> bool
 {
-    return val.value == tribool::value_t::indeterminate_value;
+    return value.Value == Tribool::Value::Indeterminate;
 }
 
-constexpr auto operator&&(const tribool lhs, const tribool rhs) noexcept
+constexpr auto operator&&(const Tribool lhs, const Tribool rhs) noexcept
 {
     if (static_cast<bool>(!lhs) || static_cast<bool>(!rhs))
-        return tribool{false};
+        return Tribool{false};
 
     if (static_cast<bool>(lhs) && static_cast<bool>(rhs))
-        return tribool{true};
+        return Tribool{true};
 
-    return tribool{indeterminate};
+    return Tribool{Indeterminate};
 }
 
-constexpr auto operator&&(const tribool lhs, const bool rhs) noexcept
+constexpr auto operator&&(const Tribool lhs, const bool rhs) noexcept
 {
-    return rhs ? lhs : tribool{false};
+    return rhs ? lhs : Tribool{false};
 }
 
-constexpr auto operator&&(const bool lhs, const tribool rhs) noexcept
+constexpr auto operator&&(const bool lhs, const Tribool rhs) noexcept
 {
-    return lhs ? rhs : tribool{false};
+    return lhs ? rhs : Tribool{false};
 }
 
-constexpr auto operator&&(indeterminate_keyword_t, const tribool rhs) noexcept
+constexpr auto operator&&(IndeterminateKeyword, const Tribool rhs) noexcept
 {
-    return !rhs ? tribool{false} : tribool{indeterminate};
+    return !rhs ? Tribool{false} : Tribool{Indeterminate};
 }
 
-constexpr auto operator&&(const tribool lhs, indeterminate_keyword_t) noexcept
+constexpr auto operator&&(const Tribool lhs, IndeterminateKeyword) noexcept
 {
-    return !lhs ? tribool{false} : tribool{indeterminate};
+    return !lhs ? Tribool{false} : Tribool{Indeterminate};
 }
 
-constexpr auto operator||(const tribool lhs, const tribool rhs) noexcept
+constexpr auto operator||(const Tribool lhs, const Tribool rhs) noexcept
 {
     if (static_cast<bool>(!lhs) && static_cast<bool>(!rhs))
-        return tribool{false};
+        return Tribool{false};
 
     if (static_cast<bool>(lhs) || static_cast<bool>(rhs))
-        return tribool{true};
+        return Tribool{true};
 
-    return tribool{indeterminate};
+    return Tribool{Indeterminate};
 }
 
-constexpr auto operator||(const tribool lhs, const bool rhs) noexcept
+constexpr auto operator||(const Tribool lhs, const bool rhs) noexcept
 {
-    return rhs ? tribool{true} : lhs;
+    return rhs ? Tribool{true} : lhs;
 }
 
-constexpr auto operator||(const bool lhs, const tribool rhs) noexcept
+constexpr auto operator||(const bool lhs, const Tribool rhs) noexcept
 {
-    return lhs ? tribool{true} : rhs;
+    return lhs ? Tribool{true} : rhs;
 }
 
-constexpr auto operator||(indeterminate_keyword_t, const tribool rhs) noexcept
+constexpr auto operator||(IndeterminateKeyword, const Tribool rhs) noexcept
 {
-    return rhs ? tribool{true} : tribool{indeterminate};
+    return rhs ? Tribool{true} : Tribool{Indeterminate};
 }
 
-constexpr auto operator||(const tribool lhs, indeterminate_keyword_t) noexcept
+constexpr auto operator||(const Tribool lhs, IndeterminateKeyword) noexcept
 {
-    return lhs ? tribool{true} : tribool{indeterminate};
+    return lhs ? Tribool{true} : Tribool{Indeterminate};
 }
 
-constexpr auto operator==(const tribool lhs, const tribool rhs) noexcept
+constexpr auto operator==(const Tribool lhs, const Tribool rhs) noexcept
 {
-    if (indeterminate(lhs) || indeterminate(rhs))
+    if (Indeterminate(lhs) || Indeterminate(rhs))
         return false;
 
     return static_cast<bool>((lhs && rhs) || (!lhs && !rhs));
 }
 
-constexpr auto operator==(const tribool lhs, const bool rhs) noexcept
+constexpr auto operator==(const Tribool lhs, const bool rhs) noexcept
 {
-    return lhs == tribool{rhs};
+    return lhs == Tribool{rhs};
 }
 
-constexpr auto operator==(const bool lhs, const tribool rhs) noexcept
+constexpr auto operator==(const bool lhs, const Tribool rhs) noexcept
 {
-    return tribool{lhs} == rhs;
+    return Tribool{lhs} == rhs;
 }
 
-constexpr auto operator==(indeterminate_keyword_t, const tribool rhs) noexcept
+constexpr auto operator==(IndeterminateKeyword, const Tribool rhs) noexcept
 {
-    return tribool{indeterminate} == rhs;
+    return Tribool{Indeterminate} == rhs;
 }
 
-constexpr auto operator==(const tribool lhs, indeterminate_keyword_t) noexcept
+constexpr auto operator==(const Tribool lhs, IndeterminateKeyword) noexcept
 {
-    return tribool{indeterminate} == lhs;
+    return Tribool{Indeterminate} == lhs;
 }
 
-constexpr auto operator!=(const tribool lhs, const tribool rhs) noexcept
+constexpr auto operator!=(const Tribool lhs, const Tribool rhs) noexcept
 {
-    if (indeterminate(lhs) || indeterminate(rhs))
+    if (Indeterminate(lhs) || Indeterminate(rhs))
         return true;
 
     return !((lhs && rhs) || (!lhs && !rhs));
 }
 
-constexpr auto operator!=(const tribool lhs, const bool rhs) noexcept
+constexpr auto operator!=(const Tribool lhs, const bool rhs) noexcept
 {
-    return lhs != tribool{rhs};
+    return lhs != Tribool{rhs};
 }
 
-constexpr auto operator!=(const bool lhs, const tribool rhs) noexcept
+constexpr auto operator!=(const bool lhs, const Tribool rhs) noexcept
 {
-    return tribool{lhs} != rhs;
+    return Tribool{lhs} != rhs;
 }
 
-constexpr auto operator!=(indeterminate_keyword_t, const tribool rhs) noexcept
+constexpr auto operator!=(IndeterminateKeyword, const Tribool rhs) noexcept
 {
-    return tribool{indeterminate} != rhs;
+    return Tribool{Indeterminate} != rhs;
 }
 
-constexpr auto operator!=(const tribool lhs, indeterminate_keyword_t) noexcept
+constexpr auto operator!=(const Tribool lhs, IndeterminateKeyword) noexcept
 {
-    return lhs != tribool{indeterminate};
+    return lhs != Tribool{Indeterminate};
 }
 
-} // namespace aeon::common
+} // namespace aeon::Common

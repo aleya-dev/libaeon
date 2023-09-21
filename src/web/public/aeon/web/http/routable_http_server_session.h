@@ -24,12 +24,12 @@ public:
     auto operator=(const routable_http_server_session &) -> routable_http_server_session & = delete;
 
     void add_route(std::unique_ptr<route> route);
-    void remove_route(const common::string &mountpoint);
+    void remove_route(const Common::String &mountpoint);
 
-    auto find_best_match_route(const common::string &path, common::string &route_path) const -> route *;
+    auto find_best_match_route(const Common::String &path, Common::String &route_path) const -> route *;
 
 private:
-    std::map<common::string, std::unique_ptr<route>> routes_;
+    std::map<Common::String, std::unique_ptr<route>> routes_;
 };
 
 } // namespace aeon::web::http

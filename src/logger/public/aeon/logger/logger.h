@@ -21,7 +21,7 @@ namespace aeon::logger
 class logger_stream final
 {
 public:
-    logger_stream(base_backend &backend, common::string module, const log_level level)
+    logger_stream(base_backend &backend, Common::String module, const log_level level)
         : backend_{backend}
         , module_{std::move(module)}
         , level_{level}
@@ -51,7 +51,7 @@ public:
 
 private:
     base_backend &backend_;
-    common::string module_;
+    Common::String module_;
     log_level level_;
     std::stringstream stream_;
 };
@@ -59,7 +59,7 @@ private:
 class logger final
 {
 public:
-    logger(base_backend &backend, common::string module)
+    logger(base_backend &backend, Common::String module)
         : backend_{&backend}
         , module_{std::move(module)}
     {
@@ -80,7 +80,7 @@ public:
 
 private:
     base_backend *backend_;
-    common::string module_;
+    Common::String module_;
 };
 
 } // namespace aeon::logger

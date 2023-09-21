@@ -38,7 +38,7 @@ public:
         throw reflection_exception{};
     }
 
-    auto get_field_type(const char *const name) const -> common::string_view;
+    auto get_field_type(const char *const name) const -> Common::StringView;
 
     [[nodiscard]] virtual auto create() const -> std::unique_ptr<reflection_object> = 0;
     [[nodiscard]] virtual auto get_field_info() const noexcept -> const std::vector<field_info> & = 0;

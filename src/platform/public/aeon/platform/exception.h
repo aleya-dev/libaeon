@@ -11,7 +11,7 @@ namespace aeon::platform
 class platform_exception : public std::exception
 {
 public:
-    explicit platform_exception(common::string msg) noexcept
+    explicit platform_exception(Common::String msg) noexcept
         : msg_{std::move(msg)}
     {
     }
@@ -30,7 +30,7 @@ public:
     }
 
 private:
-    common::string msg_;
+    Common::String msg_;
 };
 
 } // namespace aeon::platform

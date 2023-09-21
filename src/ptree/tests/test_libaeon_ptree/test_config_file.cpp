@@ -43,18 +43,18 @@ TEST(test_ptree_config_file, from_ini_file)
     EXPECT_EQ(42, config.get<std::int64_t>("header1", "value"));
     EXPECT_EQ(false, config.get<bool>("header1", "another_value"));
     EXPECT_EQ(true, config.get<bool>("header1", "another_bool"));
-    EXPECT_EQ("This is a string", config.get<common::string>("header1", "string"));
+    EXPECT_EQ("This is a string", config.get<Common::String>("header1", "string"));
     EXPECT_EQ(1.0, config.get<double>("header1", "value2"));
     EXPECT_EQ(42e-1, config.get<double>("header1", "value3"));
     EXPECT_EQ(-10, config.get<std::int64_t>("header1", "value4"));
 
     EXPECT_EQ(1337, config.get<std::int64_t>("another_header", "val"));
-    EXPECT_EQ(common::uuid::parse("f976d1e3-0f0d-4c9c-b7c5-2e31eb4bae89"),
-              config.get<common::uuid>("another_header", "uuid_value"));
+    EXPECT_EQ(Common::Uuid::Parse("f976d1e3-0f0d-4c9c-b7c5-2e31eb4bae89"),
+              config.get<Common::Uuid>("another_header", "uuid_value"));
 
     EXPECT_EQ(std::nullopt, config.get<bool>("header1", "value"));
     EXPECT_EQ(42.0, config.get<double>("header1", "value"));
-    EXPECT_EQ(std::nullopt, config.get<common::string>("header1", "value"));
+    EXPECT_EQ(std::nullopt, config.get<Common::String>("header1", "value"));
 
     EXPECT_EQ(42, config.get<std::int64_t>("header1", "value", 1337));
     EXPECT_EQ(1337, config.get<std::int64_t>("header2", "value", 1337));
@@ -69,9 +69,9 @@ TEST(test_ptree_config_file, from_ini_file)
     config.set("a_completely_new_header", "new_value", 12131415);
     EXPECT_EQ(12131415, config.get<std::int64_t>("a_completely_new_header", "new_value"));
 
-    config.set("header1", "value", common::string{"Change the type!"});
+    config.set("header1", "value", Common::String{"Change the type!"});
     EXPECT_EQ(std::nullopt, config.get<std::int64_t>("header1", "value"));
-    EXPECT_EQ("Change the type!", config.get<common::string>("header1", "value"));
+    EXPECT_EQ("Change the type!", config.get<Common::String>("header1", "value"));
 }
 
 TEST(test_ptree_config_file, from_scratch)

@@ -52,7 +52,7 @@ public:
     }
 
     explicit file_sink_device(const std::filesystem::path &path, const file_mode fm,
-                              const common::flags<file_flag> flags)
+                              const Common::Flags<file_flag> flags)
         : internal::file_device_base{path, std::fstream::out, fm, flags}
     {
     }
@@ -93,7 +93,7 @@ public:
     {
     }
 
-    explicit file_device(const std::filesystem::path &path, const file_mode fm, const common::flags<file_flag> flags)
+    explicit file_device(const std::filesystem::path &path, const file_mode fm, const Common::Flags<file_flag> flags)
         : internal::file_device_base{path, static_cast<std::ios::openmode>(0), fm, flags}
     {
     }

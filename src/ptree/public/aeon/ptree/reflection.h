@@ -18,7 +18,7 @@ template <reflection::reflection_object_implementation T>
 [[nodiscard]] inline auto to_reflection_object(const property_tree &pt) -> std::unique_ptr<T>
 {
     auto object = to_reflection_object(T::reflection_info(), pt);
-    auto result = common::dynamic_unique_ptr_cast<T>(std::move(object));
+    auto result = Common::DynamicUniquePtrCast<T>(std::move(object));
 
     if (!result)
         throw ptree_exception{};

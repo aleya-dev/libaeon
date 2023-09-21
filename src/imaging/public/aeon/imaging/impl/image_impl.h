@@ -13,23 +13,23 @@ inline image::image() noexcept
 {
 }
 
-inline image::image(const common::element_type type, const imaging::format format,
+inline image::image(const Common::ElementType type, const imaging::format format,
                     const math::size2d<dimensions_type> dimensions) noexcept
     : image_view{type, format, dimensions, nullptr}
-    , data_(math::width(dimensions) * type.stride * math::height(dimensions))
+    , data_(math::width(dimensions) * type.Stride * math::height(dimensions))
 {
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline image::image(const common::element_type type, const imaging::format format, const dimensions_type width,
+inline image::image(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                     const dimensions_type height) noexcept
     : image_view{type, format, width, height, nullptr}
-    , data_(width * type.stride * height)
+    , data_(width * type.Stride * height)
 {
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline image::image(const common::element_type type, const imaging::format format,
+inline image::image(const Common::ElementType type, const imaging::format format,
                     const math::size2d<dimensions_type> dimensions, const stride_type stride) noexcept
     : image_view{type, format, dimensions, stride, nullptr}
     , data_(stride * math::height(dimensions))
@@ -37,7 +37,7 @@ inline image::image(const common::element_type type, const imaging::format forma
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline image::image(const common::element_type type, const imaging::format format, const dimensions_type width,
+inline image::image(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                     const dimensions_type height, const stride_type stride) noexcept
     : image_view{type, format, width, height, stride, nullptr}
     , data_(stride * height)
@@ -45,7 +45,7 @@ inline image::image(const common::element_type type, const imaging::format forma
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline image::image(const common::element_type type, const imaging::format format,
+inline image::image(const Common::ElementType type, const imaging::format format,
                     const math::size2d<dimensions_type> dimensions, std::vector<underlying_type> data) noexcept
     : image_view{type, format, dimensions, nullptr}
     , data_{std::move(data)}
@@ -53,7 +53,7 @@ inline image::image(const common::element_type type, const imaging::format forma
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline image::image(const common::element_type type, const imaging::format format, const dimensions_type width,
+inline image::image(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                     const dimensions_type height, std::vector<underlying_type> data) noexcept
     : image_view{type, format, width, height, nullptr}
     , data_{std::move(data)}
@@ -61,7 +61,7 @@ inline image::image(const common::element_type type, const imaging::format forma
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline image::image(const common::element_type type, const imaging::format format,
+inline image::image(const Common::ElementType type, const imaging::format format,
                     const math::size2d<dimensions_type> dimensions, const stride_type stride,
                     std::vector<underlying_type> data) noexcept
     : image_view{type, format, dimensions, stride, nullptr}
@@ -70,7 +70,7 @@ inline image::image(const common::element_type type, const imaging::format forma
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline image::image(const common::element_type type, const imaging::format format, const dimensions_type width,
+inline image::image(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                     const dimensions_type height, const stride_type stride, std::vector<underlying_type> data) noexcept
     : image_view{type, format, width, height, stride, nullptr}
     , data_{std::move(data)}
@@ -78,7 +78,7 @@ inline image::image(const common::element_type type, const imaging::format forma
     mat_view::data_ptr_ = std::data(data_);
 }
 
-inline image::image(const common::element_type type, const imaging::format format,
+inline image::image(const Common::ElementType type, const imaging::format format,
                     const math::size2d<dimensions_type> dimensions, const underlying_type *data)
     : image_view{type, format, dimensions, nullptr}
     , data_{}
@@ -86,7 +86,7 @@ inline image::image(const common::element_type type, const imaging::format forma
     copy_from_pointer(data);
 }
 
-inline image::image(const common::element_type type, const imaging::format format, const dimensions_type width,
+inline image::image(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                     const dimensions_type height, const underlying_type *data)
     : image_view{type, format, width, height, nullptr}
     , data_{}
@@ -94,7 +94,7 @@ inline image::image(const common::element_type type, const imaging::format forma
     copy_from_pointer(data);
 }
 
-inline image::image(const common::element_type type, const imaging::format format,
+inline image::image(const Common::ElementType type, const imaging::format format,
                     const math::size2d<dimensions_type> dimensions, const stride_type stride,
                     const underlying_type *data)
     : image_view{type, format, dimensions, stride, nullptr}
@@ -103,7 +103,7 @@ inline image::image(const common::element_type type, const imaging::format forma
     copy_from_pointer(data);
 }
 
-inline image::image(const common::element_type type, const imaging::format format, const dimensions_type width,
+inline image::image(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                     const dimensions_type height, const stride_type stride, const underlying_type *data)
     : image_view{type, format, width, height, stride, nullptr}
     , data_{}
@@ -112,7 +112,7 @@ inline image::image(const common::element_type type, const imaging::format forma
 }
 
 inline image::image(const image_view &view)
-    : image_view{math::element_type(view), imaging::pixel_format(view), math::dimensions(view), math::stride(view),
+    : image_view{math::ElementType(view), imaging::pixel_format(view), math::dimensions(view), math::stride(view),
                  nullptr}
     , data_{}
 {
@@ -224,49 +224,49 @@ template <math::swizzle_component... components>
 [[nodiscard]] inline auto swizzle_copy(const image_view &view, const format format) noexcept -> image
 {
     // Currently strides are not supported. They may be in the future.
-    if (!view.element_type().continuous() || !math::continuous(view))
+    if (!view.ElementType().Continuous() || !math::continuous(view))
         std::abort();
 
-    if (view.element_type().is_undefined())
+    if (view.ElementType().IsUndefined())
         std::abort();
 
-    auto new_element_type = view.element_type();
-    new_element_type.count = sizeof...(components);
-    new_element_type.size = new_element_type.component_size * new_element_type.count;
-    new_element_type.stride = new_element_type.size;
+    auto new_element_type = view.ElementType();
+    new_element_type.Count = sizeof...(components);
+    new_element_type.Size = new_element_type.ComponentSize * new_element_type.Count;
+    new_element_type.Stride = new_element_type.Size;
 
     image new_image{new_element_type, format, dimensions(view)};
 
-    switch (view.element_type().name)
+    switch (view.ElementType().Name)
     {
-        case common::element_type_name::u8:
+        case Common::ElementTypeName::U8:
             math::internal::swizzle_copy<std::uint8_t, image, components...>(view, new_image);
             break;
-        case common::element_type_name::s8:
+        case Common::ElementTypeName::S8:
             math::internal::swizzle_copy<std::int8_t, image, components...>(view, new_image);
             break;
-        case common::element_type_name::u16:
+        case Common::ElementTypeName::U16:
             math::internal::swizzle_copy<std::uint16_t, image, components...>(view, new_image);
             break;
-        case common::element_type_name::s16:
+        case Common::ElementTypeName::S16:
             math::internal::swizzle_copy<std::int16_t, image, components...>(view, new_image);
             break;
-        case common::element_type_name::u32:
+        case Common::ElementTypeName::U32:
             math::internal::swizzle_copy<std::uint32_t, image, components...>(view, new_image);
             break;
-        case common::element_type_name::s32:
+        case Common::ElementTypeName::S32:
             math::internal::swizzle_copy<std::int32_t, image, components...>(view, new_image);
             break;
-        case common::element_type_name::u64:
+        case Common::ElementTypeName::U64:
             math::internal::swizzle_copy<std::uint64_t, image, components...>(view, new_image);
             break;
-        case common::element_type_name::s64:
+        case Common::ElementTypeName::S64:
             math::internal::swizzle_copy<std::int64_t, image, components...>(view, new_image);
             break;
-        case common::element_type_name::f32:
+        case Common::ElementTypeName::F32:
             math::internal::swizzle_copy<float, image, components...>(view, new_image);
             break;
-        case common::element_type_name::f64:
+        case Common::ElementTypeName::F64:
             math::internal::swizzle_copy<double, image, components...>(view, new_image);
             break;
         default:

@@ -132,7 +132,7 @@ public:
      * \param[in] xyz - Amount of scaling done over the X, Y and Z axis.
      * \return A scaling matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static constexpr auto scale(const T xyz) noexcept -> mat4;
 
     /*!
@@ -142,7 +142,7 @@ public:
      * \param[in] z - Amount of scaling done over the Z axis.
      * \return A scaling matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static constexpr auto scale(const T x, const T y, const T z) noexcept -> mat4;
 
     /*!
@@ -150,7 +150,7 @@ public:
      * \param[in] vec - Amount of scaling done over the X, Y and Z axis.
      * \return A scaling matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static constexpr auto scale(const vector3<T> &vec) noexcept -> mat4;
 
     /*!
@@ -183,7 +183,7 @@ public:
      * \param[in] y - Amount of translation done over the Y axis.
      * \return A translation matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static constexpr auto translate(const T x, const T y) noexcept -> mat4;
 
     /*!
@@ -193,7 +193,7 @@ public:
      * \param[in] z - Amount of translation done over the Z axis.
      * \return A translation matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static constexpr auto translate(const T x, const T y, const T z) noexcept -> mat4;
 
     /*!
@@ -201,7 +201,7 @@ public:
      * \param[in] vec - Amount of scaling done over the X, Y and Z axis.
      * \return A scaling matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static constexpr auto translate(const vector3<T> &vec) noexcept -> mat4;
 
     /*!
@@ -218,7 +218,7 @@ public:
      * \param[in] vec - Vector that determines which axis will be rotated with the given angle.
      * \return A rotation matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static auto rotate(const unitf<radian> angle, const vector3<T> &vec) noexcept -> mat4;
 
     /*!
@@ -270,7 +270,7 @@ public:
      * \param[in] top - Top value
      * \return An orthographic matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static constexpr auto ortho(const T left, const T right, const T bottom, const T top) noexcept
         -> mat4;
 
@@ -284,8 +284,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return An orthographic matrix.
      */
-    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T,
-              common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = default_clipping_space, Common::Concepts::ArithmeticConvertible T,
+              Common::Concepts::ArithmeticConvertible U>
     [[nodiscard]] static constexpr auto ortho_lh(const T left, const T right, const T bottom, const T top,
                                                  const U near_value, const U far_value) noexcept -> mat4;
 
@@ -299,8 +299,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return An orthographic matrix.
      */
-    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T,
-              common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = default_clipping_space, Common::Concepts::ArithmeticConvertible T,
+              Common::Concepts::ArithmeticConvertible U>
     [[nodiscard]] static constexpr auto ortho_rh(const T left, const T right, const T bottom, const T top,
                                                  const U near_value, const U far_value) noexcept -> mat4;
 
@@ -309,7 +309,7 @@ public:
      * \param[in] rect - Left, Right, Bottom and Top values
      * \return An orthographic matrix.
      */
-    template <common::concepts::arithmetic_convertible T>
+    template <Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static constexpr auto ortho(const rectangle<T> &rect) noexcept -> mat4;
 
     /*!
@@ -319,8 +319,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return An orthographic matrix.
      */
-    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T,
-              common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = default_clipping_space, Common::Concepts::ArithmeticConvertible T,
+              Common::Concepts::ArithmeticConvertible U>
     [[nodiscard]] static constexpr auto ortho_lh(const rectangle<T> &rect, const U near_value,
                                                  const U far_value) noexcept -> mat4;
 
@@ -331,8 +331,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return An orthographic matrix.
      */
-    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T,
-              common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = default_clipping_space, Common::Concepts::ArithmeticConvertible T,
+              Common::Concepts::ArithmeticConvertible U>
     [[nodiscard]] static constexpr auto ortho_rh(const rectangle<T> &rect, const U near_value,
                                                  const U far_value) noexcept -> mat4;
 
@@ -368,8 +368,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return A perspective matrix.
      */
-    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T,
-              common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = default_clipping_space, Common::Concepts::ArithmeticConvertible T,
+              Common::Concepts::ArithmeticConvertible U>
     [[nodiscard]] static auto perspective_lh(const unit_base<radian, void, U> fov_y, const T aspect_ratio,
                                              const U near_value, const U far_value) noexcept -> mat4;
 
@@ -381,8 +381,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return A perspective matrix.
      */
-    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T,
-              common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = default_clipping_space, Common::Concepts::ArithmeticConvertible T,
+              Common::Concepts::ArithmeticConvertible U>
     [[nodiscard]] static auto perspective_rh(const unit_base<radian, void, U> fov_y, const T aspect_ratio,
                                              const U near_value, const U far_value) noexcept -> mat4;
 
@@ -421,8 +421,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return A perspective matrix.
      */
-    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T,
-              common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = default_clipping_space, Common::Concepts::ArithmeticConvertible T,
+              Common::Concepts::ArithmeticConvertible U>
     [[nodiscard]] static auto perspective_fov_lh(const unit_base<radian, void, U> fov, const T width, const T height,
                                                  const U near_value, const U far_value) noexcept -> mat4;
 
@@ -435,8 +435,8 @@ public:
      * \param[in] far_value - Far clip plane
      * \return A perspective matrix.
      */
-    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T,
-              common::concepts::arithmetic_convertible U>
+    template <clipping_space clipping_space = default_clipping_space, Common::Concepts::ArithmeticConvertible T,
+              Common::Concepts::ArithmeticConvertible U>
     [[nodiscard]] static auto perspective_fov_rh(const unit_base<radian, void, U> fov, const T width, const T height,
                                                  const U near_value, const U far_value) noexcept -> mat4;
 
@@ -448,7 +448,7 @@ public:
      * \param[in] far_value - Far clip plane
      * \return A perspective matrix.
      */
-    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T>
+    template <clipping_space clipping_space = default_clipping_space, Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static auto perspective_fov_lh(const unitf<radian> fov, const size2d<T> size, const float near_value,
                                                  const float far_value) noexcept -> mat4;
 
@@ -460,7 +460,7 @@ public:
      * \param[in] far_value - Far clip plane
      * \return A perspective matrix.
      */
-    template <clipping_space clipping_space = default_clipping_space, common::concepts::arithmetic_convertible T>
+    template <clipping_space clipping_space = default_clipping_space, Common::Concepts::ArithmeticConvertible T>
     [[nodiscard]] static auto perspective_fov_rh(const unitf<radian> fov, const size2d<T> size, const float near_value,
                                                  const float far_value) noexcept -> mat4;
 

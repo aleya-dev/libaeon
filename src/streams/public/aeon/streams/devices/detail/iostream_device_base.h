@@ -22,7 +22,7 @@ namespace aeon::streams::internal
             return std::ios::end;
     }
 
-    aeon_assert_fail("Unknown seek direction.");
+    AeonAssertFail("Unknown seek direction.");
     return std::ios::cur;
 }
 

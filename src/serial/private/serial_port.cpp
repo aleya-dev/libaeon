@@ -34,7 +34,7 @@ static auto to_windows_parity(const parity parity) noexcept -> BYTE
             return 4;
     }
 
-    aeon_assert_fail("Error in parity enum.");
+    AeonAssertFail("Error in parity enum.");
     return 0;
 }
 
@@ -50,7 +50,7 @@ static auto to_windows_stopbits(const stop_bits stop_bits) noexcept -> BYTE
             return 2;
     }
 
-    aeon_assert_fail("Error in stop_bits enum.");
+    AeonAssertFail("Error in stop_bits enum.");
     return 0;
 }
 
@@ -67,7 +67,7 @@ static auto serial_port_open(const char *device, const int baud, const int byte_
     if (handle == nullptr)
         throw serial_port_exception();
 
-    aeon_scope_fail
+    AeonScopeFail
     {
         serial_port_close(handle);
     };
@@ -339,13 +339,13 @@ auto serial_port::read(char *data, const std::size_t len) const -> std::size_t
     return detail::serial_port_read(handle_, data, len);
 }
 
-[[nodiscard]] auto serial_port::read(const std::size_t len) const -> common::string
+[[nodiscard]] auto serial_port::read(const std::size_t len) const -> Common::String
 {
-    common::string value;
-    value.resize(len);
+    Common::String value;
+    value.Resize(len);
 
-    const auto actual_len = read(value.data(), len);
-    value.resize(actual_len);
+    const auto actual_len = read(value.Data(), len);
+    value.Resize(actual_len);
 
     return value;
 }
@@ -358,11 +358,11 @@ auto serial_port::write(const char *data, const std::size_t len) const -> std::s
     return detail::serial_port_write(handle_, data, len);
 }
 
-void serial_port::write(const common::string &data) const
+void serial_port::write(const Common::String &data) const
 {
-    const auto len = write(data.data(), data.size());
+    const auto len = write(data.Data(), data.Size());
 
-    if (len != data.size())
+    if (len != data.Size())
         throw serial_port_exception();
 }
 

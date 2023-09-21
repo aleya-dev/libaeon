@@ -2,15 +2,15 @@
 
 #pragma once
 
-namespace aeon::common::allocators
+namespace aeon::Common::Allocators
 {
 
 template <typename T>
-concept allocator = requires {
+concept Allocator = requires {
     T::allocate(0u);
     T::allocate_at_least(0u);
     T::reallocate(nullptr, 0u);
     T::deallocate(nullptr, 0u);
 };
 
-} // namespace aeon::common::allocators
+} // namespace aeon::Common::allocators

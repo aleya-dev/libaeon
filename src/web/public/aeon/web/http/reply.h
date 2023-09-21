@@ -30,14 +30,14 @@ public:
 
     [[nodiscard]] auto get_content() -> std::vector<std::byte>;
 
-    [[nodiscard]] auto get_raw_headers() const -> const std::vector<common::string> &;
+    [[nodiscard]] auto get_raw_headers() const -> const std::vector<Common::String> &;
 
 private:
-    void append_raw_http_header_line(const common::string &header_line);
+    void append_raw_http_header_line(const Common::String &header_line);
     void append_raw_content_data(const std::vector<std::byte> &data);
 
     status_code status_;
-    std::vector<common::string> raw_headers_;
+    std::vector<Common::String> raw_headers_;
     streams::memory_device<std::vector<std::byte>> content_;
 };
 

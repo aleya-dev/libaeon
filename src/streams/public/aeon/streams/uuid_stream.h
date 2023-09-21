@@ -10,22 +10,22 @@ namespace aeon::streams
 {
 
 template <typename device_t>
-inline auto operator<<(stream_writer<device_t> &stream, const aeon::common::uuid &val)
+inline auto operator<<(stream_writer<device_t> &stream, const aeon::Common::Uuid &val)
 {
-    const auto size = static_cast<std::streamsize>(val.size());
+    const auto size = static_cast<std::streamsize>(val.Size());
 
-    if (stream.device().write(reinterpret_cast<const std::byte *>(val.data.data()), size) != size)
+    if (stream.device().write(reinterpret_cast<const std::byte *>(val.Data.data()), size) != size)
         throw aeon::streams::stream_exception{};
 
     return stream;
 }
 
 template <typename device_t>
-inline auto operator>>(stream_reader<device_t> &stream, aeon::common::uuid &val)
+inline auto operator>>(stream_reader<device_t> &stream, aeon::Common::Uuid &val)
 {
-    const auto size = static_cast<std::streamsize>(val.size());
+    const auto size = static_cast<std::streamsize>(val.Size());
 
-    if (stream.device().read(reinterpret_cast<std::byte *>(val.data.data()), size) != size)
+    if (stream.device().read(reinterpret_cast<std::byte *>(val.Data.data()), size) != size)
         throw aeon::streams::stream_exception{};
 
     return stream;

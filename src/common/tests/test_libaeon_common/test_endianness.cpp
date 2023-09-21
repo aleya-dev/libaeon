@@ -5,25 +5,25 @@
 
 static void check_swap8(std::uint8_t value, std::uint8_t expected)
 {
-    EXPECT_EQ(expected, aeon::common::endianness::swap(value));
+    EXPECT_EQ(expected, aeon::Common::Endianness::Swap(value));
 }
 
 static void check_swap16(std::uint16_t value, std::uint16_t expected)
 {
-    EXPECT_EQ(expected, aeon::common::endianness::swap(value));
-    EXPECT_EQ(expected, aeon::common::endianness::swap16(value));
+    EXPECT_EQ(expected, aeon::Common::Endianness::Swap(value));
+    EXPECT_EQ(expected, aeon::Common::Endianness::Swap16(value));
 }
 
 static void check_swap32(std::uint32_t value, std::uint32_t expected)
 {
-    EXPECT_EQ(expected, aeon::common::endianness::swap(value));
-    EXPECT_EQ(expected, aeon::common::endianness::swap32(value));
+    EXPECT_EQ(expected, aeon::Common::Endianness::Swap(value));
+    EXPECT_EQ(expected, aeon::Common::Endianness::Swap32(value));
 }
 
 static void check_swap64(std::uint64_t value, std::uint64_t expected)
 {
-    EXPECT_EQ(expected, aeon::common::endianness::swap(value));
-    EXPECT_EQ(expected, aeon::common::endianness::swap64(value));
+    EXPECT_EQ(expected, aeon::Common::Endianness::Swap(value));
+    EXPECT_EQ(expected, aeon::Common::Endianness::Swap64(value));
 }
 
 TEST(test_endianness, test_endianness_swap8)

@@ -4,28 +4,28 @@
 
 #include <stdexcept>
 
-namespace aeon::common::containers
+namespace aeon::Common::Containers
 {
 
 template <typename T>
-inline general_tree_iterator<T>::general_tree_iterator(std::vector<tree_leaf_data_type> *leafs, std::vector<T> *values,
-                                                       const std::size_t current_index) noexcept
-    : leafs_{leafs}
-    , values_{values}
-    , current_index_{current_index}
+inline GeneralTreeIterator<T>::GeneralTreeIterator(std::vector<TreeLeafDataType> *leafs, std::vector<T> *values,
+                                                   const std::size_t currentIndex) noexcept
+    : m_leafs{leafs}
+    , m_values{values}
+    , m_currentIndex{currentIndex}
 {
 }
 
 template <typename T>
-inline auto general_tree_iterator<T>::operator++() -> general_tree_iterator<T> &
+inline auto GeneralTreeIterator<T>::operator++() -> GeneralTreeIterator<T> &
 {
-    const auto &leaf = (*leafs_)[current_index_];
-    current_index_ = leaf.right;
+    const auto &leaf = (*m_leafs)[m_currentIndex];
+    m_currentIndex = leaf.Right;
     return *this;
 }
 
 template <typename T>
-inline auto general_tree_iterator<T>::operator++(int) -> general_tree_iterator<T> &
+inline auto GeneralTreeIterator<T>::operator++(int) -> GeneralTreeIterator<T> &
 {
     auto &val = *this;
     ++(*this);
@@ -33,154 +33,154 @@ inline auto general_tree_iterator<T>::operator++(int) -> general_tree_iterator<T
 }
 
 template <typename T>
-inline auto general_tree_iterator<T>::operator==(const general_tree_iterator<T> &other) const -> bool
+inline auto GeneralTreeIterator<T>::operator==(const GeneralTreeIterator<T> &other) const -> bool
 {
-    return leafs_ == other.leafs_ && values_ == other.values_ && current_index_ == other.current_index_;
+    return m_leafs == other.m_leafs && m_values == other.m_values && m_currentIndex == other.m_currentIndex;
 }
 
 template <typename T>
-inline auto general_tree_iterator<T>::operator!=(const general_tree_iterator<T> &other) const -> bool
+inline auto GeneralTreeIterator<T>::operator!=(const GeneralTreeIterator<T> &other) const -> bool
 {
     return !(*this == other);
 }
 
 template <typename T>
-inline auto general_tree_iterator<T>::operator*() -> value_type
+inline auto GeneralTreeIterator<T>::operator*() -> value_type
 {
-    return value_type{leafs_, values_, current_index_};
+    return value_type{m_leafs, m_values, m_currentIndex};
 }
 
 template <typename T>
-inline auto general_tree_iterator<T>::operator*() const -> value_type
+inline auto GeneralTreeIterator<T>::operator*() const -> value_type
 {
-    return value_type{leafs_, values_, current_index_};
+    return value_type{m_leafs, m_values, m_currentIndex};
 }
 
 template <typename T>
-inline void general_tree_leaf<T>::reserve(const std::size_t size) const
+inline void GeneralTreeLeaf<T>::Reserve(const std::size_t size) const
 {
-    leafs_->reserve(size);
-    values_->reserve(size);
+    m_leafs->reserve(size);
+    m_values->reserve(size);
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::emplace_child(const value_type &value) -> general_tree_leaf<value_type>
+inline auto GeneralTreeLeaf<T>::EmplaceChild(const value_type &value) -> GeneralTreeLeaf<value_type>
 {
-    const auto new_index = std::size(*leafs_);
-    leafs_->push_back(tree_leaf_data_type{index_, tree_leaf_data_type::npos, tree_leaf_data_type::npos});
-    values_->emplace_back(value);
-    update_indices(new_index);
-    return general_tree_leaf{leafs_, values_, new_index};
+    const auto newIndex = std::size(*m_leafs);
+    m_leafs->push_back(TreeLeafDataType{m_index, TreeLeafDataType::Npos, TreeLeafDataType::Npos});
+    m_values->emplace_back(value);
+    UpdateIndices(newIndex);
+    return GeneralTreeLeaf{m_leafs, m_values, newIndex};
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::emplace_child(value_type &&value) -> general_tree_leaf<value_type>
+inline auto GeneralTreeLeaf<T>::EmplaceChild(value_type &&value) -> GeneralTreeLeaf<value_type>
 {
-    const auto new_index = std::size(*leafs_);
-    leafs_->push_back(tree_leaf_data_type{index_, tree_leaf_data_type::npos, tree_leaf_data_type::npos});
-    values_->emplace_back(std::move(value));
-    update_indices(new_index);
-    return general_tree_leaf{leafs_, values_, new_index};
+    const auto newIndex = std::size(*m_leafs);
+    m_leafs->push_back(TreeLeafDataType{m_index, TreeLeafDataType::Npos, TreeLeafDataType::Npos});
+    m_values->emplace_back(std::move(value));
+    UpdateIndices(newIndex);
+    return GeneralTreeLeaf{m_leafs, m_values, newIndex};
 }
 
 template <typename T>
-inline void general_tree_leaf<T>::add_child(const value_type &value)
+inline void GeneralTreeLeaf<T>::AddChild(const value_type &value)
 {
-    emplace_child(value);
+    EmplaceChild(value);
 }
 
 template <typename T>
-inline void general_tree_leaf<T>::add_child(value_type &&value)
+inline void GeneralTreeLeaf<T>::AddChild(value_type &&value)
 {
-    emplace_child(std::move(value));
+    EmplaceChild(std::move(value));
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::parent() -> general_tree_leaf<value_type>
+inline auto GeneralTreeLeaf<T>::Parent() -> GeneralTreeLeaf<value_type>
 {
-    const auto current_leaf = &leafs_->at(index_);
+    const auto currentLeaf = &m_leafs->at(m_index);
 
-    if (current_leaf->parent == tree_leaf_data_type::npos)
+    if (currentLeaf->Parent == TreeLeafDataType::Npos)
         throw std::out_of_range{"Leaf has no parent."};
 
-    return general_tree_leaf{leafs_, values_, current_leaf->parent};
+    return GeneralTreeLeaf{m_leafs, m_values, currentLeaf->Parent};
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::parent() const -> general_tree_leaf<value_type>
+inline auto GeneralTreeLeaf<T>::Parent() const -> GeneralTreeLeaf<value_type>
 {
-    const auto current_leaf = &leafs_->at(index_);
+    const auto currentLeaf = &m_leafs->at(m_index);
 
-    if (current_leaf->parent == tree_leaf_data_type::npos)
+    if (currentLeaf->Parent == TreeLeafDataType::Npos)
         throw std::out_of_range{"Leaf has no parent."};
 
-    return general_tree_leaf{leafs_, values_, current_leaf->parent};
+    return GeneralTreeLeaf{m_leafs, m_values, currentLeaf->Parent};
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::is_root() const noexcept -> bool
+inline auto GeneralTreeLeaf<T>::IsRoot() const noexcept -> bool
 {
-    const auto current_leaf = &leafs_->at(index_);
-    return current_leaf->parent == tree_leaf_data_type::npos;
+    const auto currentLeaf = &m_leafs->at(m_index);
+    return currentLeaf->Parent == TreeLeafDataType::Npos;
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::at(const std::size_t i) -> general_tree_leaf<value_type>
+inline auto GeneralTreeLeaf<T>::At(const std::size_t i) -> GeneralTreeLeaf<value_type>
 {
-    const auto current_leaf = &leafs_->at(index_);
+    const auto currentLeaf = &m_leafs->at(m_index);
 
-    auto current = current_leaf->left;
+    auto current = currentLeaf->Left;
 
-    if (current == tree_leaf_data_type::npos)
+    if (current == TreeLeafDataType::Npos)
         throw std::out_of_range{"Child index out of range"};
 
     for (auto count = 0u; count < i; ++count)
     {
-        const auto &leaf = (*leafs_)[current];
-        current = leaf.right;
+        const auto &leaf = (*m_leafs)[current];
+        current = leaf.Right;
 
-        if (current == tree_leaf_data_type::npos)
+        if (current == TreeLeafDataType::Npos)
             throw std::out_of_range{"Child index out of range"};
     }
 
-    return general_tree_leaf{leafs_, values_, current};
+    return GeneralTreeLeaf{m_leafs, m_values, current};
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::at(const std::size_t i) const -> general_tree_leaf<value_type>
+inline auto GeneralTreeLeaf<T>::At(const std::size_t i) const -> GeneralTreeLeaf<value_type>
 {
-    const auto current_leaf = &leafs_->at(index_);
+    const auto currentLeaf = &m_leafs->at(m_index);
 
-    auto current = current_leaf->left;
+    auto current = currentLeaf->Left;
 
-    if (current == tree_leaf_data_type::npos)
+    if (current == TreeLeafDataType::Npos)
         throw std::out_of_range{"Child index out of range"};
 
     for (auto count = 0u; count < i; ++count)
     {
-        const auto &leaf = (*leafs_)[current];
-        current = leaf.right;
+        const auto &leaf = (*m_leafs)[current];
+        current = leaf.Right;
 
-        if (current == tree_leaf_data_type::npos)
+        if (current == TreeLeafDataType::Npos)
             throw std::out_of_range{"Child index out of range"};
     }
 
-    return general_tree_leaf{leafs_, values_, current};
+    return GeneralTreeLeaf{m_leafs, m_values, current};
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::child_count() const noexcept -> std::size_t
+inline auto GeneralTreeLeaf<T>::ChildCount() const noexcept -> std::size_t
 {
-    const auto current_leaf = &leafs_->at(index_);
+    const auto currentLeaf = &m_leafs->at(m_index);
 
-    auto current = current_leaf->left;
+    auto current = currentLeaf->Left;
 
     std::size_t count = 0;
 
-    while (current != tree_leaf_data_type::npos)
+    while (current != TreeLeafDataType::Npos)
     {
-        const auto &leaf = (*leafs_)[current];
-        current = leaf.right;
+        const auto &leaf = (*m_leafs)[current];
+        current = leaf.Right;
         ++count;
     }
 
@@ -188,121 +188,121 @@ inline auto general_tree_leaf<T>::child_count() const noexcept -> std::size_t
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::begin() noexcept -> iterator_type
+inline auto GeneralTreeLeaf<T>::begin() noexcept -> iterator_type
 {
-    const auto parent_leaf = &leafs_->at(index_);
-    return iterator_type{leafs_, values_, parent_leaf->left};
+    const auto parentLeaf = &m_leafs->at(m_index);
+    return iterator_type{m_leafs, m_values, parentLeaf->Left};
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::end() noexcept -> iterator_type
+inline auto GeneralTreeLeaf<T>::end() noexcept -> iterator_type
 {
-    return iterator_type{leafs_, values_, tree_leaf_data_type::npos};
+    return iterator_type{m_leafs, m_values, TreeLeafDataType::Npos};
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::begin() const noexcept -> iterator_type
+inline auto GeneralTreeLeaf<T>::begin() const noexcept -> iterator_type
 {
     return begin();
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::end() const noexcept -> iterator_type
+inline auto GeneralTreeLeaf<T>::end() const noexcept -> iterator_type
 {
     return end();
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::cbegin() const noexcept -> iterator_type
+inline auto GeneralTreeLeaf<T>::cbegin() const noexcept -> iterator_type
 {
     return begin();
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::cend() const noexcept -> iterator_type
+inline auto GeneralTreeLeaf<T>::cend() const noexcept -> iterator_type
 {
     return end();
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::operator*() noexcept -> reference
+inline auto GeneralTreeLeaf<T>::operator*() noexcept -> reference
 {
-    return (*values_)[index_];
+    return (*m_values)[m_index];
 }
 
 template <typename T>
-inline auto general_tree_leaf<T>::operator*() const noexcept -> reference
+inline auto GeneralTreeLeaf<T>::operator*() const noexcept -> reference
 {
-    return (*values_)[index_];
+    return (*m_values)[m_index];
 }
 
 template <typename T>
-inline general_tree_leaf<T>::general_tree_leaf(std::vector<tree_leaf_data_type> *leafs, std::vector<value_type> *values,
-                                               const std::size_t index) noexcept
-    : leafs_{leafs}
-    , values_{values}
-    , index_{index}
+inline GeneralTreeLeaf<T>::GeneralTreeLeaf(std::vector<TreeLeafDataType> *leafs, std::vector<value_type> *values,
+                                           const std::size_t index) noexcept
+    : m_leafs{leafs}
+    , m_values{values}
+    , m_index{index}
 {
 }
 
 template <typename T>
-inline void general_tree_leaf<T>::update_indices(const std::size_t new_index) const noexcept
+inline void GeneralTreeLeaf<T>::UpdateIndices(const std::size_t newIndex) const noexcept
 {
-    auto leaf = &leafs_->at(index_);
+    auto leaf = &m_leafs->at(m_index);
 
-    if (leaf->left == tree_leaf_data_type::npos)
+    if (leaf->Left == TreeLeafDataType::Npos)
     {
-        leaf->left = new_index;
+        leaf->Left = newIndex;
     }
     else
     {
-        leaf = &leafs_->at(leaf->left);
+        leaf = &m_leafs->at(leaf->Left);
 
-        while (leaf->right != tree_leaf_data_type::npos)
-            leaf = &leafs_->at(leaf->right);
+        while (leaf->Right != TreeLeafDataType::Npos)
+            leaf = &m_leafs->at(leaf->Right);
 
-        leaf->right = new_index;
+        leaf->Right = newIndex;
     }
 }
 
 template <typename T>
-inline general_tree<T>::general_tree(value_type &&root_value)
-    : leafs_{}
-    , values_{}
+inline GeneralTree<T>::GeneralTree(value_type &&rootValue)
+    : m_leafs{}
+    , m_values{}
 {
-    leafs_.push_back(
-        tree_leaf_data_type{tree_leaf_data_type::npos, tree_leaf_data_type::npos, tree_leaf_data_type::npos});
-    values_.emplace_back(std::move(root_value));
+    m_leafs.push_back(
+        TreeLeafDataType{TreeLeafDataType::Npos, TreeLeafDataType::Npos, TreeLeafDataType::Npos});
+    m_values.emplace_back(std::move(rootValue));
 }
 
 template <typename T>
-inline general_tree<T>::general_tree(const value_type &root_value)
-    : leafs_{}
-    , values_{}
+inline GeneralTree<T>::GeneralTree(const value_type &rootValue)
+    : m_leafs{}
+    , m_values{}
 {
-    leafs_.push_back(
-        tree_leaf_data_type{tree_leaf_data_type::npos, tree_leaf_data_type::npos, tree_leaf_data_type::npos});
-    values_.emplace_back(root_value);
+    m_leafs.push_back(
+        TreeLeafDataType{TreeLeafDataType::Npos, TreeLeafDataType::Npos, TreeLeafDataType::Npos});
+    m_values.emplace_back(rootValue);
 }
 
 template <typename T>
-inline void general_tree<T>::reserve(const std::size_t size)
+inline void GeneralTree<T>::Reserve(const std::size_t size)
 {
-    leafs_.reserve(size);
-    values_.reserve(size);
+    m_leafs.reserve(size);
+    m_values.reserve(size);
 }
 
 template <typename T>
-inline void general_tree<T>::clear() noexcept
+inline void GeneralTree<T>::Clear() noexcept
 {
-    leafs_.clear();
-    values_.clear();
+    m_leafs.clear();
+    m_values.clear();
 }
 
 template <typename T>
-inline auto general_tree<T>::root() -> tree_leaf_type
+inline auto GeneralTree<T>::Root() -> TreeLeafType
 {
-    return tree_leaf_type{&leafs_, &values_, 0};
+    return TreeLeafType{&m_leafs, &m_values, 0};
 }
 
-} // namespace aeon::common::containers
+} // namespace aeon::Common::containers

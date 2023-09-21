@@ -12,11 +12,11 @@ using namespace aeon;
 TEST(test_resource_file, stream_basic_read_write)
 {
     const auto expected_name = "ThisIsAName";
-    const auto expected_uuid = common::uuid::generate();
+    const auto expected_uuid = Common::Uuid::Generate();
 
     std::vector<std::uint8_t> data;
 
-    common::string test_data = "This is test data.";
+    Common::String test_data = "This is test data.";
 
     {
         file_container::container io{expected_name, expected_uuid};
@@ -64,7 +64,7 @@ TEST(test_resource_file, stream_basic_read_write)
         EXPECT_EQ(expected_name, io.name());
         EXPECT_EQ(expected_uuid, io.id());
 
-        EXPECT_EQ(std::size(test_data), static_cast<std::size_t>(io.stream().size()));
+        EXPECT_EQ(test_data.Size(), static_cast<std::size_t>(io.stream().size()));
 
         auto stream = io.stream();
         streams::stream_reader reader{stream};
@@ -79,7 +79,7 @@ TEST(test_resource_file, stream_basic_read_write)
         file_container::container io{input_stream, file_container::read_items::all};
         EXPECT_EQ(expected_name, io.name());
         EXPECT_EQ(expected_uuid, io.id());
-        EXPECT_EQ(std::size(test_data), static_cast<std::size_t>(io.stream().size()));
+        EXPECT_EQ(test_data.Size(), static_cast<std::size_t>(io.stream().size()));
 
         auto stream = io.stream();
         streams::stream_reader reader{stream};

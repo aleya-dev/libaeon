@@ -57,7 +57,7 @@ namespace internal
             return i;
     }
 
-    aeon_assert_fail("Device has no heap?");
+    AeonAssertFail("Device has no heap?");
     return 0;
 }
 
@@ -113,49 +113,49 @@ auto physical_device::instance_handle() const noexcept -> VkInstance
 
 auto physical_device::properties() const noexcept -> VkPhysicalDeviceProperties
 {
-    aeon_assert(device_, "Device is null.");
+    AeonAssert(device_, "Device is null.");
     return internal::get_physical_device_properties(device_);
 }
 
 auto physical_device::memory_properties() const noexcept -> VkPhysicalDeviceMemoryProperties
 {
-    aeon_assert(device_, "Device is null.");
+    AeonAssert(device_, "Device is null.");
     return internal::get_physical_device_memory_properties(device_);
 }
 
 auto physical_device::features() const noexcept -> VkPhysicalDeviceFeatures
 {
-    aeon_assert(device_, "Device is null.");
+    AeonAssert(device_, "Device is null.");
     return internal::get_physical_device_features(device_);
 }
 
 auto physical_device::features2() const noexcept -> VkPhysicalDeviceFeatures2
 {
-    aeon_assert(device_, "Device is null.");
+    AeonAssert(device_, "Device is null.");
     return internal::get_physical_device_features2(device_);
 }
 
 auto physical_device::extensions() const -> std::vector<extension>
 {
-    aeon_assert(device_, "Device is null.");
-    return common::container::auto_transform<extension>(internal::enumerate_device_extension_properties(device_));
+    AeonAssert(device_, "Device is null.");
+    return Common::Container::AutoTransform<extension>(internal::enumerate_device_extension_properties(device_));
 }
 
 auto physical_device::surface_formats(const surface &surface) const -> std::vector<VkSurfaceFormatKHR>
 {
-    aeon_assert(device_, "Device is null.");
+    AeonAssert(device_, "Device is null.");
     return internal::get_physical_device_surface_formats(device_, vulkan::handle(surface));
 }
 
 auto physical_device::present_modes(const surface &surface) const -> std::vector<VkPresentModeKHR>
 {
-    aeon_assert(device_, "Device is null.");
+    AeonAssert(device_, "Device is null.");
     return internal::get_physical_device_surface_present_modes(device_, vulkan::handle(surface));
 }
 
 auto physical_device::surface_capabilities(const surface &surface) const -> VkSurfaceCapabilitiesKHR
 {
-    aeon_assert(device_, "Device is null.");
+    AeonAssert(device_, "Device is null.");
     VkSurfaceCapabilitiesKHR capabilities;
     checked_result{vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device_, vulkan::handle(surface), &capabilities)};
     return capabilities;

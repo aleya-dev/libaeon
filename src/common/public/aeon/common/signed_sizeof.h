@@ -2,4 +2,4 @@
 
 #pragma once
 
-#define aeon_signed_sizeof(type) static_cast<long long>(sizeof(type))
+#define AeonSignedSizeof(type) static_cast<long long>(sizeof(type))

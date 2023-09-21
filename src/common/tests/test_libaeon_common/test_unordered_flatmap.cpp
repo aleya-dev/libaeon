@@ -6,120 +6,120 @@
 
 using namespace aeon;
 
-struct test_fixture_unordered_flatmap_default_data : ::testing::Test
+struct TestFixtureUnorderedFlatmapDefaultData : ::testing::Test
 {
-    test_fixture_unordered_flatmap_default_data()
+    TestFixtureUnorderedFlatmapDefaultData()
     {
-        unordered_flatmap_["One"] = 1;
-        unordered_flatmap_["Two"] = 2;
-        unordered_flatmap_["Three"] = 3;
-        unordered_flatmap_["Four"] = 4;
-        unordered_flatmap_["Five"] = 5;
+        UnorderedFlatmap["One"] = 1;
+        UnorderedFlatmap["Two"] = 2;
+        UnorderedFlatmap["Three"] = 3;
+        UnorderedFlatmap["Four"] = 4;
+        UnorderedFlatmap["Five"] = 5;
     }
 
     void SetUp() override
     {
-        ASSERT_EQ(5u, std::size(unordered_flatmap_));
+        ASSERT_EQ(5u, UnorderedFlatmap.Size());
     }
 
-    common::containers::unordered_flatmap<common::string, int> unordered_flatmap_;
+    Common::Containers::UnorderedFlatmap<Common::String, int> UnorderedFlatmap;
 };
 
-TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_at)
+TEST_F(TestFixtureUnorderedFlatmapDefaultData, test_unordered_flatmap_at)
 {
-    const auto at_one = unordered_flatmap_.at("One");
-    const auto at_two = unordered_flatmap_.at("Two");
-    const auto at_three = unordered_flatmap_.at("Three");
-    const auto at_four = unordered_flatmap_.at("Four");
-    const auto at_five = unordered_flatmap_.at("Five");
+    const auto atOne = UnorderedFlatmap.At("One");
+    const auto atTwo = UnorderedFlatmap.At("Two");
+    const auto atThree = UnorderedFlatmap.At("Three");
+    const auto atFour = UnorderedFlatmap.At("Four");
+    const auto atFive = UnorderedFlatmap.At("Five");
 
-    ASSERT_EQ(1, at_one);
-    ASSERT_EQ(2, at_two);
-    ASSERT_EQ(3, at_three);
-    ASSERT_EQ(4, at_four);
-    ASSERT_EQ(5, at_five);
+    ASSERT_EQ(1, atOne);
+    ASSERT_EQ(2, atTwo);
+    ASSERT_EQ(3, atThree);
+    ASSERT_EQ(4, atFour);
+    ASSERT_EQ(5, atFive);
 }
 
-TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_index_operator)
+TEST_F(TestFixtureUnorderedFlatmapDefaultData, test_unordered_flatmap_index_operator)
 {
-    const auto at_one = unordered_flatmap_["One"];
-    const auto at_two = unordered_flatmap_["Two"];
-    const auto at_three = unordered_flatmap_["Three"];
-    const auto at_four = unordered_flatmap_["Four"];
-    const auto at_five = unordered_flatmap_["Five"];
+    const auto atOne = UnorderedFlatmap["One"];
+    const auto atTwo = UnorderedFlatmap["Two"];
+    const auto atThree = UnorderedFlatmap["Three"];
+    const auto atFour = UnorderedFlatmap["Four"];
+    const auto atFive = UnorderedFlatmap["Five"];
 
-    ASSERT_EQ(1, at_one);
-    ASSERT_EQ(2, at_two);
-    ASSERT_EQ(3, at_three);
-    ASSERT_EQ(4, at_four);
-    ASSERT_EQ(5, at_five);
+    ASSERT_EQ(1, atOne);
+    ASSERT_EQ(2, atTwo);
+    ASSERT_EQ(3, atThree);
+    ASSERT_EQ(4, atFour);
+    ASSERT_EQ(5, atFive);
 }
 
-TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_index_operator_overwrite)
+TEST_F(TestFixtureUnorderedFlatmapDefaultData, test_unordered_flatmap_index_operator_overwrite)
 {
-    unordered_flatmap_["Three"] = 42;
-    unordered_flatmap_["Four"] = 32;
+    UnorderedFlatmap["Three"] = 42;
+    UnorderedFlatmap["Four"] = 32;
 
-    const auto at_one = unordered_flatmap_["One"];
-    const auto at_two = unordered_flatmap_["Two"];
-    const auto at_three = unordered_flatmap_["Three"];
-    const auto at_four = unordered_flatmap_["Four"];
-    const auto at_five = unordered_flatmap_["Five"];
+    const auto atOne = UnorderedFlatmap["One"];
+    const auto atTwo = UnorderedFlatmap["Two"];
+    const auto atThree = UnorderedFlatmap["Three"];
+    const auto atFour = UnorderedFlatmap["Four"];
+    const auto atFive = UnorderedFlatmap["Five"];
 
-    ASSERT_EQ(1, at_one);
-    ASSERT_EQ(2, at_two);
-    ASSERT_EQ(42, at_three);
-    ASSERT_EQ(32, at_four);
-    ASSERT_EQ(5, at_five);
+    ASSERT_EQ(1, atOne);
+    ASSERT_EQ(2, atTwo);
+    ASSERT_EQ(42, atThree);
+    ASSERT_EQ(32, atFour);
+    ASSERT_EQ(5, atFive);
 
-    ASSERT_EQ(5u, std::size(unordered_flatmap_));
+    ASSERT_EQ(5u, UnorderedFlatmap.Size());
 }
 
-TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_push_back)
+TEST_F(TestFixtureUnorderedFlatmapDefaultData, test_unordered_flatmap_push_back)
 {
-    unordered_flatmap_.push_back("Three", 15);
-    auto at_three = unordered_flatmap_["Three"];
-    ASSERT_EQ(3, at_three);
-    unordered_flatmap_.insert("Three", 15);
-    at_three = unordered_flatmap_["Three"];
-    ASSERT_EQ(15, at_three);
+    UnorderedFlatmap.PushBack("Three", 15);
+    auto atThree = UnorderedFlatmap["Three"];
+    ASSERT_EQ(3, atThree);
+    UnorderedFlatmap.Insert("Three", 15);
+    atThree = UnorderedFlatmap["Three"];
+    ASSERT_EQ(15, atThree);
 }
 
-TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_index_operator_default)
+TEST_F(TestFixtureUnorderedFlatmapDefaultData, test_unordered_flatmap_index_operator_default)
 {
-    const auto cant_find = unordered_flatmap_["Something! 123"];
+    const auto cantFind = UnorderedFlatmap["Something! 123"];
 
-    ASSERT_EQ(0, cant_find);
-    ASSERT_EQ(6u, std::size(unordered_flatmap_));
+    ASSERT_EQ(0, cantFind);
+    ASSERT_EQ(6u, UnorderedFlatmap.Size());
 }
 
-TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_empty_and_clear)
+TEST_F(TestFixtureUnorderedFlatmapDefaultData, test_unordered_flatmap_empty_and_clear)
 {
-    ASSERT_FALSE(unordered_flatmap_.empty());
-    unordered_flatmap_.clear();
-    ASSERT_TRUE(unordered_flatmap_.empty());
+    ASSERT_FALSE(UnorderedFlatmap.Empty());
+    UnorderedFlatmap.Clear();
+    ASSERT_TRUE(UnorderedFlatmap.Empty());
 }
 
-TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_find)
+TEST_F(TestFixtureUnorderedFlatmapDefaultData, test_unordered_flatmap_find)
 {
-    const auto result = unordered_flatmap_.find("Three");
+    const auto result = UnorderedFlatmap.Find("Three");
 
     ASSERT_EQ("Three", result->first);
     ASSERT_EQ(3, result->second);
 }
 
-TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_not_found)
+TEST_F(TestFixtureUnorderedFlatmapDefaultData, test_unordered_flatmap_not_found)
 {
-    const auto result = unordered_flatmap_.find("Something! 123");
+    const auto result = UnorderedFlatmap.Find("Something! 123");
 
-    ASSERT_TRUE(result == unordered_flatmap_.end());
-    ASSERT_EQ(5u, std::size(unordered_flatmap_));
+    ASSERT_TRUE(result == UnorderedFlatmap.end());
+    ASSERT_EQ(5u, UnorderedFlatmap.Size());
 }
 
-TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_iterate)
+TEST_F(TestFixtureUnorderedFlatmapDefaultData, test_unordered_flatmap_iterate)
 {
-    auto loop_times = 0;
-    for (const auto &[key, value] : unordered_flatmap_)
+    auto loopTimes = 0;
+    for (const auto &[key, value] : UnorderedFlatmap)
     {
         if (key == "One")
             ASSERT_EQ(1, value);
@@ -136,75 +136,75 @@ TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_itera
         if (key == "Five")
             ASSERT_EQ(5, value);
 
-        ++loop_times;
+        ++loopTimes;
     }
 
-    ASSERT_EQ(5u, std::size(unordered_flatmap_));
-    ASSERT_EQ(5, loop_times);
+    ASSERT_EQ(5u, UnorderedFlatmap.Size());
+    ASSERT_EQ(5, loopTimes);
 }
 
-TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_erase_by_key)
+TEST_F(TestFixtureUnorderedFlatmapDefaultData, test_unordered_flatmap_erase_by_key)
 {
-    unordered_flatmap_.erase("Something! 123");
-    ASSERT_EQ(5u, std::size(unordered_flatmap_));
+    UnorderedFlatmap.Erase("Something! 123");
+    ASSERT_EQ(5u, UnorderedFlatmap.Size());
 
-    unordered_flatmap_.erase("Three");
-    ASSERT_EQ(4u, std::size(unordered_flatmap_));
+    UnorderedFlatmap.Erase("Three");
+    ASSERT_EQ(4u, UnorderedFlatmap.Size());
 
-    unordered_flatmap_.erase("Two");
-    ASSERT_EQ(3u, std::size(unordered_flatmap_));
+    UnorderedFlatmap.Erase("Two");
+    ASSERT_EQ(3u, UnorderedFlatmap.Size());
 }
 
-TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_erase_by_iterator)
+TEST_F(TestFixtureUnorderedFlatmapDefaultData, test_unordered_flatmap_erase_by_iterator)
 {
-    ASSERT_EQ(5u, std::size(unordered_flatmap_));
+    ASSERT_EQ(5u, UnorderedFlatmap.Size());
 
-    auto result = unordered_flatmap_.find("Three");
-    unordered_flatmap_.erase(result);
+    auto result = UnorderedFlatmap.Find("Three");
+    UnorderedFlatmap.Erase(result);
 
-    ASSERT_EQ(4u, std::size(unordered_flatmap_));
+    ASSERT_EQ(4u, UnorderedFlatmap.Size());
 
-    result = unordered_flatmap_.find("Two");
-    unordered_flatmap_.erase(result);
+    result = UnorderedFlatmap.Find("Two");
+    UnorderedFlatmap.Erase(result);
 
-    ASSERT_EQ(3u, std::size(unordered_flatmap_));
+    ASSERT_EQ(3u, UnorderedFlatmap.Size());
 }
 
-TEST_F(test_fixture_unordered_flatmap_default_data, test_unordered_flatmap_erase_if)
+TEST_F(TestFixtureUnorderedFlatmapDefaultData, test_unordered_flatmap_erase_if)
 {
-    ASSERT_EQ(5u, std::size(unordered_flatmap_));
-    unordered_flatmap_.erase_if([](const auto &pair) { return (pair.first == "Two" || pair.first == "Four"); });
-    ASSERT_EQ(3u, std::size(unordered_flatmap_));
+    ASSERT_EQ(5u, UnorderedFlatmap.Size());
+    UnorderedFlatmap.EraseIf([](const auto &pair) { return (pair.first == "Two" || pair.first == "Four"); });
+    ASSERT_EQ(3u, UnorderedFlatmap.Size());
 }
 
 TEST(test_fixture_unordered_flatmap, test_unordered_flatmap_compare_different_size)
 {
-    const common::containers::unordered_flatmap<common::string, int> map1{{"hello", 3}, {"bye", 4}};
-    const common::containers::unordered_flatmap<common::string, int> map2{{"hello", 3}, {"bye", 4}, {"another", 6}};
+    const Common::Containers::UnorderedFlatmap<Common::String, int> map1{{"hello", 3}, {"bye", 4}};
+    const Common::Containers::UnorderedFlatmap<Common::String, int> map2{{"hello", 3}, {"bye", 4}, {"another", 6}};
     EXPECT_FALSE(map1 == map2);
     EXPECT_TRUE(map1 != map2);
 }
 
 TEST(test_fixture_unordered_flatmap, test_unordered_flatmap_compare_different_key)
 {
-    const common::containers::unordered_flatmap<common::string, int> map1{{"hello", 3}, {"bye", 4}};
-    const common::containers::unordered_flatmap<common::string, int> map2{{"hello", 3}, {"bye2", 4}};
+    const Common::Containers::UnorderedFlatmap<Common::String, int> map1{{"hello", 3}, {"bye", 4}};
+    const Common::Containers::UnorderedFlatmap<Common::String, int> map2{{"hello", 3}, {"bye2", 4}};
     EXPECT_FALSE(map1 == map2);
     EXPECT_TRUE(map1 != map2);
 }
 
 TEST(test_fixture_unordered_flatmap, test_unordered_flatmap_compare_different_value)
 {
-    const common::containers::unordered_flatmap<common::string, int> map1{{"hello", 3}, {"bye", 4}};
-    const common::containers::unordered_flatmap<common::string, int> map2{{"hello", 3}, {"bye", 5}};
+    const Common::Containers::UnorderedFlatmap<Common::String, int> map1{{"hello", 3}, {"bye", 4}};
+    const Common::Containers::UnorderedFlatmap<Common::String, int> map2{{"hello", 3}, {"bye", 5}};
     EXPECT_FALSE(map1 == map2);
     EXPECT_TRUE(map1 != map2);
 }
 
 TEST(test_fixture_unordered_flatmap, test_unordered_flatmap_compare_equal)
 {
-    const common::containers::unordered_flatmap<common::string, int> map1{{"hello", 3}, {"bye", 4}};
-    const common::containers::unordered_flatmap<common::string, int> map2{{"hello", 3}, {"bye", 4}};
+    const Common::Containers::UnorderedFlatmap<Common::String, int> map1{{"hello", 3}, {"bye", 4}};
+    const Common::Containers::UnorderedFlatmap<Common::String, int> map2{{"hello", 3}, {"bye", 4}};
     EXPECT_TRUE(map1 == map2);
     EXPECT_FALSE(map1 != map2);
 }

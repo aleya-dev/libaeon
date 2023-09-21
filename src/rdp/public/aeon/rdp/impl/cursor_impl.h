@@ -10,12 +10,12 @@
 namespace aeon::rdp
 {
 
-inline auto cursor::filename() const noexcept -> common::string_view
+inline auto cursor::filename() const noexcept -> Common::StringView
 {
     return filename_;
 }
 
-inline auto cursor::line() const noexcept -> common::string_view
+inline auto cursor::line() const noexcept -> Common::StringView
 {
     return line_;
 }
@@ -30,7 +30,7 @@ inline auto cursor::column() const noexcept -> size_type
     return column_;
 }
 
-inline cursor::cursor(const common::string_view filename, const common::string_view line,
+inline cursor::cursor(const Common::StringView filename, const Common::StringView line,
                       const difference_type line_number, const difference_type column) noexcept
     : filename_{filename}
     , line_{line}
@@ -39,7 +39,7 @@ inline cursor::cursor(const common::string_view filename, const common::string_v
 {
 }
 
-inline auto line(const cursor &cursor) noexcept -> common::string_view
+inline auto line(const cursor &cursor) noexcept -> Common::StringView
 {
     return cursor.line();
 }
@@ -69,24 +69,24 @@ inline void print_cursor_info(const cursor &cursor, std::ostream &stream)
     if (cursor.column() < minimum_column_for_left_arrow)
     {
         if (cursor.column() > 1)
-            stream << common::string(cursor.column() - 1, ' ');
+            stream << Common::String(cursor.column() - 1, ' ');
 
         stream << "^~~~\n\n";
     }
     else
     {
-        stream << common::string(cursor.column() - 1, '~') << '^' << '\n' << '\n';
+        stream << Common::String(cursor.column() - 1, '~') << '^' << '\n' << '\n';
     }
 }
 
-inline void print_parse_error(const cursor &cursor, const common::string_view message)
+inline void print_parse_error(const cursor &cursor, const Common::StringView message)
 {
     print_parse_error(cursor, message, std::cerr);
 }
 
-inline void print_parse_error(const cursor &cursor, const common::string_view message, std::ostream &stream)
+inline void print_parse_error(const cursor &cursor, const Common::StringView message, std::ostream &stream)
 {
-    if (!cursor.filename().empty())
+    if (!cursor.filename().Empty())
         stream << cursor.filename() << ':';
 
     stream << cursor.line_number() << ':' << cursor.column() << ": error: " << message << '\n';

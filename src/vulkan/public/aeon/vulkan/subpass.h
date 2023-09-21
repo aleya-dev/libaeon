@@ -15,14 +15,14 @@ class subpass final
 {
 public:
     explicit subpass(const pipeline_bind_point bind_point = pipeline_bind_point::graphics,
-                     const common::flags<subpass_description_flag> flags = {}) noexcept;
+                     const Common::Flags<subpass_description_flag> flags = {}) noexcept;
     explicit subpass(std::vector<attachment_reference> color_attachments,
                      const attachment_reference depth_stencil_attachment = unused_attachment_reference,
                      std::vector<attachment_reference> input_attachments = {},
                      std::vector<attachment_reference> resolve_attachments = {},
                      std::vector<std::uint32_t> preserve_attachments = {},
                      const pipeline_bind_point bind_point = pipeline_bind_point::graphics,
-                     const common::flags<subpass_description_flag> flags = {}) noexcept;
+                     const Common::Flags<subpass_description_flag> flags = {}) noexcept;
 
     ~subpass() = default;
 
@@ -33,9 +33,9 @@ public:
     auto operator=(subpass &&) noexcept -> subpass & = default;
 
     [[nodiscard]] auto bind_point() const noexcept -> pipeline_bind_point;
-    [[nodiscard]] auto flags() const noexcept -> common::flags<subpass_description_flag>;
+    [[nodiscard]] auto flags() const noexcept -> Common::Flags<subpass_description_flag>;
 
-    auto set_flags(const common::flags<subpass_description_flag> flags) noexcept -> subpass &;
+    auto set_flags(const Common::Flags<subpass_description_flag> flags) noexcept -> subpass &;
 
     auto add_color_attachment(const attachment_reference reference) -> subpass &;
     auto add_color_attachment(const std::uint32_t attachment, const image_layout layout) -> subpass &;
@@ -78,7 +78,7 @@ private:
     void add_resolve_attachment(const attachment_reference reference);
 
     pipeline_bind_point bind_point_;
-    common::flags<subpass_description_flag> flags_;
+    Common::Flags<subpass_description_flag> flags_;
     std::vector<attachment_reference> color_attachments_;
     attachment_reference depth_stencil_attachment_;
     std::vector<attachment_reference> input_attachments_;

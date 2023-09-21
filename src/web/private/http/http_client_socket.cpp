@@ -25,7 +25,7 @@ http_client_socket::http_client_socket(asio::io_context &context)
 
 http_client_socket::~http_client_socket() = default;
 
-void http_client_socket::request_async(const common::string &host, const common::string &uri,
+void http_client_socket::request_async(const Common::String &host, const Common::String &uri,
                                        [[maybe_unused]] const http_method method)
 {
     // TODO: Use the given method for the request, instead of just GET
@@ -75,7 +75,7 @@ void http_client_socket::on_data(const std::span<const std::byte> &data)
     }
 }
 
-auto http_client_socket::__on_line(const common::string &line) -> bool
+auto http_client_socket::__on_line(const Common::String &line) -> bool
 {
     /*
     HTTP/1.1 200 Ok
@@ -96,7 +96,7 @@ auto http_client_socket::__on_line(const common::string &line) -> bool
         // Unexpected read body state. Body must be read binary.
         // If this happens, there is a bug.
         case http_state::client_read_body:
-            aeon_assert_fail("Unexpected read body state.");
+            AeonAssertFail("Unexpected read body state.");
             return false;
 
         default:
@@ -113,13 +113,13 @@ auto http_client_socket::__parse_expected_content_length() -> bool
     if (result == http_headers.end())
         return false;
 
-    expected_content_length_ = std::stoll(result->second.str());
+    expected_content_length_ = std::stoll(result->second.Str());
     return true;
 }
 
-auto http_client_socket::__handle_read_status_state(const common::string &line) -> bool
+auto http_client_socket::__handle_read_status_state(const Common::String &line) -> bool
 {
-    const auto status_line_split = common::string_utils::split(line, ' ');
+    const auto status_line_split = Common::StringUtils::Split(line, ' ');
 
     // The line looks like this: "HTTP/1.1 200 Ok"
     // We only need to parse the version string and the status code.
@@ -134,7 +134,7 @@ auto http_client_socket::__handle_read_status_state(const common::string &line) 
 
     try
     {
-        status_code_int = std::stoi(status_code_string.str());
+        status_code_int = std::stoi(status_code_string.Str());
     }
     catch (const std::invalid_argument &)
     {
@@ -150,9 +150,9 @@ auto http_client_socket::__handle_read_status_state(const common::string &line) 
     return true;
 }
 
-auto http_client_socket::__handle_read_headers_state(const common::string &line) -> bool
+auto http_client_socket::__handle_read_headers_state(const Common::String &line) -> bool
 {
-    if (line.empty())
+    if (line.Empty())
     {
         if (!__parse_expected_content_length())
             return false;

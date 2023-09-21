@@ -7,23 +7,23 @@
 #include <functional>
 #include <exception>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-namespace detail
+namespace Internal
 {
 
-template <typename function_type_t>
-class scope_guard_base
+template <typename FunctionTypeT>
+class ScopeGuardBase
 {
 public:
-    void dismiss() noexcept
+    void Dismiss() noexcept
     {
-        dismissed_ = true;
+        m_dismissed = true;
     }
 
     template <typename T>
-    static void execute(T &func) noexcept
+    static void Execute(T &func) noexcept
     {
         try
         {
@@ -31,94 +31,93 @@ public:
         }
         catch (...)
         {
-            aeon_assert_fail("A scope guard callback should not throw.");
+            AeonAssertFail("A scope guard callback should not throw.");
             std::terminate();
         }
     }
 
-    explicit scope_guard_base(function_type_t &&func) noexcept
-        : dismissed_{false}
-        , function_{std::forward<function_type_t>(func)}
+    explicit ScopeGuardBase(FunctionTypeT &&func) noexcept
+        : m_dismissed{false}
+        , m_function{std::forward<FunctionTypeT>(func)}
     {
     }
 
-    scope_guard_base(scope_guard_base &&other) noexcept
-        : function_{std::move(other.function_)}
+    ScopeGuardBase(ScopeGuardBase &&other) noexcept
+        : m_function{std::move(other.m_function)}
     {
-        dismissed_ = other.dismissed_;
-        other.dismissed_ = true;
+        m_dismissed = other.m_dismissed;
+        other.m_dismissed = true;
     }
 
-    scope_guard_base(const scope_guard_base<function_type_t> &) noexcept = delete;
-    auto operator=(const scope_guard_base<function_type_t> &) noexcept -> scope_guard_base<function_type_t> & = delete;
+    ScopeGuardBase(const ScopeGuardBase<FunctionTypeT> &) noexcept = delete;
+    auto operator=(const ScopeGuardBase<FunctionTypeT> &) noexcept -> ScopeGuardBase<FunctionTypeT> & = delete;
 
-    ~scope_guard_base() noexcept
+    ~ScopeGuardBase() noexcept
     {
-        if (dismissed_)
+        if (m_dismissed)
             return;
 
-        execute(function_);
+        execute(m_function);
     }
 
 private:
-    bool dismissed_;
-    function_type_t function_;
+    bool m_dismissed;
+    FunctionTypeT m_function;
 };
 
-template <typename function_type_t, bool execute_on_exception>
-class scope_guard_impl
+template <typename FunctionTypeT, bool ExecuteOnException>
+class ScopeGuardImpl
 {
 public:
-    explicit scope_guard_impl(const function_type_t &fn)
-        : function_(fn)
+    explicit ScopeGuardImpl(const FunctionTypeT &fn)
+        : m_function(fn)
     {
     }
 
-    explicit scope_guard_impl(function_type_t &&fn)
-        : function_(std::move(fn))
+    explicit ScopeGuardImpl(FunctionTypeT &&fn)
+        : m_function(std::move(fn))
     {
     }
 
-    scope_guard_impl(const scope_guard_impl &) = delete;
-    auto operator=(const scope_guard_impl &) noexcept -> scope_guard_impl & = delete;
+    ScopeGuardImpl(const ScopeGuardImpl &) = delete;
+    auto operator=(const ScopeGuardImpl &) noexcept -> ScopeGuardImpl & = delete;
 
-    scope_guard_impl(scope_guard_impl &&) = default;
-    auto operator=(scope_guard_impl &&) noexcept -> scope_guard_impl & = default;
+    ScopeGuardImpl(ScopeGuardImpl &&) = default;
+    auto operator=(ScopeGuardImpl &&) noexcept -> ScopeGuardImpl & = default;
 
-    ~scope_guard_impl() noexcept(execute_on_exception)
+    ~ScopeGuardImpl() noexcept(ExecuteOnException)
     {
-        if (execute_on_exception == (exception_count_ < std::uncaught_exceptions()))
+        if (ExecuteOnException == (m_exceptionCount < std::uncaught_exceptions()))
         {
-            if (execute_on_exception)
+            if (ExecuteOnException)
             {
-                scope_guard_base<function_type_t>::execute(function_);
+                ScopeGuardBase<FunctionTypeT>::Execute(m_function);
             }
             else
             {
-                function_();
+                m_function();
             }
         }
     }
 
 private:
-    function_type_t function_;
-    int exception_count_{std::uncaught_exceptions()};
+    FunctionTypeT m_function;
+    int m_exceptionCount{std::uncaught_exceptions()};
 };
 
-class scope_guard_on_fail
+class ScopeGuardOnFail
 {
 };
 
-template <typename function_type_t>
-scope_guard_impl<typename std::decay<function_type_t>::type, true> operator+(scope_guard_on_fail,
-                                                                             function_type_t &&func)
+template <typename FunctionTypeT>
+ScopeGuardImpl<typename std::decay<FunctionTypeT>::type, true> operator+(ScopeGuardOnFail, FunctionTypeT &&func)
 {
-    return scope_guard_impl<typename std::decay<function_type_t>::type, true>(std::forward<function_type_t>(func));
+    return ScopeGuardImpl<typename std::decay<FunctionTypeT>::type, true>(std::forward<FunctionTypeT>(func));
 }
 
 } // namespace detail
 
-} // namespace aeon::common
+} // namespace aeon::Common
 
-#define aeon_scope_fail                                                                                                \
-    auto aeon_anonymous_variable(__aeon_scope_fail) = ::aeon::common::detail::scope_guard_on_fail() + [&]() noexcept
+#define AeonScopeFail                                                                                                \
+    auto AeonAnonymousVariable(__AeonScopeFail) = ::aeon::Common::Internal::ScopeGuardOnFail() + [&]() noexcept

@@ -12,7 +12,7 @@ namespace aeon::unicode
 namespace utf8
 {
 
-[[nodiscard]] auto to_utf16(const common::string_view &str) -> std::u16string
+[[nodiscard]] auto to_utf16(const Common::StringView &str) -> std::u16string
 {
     std::u16string result;
 
@@ -76,7 +76,7 @@ namespace utf8
     return result;
 }
 
-[[nodiscard]] auto to_utf32(const common::string_view &str) -> std::u32string
+[[nodiscard]] auto to_utf32(const Common::StringView &str) -> std::u32string
 {
     utf_string_view view{str};
     return {std::begin(view), std::end(view)};
@@ -87,9 +87,9 @@ namespace utf8
 namespace utf16
 {
 
-[[nodiscard]] auto to_utf8(const std::u16string_view &str) -> common::string
+[[nodiscard]] auto to_utf8(const std::u16string_view &str) -> Common::String
 {
-    common::string result;
+    Common::String result;
 
     for (auto i = 0; i < std::size(str); ++i)
     {
@@ -129,9 +129,9 @@ namespace utf16
 namespace utf32
 {
 
-[[nodiscard]] auto to_utf8(const char32_t c) -> common::string
+[[nodiscard]] auto to_utf8(const char32_t c) -> Common::String
 {
-    common::string result;
+    Common::String result;
 
     if (c <= 0x7F)
     {
@@ -163,10 +163,10 @@ namespace utf32
     return result;
 }
 
-[[nodiscard]] auto to_utf8(const std::u32string_view &str) -> common::string
+[[nodiscard]] auto to_utf8(const std::u32string_view &str) -> Common::String
 {
-    common::string result;
-    result.reserve(std::size(str) * 4);
+    Common::String result;
+    result.Reserve(std::size(str) * 4);
 
     for (const auto c : str)
     {

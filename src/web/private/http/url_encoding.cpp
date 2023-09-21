@@ -7,10 +7,10 @@
 namespace aeon::web::http
 {
 
-auto url_encode(const common::string &str) -> common::string
+auto url_encode(const Common::String &str) -> Common::String
 {
-    common::string out;
-    out.reserve(std::size(str));
+    Common::String out;
+    out.Reserve(str.Size());
 
     for (const auto t : str)
     {
@@ -21,28 +21,28 @@ auto url_encode(const common::string &str) -> common::string
         }
         else
         {
-            out += common::string_utils::char_to_hex(t);
+            out += Common::StringUtils::CharToHex(t);
         }
     }
 
     return out;
 }
 
-auto url_decode(const common::string &str) -> common::string
+auto url_decode(const Common::String &str) -> Common::String
 {
-    common::string out;
-    out.reserve(std::size(str));
+    Common::String out;
+    out.Reserve(str.Size());
 
-    for (auto i = 0_size_t; i < std::size(str); ++i)
+    for (auto i = 0_size_t; i < str.Size(); ++i)
     {
-        if (str.at(i) == '%')
+        if (str.At(i) == '%')
         {
-            out += common::string_utils::hex_to_char(str.substr(i + 1, 2));
+            out += Common::StringUtils::HexToChar(str.Substr(i + 1, 2));
             i += 2;
         }
         else
         {
-            out += str.at(i);
+            out += str.At(i);
         }
     }
 

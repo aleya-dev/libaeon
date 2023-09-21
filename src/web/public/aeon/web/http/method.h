@@ -19,6 +19,6 @@ enum class http_method
     patch
 };
 
-[[nodiscard]] auto string_to_method(const common::string_view &str) noexcept -> http_method;
+[[nodiscard]] auto string_to_method(const Common::StringView &str) noexcept -> http_method;
 
 } // namespace aeon::web::http

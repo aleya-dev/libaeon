@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <cstddef>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
 /*!
@@ -17,22 +17,22 @@ namespace aeon::common
  * (int)(2^32 / phi) = 2654435769 = 0x9e3779b97f4a7c16
  */
 template <typename T>
-struct hash_constants
+struct HashConstants
 {
 };
 
 template <>
-struct hash_constants<std::size_t>
+struct HashConstants<std::size_t>
 {
-    static constexpr auto golden_ratio = 0x9e3779b97f4a7c16ull;
+    static constexpr auto GoldenRatio = 0x9e3779b97f4a7c16ull;
 };
 
-namespace internal
+namespace Internal
 {
 template <typename T>
-void hash_combine_impl(std::size_t &seed, const T &v)
+void HashCombineImpl(std::size_t &seed, const T &v)
 {
-    seed ^= std::hash<T>{}(v) + hash_constants<std::size_t>::golden_ratio + (seed << 6) + (seed >> 2);
+    seed ^= std::hash<T>{}(v) + HashConstants<std::size_t>::GoldenRatio + (seed << 6) + (seed >> 2);
 }
 } // namespace internal
 
@@ -40,32 +40,32 @@ void hash_combine_impl(std::size_t &seed, const T &v)
  * Helper function that can be used to combine multiple values into a single hash
  * Should be called for each value that needs to be hashed.
  */
-template <typename... args_t>
-void hash_combine(std::size_t &seed, args_t &&...args)
+template <typename... ArgsT>
+void HashCombine(std::size_t &seed, ArgsT &&...args)
 {
-    (internal::hash_combine_impl(seed, std::forward<args_t>(args)), ...);
+    (Internal::HashCombineImpl(seed, std::forward<ArgsT>(args)), ...);
 }
 
 /*!
  * Helper function that can be used to combine multiple values into a single hash
  * This version of the function returns the final hash instead of applying it to an existing value.
  */
-template <typename... args_t>
-[[nodiscard]] auto hash_combined(args_t &&...args)
+template <typename... ArgsT>
+[[nodiscard]] auto HashCombined(ArgsT &&...args)
 {
     std::size_t seed = 0;
-    (internal::hash_combine_impl(seed, std::forward<args_t>(args)), ...);
+    (Internal::HashCombineImpl(seed, std::forward<ArgsT>(args)), ...);
     return seed;
 }
 
-} // namespace aeon::common
+} // namespace aeon::Common
 
 template <typename T, typename U>
 struct std::hash<std::pair<T, U>>
 {
     inline auto operator()(const std::pair<T, U> &val) const noexcept -> std::size_t
     {
-        return aeon::common::hash_combined(val.first, val.second);
+        return aeon::Common::HashCombined(val.first, val.second);
     }
 };
 
@@ -74,6 +74,6 @@ struct std::hash<std::tuple<args_t...>>
 {
     inline auto operator()(const std::tuple<args_t...> &val) const noexcept -> std::size_t
     {
-        return std::apply([](auto &...arg) { return aeon::common::hash_combined(arg...); }, val);
+        return std::apply([](auto &...arg) { return aeon::Common::HashCombined(arg...); }, val);
     }
 };

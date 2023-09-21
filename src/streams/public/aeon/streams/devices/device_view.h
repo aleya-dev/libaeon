@@ -140,7 +140,7 @@ template <typename T>
 [[nodiscard]] inline auto device_view<T>::size() -> std::streamoff
 {
     static_assert(has_size_v<T>, "Device does not support 'size'");
-    return device_->size();
+    return device_->Size();
 }
 
 } // namespace aeon::streams

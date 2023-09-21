@@ -29,22 +29,22 @@ public:
     cursor(cursor &&) noexcept = default;
     auto operator=(cursor &&) noexcept -> cursor & = default;
 
-    [[nodiscard]] auto filename() const noexcept -> common::string_view;
-    [[nodiscard]] auto line() const noexcept -> common::string_view;
+    [[nodiscard]] auto filename() const noexcept -> Common::StringView;
+    [[nodiscard]] auto line() const noexcept -> Common::StringView;
     [[nodiscard]] auto line_number() const noexcept -> size_type;
     [[nodiscard]] auto column() const noexcept -> size_type;
 
 private:
-    explicit cursor(const common::string_view filename, const common::string_view line,
-                    const difference_type line_number, const difference_type column) noexcept;
+    explicit cursor(const Common::StringView filename, const Common::StringView line, const difference_type line_number,
+                    const difference_type column) noexcept;
 
-    common::string_view filename_;
-    common::string_view line_;
+    Common::StringView filename_;
+    Common::StringView line_;
     size_type line_number_;
     size_type column_;
 };
 
-auto line(const cursor &cursor) noexcept -> common::string_view;
+auto line(const cursor &cursor) noexcept -> Common::StringView;
 
 auto line_number(const cursor &cursor) noexcept -> cursor::size_type;
 
@@ -54,9 +54,9 @@ void print_cursor_info(const cursor &cursor);
 
 void print_cursor_info(const cursor &cursor, std::ostream &stream);
 
-void print_parse_error(const cursor &cursor, const common::string_view message);
+void print_parse_error(const cursor &cursor, const Common::StringView message);
 
-void print_parse_error(const cursor &cursor, const common::string_view message, std::ostream &stream);
+void print_parse_error(const cursor &cursor, const Common::StringView message, std::ostream &stream);
 
 } // namespace aeon::rdp
 

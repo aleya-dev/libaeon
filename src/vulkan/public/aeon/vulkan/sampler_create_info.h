@@ -14,7 +14,7 @@ class sampler_create_info final : public VkSamplerCreateInfo
 public:
     constexpr explicit sampler_create_info(
         const filter min_filter = filter::linear, const filter mag_filter = filter::linear,
-        const common::flags<sampler_create_flag> create_flags = sampler_create_flag::none) noexcept;
+        const Common::Flags<sampler_create_flag> create_flags = sampler_create_flag::none) noexcept;
     ~sampler_create_info() = default;
 
     constexpr sampler_create_info(const sampler_create_info &) noexcept = default;
@@ -35,7 +35,7 @@ public:
 };
 
 constexpr sampler_create_info::sampler_create_info(const filter min_filter, const filter mag_filter,
-                                                   const common::flags<sampler_create_flag> create_flags) noexcept
+                                                   const Common::Flags<sampler_create_flag> create_flags) noexcept
     : VkSamplerCreateInfo{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO,
                           nullptr,
                           static_cast<VkSamplerCreateFlags>(create_flags),

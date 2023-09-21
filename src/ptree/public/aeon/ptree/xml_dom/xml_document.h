@@ -14,7 +14,7 @@ class xml_document final : public xml_node
 {
 public:
     explicit xml_document(const property_tree &pt,
-                          common::string attribute_placeholder = attribute_placeholder_name) noexcept;
+                          Common::String attribute_placeholder = attribute_placeholder_name) noexcept;
     ~xml_document() noexcept final;
 
     xml_document(const xml_document &) = delete;
@@ -29,7 +29,7 @@ public:
     }
 
 private:
-    common::string attribute_placeholder_;
+    Common::String attribute_placeholder_;
 };
 
 } // namespace aeon::ptree::xml_dom

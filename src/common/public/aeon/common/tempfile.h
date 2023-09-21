@@ -5,13 +5,13 @@
 #include <aeon/common/uuid.h>
 #include <filesystem>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-[[nodiscard]] inline auto generate_temporary_file_path()
+[[nodiscard]] inline auto GenerateTemporaryFilePath()
 {
-    const auto uuid = uuid::generate();
-    return std::filesystem::temp_directory_path() / uuid.str().str();
+    const auto uuid = Uuid::Generate();
+    return std::filesystem::temp_directory_path() / uuid.Str().Str();
 }
 
-} // namespace aeon::common
+} // namespace aeon::Common

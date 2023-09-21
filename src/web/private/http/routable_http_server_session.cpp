@@ -20,12 +20,12 @@ void routable_http_server_session::add_route(std::unique_ptr<route> route)
     routes_.insert({mountpoint, std::move(route)});
 }
 
-void routable_http_server_session::remove_route(const common::string &mountpoint)
+void routable_http_server_session::remove_route(const Common::String &mountpoint)
 {
     routes_.erase(mountpoint);
 }
 
-auto routable_http_server_session::find_best_match_route(const common::string &path, common::string &route_path) const
+auto routable_http_server_session::find_best_match_route(const Common::String &path, Common::String &route_path) const
     -> route *
 {
     auto actual_path = path;
@@ -38,13 +38,13 @@ auto routable_http_server_session::find_best_match_route(const common::string &p
 
     for (auto &[route, route_ptr] : routes_)
     {
-        const auto route_path_length = route.size();
+        const auto route_path_length = route.Size();
 
         // Due to possible mountpoints being inside other mountpoints, the best match provider is the one that
         // has the most in common with the path
         if (route_path_length > best_match_length)
         {
-            if (actual_path.compare(0, route_path_length, route) == 0)
+            if (actual_path.Compare(0, route_path_length, route) == 0)
             {
                 best_match_length = route_path_length;
                 best_match_route = route_ptr.get();
@@ -55,7 +55,7 @@ auto routable_http_server_session::find_best_match_route(const common::string &p
     if (!best_match_route)
         return nullptr;
 
-    route_path = actual_path.substr(best_match_length);
+    route_path = actual_path.Substr(best_match_length);
 
     return best_match_route;
 }

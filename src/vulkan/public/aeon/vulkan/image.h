@@ -22,24 +22,24 @@ public:
     image() noexcept;
 
     explicit image(const vulkan::device &device, const image_type type, const math::size2d<std::uint32_t> size,
-                   const format format, const common::flags<image_usage_flag> usage_flags,
+                   const format format, const Common::Flags<image_usage_flag> usage_flags,
                    const memory_allocation_usage allocation_usage, const sample_count samples = sample_count::count_1,
                    const std::uint32_t mip_levels = 1, const std::uint32_t array_layers = 1,
                    const image_tiling tiling = image_tiling::optimal,
-                   const common::flags<image_create_flag> create_flags = {});
+                   const Common::Flags<image_create_flag> create_flags = {});
 
     explicit image(const vulkan::device &device, const image_type type, const math::size3d<std::uint32_t> extent,
-                   const format format, const common::flags<image_usage_flag> usage_flags,
+                   const format format, const Common::Flags<image_usage_flag> usage_flags,
                    const memory_allocation_usage allocation_usage, const sample_count samples = sample_count::count_1,
                    const std::uint32_t mip_levels = 1, const std::uint32_t array_layers = 1,
                    const image_tiling tiling = image_tiling::optimal,
-                   const common::flags<image_create_flag> create_flags = {});
+                   const Common::Flags<image_create_flag> create_flags = {});
 
     explicit image(const vulkan::device &device, const image_type type, const VkExtent3D extent, const VkFormat format,
-                   const common::flags<image_usage_flag> usage_flags, const memory_allocation_usage allocation_usage,
+                   const Common::Flags<image_usage_flag> usage_flags, const memory_allocation_usage allocation_usage,
                    const sample_count samples = sample_count::count_1, const std::uint32_t mip_levels = 1,
                    const std::uint32_t array_layers = 1, const image_tiling tiling = image_tiling::optimal,
-                   const common::flags<image_create_flag> create_flags = {});
+                   const Common::Flags<image_create_flag> create_flags = {});
 
     ~image() noexcept;
 

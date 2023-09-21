@@ -33,7 +33,7 @@ static constexpr auto element_closing_begin = "</";
 class xml_parser final
 {
 public:
-    explicit xml_parser(const common::string_view &view, common::string attribute_placeholder)
+    explicit xml_parser(const Common::StringView &view, Common::String attribute_placeholder)
         : parser_{view}
         , attribute_placeholder_{std::move(attribute_placeholder)}
     {
@@ -60,8 +60,8 @@ public:
 private:
     struct attribute final
     {
-        common::string_view name;
-        common::string_view value;
+        Common::StringView name;
+        Common::StringView value;
     };
 
     [[nodiscard]] auto parse_attribute_and_value() -> rdp::parse_result<attribute>
@@ -108,7 +108,7 @@ private:
             if (!result)
                 return result.error();
 
-            obj.emplace(common::string{result.value().name}, common::string{result.value().value});
+            obj.Emplace(Common::String{result.value().name}, Common::String{result.value().value});
         }
 
         return rdp::matched{property_tree{object{{"?xml", std::move(obj)}}}};
@@ -134,11 +134,11 @@ private:
 
             if (parser_.check(element_self_closing_end))
             {
-                if (std::empty(attributes))
-                    return rdp::matched{property_tree{object{{common::string{element_name.value()}, array{{}}}}}};
+                if (attributes.Empty())
+                    return rdp::matched{property_tree{object{{Common::String{element_name.value()}, array{{}}}}}};
                 else
                     return rdp::matched{
-                        property_tree{object{{common::string{element_name.value()},
+                        property_tree{object{{Common::String{element_name.value()},
                                               array{{object{{attribute_placeholder_, std::move(attributes)}}}}}}}};
             }
 
@@ -150,20 +150,20 @@ private:
             if (!result)
                 return rdp::parse_error{parser_, "Expected attribute or />."};
 
-            attributes.emplace(common::string{result.value().name}, common::string{result.value().value});
+            attributes.Emplace(Common::String{result.value().name}, Common::String{result.value().value});
         }
 
-        auto children_result = parse_nodes(common::string{element_name.value()});
+        auto children_result = parse_nodes(Common::String{element_name.value()});
 
         if (children_result.is_error())
             return children_result.error();
 
         auto children = std::move(children_result.value());
 
-        if (!std::empty(attributes))
+        if (!attributes.Empty())
             children.push_back(object{{attribute_placeholder_, std::move(attributes)}});
 
-        return rdp::matched{property_tree{object{{common::string{element_name.value()}, std::move(children)}}}};
+        return rdp::matched{property_tree{object{{Common::String{element_name.value()}, std::move(children)}}}};
     }
 
     [[nodiscard]] auto parse_cdata() -> rdp::parse_result<property_tree>
@@ -177,20 +177,20 @@ private:
         if (!parser_.check(cdata_end))
             return rdp::parse_error{parser_, "Expected ]]>."};
 
-        return rdp::matched{property_tree{common::string{result.value()}}};
+        return rdp::matched{property_tree{Common::String{result.value()}}};
     }
 
-    [[nodiscard]] auto parse_nodes(const common::string &parent_node) -> rdp::parse_result<array>
+    [[nodiscard]] auto parse_nodes(const Common::String &parent_node) -> rdp::parse_result<array>
     {
         array nodes;
 
         const auto parent_closing_node =
-            common::string{element_closing_begin} + parent_node + common::string{element_end};
+            Common::String{element_closing_begin} + parent_node + Common::String{element_end};
 
         while (!rdp::eof(parser_))
         {
             // If there is no parent (root of the file), then don't check for the closing tag.
-            if (!std::empty(parent_node))
+            if (!parent_node.Empty())
             {
                 if (parser_.check(parent_closing_node))
                     break;
@@ -242,21 +242,21 @@ private:
         if (!text_result)
             return rdp::parse_error{parser_, "Could not parse XML file."};
 
-        const auto value = common::string_utils::trimmedsv(text_result.value());
+        const auto value = Common::StringUtils::Trimmedsv(text_result.value());
 
-        if (std::empty(value))
+        if (value.Empty())
             return rdp::unmatched{};
 
-        return rdp::matched{property_tree{common::string{value.as_std_u8string_view()}}};
+        return rdp::matched{property_tree{Common::String{value.AsStdU8StringView()}}};
     }
 
     rdp::parser parser_;
-    common::string attribute_placeholder_;
+    Common::String attribute_placeholder_;
 };
 
 } // namespace internal
 
-void from_xml(streams::idynamic_stream &stream, property_tree &ptree, common::string attribute_placeholder)
+void from_xml(streams::idynamic_stream &stream, property_tree &ptree, Common::String attribute_placeholder)
 {
     streams::stream_reader reader{stream};
     const auto str = reader.read_to_string();
@@ -264,14 +264,14 @@ void from_xml(streams::idynamic_stream &stream, property_tree &ptree, common::st
     parser.parse(ptree);
 }
 
-auto from_xml(streams::idynamic_stream &stream, common::string attribute_placeholder) -> property_tree
+auto from_xml(streams::idynamic_stream &stream, Common::String attribute_placeholder) -> property_tree
 {
     property_tree pt;
     from_xml(stream, pt, std::move(attribute_placeholder));
     return pt;
 }
 
-auto from_xml(const common::string &str, common::string attribute_placeholder) -> property_tree
+auto from_xml(const Common::String &str, Common::String attribute_placeholder) -> property_tree
 {
     auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
     return from_xml(stream, std::move(attribute_placeholder));

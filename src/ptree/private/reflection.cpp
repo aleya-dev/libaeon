@@ -23,7 +23,7 @@ namespace aeon::ptree
     for (const auto &field : field_info)
     {
         const auto field_name_str = field.name();
-        const auto result = pt_object.find(common::string{field_name_str});
+        const auto result = pt_object.Find(Common::String{field_name_str});
 
         if (result == std::end(pt_object))
             continue;
@@ -63,14 +63,14 @@ namespace aeon::ptree
 
             field.set(*obj, result->second.bool_value());
         }
-        else if (field.type() == "aeon::common::string")
+        else if (field.type() == "aeon::Common::String")
         {
             if (!result->second.is_string())
                 throw ptree_exception{};
 
             field.set(*obj, result->second.string_value());
         }
-        else if (field.type() == "aeon::common::uuid")
+        else if (field.type() == "aeon::Common::Uuid")
         {
             if (!result->second.is_uuid())
                 throw ptree_exception{};
@@ -100,39 +100,39 @@ auto from_reflection_object(const reflection::reflection_object &obj,
 
     for (const auto &field : field_info)
     {
-        const auto field_name = common::string{field.name()};
+        const auto field_name = Common::String{field.name()};
 
         if (field.type() == "std::int64_t")
         {
-            pt_obj.insert(field_name, field.get<std::int64_t>(obj));
+            pt_obj.Insert(field_name, field.get<std::int64_t>(obj));
         }
         else if (field.type() == "int")
         {
-            pt_obj.insert(field_name, field.get<int>(obj));
+            pt_obj.Insert(field_name, field.get<int>(obj));
         }
         else if (field.type() == "float")
         {
-            pt_obj.insert(field_name, field.get<float>(obj));
+            pt_obj.Insert(field_name, field.get<float>(obj));
         }
         else if (field.type() == "double")
         {
-            pt_obj.insert(field_name, field.get<double>(obj));
+            pt_obj.Insert(field_name, field.get<double>(obj));
         }
         else if (field.type() == "bool")
         {
-            pt_obj.insert(field_name, field.get<bool>(obj));
+            pt_obj.Insert(field_name, field.get<bool>(obj));
         }
-        else if (field.type() == "aeon::common::string")
+        else if (field.type() == "aeon::Common::String")
         {
-            pt_obj.insert(field_name, field.get<common::string>(obj));
+            pt_obj.Insert(field_name, field.get<Common::String>(obj));
         }
-        else if (field.type() == "aeon::common::uuid")
+        else if (field.type() == "aeon::Common::Uuid")
         {
-            pt_obj.insert(field_name, field.get<common::uuid>(obj));
+            pt_obj.Insert(field_name, field.get<Common::Uuid>(obj));
         }
         else if (field.type() == "std::vector<std::uint8_t>")
         {
-            pt_obj.insert(field_name, field.get<std::vector<std::uint8_t>>(obj));
+            pt_obj.Insert(field_name, field.get<std::vector<std::uint8_t>>(obj));
         }
         else
             throw ptree_exception{};

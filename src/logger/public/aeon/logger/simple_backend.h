@@ -19,7 +19,7 @@ public:
     simple_backend(simple_backend &&) = delete;
     auto operator=(simple_backend &&) noexcept -> simple_backend & = delete;
 
-    void log(const common::string &message, const common::string &module, const log_level level) final;
+    void log(const Common::String &message, const Common::String &module, const log_level level) final;
 };
 
 } // namespace aeon::logger

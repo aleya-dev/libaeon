@@ -15,14 +15,14 @@ namespace aeon::ptree
 
 class property_tree;
 using array = std::vector<property_tree>;
-using object = common::containers::unordered_flatmap<common::string, property_tree>;
+using object = Common::Containers::UnorderedFlatmap<Common::String, property_tree>;
 using blob = std::vector<std::uint8_t>;
 
 class property_tree
 {
 public:
     using variant_type =
-        std::variant<std::monostate, array, object, common::uuid, common::string, std::int64_t, double, blob, bool>;
+        std::variant<std::monostate, array, object, Common::Uuid, Common::String, std::int64_t, double, blob, bool>;
 
     property_tree();
     property_tree(std::nullptr_t);
@@ -36,10 +36,10 @@ public:
     property_tree(const bool value);
     property_tree(const char *const value);
     property_tree(const char8_t *const value);
-    property_tree(const common::string &value);
-    property_tree(common::string &&value);
-    property_tree(const common::uuid &uuid);
-    property_tree(common::uuid &&uuid);
+    property_tree(const Common::String &value);
+    property_tree(Common::String &&value);
+    property_tree(const Common::Uuid &Uuid);
+    property_tree(Common::Uuid &&Uuid);
     property_tree(const blob &data);
     property_tree(blob &&data);
 
@@ -73,8 +73,8 @@ public:
     [[nodiscard]] auto object_value() -> object &;
     [[nodiscard]] auto object_value() const -> const object &;
 
-    [[nodiscard]] auto uuid_value() const -> const common::uuid &;
-    [[nodiscard]] auto string_value() const -> const common::string &;
+    [[nodiscard]] auto uuid_value() const -> const Common::Uuid &;
+    [[nodiscard]] auto string_value() const -> const Common::String &;
     [[nodiscard]] auto integer_value() const -> std::int64_t;
     [[nodiscard]] auto double_value() const -> double;
     [[nodiscard]] auto bool_value() const -> bool;
@@ -98,10 +98,10 @@ public:
     auto operator=(object &&value) -> property_tree &;
     auto operator=(const char *const value) -> property_tree &;
     auto operator=(const char8_t *const value) -> property_tree &;
-    auto operator=(const common::string &value) -> property_tree &;
-    auto operator=(common::string &&value) -> property_tree &;
-    auto operator=(const common::uuid &value) -> property_tree &;
-    auto operator=(common::uuid &&value) -> property_tree &;
+    auto operator=(const Common::String &value) -> property_tree &;
+    auto operator=(Common::String &&value) -> property_tree &;
+    auto operator=(const Common::Uuid &value) -> property_tree &;
+    auto operator=(Common::Uuid &&value) -> property_tree &;
     auto operator=(const blob &value) -> property_tree &;
     auto operator=(blob &&value) -> property_tree &;
 
@@ -152,15 +152,15 @@ auto operator!=(const property_tree &lhs, const char8_t *const rhs) -> bool;
 auto operator==(const char8_t *const lhs, const property_tree &rhs) -> bool;
 auto operator!=(const char8_t *const lhs, const property_tree &rhs) -> bool;
 
-auto operator==(const property_tree &lhs, const common::string &rhs) -> bool;
-auto operator!=(const property_tree &lhs, const common::string &rhs) -> bool;
-auto operator==(const common::string &lhs, const property_tree &rhs) -> bool;
-auto operator!=(const common::string &lhs, const property_tree &rhs) -> bool;
+auto operator==(const property_tree &lhs, const Common::String &rhs) -> bool;
+auto operator!=(const property_tree &lhs, const Common::String &rhs) -> bool;
+auto operator==(const Common::String &lhs, const property_tree &rhs) -> bool;
+auto operator!=(const Common::String &lhs, const property_tree &rhs) -> bool;
 
-auto operator==(const property_tree &lhs, const common::uuid &rhs) -> bool;
-auto operator!=(const property_tree &lhs, const common::uuid &rhs) -> bool;
-auto operator==(const common::uuid &lhs, const property_tree &rhs) -> bool;
-auto operator!=(const common::uuid &lhs, const property_tree &rhs) -> bool;
+auto operator==(const property_tree &lhs, const Common::Uuid &rhs) -> bool;
+auto operator!=(const property_tree &lhs, const Common::Uuid &rhs) -> bool;
+auto operator==(const Common::Uuid &lhs, const property_tree &rhs) -> bool;
+auto operator!=(const Common::Uuid &lhs, const property_tree &rhs) -> bool;
 
 auto operator==(const property_tree &lhs, const blob &rhs) -> bool;
 auto operator!=(const property_tree &lhs, const blob &rhs) -> bool;

@@ -205,13 +205,13 @@ TEST(test_rdp, test_offset_match_until_string_real_utf8)
 
     // Unfortunately, these can not be put inside of an EXPECT_* since the macro is not
     // able to print the utf8 characters when it fails. This triggers a compiler warning.
-    const bool result1 = (common::string_view{u8"らき"} == parser.match_until(u8"☆").value());
+    const bool result1 = (Common::StringView{u8"らき"} == parser.match_until(u8"☆").value());
     EXPECT_TRUE(result1);
 
-    const bool result2 = (common::string_view{u8"☆すた"} == parser.match_until(",").value());
+    const bool result2 = (Common::StringView{u8"☆すた"} == parser.match_until(",").value());
     EXPECT_TRUE(result2);
 
-    const bool result3 = (common::string_view{u8", Raki☆"} == parser.match_until("Suta").value());
+    const bool result3 = (Common::StringView{u8", Raki☆"} == parser.match_until("Suta").value());
     EXPECT_TRUE(result3);
 }
 
@@ -297,7 +297,7 @@ TEST(test_rdp, test_offset_match_advanced)
     EXPECT_EQ("__123Validvariable123", match_regex(parser3, "[a-zA-Z_][a-zA-Z0-9\\-_]*").value());
 }
 
-void check_parse_decimal_signed(const common::string_view str, const std::int64_t expected)
+void check_parse_decimal_signed(const Common::StringView str, const std::int64_t expected)
 {
     rdp::parser parser{str};
     EXPECT_EQ(expected, rdp::parse_decimal_signed(parser));
@@ -315,7 +315,7 @@ TEST(test_rdp, test_parse_decimal_signed)
     check_parse_decimal_signed("123456789", 123456789);
 }
 
-void check_parse_decimal_unsigned(const common::string_view str, const std::uint64_t expected)
+void check_parse_decimal_unsigned(const Common::StringView str, const std::uint64_t expected)
 {
     rdp::parser parser{str};
     EXPECT_EQ(expected, rdp::parse_decimal_unsigned(parser));
@@ -329,7 +329,7 @@ TEST(test_rdp, test_parse_decimal_unsigned)
     check_parse_decimal_unsigned("123456789", 123456789);
 }
 
-void check_parse_binary(const common::string_view str, const std::uint64_t expected)
+void check_parse_binary(const Common::StringView str, const std::uint64_t expected)
 {
     rdp::parser parser{str};
     EXPECT_EQ(expected, rdp::parse_binary(parser));
@@ -343,7 +343,7 @@ TEST(test_rdp, test_parse_binary)
     check_parse_binary("100010001001100010100100101010010101001010001101001001011010101", 4921399016379814613);
 }
 
-void check_parse_binary_prefixed(const common::string_view str, const std::uint64_t expected)
+void check_parse_binary_prefixed(const Common::StringView str, const std::uint64_t expected)
 {
     rdp::parser parser{str};
     EXPECT_EQ(expected, rdp::parse_binary(parser, "0b"));
@@ -358,7 +358,7 @@ TEST(test_rdp, test_parse_binary_prefixed)
                                 4921399016379814613u);
 }
 
-void check_parse_hex(const common::string_view str, const std::uint64_t expected)
+void check_parse_hex(const Common::StringView str, const std::uint64_t expected)
 {
     rdp::parser parser{str};
     EXPECT_EQ(expected, rdp::parse_hexadecimal(parser));
@@ -372,7 +372,7 @@ TEST(test_rdp, test_parse_hexadecimal)
     check_parse_hex("57DB41EA587DB4FC", 6330726175962150140u);
 }
 
-void check_parse_hex_prefixed(const common::string_view str, const std::uint64_t expected)
+void check_parse_hex_prefixed(const Common::StringView str, const std::uint64_t expected)
 {
     rdp::parser parser{str};
     EXPECT_EQ(expected, rdp::parse_hexadecimal(parser, "0x"));
@@ -386,7 +386,7 @@ TEST(test_rdp, test_parse_hexadecimal_prefixed)
     check_parse_hex_prefixed("0x57DB41EA587DB4FC", 6330726175962150140u);
 }
 
-void check_skip_byte_order_marker(const common::string_view str, const common::string_view expected)
+void check_skip_byte_order_marker(const Common::StringView str, const Common::StringView expected)
 {
     rdp::parser parser{str};
     rdp::skip_byte_order_marker(parser);
@@ -396,5 +396,5 @@ void check_skip_byte_order_marker(const common::string_view str, const common::s
 TEST(test_rdp, test_skip_byte_order_marker)
 {
     check_skip_byte_order_marker("Hello", "Hello");
-    check_skip_byte_order_marker(common::bom::utf8::string() + "Hello", "Hello");
+    check_skip_byte_order_marker(Common::Bom::Utf8::String() + "Hello", "Hello");
 }

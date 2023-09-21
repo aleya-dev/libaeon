@@ -12,7 +12,7 @@
 namespace aeon::math
 {
 
-template <swizzle_component one, common::concepts::arithmetic_convertible T>
+template <swizzle_component one, Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto swizzle(const vector4<T> &vec) noexcept -> T
 {
     if constexpr (one == swizzle_component::x)
@@ -43,7 +43,7 @@ template <swizzle_component one, common::concepts::arithmetic_convertible T>
         return std::numeric_limits<T>::max();
 }
 
-template <swizzle_component one, common::concepts::arithmetic_convertible T>
+template <swizzle_component one, Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto swizzle(const vector3<T> &vec) noexcept -> T
 {
     if constexpr (one == swizzle_component::x)
@@ -71,7 +71,7 @@ template <swizzle_component one, common::concepts::arithmetic_convertible T>
         return std::numeric_limits<T>::max();
 }
 
-template <swizzle_component one, common::concepts::arithmetic_convertible T>
+template <swizzle_component one, Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto swizzle(const vector2<T> &vec) noexcept -> T
 {
     if constexpr (one == swizzle_component::x)
@@ -96,40 +96,40 @@ template <swizzle_component one, common::concepts::arithmetic_convertible T>
         return std::numeric_limits<T>::max();
 }
 
-template <swizzle_component one, swizzle_component two, common::concepts::arithmetic_convertible T>
+template <swizzle_component one, swizzle_component two, Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto swizzle(const vector2<T> &vec) noexcept -> vector2<T>
 {
     return {swizzle<one>(vec), swizzle<two>(vec)};
 }
 
-template <swizzle_component one, swizzle_component two, common::concepts::arithmetic_convertible T>
+template <swizzle_component one, swizzle_component two, Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto swizzle(const vector3<T> &vec) noexcept -> vector2<T>
 {
     return {swizzle<one>(vec), swizzle<two>(vec)};
 }
 
 template <swizzle_component one, swizzle_component two, swizzle_component three,
-          common::concepts::arithmetic_convertible T>
+          Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto swizzle(const vector3<T> &vec) noexcept -> vector3<T>
 {
     return {swizzle<one>(vec), swizzle<two>(vec), swizzle<three>(vec)};
 }
 
-template <swizzle_component one, swizzle_component two, common::concepts::arithmetic_convertible T>
+template <swizzle_component one, swizzle_component two, Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto swizzle(const vector4<T> &vec) noexcept -> vector2<T>
 {
     return {swizzle<one>(vec), swizzle<two>(vec)};
 }
 
 template <swizzle_component one, swizzle_component two, swizzle_component three,
-          common::concepts::arithmetic_convertible T>
+          Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto swizzle(const vector4<T> &vec) noexcept -> vector3<T>
 {
     return {swizzle<one>(vec), swizzle<two>(vec), swizzle<three>(vec)};
 }
 
 template <swizzle_component one, swizzle_component two, swizzle_component three, swizzle_component four,
-          common::concepts::arithmetic_convertible T>
+          Common::Concepts::ArithmeticConvertible T>
 [[nodiscard]] inline constexpr auto swizzle(const vector4<T> &vec) noexcept -> vector4<T>
 {
     return {swizzle<one>(vec), swizzle<two>(vec), swizzle<three>(vec), swizzle<four>(vec)};

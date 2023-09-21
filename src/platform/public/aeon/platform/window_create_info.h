@@ -18,7 +18,7 @@ class window_events;
 
 struct window_create_info final
 {
-    common::string title = default_window_title;
+    Common::String title = default_window_title;
 
     /*!
      * The size of the window client area

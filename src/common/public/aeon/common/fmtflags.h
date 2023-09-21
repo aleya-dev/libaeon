@@ -4,33 +4,33 @@
 
 #include <ios>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-template <typename stream_t>
-class scoped_fmtflags final
+template <typename StreamT>
+class ScopedFmtFlags final
 {
 public:
-    explicit scoped_fmtflags(stream_t &stream)
-        : stream_{stream}
-        , flags_{stream_.flags()}
+    explicit ScopedFmtFlags(StreamT &stream)
+        : m_stream{stream}
+        , m_flags{m_stream.flags()}
     {
     }
 
-    ~scoped_fmtflags()
+    ~ScopedFmtFlags()
     {
-        stream_.flags(flags_);
+        m_stream.flags(m_flags);
     }
 
-    scoped_fmtflags(const scoped_fmtflags &) = delete;
-    auto operator=(const scoped_fmtflags &) -> scoped_fmtflags & = delete;
+    ScopedFmtFlags(const ScopedFmtFlags &) = delete;
+    auto operator=(const ScopedFmtFlags &) -> ScopedFmtFlags & = delete;
 
-    scoped_fmtflags(scoped_fmtflags &&) noexcept = delete;
-    auto operator=(scoped_fmtflags &&) noexcept -> scoped_fmtflags & = delete;
+    ScopedFmtFlags(ScopedFmtFlags &&) noexcept = delete;
+    auto operator=(ScopedFmtFlags &&) noexcept -> ScopedFmtFlags & = delete;
 
 private:
-    stream_t &stream_;
-    std::ios_base::fmtflags flags_;
+    StreamT &m_stream;
+    std::ios_base::fmtflags m_flags;
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

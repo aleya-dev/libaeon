@@ -5,17 +5,17 @@
 namespace aeon::unicode::stringutils
 {
 
-[[nodiscard]] auto escape(const common::string_view &str) -> common::string
+[[nodiscard]] auto escape(const Common::StringView &str) -> Common::String
 {
     utf_string_view view{str};
     return escape(std::begin(view), std::end(view));
 }
 
-[[nodiscard]] auto escape(const utf_string_view<common::string_view>::iterator begin,
-                          const utf_string_view<common::string_view>::iterator end) -> common::string
+[[nodiscard]] auto escape(const utf_string_view<Common::StringView>::iterator begin,
+                          const utf_string_view<Common::StringView>::iterator end) -> Common::String
 {
-    common::string result;
-    result.reserve(std::distance(begin, end));
+    Common::String result;
+    result.Reserve(std::distance(begin, end));
 
     for (auto itr = begin; itr != end; ++itr)
     {
@@ -53,18 +53,18 @@ namespace aeon::unicode::stringutils
     return result;
 }
 
-[[nodiscard]] auto unescape(const common::string_view &str, const unescape_mode mode) -> common::string
+[[nodiscard]] auto unescape(const Common::StringView &str, const unescape_mode mode) -> Common::String
 {
     utf_string_view view{str};
     return unescape(std::begin(view), std::end(view), mode);
 }
 
-[[nodiscard]] auto unescape(const utf_string_view<common::string_view>::iterator begin,
-                            const utf_string_view<common::string_view>::iterator end, const unescape_mode mode)
-    -> common::string
+[[nodiscard]] auto unescape(const utf_string_view<Common::StringView>::iterator begin,
+                            const utf_string_view<Common::StringView>::iterator end, const unescape_mode mode)
+    -> Common::String
 {
-    common::string result;
-    result.reserve(std::distance(begin, end));
+    Common::String result;
+    result.Reserve(std::distance(begin, end));
 
     for (auto itr = begin; itr != end; ++itr)
     {

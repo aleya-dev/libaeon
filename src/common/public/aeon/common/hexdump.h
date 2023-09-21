@@ -4,10 +4,10 @@
 
 #include <cstdio>
 
-namespace aeon::common::hexdump
+namespace aeon::Common::HexDump
 {
 
-void pretty_print(FILE *dest, const void *src, const std::size_t len) noexcept;
-void cpp_array(FILE *dest, const char *const array_name, const void *src, const std::size_t len) noexcept;
+void PrettyPrint(FILE *dest, const void *src, const std::size_t len) noexcept;
+void CppArray(FILE *dest, const char *const arrayName, const void *src, const std::size_t len) noexcept;
 
-} // namespace aeon::common::hexdump
+} // namespace aeon::Common::HexDump

@@ -26,22 +26,22 @@ constexpr std::array<std::uint32_t, 64> k = {
 
 constexpr auto f1(const std::uint32_t value) noexcept -> std::uint32_t
 {
-    return common::bits::ror(value, 2) ^ common::bits::ror(value, 13) ^ common::bits::ror(value, 22);
+    return Common::Bits::Ror(value, 2) ^ Common::Bits::Ror(value, 13) ^ Common::Bits::Ror(value, 22);
 }
 
 constexpr auto f2(const std::uint32_t value) noexcept -> std::uint32_t
 {
-    return common::bits::ror(value, 6) ^ common::bits::ror(value, 11) ^ common::bits::ror(value, 25);
+    return Common::Bits::Ror(value, 6) ^ Common::Bits::Ror(value, 11) ^ Common::Bits::Ror(value, 25);
 }
 
 constexpr auto f3(const std::uint32_t value) noexcept -> std::uint32_t
 {
-    return common::bits::ror(value, 7) ^ common::bits::ror(value, 18) ^ value >> 3;
+    return Common::Bits::Ror(value, 7) ^ Common::Bits::Ror(value, 18) ^ value >> 3;
 }
 
 constexpr auto f4(const std::uint32_t value) noexcept -> std::uint32_t
 {
-    return common::bits::ror(value, 17) ^ common::bits::ror(value, 19) ^ value >> 10;
+    return Common::Bits::Ror(value, 17) ^ Common::Bits::Ror(value, 19) ^ value >> 10;
 }
 
 } // namespace internal
@@ -83,7 +83,7 @@ void sha256::write(const char *data, const std::streamsize size) noexcept
     total_size_ += static_cast<std::streamsize>((block_nb + 1) << 6);
 }
 
-void sha256::write(const common::string_view str) noexcept
+void sha256::write(const Common::StringView str) noexcept
 {
     write(std::data(str), static_cast<std::streamsize>(std::size(str)));
 }
@@ -95,13 +95,13 @@ auto sha256::finalize() noexcept -> sha256_hash
     const auto pm_len = block_nb << 6;
     memset(std::data(block_) + size_, 0, pm_len - size_);
     block_.at(size_) = 0x80;
-    common::bits::unpack32(static_cast<std::uint32_t>(len_b), std::data(block_) + pm_len - 4);
+    Common::Bits::Unpack32(static_cast<std::uint32_t>(len_b), std::data(block_) + pm_len - 4);
     transform(std::data(block_), block_nb);
 
     sha256_hash digest;
     for (auto i = 0; i < 8; i++)
     {
-        common::bits::unpack32(hash_[i], &digest[i << 2]);
+        Common::Bits::Unpack32(hash_[i], &digest[i << 2]);
     }
 
     return digest;
@@ -125,7 +125,7 @@ void sha256::transform(const unsigned char *message, const std::streamsize size)
 
         for (auto j = 0; j < 16; j++)
         {
-            w[j] = common::bits::pack32(&sub_block[j << 2]);
+            w[j] = Common::Bits::Pack32(&sub_block[j << 2]);
         }
 
         for (auto j = 16; j < 64; j++)

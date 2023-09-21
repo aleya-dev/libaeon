@@ -7,14 +7,14 @@
 #include <vector>
 #include <cstdint>
 
-namespace aeon::common::base64
+namespace aeon::Common::Base64
 {
 
-[[nodiscard]] auto encode(const string_view &data) -> string;
-[[nodiscard]] auto encode(const std::vector<std::uint8_t> &data) -> string;
-[[nodiscard]] auto encode(const std::uint8_t *data, const std::streamsize size) -> string;
+[[nodiscard]] auto Encode(const StringView &data) -> String;
+[[nodiscard]] auto Encode(const std::vector<std::uint8_t> &data) -> String;
+[[nodiscard]] auto Encode(const std::uint8_t *data, const std::streamsize size) -> String;
 
-[[nodiscard]] auto decode(const string_view &str) -> std::vector<std::uint8_t>;
-[[nodiscard]] auto decode_string(const string_view &str) -> string;
+[[nodiscard]] auto Decode(const StringView &str) -> std::vector<std::uint8_t>;
+[[nodiscard]] auto DecodeString(const StringView &str) -> String;
 
-} // namespace aeon::common::base64
+} // namespace aeon::Common::base64

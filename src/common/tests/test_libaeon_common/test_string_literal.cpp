@@ -5,15 +5,15 @@
 #include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
 
-using namespace aeon::common;
+using namespace aeon::Common;
 
 TEST(test_string_literal, test_string_literal_create_char)
 {
-    string_literal<6> s{"Hello"};
-    string_literal<6> s2 = "Hello";
+    StringLiteral<6> s{"Hello"};
+    StringLiteral<6> s2 = "Hello";
 
     EXPECT_EQ(s.size(), strlen("Hello") + 1);
     EXPECT_EQ(s2.size(), strlen("Hello") + 1);
 
-    EXPECT_EQ(string{s.c_str()}, string{s2.c_str()});
+    EXPECT_EQ(String{s.c_str()}, String{s2.c_str()});
 }

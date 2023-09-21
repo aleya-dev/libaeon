@@ -18,11 +18,11 @@ TEST(test_streams, test_streams_stream_writer_pod)
 
     ASSERT_EQ(0, std::size(device));
     writer << 5;
-    ASSERT_EQ(aeon_signed_sizeof(int), std::size(device));
+    ASSERT_EQ(AeonSignedSizeof(int), std::size(device));
 
     writer << 1.0f;
 
-    ASSERT_EQ(aeon_signed_sizeof(int) + aeon_signed_sizeof(float), device.size());
+    ASSERT_EQ(AeonSignedSizeof(int) + AeonSignedSizeof(float), device.size());
 }
 
 TEST(test_streams, test_streams_stream_writer_stdstring)
@@ -42,10 +42,10 @@ TEST(test_streams, test_streams_stream_writer_stdstring_prefixed)
 
     ASSERT_EQ(0, std::size(device));
 
-    common::string val = "Hello! 12345";
+    Common::String val = "Hello! 12345";
 
     writer << streams::length_prefix_string{val};
-    ASSERT_EQ(static_cast<std::streamoff>(std::size(val)) + aeon_signed_sizeof(std::uint32_t), std::size(device));
+    ASSERT_EQ(static_cast<std::streamoff>(val.Size()) + AeonSignedSizeof(std::uint32_t), std::size(device));
 }
 
 TEST(test_streams, test_streams_stream_writer_vector)
@@ -56,5 +56,5 @@ TEST(test_streams, test_streams_stream_writer_vector)
     const std::vector<std::uint32_t> test{1, 2, 3, 4, 5};
     writer << test;
 
-    ASSERT_EQ(static_cast<std::streamoff>(std::size(test)) * aeon_signed_sizeof(std::uint32_t), std::size(device));
+    ASSERT_EQ(static_cast<std::streamoff>(std::size(test)) * AeonSignedSizeof(std::uint32_t), std::size(device));
 }

@@ -4,13 +4,13 @@
 
 #include <aeon/imaging/image.h>
 
-namespace aeon::imaging::convert
+namespace aeon::imaging::Convert
 {
 
 [[nodiscard]] inline auto remove_stride(const image_view &img) -> image
 {
-    const auto element_type = math::element_type(img);
-    image new_image{element_type, pixel_format(img), math::dimensions(img)};
+    const auto ElementType = math::ElementType(img);
+    image new_image{ElementType, pixel_format(img), math::dimensions(img)};
 
     const auto *const src_data = std::data(img);
     auto *const dst_data = std::data(new_image);
@@ -19,7 +19,7 @@ namespace aeon::imaging::convert
     {
         const auto offset = y * stride(img);
         const auto *const src_scanline = &src_data[offset];
-        const auto *const src_scanline_end = &src_data[offset + width(img) * element_type.size];
+        const auto *const src_scanline_end = &src_data[offset + width(img) * ElementType.Size];
 
         const auto dst_offset = y * stride(new_image);
         auto *const dst_scanline = &dst_data[dst_offset];
@@ -30,4 +30,4 @@ namespace aeon::imaging::convert
     return new_image;
 }
 
-} // namespace aeon::imaging::convert
+} // namespace aeon::imaging::Convert

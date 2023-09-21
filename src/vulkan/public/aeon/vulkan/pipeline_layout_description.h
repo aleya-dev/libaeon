@@ -29,7 +29,7 @@ public:
     [[nodiscard]] auto set_layout_count() const noexcept -> std::uint32_t;
     [[nodiscard]] auto set_layouts() const noexcept -> const std::vector<VkDescriptorSetLayout> &;
 
-    auto add_push_constant_range(const common::flags<shader_stage_flag> stage_flags, const std::uint32_t offset,
+    auto add_push_constant_range(const Common::Flags<shader_stage_flag> stage_flags, const std::uint32_t offset,
                                  const std::uint32_t size) -> pipeline_layout_description &;
     auto add_push_constant_range(const VkPushConstantRange range) -> pipeline_layout_description &;
 
@@ -83,7 +83,7 @@ inline auto pipeline_layout_description::set_layouts() const noexcept -> const s
     return set_layouts_;
 }
 
-inline auto pipeline_layout_description::add_push_constant_range(const common::flags<shader_stage_flag> stage_flags,
+inline auto pipeline_layout_description::add_push_constant_range(const Common::Flags<shader_stage_flag> stage_flags,
                                                                  const std::uint32_t offset, const std::uint32_t size)
     -> pipeline_layout_description &
 {

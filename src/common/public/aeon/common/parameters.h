@@ -6,71 +6,71 @@
 #include <vector>
 #include <cstring>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
 // Simple wrapper to convert a vector of strings to a char*[].
-class parameters
+class Parameters
 {
 public:
-    explicit parameters(std::vector<string> &params)
-        : argc_(0)
-        , argv_(new char *[params.size()])
+    explicit Parameters(std::vector<String> &params)
+        : m_argc(0)
+        , m_argv(new char *[params.size()])
     {
         for (auto &param : params)
         {
-            argv_[argc_] = new char[param.size() + 1];
-            memcpy(argv_[argc_], param.data(), param.size() + 1);
-            ++argc_;
+            m_argv[m_argc] = new char[param.Size() + 1];
+            memcpy(m_argv[m_argc], param.Data(), param.Size() + 1);
+            ++m_argc;
         }
     }
 
-    ~parameters()
+    ~Parameters()
     {
-        if (!argv_)
+        if (!m_argv)
             return;
 
-        for (int i = 0; i < argc_; ++i)
+        for (int i = 0; i < m_argc; ++i)
         {
-            delete[] argv_[i];
+            delete[] m_argv[i];
         }
 
-        delete[] argv_;
+        delete[] m_argv;
     }
 
-    parameters(const parameters &) = delete;
-    auto operator=(const parameters &) -> parameters & = delete;
+    Parameters(const Parameters &) = delete;
+    auto operator=(const Parameters &) -> Parameters & = delete;
 
-    parameters(parameters &&other) noexcept
-        : argc_{other.argc_}
-        , argv_{other.argv_}
+    Parameters(Parameters &&other) noexcept
+        : m_argc{other.m_argc}
+        , m_argv{other.m_argv}
     {
-        other.argc_ = 0;
-        other.argv_ = nullptr;
+        other.m_argc = 0;
+        other.m_argv = nullptr;
     }
 
-    parameters &operator=(parameters &&other) noexcept
+    Parameters &operator=(Parameters &&other) noexcept
     {
-        argc_ = other.argc_;
-        argv_ = other.argv_;
-        other.argc_ = 0;
-        other.argv_ = nullptr;
+        m_argc = other.m_argc;
+        m_argv = other.m_argv;
+        other.m_argc = 0;
+        other.m_argv = nullptr;
         return *this;
     }
 
-    auto argc() const
+    [[nodiscard]] auto Argc() const
     {
-        return argc_;
+        return m_argc;
     }
 
-    auto argv() const
+    [[nodiscard]] auto Argv() const
     {
-        return argv_;
+        return m_argv;
     }
 
 private:
-    int argc_;
-    char **argv_;
+    int m_argc;
+    char **m_argv;
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

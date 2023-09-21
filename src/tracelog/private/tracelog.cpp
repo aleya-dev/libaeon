@@ -3,37 +3,37 @@
 #include <aeon/tracelog/tracelog.h>
 #include "context.h"
 
-namespace aeon::tracelog
+namespace aeon::Tracelog
 {
 
-namespace detail
+namespace Internal
 {
 
-[[nodiscard]] auto add_entry(const char *func) -> trace_log_entry *
+[[nodiscard]] auto AddEntry(const char *func) -> TraceLogEntry *
 {
-    return detail::trace_log_context::get_singleton().add_scoped_log_entry(func);
+    return Internal::trace_log_context::GetSingleton().add_scoped_log_entry(func);
 }
 
-void add_exit(trace_log_entry *entry)
+void AddExit(TraceLogEntry *entry)
 {
-    detail::trace_log_context::get_singleton().add_scoped_log_exit(entry);
+    Internal::trace_log_context::GetSingleton().add_scoped_log_exit(entry);
 }
 
-void add_event(const char *func)
+void AddEvent(const char *func)
 {
-    detail::trace_log_context::get_singleton().add_event(func);
+    Internal::trace_log_context::GetSingleton().add_event(func);
 }
 
 } // namespace detail
 
-void initialize()
+void Initialize()
 {
-    detail::trace_log_context::get_singleton().initialize();
+    Internal::trace_log_context::GetSingleton().initialize();
 }
 
-void write(const std::filesystem::path &file)
+void Write(const std::filesystem::path &file)
 {
-    detail::trace_log_context::get_singleton().write(file);
+    Internal::trace_log_context::GetSingleton().write(file);
 }
 
 } // namespace aeon::tracelog

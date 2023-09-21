@@ -27,14 +27,14 @@ struct test_output_filter : streams::filter
     auto write(sink_t &sink, const std::byte *data, const std::streamsize size) const -> std::streamsize
     {
         std::span data_span{data, static_cast<std::size_t>(size)};
-        const common::string prefix = "[PREFIX]";
-        const common::string postfix = "[POSTFIX]";
+        const Common::String prefix = "[PREFIX]";
+        const Common::String postfix = "[POSTFIX]";
 
-        std::vector<std::byte> new_data(std::size(prefix) + std::size(data_span) + std::size(postfix));
-        std::memcpy(std::data(new_data), std::data(prefix), std::size(prefix));
-        std::memcpy(std::data(new_data) + std::size(prefix), std::data(data_span), std::size(data_span));
-        std::memcpy(std::data(new_data) + +std::size(prefix) + std::size(data_span), std::data(postfix),
-                    std::size(postfix));
+        std::vector<std::byte> new_data(prefix.Size() + std::size(data_span) + postfix.Size());
+        std::memcpy(std::data(new_data), prefix.Data(), prefix.Size());
+        std::memcpy(std::data(new_data) + prefix.Size(), std::data(data_span), std::size(data_span));
+        std::memcpy(std::data(new_data) + prefix.Size() + std::size(data_span), postfix.Data(),
+                    postfix.Size());
         return sink.write(std::data(new_data), std::size(new_data));
     }
 
@@ -54,14 +54,14 @@ struct test_output_filter2 : streams::filter
     auto write(sink_t &sink, const std::byte *data, const std::streamsize size) const -> std::streamsize
     {
         std::span data_span{data, static_cast<std::size_t>(size)};
-        const common::string prefix = "<<<";
-        const common::string postfix = ">>>";
+        const Common::String prefix = "<<<";
+        const Common::String postfix = ">>>";
 
-        std::vector<std::byte> new_data(std::size(prefix) + std::size(data_span) + std::size(postfix));
-        std::memcpy(std::data(new_data), std::data(prefix), std::size(prefix));
-        std::memcpy(std::data(new_data) + std::size(prefix), std::data(data_span), std::size(data_span));
-        std::memcpy(std::data(new_data) + +std::size(prefix) + std::size(data_span), std::data(postfix),
-                    std::size(postfix));
+        std::vector<std::byte> new_data(prefix.Size() + std::size(data_span) + postfix.Size());
+        std::memcpy(std::data(new_data), prefix.Data(), prefix.Size());
+        std::memcpy(std::data(new_data) + prefix.Size(), std::data(data_span), std::size(data_span));
+        std::memcpy(std::data(new_data) + prefix.Size() + std::size(data_span), postfix.Data(),
+                    postfix.Size());
         return sink.write(std::data(new_data), std::size(new_data));
     }
 

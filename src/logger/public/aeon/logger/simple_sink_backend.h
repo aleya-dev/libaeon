@@ -24,7 +24,7 @@ public:
     void remove_all_sinks();
 
 private:
-    void log(const common::string &message, const common::string &module, const log_level level) override;
+    void log(const Common::String &message, const Common::String &module, const log_level level) override;
 
     std::set<log_sink *> sinks_;
 };

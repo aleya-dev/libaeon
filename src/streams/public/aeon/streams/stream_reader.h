@@ -38,9 +38,9 @@ public:
     void device(device_t &device) noexcept;
     [[nodiscard]] auto device() const noexcept -> device_t &;
 
-    void read_line(common::string &line) const;
+    void read_line(Common::String &line) const;
 
-    [[nodiscard]] auto read_line() const -> common::string;
+    [[nodiscard]] auto read_line() const -> Common::String;
 
     template <typename T>
     void read_to_vector(std::vector<T> &vec) const;
@@ -54,8 +54,8 @@ public:
     template <typename T>
     [[nodiscard]] auto read_to_vector(const std::streamoff size) const -> std::vector<T>;
 
-    void read_to_string(common::string &str) const;
-    [[nodiscard]] auto read_to_string() const -> common::string;
+    void read_to_string(Common::String &str) const;
+    [[nodiscard]] auto read_to_string() const -> Common::String;
 
 private:
     device_t *device_;
@@ -72,7 +72,7 @@ inline stream_reader<device_t>::stream_reader(device_t &device) noexcept
     : device_{&device}
 {
     if constexpr (std::is_same_v<std::decay_t<device_t>, idynamic_stream>)
-        aeon_assert(device_->is_input(), "Stream reader requires an input device.");
+        AeonAssert(device_->is_input(), "Stream reader requires an input device.");
 }
 
 template <stream_readable device_t>
@@ -88,10 +88,10 @@ template <stream_readable device_t>
 }
 
 template <stream_readable device_t>
-inline void stream_reader<device_t>::read_line(common::string &line) const
+inline void stream_reader<device_t>::read_line(Common::String &line) const
 {
     if constexpr (std::is_same_v<device_t, idynamic_stream>)
-        aeon_assert(device_->is_input_seekable(), "read_line requires an input seekable device.");
+        AeonAssert(device_->is_input_seekable(), "read_line requires an input seekable device.");
     else
         static_assert(is_input_seekable_v<device_t>, "read_line requires an input seekable device.");
 
@@ -104,13 +104,13 @@ inline void stream_reader<device_t>::read_line(common::string &line) const
 
         if (!line_end)
         {
-            line.append(peek_data, peek_size);
+            line.Append(peek_data, peek_size);
         }
         else
         {
             // TODO: Fix when strchr is fixed.
             const auto temp_size = line_end - reinterpret_cast<const char *>(peek_data);
-            line.append(peek_data, temp_size);
+            line.Append(peek_data, temp_size);
 
             const auto jump_back = (static_cast<std::ptrdiff_t>(peek_size) - temp_size) - 1;
 
@@ -124,17 +124,17 @@ inline void stream_reader<device_t>::read_line(common::string &line) const
         }
     }
 
-    if (!line.empty())
+    if (!line.Empty())
     {
-        if (line[line.size() - 1] == '\r')
-            line.resize(line.size() - 1);
+        if (line[line.Size() - 1] == '\r')
+            line.Resize(line.Size() - 1);
     }
 }
 
 template <stream_readable device_t>
-[[nodiscard]] inline auto stream_reader<device_t>::read_line() const -> common::string
+[[nodiscard]] inline auto stream_reader<device_t>::read_line() const -> Common::String
 {
-    common::string line;
+    Common::String line;
     read_line(line);
     return line;
 }
@@ -144,7 +144,7 @@ template <typename T>
 inline void stream_reader<device_t>::read_to_vector(std::vector<T> &vec) const
 {
     if constexpr (std::is_same_v<device_t, idynamic_stream>)
-        aeon_assert(device_->has_size(), "read_to_vector requires a device with known size.");
+        AeonAssert(device_->has_size(), "read_to_vector requires a device with known size.");
     else
         static_assert(has_size_v<device_t>, "read_to_vector requires a device with known size.");
 
@@ -165,7 +165,7 @@ template <typename T>
 inline void stream_reader<device_t>::read_to_vector(std::vector<T> &vec, const std::streamoff size) const
 {
     static_assert(sizeof(T) == 1, "Given template argument size must be 1 byte.");
-    aeon_assert(std::empty(vec), "Expected given vector to be empty.");
+    AeonAssert(std::empty(vec), "Expected given vector to be empty.");
 
     vec.resize(size);
 
@@ -183,18 +183,18 @@ template <typename T>
 }
 
 template <stream_readable device_t>
-inline void stream_reader<device_t>::read_to_string(common::string &str) const
+inline void stream_reader<device_t>::read_to_string(Common::String &str) const
 {
-    aeon_assert(std::empty(str), "Expected given string to be empty.");
+    AeonAssert(str.Empty(), "Expected given string to be empty.");
 
     const auto vec = read_to_vector<char>();
-    str.insert(std::begin(str), std::begin(vec), std::end(vec));
+    str.Insert(std::begin(str), std::begin(vec), std::end(vec));
 }
 
 template <stream_readable device_t>
-[[nodiscard]] inline auto stream_reader<device_t>::read_to_string() const -> common::string
+[[nodiscard]] inline auto stream_reader<device_t>::read_to_string() const -> Common::String
 {
-    common::string str;
+    Common::String str;
     read_to_string(str);
     return str;
 }
@@ -202,14 +202,14 @@ template <stream_readable device_t>
 template <stream_readable device_t, typename T, class = std::enable_if_t<std::is_arithmetic_v<T>>>
 inline auto &operator>>(stream_reader<device_t> &reader, T &val)
 {
-    if (reader.device().read(reinterpret_cast<std::byte *>(&val), aeon_signed_sizeof(T)) != aeon_signed_sizeof(T))
+    if (reader.device().read(reinterpret_cast<std::byte *>(&val), AeonSignedSizeof(T)) != AeonSignedSizeof(T))
         throw stream_exception{};
 
     return reader;
 }
 
 template <stream_readable device_t>
-inline auto &operator>>(stream_reader<device_t> &reader, common::string &val)
+inline auto &operator>>(stream_reader<device_t> &reader, Common::String &val)
 {
     reader.read_line(val);
     return reader;

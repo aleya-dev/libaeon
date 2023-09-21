@@ -20,8 +20,8 @@ namespace internal
 static void to_string(const std::monostate, streams::idynamic_stream &);
 static void to_string(const array &arr, streams::idynamic_stream &);
 static void to_string(const object &obj, streams::idynamic_stream &);
-static void to_string(const common::string &obj_str, streams::idynamic_stream &stream);
-static void to_string(const common::uuid &uuid, streams::idynamic_stream &stream);
+static void to_string(const Common::String &obj_str, streams::idynamic_stream &stream);
+static void to_string(const Common::Uuid &Uuid, streams::idynamic_stream &stream);
 static void to_string(const std::int64_t val, streams::idynamic_stream &stream);
 static void to_string(const double val, streams::idynamic_stream &stream);
 static void to_string(const bool val, streams::idynamic_stream &stream);
@@ -48,13 +48,13 @@ static void to_string([[maybe_unused]] const object &obj, [[maybe_unused]] strea
     throw ptree_unsupported_ini_format{};
 }
 
-static void to_string(const common::uuid &uuid, streams::idynamic_stream &stream)
+static void to_string(const Common::Uuid &Uuid, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
-    writer << uuid.str();
+    writer << Uuid.Str();
 }
 
-static void to_string(const common::string &obj_str, streams::idynamic_stream &stream)
+static void to_string(const Common::String &obj_str, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << '"';
@@ -86,14 +86,14 @@ static void to_string(const bool val, streams::idynamic_stream &stream)
 
 static void to_string([[maybe_unused]] const blob &val, [[maybe_unused]] streams::idynamic_stream &stream)
 {
-    aeon_assert_fail("Ini serializer does not support binary blobs.");
+    AeonAssertFail("Ini serializer does not support binary blobs.");
     throw ptree_serialization_exception{};
 }
 
 class ini_parser final
 {
 public:
-    explicit ini_parser(const common::string_view &view)
+    explicit ini_parser(const Common::StringView &view)
         : parser_{view}
         , headers_{}
         , current_header_{}
@@ -114,7 +114,7 @@ public:
 
             if (const auto header_result = match_header(); header_result.is_error())
             {
-                rdp::print_parse_error<common::string_view>(header_result.error());
+                rdp::print_parse_error<Common::StringView>(header_result.error());
                 throw ptree_serialization_exception{};
             }
             else if (header_result.result())
@@ -124,7 +124,7 @@ public:
 
             if (const auto key_value_result = match_key_value_pair(); key_value_result.is_error())
             {
-                rdp::print_parse_error<common::string_view>(key_value_result.error());
+                rdp::print_parse_error<Common::StringView>(key_value_result.error());
                 throw ptree_serialization_exception{};
             }
             else if (key_value_result.result())
@@ -155,12 +155,12 @@ private:
         return rdp::matched{};
     }
 
-    auto match_key_name() -> rdp::parse_result<common::string_view>
+    auto match_key_name() -> rdp::parse_result<Common::StringView>
     {
         return match_regex(parser_, "[a-zA-Z_][a-zA-Z0-9\\-_]*");
     }
 
-    auto match_string() -> rdp::parse_result<common::string_view>
+    auto match_string() -> rdp::parse_result<Common::StringView>
     {
         rdp::scoped_state state{parser_};
 
@@ -201,7 +201,7 @@ private:
 
         if (const auto string_result = match_string(); string_result.result())
         {
-            common::string string_value{std::cbegin(string_result.value()), std::end(string_result.value())};
+            Common::String string_value{std::cbegin(string_result.value()), std::end(string_result.value())};
             return rdp::matched{property_tree{std::move(string_value)}};
         }
         else if (string_result.is_error())
@@ -228,8 +228,8 @@ private:
         if (!check_comment() && !rdp::check_newline(parser_))
             return rdp::parse_error{parser_, "Expected newline."};
 
-        common::string string_value{std::cbegin(header_name_result.value()), std::end(header_name_result.value())};
-        auto result = headers_.insert(std::move(string_value), object{});
+        Common::String string_value{std::cbegin(header_name_result.value()), std::end(header_name_result.value())};
+        auto result = headers_.Insert(std::move(string_value), object{});
         current_header_ = &(result->second.object_value());
 
         state.accept();
@@ -266,8 +266,8 @@ private:
         if (!current_header_)
             return rdp::parse_error{parser_, "Expected header"};
 
-        common::string string_value{std::cbegin(key_name_result.value()), std::cend(key_name_result.value())};
-        current_header_->push_back(std::move(string_value), value_result.value());
+        Common::String string_value{std::cbegin(key_name_result.value()), std::cend(key_name_result.value())};
+        current_header_->PushBack(std::move(string_value), value_result.value());
 
         state.accept();
         return rdp::matched{};
@@ -311,10 +311,10 @@ void to_ini(const property_tree &ptree, streams::idynamic_stream &stream)
     }
 }
 
-auto to_ini(const property_tree &ptree) -> common::string
+auto to_ini(const property_tree &ptree) -> Common::String
 {
-    common::string str;
-    auto stream = streams::make_dynamic_stream(streams::memory_view_device{str.str()});
+    Common::String str;
+    auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
     to_ini(ptree, stream);
     return str;
 }
@@ -334,9 +334,9 @@ auto from_ini(streams::idynamic_stream &stream) -> property_tree
     return pt;
 }
 
-auto from_ini(const common::string &str) -> property_tree
+auto from_ini(const Common::String &str) -> property_tree
 {
-    auto stream = streams::make_dynamic_stream(streams::memory_view_device{str.str()});
+    auto stream = streams::make_dynamic_stream(streams::memory_view_device{str});
     return from_ini(stream);
 }
 

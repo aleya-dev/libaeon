@@ -17,7 +17,7 @@ class temporary_file
 {
 public:
     temporary_file();
-    explicit temporary_file(const common::string &extension);
+    explicit temporary_file(const Common::String &extension);
 
     ~temporary_file();
 

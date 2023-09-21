@@ -8,7 +8,7 @@ using namespace aeon;
 template <typename T>
 static void check_get_bit(const T input, const unsigned int bit, const T expected)
 {
-    EXPECT_EQ(expected, common::bits::get<T>(input, bit));
+    EXPECT_EQ(expected, Common::Bits::Get<T>(input, bit));
 }
 
 TEST(test_bits, test_bitflags_get_bit)
@@ -36,10 +36,10 @@ TEST(test_bits, test_bitflags_get_bit)
 TEST(test_bits, test_bitflags_mask)
 {
     const auto val = 0x12345678abcdef01u;
-    EXPECT_EQ(0x01, common::bits::mask_u8(val));
-    EXPECT_EQ(0xef01, common::bits::mask_u16(val));
-    EXPECT_EQ(0xabcdef01, common::bits::mask_u32(val));
-    EXPECT_EQ(val, common::bits::mask_u64(val));
+    EXPECT_EQ(0x01, Common::Bits::MaskU8(val));
+    EXPECT_EQ(0xef01, Common::Bits::MaskU16(val));
+    EXPECT_EQ(0xabcdef01, Common::Bits::MaskU32(val));
+    EXPECT_EQ(val, Common::Bits::MaskU64(val));
 }
 
 // TODO: Add more unittests for bits.

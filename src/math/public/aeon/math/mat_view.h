@@ -33,7 +33,7 @@ public:
      * \param[in] dimensions - The width and height of the matrix.
      * \param[in] data - Raw matrix data
      */
-    explicit mat_view(const common::element_type type, const size2d<dimensions_type> dimensions,
+    explicit mat_view(const Common::ElementType type, const size2d<dimensions_type> dimensions,
                       underlying_type *data) noexcept;
 
     /*!
@@ -43,7 +43,7 @@ public:
      * \param[in] height - The height of the matrix.
      * \param[in] data - Raw matrix data
      */
-    explicit mat_view(const common::element_type type, const dimensions_type width, const dimensions_type height,
+    explicit mat_view(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                       underlying_type *data) noexcept;
 
     /*!
@@ -53,7 +53,7 @@ public:
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Raw matrix data
      */
-    explicit mat_view(const common::element_type type, const size2d<dimensions_type> dimensions,
+    explicit mat_view(const Common::ElementType type, const size2d<dimensions_type> dimensions,
                       const stride_type stride, underlying_type *data) noexcept;
 
     /*!
@@ -64,7 +64,7 @@ public:
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      * \param[in] data - Raw matrix data
      */
-    explicit mat_view(const common::element_type type, const dimensions_type width, const dimensions_type height,
+    explicit mat_view(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                       const stride_type stride, underlying_type *data) noexcept;
 
     /*!
@@ -74,7 +74,7 @@ public:
      * \param[in] data - Raw matrix data
      * \param[in] size - The size of the data (usually this is stride * height, but not always)
      */
-    explicit mat_view(const common::element_type type, const size2d<dimensions_type> dimensions, underlying_type *data,
+    explicit mat_view(const Common::ElementType type, const size2d<dimensions_type> dimensions, underlying_type *data,
                       const size_type size) noexcept;
 
     /*!
@@ -85,7 +85,7 @@ public:
      * \param[in] data - Raw matrix data
      * \param[in] size - The size of the data (usually this is stride * height, but not always)
      */
-    explicit mat_view(const common::element_type type, const dimensions_type width, const dimensions_type height,
+    explicit mat_view(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                       underlying_type *data, const size_type size) noexcept;
 
     /*!
@@ -96,7 +96,7 @@ public:
      * \param[in] data - Raw matrix data
      * \param[in] size - The size of the data (usually this is stride * height, but not always)
      */
-    explicit mat_view(const common::element_type type, const size2d<dimensions_type> dimensions,
+    explicit mat_view(const Common::ElementType type, const size2d<dimensions_type> dimensions,
                       const stride_type stride, underlying_type *data, const size_type size) noexcept;
 
     /*!
@@ -108,7 +108,7 @@ public:
      * \param[in] data - Raw matrix data
      * \param[in] size - The size of the data (usually this is stride * height, but not always)
      */
-    explicit mat_view(const common::element_type type, const dimensions_type width, const dimensions_type height,
+    explicit mat_view(const Common::ElementType type, const dimensions_type width, const dimensions_type height,
                       const stride_type stride, underlying_type *data, const size_type size) noexcept;
 
     ~mat_view() noexcept = default;
@@ -123,7 +123,7 @@ public:
      * Get the element type of the matrix.
      * \return The element type of the matrix
      */
-    [[nodiscard]] auto element_type() const noexcept -> common::element_type;
+    [[nodiscard]] auto ElementType() const noexcept -> Common::ElementType;
 
     /*!
      * Get the width of the matrix.
@@ -168,7 +168,7 @@ public:
     [[nodiscard]] auto data() const noexcept -> const underlying_type *;
 
 protected:
-    common::element_type type_;
+    Common::ElementType type_;
     underlying_type *data_ptr_;
     size2d<dimensions_type> dimensions_;
     stride_type stride_;
@@ -194,7 +194,7 @@ protected:
  * \param[in] m - A matrix
  * \return The element type of the matrix
  */
-[[nodiscard]] inline auto element_type(const mat_view &m) noexcept -> common::element_type;
+[[nodiscard]] inline auto ElementType(const mat_view &m) noexcept -> Common::ElementType;
 
 /*!
  * Get the width of the given matrix.
@@ -228,7 +228,7 @@ protected:
 /*!
  * Returns true if the data described by the given matrix is laid out in memory in a
  * continuous fashion
- * (ie. stride = element_type.size * width)
+ * (ie. stride = ElementType.size * width)
  * \param[in] m - A mat
  * \return True if the matrix's data is continuous.
  */
@@ -268,9 +268,9 @@ protected:
 
 /*!
  * Returns the pointer to the start of the element data within the given matrix. This is a relatively slow convenience
- * function that should not be used in a loop. Instead, access the data and use common::offset_of to calculate the
+ * function that should not be used in a loop. Instead, access the data and use Common::offset_of to calculate the
  * offset on the raw data.
- * \see common::offset_of()
+ * \see Common::offset_of()
  * \param[in] m - A matrix
  * \param[in] coord - The coordinates to get the pointer to
  * \return The pointer to where the element data begins
@@ -280,9 +280,9 @@ protected:
 
 /*!
  * Returns the pointer to the start of the element data within the given matrix. This is a relatively slow convenience
- * function that should not be used in a loop. Instead, access the data and use common::offset_of to calculate the
+ * function that should not be used in a loop. Instead, access the data and use Common::offset_of to calculate the
  * offset on the raw data.
- * \see common::offset_of()
+ * \see Common::offset_of()
  * \param[in] m - A matrix
  * \param[in] coord - The coordinates to get the pointer to
  * \return The pointer to where the element data begins
@@ -292,9 +292,9 @@ protected:
 
 /*!
  * Returns the typed pointer (T) to the start of the element data within the given matrix. This is a relatively slow
- * convenience function that should not be used in a loop. Instead, access the data and use common::offset_of to
+ * convenience function that should not be used in a loop. Instead, access the data and use Common::offset_of to
  * calculate the offset on the raw data.
- * \see common::offset_of()
+ * \see Common::offset_of()
  * \param[in] m - A matrix
  * \param[in] coord - The coordinates to get the pointer to
  * \return The typed pointer to where the element data begins
@@ -304,9 +304,9 @@ template <typename T>
 
 /*!
  * Returns the typed pointer (T) to the start of the element data within the given matrix. This is a relatively slow
- * convenience function that should not be used in a loop. Instead, access the data and use common::offset_of to
+ * convenience function that should not be used in a loop. Instead, access the data and use Common::offset_of to
  * calculate the offset on the raw data.
- * \see common::offset_of()
+ * \see Common::offset_of()
  * \param[in] m - A matrix
  * \param[in] coord - The coordinates to get the pointer to
  * \return The typed pointer to where the element data begins
@@ -316,9 +316,9 @@ template <typename T>
 
 /*!
  * Returns the pointer to the start of the element data within the given matrix. This is a relatively slow convenience
- * function that should not be used in a loop. Instead, access the data and use common::offset_of to calculate the
+ * function that should not be used in a loop. Instead, access the data and use Common::offset_of to calculate the
  * offset on the raw data.
- * \see common::offset_of()
+ * \see Common::offset_of()
  * \param[in] m - A matrix
  * \param[in] x - The X coordinate to get the pointer to
  * \param[in] y - The Y coordinate to get the pointer to
@@ -329,9 +329,9 @@ template <typename T>
 
 /*!
  * Returns the pointer to the start of the element data within the given matrix. This is a relatively slow convenience
- * function that should not be used in a loop. Instead, access the data and use common::offset_of to calculate the
+ * function that should not be used in a loop. Instead, access the data and use Common::offset_of to calculate the
  * offset on the raw data.
- * \see common::offset_of()
+ * \see Common::offset_of()
  * \param[in] m - A matrix
  * \param[in] x - The X coordinate to get the pointer to
  * \param[in] y - The Y coordinate to get the pointer to
@@ -342,9 +342,9 @@ template <typename T>
 
 /*!
  * Returns the typed pointer (T) to the start of the element data within the given matrix. This is a relatively slow
- * convenience function that should not be used in a loop. Instead, access the data and use common::offset_of to
+ * convenience function that should not be used in a loop. Instead, access the data and use Common::offset_of to
  * calculate the offset on the raw data.
- * \see common::offset_of()
+ * \see Common::offset_of()
  * \param[in] m - A matrix
  * \param[in] x - The X coordinate to get the pointer to
  * \param[in] y - The Y coordinate to get the pointer to
@@ -356,9 +356,9 @@ template <typename T>
 
 /*!
  * Returns the typed pointer (T) to the start of the element data within the given matrix. This is a relatively slow
- * convenience function that should not be used in a loop. Instead, access the data and use common::offset_of to
+ * convenience function that should not be used in a loop. Instead, access the data and use Common::offset_of to
  * calculate the offset on the raw data.
- * \see common::offset_of()
+ * \see Common::offset_of()
  * \param[in] m - A matrix
  * \param[in] x - The X coordinate to get the pointer to
  * \param[in] y - The Y coordinate to get the pointer to
@@ -369,14 +369,14 @@ template <typename T>
                              const mat_view::dimensions_type y) noexcept -> const T *;
 
 /*!
- * Fill the given matrix with a value. The given type must match the element_type, otherwise it will trigger undefined
+ * Fill the given matrix with a value. The given type must match the ElementType, otherwise it will trigger undefined
  * behavior.
  */
 template <typename T>
 inline void fill(mat_view &m, const T value) noexcept;
 
 /*!
- * Fill a part of the given matrix with a value. The given type must match the element_type, otherwise it will trigger
+ * Fill a part of the given matrix with a value. The given type must match the ElementType, otherwise it will trigger
  * undefined behavior.
  */
 template <typename T>

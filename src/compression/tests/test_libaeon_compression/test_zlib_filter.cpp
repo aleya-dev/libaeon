@@ -11,25 +11,25 @@
 using namespace aeon;
 
 static void test_decompress_data(const std::vector<char> &buffer, const int read_chunk_size,
-                                 const common::string &expected)
+                                 const Common::String &expected)
 {
     auto decompress_pipeline = streams::memory_device{buffer} | compression::stream_filters::zlib_decompress_filter{};
 
-    common::string read_data;
-    read_data.resize(read_chunk_size);
+    Common::String read_data;
+    read_data.Resize(read_chunk_size);
 
     std::streamsize offset = 0;
     std::streamsize result = 0;
 
-    common::string total_string;
+    Common::String total_string;
 
     do
     {
-        result = decompress_pipeline.read(reinterpret_cast<std::byte *>(std::data(read_data)), std::size(read_data));
-        ASSERT_EQ(read_data.substr(0, result), expected.substr(offset, result));
+        result = decompress_pipeline.read(reinterpret_cast<std::byte *>(read_data.Data()), read_data.Size());
+        ASSERT_EQ(read_data.Substr(0, result), expected.Substr(offset, result));
         offset += result;
 
-        total_string += read_data.substr(0, result);
+        total_string += read_data.Substr(0, result);
     } while (result == read_chunk_size);
 
     EXPECT_EQ(total_string, expected);
@@ -40,7 +40,7 @@ TEST(test_streams, test_zlib_compress_filter_read_write_basic)
     auto pipeline = streams::memory_device<std::vector<char>>{} | compression::stream_filters::zlib_compress_filter{};
     EXPECT_EQ(pipeline.size(), 0);
 
-    const common::string data =
+    const Common::String data =
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut "
         "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco "
         "laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in "
@@ -55,7 +55,7 @@ TEST(test_streams, test_zlib_compress_filter_read_write_basic)
     streams::stream_writer writer{pipeline};
     writer << data;
 
-    EXPECT_LT(pipeline.size(), static_cast<std::streamoff>(std::size(data)));
+    EXPECT_LT(pipeline.size(), static_cast<std::streamoff>(data.Size()));
 
     test_decompress_data(pipeline.device().data(), 1, data);
     test_decompress_data(pipeline.device().data(), 2, data);
@@ -63,6 +63,6 @@ TEST(test_streams, test_zlib_compress_filter_read_write_basic)
     test_decompress_data(pipeline.device().data(), 32, data);
     test_decompress_data(pipeline.device().data(), 128, data);
     test_decompress_data(pipeline.device().data(), 200, data);
-    test_decompress_data(pipeline.device().data(), static_cast<int>(std::size(data)), data);
-    test_decompress_data(pipeline.device().data(), static_cast<int>(std::size(data) * 2), data);
+    test_decompress_data(pipeline.device().data(), static_cast<int>(data.Size()), data);
+    test_decompress_data(pipeline.device().data(), static_cast<int>(data.Size() * 2), data);
 }

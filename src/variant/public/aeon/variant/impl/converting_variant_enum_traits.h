@@ -80,7 +80,7 @@ struct converting_variant_enum_traits<bool>
 };
 
 template <>
-struct converting_variant_enum_traits<common::string>
+struct converting_variant_enum_traits<Common::String>
 {
     static constexpr auto type = converting_variant::type::string;
 };
@@ -152,9 +152,9 @@ struct converting_variant_object_traits<double>
 };
 
 template <>
-struct converting_variant_object_traits<common::string>
+struct converting_variant_object_traits<Common::String>
 {
-    using type = common::string;
+    using type = Common::String;
 };
 
 template <>

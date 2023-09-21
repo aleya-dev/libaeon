@@ -8,7 +8,7 @@ namespace aeon::web::http
 
 struct method_string_lookup_t
 {
-    common::string str;
+    Common::String str;
     http_method method = http_method::invalid;
 };
 
@@ -20,7 +20,7 @@ static const method_string_lookup_t method_string_lookup[] = {{"GET", http_metho
                                                               {"OPTIONS", http_method::options},
                                                               {"PATCH", http_method::patch}};
 
-auto string_to_method(const common::string_view &str) noexcept -> http_method
+auto string_to_method(const Common::StringView &str) noexcept -> http_method
 {
     for (const auto &method_string : method_string_lookup)
     {

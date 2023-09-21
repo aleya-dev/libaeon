@@ -5,44 +5,44 @@
 
 TEST(test_type_traits, test_preserve_const)
 {
-    EXPECT_TRUE((std::is_same_v<aeon::common::type_traits::preserve_const_t<int, float>, float>));
-    EXPECT_TRUE((std::is_same_v<aeon::common::type_traits::preserve_const_t<const int, float>, const float>));
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_const_t<int, float>, const float>));
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_const_t<const int, float>, float>));
+    EXPECT_TRUE((std::is_same_v<aeon::Common::TypeTraits::PreserveConstT<int, float>, float>));
+    EXPECT_TRUE((std::is_same_v<aeon::Common::TypeTraits::PreserveConstT<const int, float>, const float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveConstT<int, float>, const float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveConstT<const int, float>, float>));
 
-    EXPECT_TRUE((std::is_same_v<aeon::common::type_traits::preserve_const_t<volatile int, float>, float>));
-    EXPECT_TRUE((std::is_same_v<aeon::common::type_traits::preserve_const_t<volatile const int, float>, const float>));
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_const_t<volatile int, float>, const float>));
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_const_t<volatile const int, float>, float>));
+    EXPECT_TRUE((std::is_same_v<aeon::Common::TypeTraits::PreserveConstT<volatile int, float>, float>));
+    EXPECT_TRUE((std::is_same_v<aeon::Common::TypeTraits::PreserveConstT<volatile const int, float>, const float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveConstT<volatile int, float>, const float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveConstT<volatile const int, float>, float>));
 }
 
 TEST(test_type_traits, test_preserve_volatile)
 {
-    EXPECT_TRUE((std::is_same_v<aeon::common::type_traits::preserve_volatile_t<int, float>, float>));
-    EXPECT_TRUE((std::is_same_v<aeon::common::type_traits::preserve_volatile_t<volatile int, float>, volatile float>));
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_volatile_t<int, float>, volatile float>));
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_volatile_t<volatile int, float>, float>));
+    EXPECT_TRUE((std::is_same_v<aeon::Common::TypeTraits::PreserveVolatileT<int, float>, float>));
+    EXPECT_TRUE((std::is_same_v<aeon::Common::TypeTraits::PreserveVolatileT<volatile int, float>, volatile float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveVolatileT<int, float>, volatile float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveVolatileT<volatile int, float>, float>));
 
-    EXPECT_TRUE((std::is_same_v<aeon::common::type_traits::preserve_volatile_t<const int, float>, float>));
+    EXPECT_TRUE((std::is_same_v<aeon::Common::TypeTraits::PreserveVolatileT<const int, float>, float>));
     EXPECT_TRUE(
-        (std::is_same_v<aeon::common::type_traits::preserve_volatile_t<const volatile int, float>, volatile float>));
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_volatile_t<const int, float>, volatile float>));
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_volatile_t<const volatile int, float>, float>));
+        (std::is_same_v<aeon::Common::TypeTraits::PreserveVolatileT<const volatile int, float>, volatile float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveVolatileT<const int, float>, volatile float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveVolatileT<const volatile int, float>, float>));
 }
 
 TEST(test_type_traits, test_preserve_cv)
 {
-    EXPECT_TRUE((std::is_same_v<aeon::common::type_traits::preserve_cv_t<int, float>, float>));
-    EXPECT_TRUE((std::is_same_v<aeon::common::type_traits::preserve_cv_t<const int, float>, const float>));
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_cv_t<int, float>, const float>));
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_cv_t<const int, float>, float>));
+    EXPECT_TRUE((std::is_same_v<aeon::Common::TypeTraits::PreserveCvt<int, float>, float>));
+    EXPECT_TRUE((std::is_same_v<aeon::Common::TypeTraits::PreserveCvt<const int, float>, const float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveCvt<int, float>, const float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveCvt<const int, float>, float>));
 
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_cv_t<int, float>, volatile float>));
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_cv_t<volatile int, float>, float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveCvt<int, float>, volatile float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveCvt<volatile int, float>, float>));
 
-    EXPECT_TRUE((std::is_same_v<aeon::common::type_traits::preserve_cv_t<volatile int, float>, volatile float>));
+    EXPECT_TRUE((std::is_same_v<aeon::Common::TypeTraits::PreserveCvt<volatile int, float>, volatile float>));
     EXPECT_TRUE(
-        (std::is_same_v<aeon::common::type_traits::preserve_cv_t<volatile const int, float>, volatile const float>));
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_cv_t<volatile int, float>, volatile const float>));
-    EXPECT_FALSE((std::is_same_v<aeon::common::type_traits::preserve_cv_t<volatile const int, float>, volatile float>));
+        (std::is_same_v<aeon::Common::TypeTraits::PreserveCvt<volatile const int, float>, volatile const float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveCvt<volatile int, float>, volatile const float>));
+    EXPECT_FALSE((std::is_same_v<aeon::Common::TypeTraits::PreserveCvt<volatile const int, float>, volatile float>));
 }

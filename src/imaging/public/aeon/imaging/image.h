@@ -42,7 +42,7 @@ public:
      *                     b8g8r8a8_unorm_srgb)
      * \param[in] dimensions - The width and height of the image.
      */
-    explicit image(const common::element_type type, const imaging::format format,
+    explicit image(const Common::ElementType type, const imaging::format format,
                    const math::size2d<dimensions_type> dimensions) noexcept;
 
     /*!
@@ -53,7 +53,7 @@ public:
      * \param[in] width - The width of the image.
      * \param[in] height - The height of the image.
      */
-    explicit image(const common::element_type type, const imaging::format format, const dimensions_type width,
+    explicit image(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                    const dimensions_type height) noexcept;
 
     /*!
@@ -64,7 +64,7 @@ public:
      * \param[in] dimensions - The width and height of the image.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      */
-    explicit image(const common::element_type type, const imaging::format format,
+    explicit image(const Common::ElementType type, const imaging::format format,
                    const math::size2d<dimensions_type> dimensions, const stride_type stride) noexcept;
 
     /*!
@@ -76,7 +76,7 @@ public:
      * \param[in] height - The height of the image.
      * \param[in] stride - The amount of bytes between the start of 2 lines/rows.
      */
-    explicit image(const common::element_type type, const imaging::format format, const dimensions_type width,
+    explicit image(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                    const dimensions_type height, const stride_type stride) noexcept;
 
     /*!
@@ -87,7 +87,7 @@ public:
      * \param[in] dimensions - The width and height of the image.
      * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions.
      */
-    explicit image(const common::element_type type, const imaging::format format,
+    explicit image(const Common::ElementType type, const imaging::format format,
                    const math::size2d<dimensions_type> dimensions, std::vector<underlying_type> data) noexcept;
 
     /*!
@@ -99,7 +99,7 @@ public:
      * \param[in] height - The height of the image.
      * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions.
      */
-    explicit image(const common::element_type type, const imaging::format format, const dimensions_type width,
+    explicit image(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                    const dimensions_type height, std::vector<underlying_type> data) noexcept;
 
     /*!
@@ -112,7 +112,7 @@ public:
      * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions and
      *                   stride.
      */
-    explicit image(const common::element_type type, const imaging::format format,
+    explicit image(const Common::ElementType type, const imaging::format format,
                    const math::size2d<dimensions_type> dimensions, const stride_type stride,
                    std::vector<underlying_type> data) noexcept;
 
@@ -127,7 +127,7 @@ public:
      * \param[in] data - Data to be moved into the image. The size of the data must match the given dimensions and
      *                   stride.
      */
-    explicit image(const common::element_type type, const imaging::format format, const dimensions_type width,
+    explicit image(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                    const dimensions_type height, const stride_type stride, std::vector<underlying_type> data) noexcept;
 
     /*!
@@ -138,7 +138,7 @@ public:
      * \param[in] dimensions - The width and height of the image.
      * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
      */
-    explicit image(const common::element_type type, const imaging::format format,
+    explicit image(const Common::ElementType type, const imaging::format format,
                    const math::size2d<dimensions_type> dimensions, const underlying_type *data);
 
     /*!
@@ -150,7 +150,7 @@ public:
      * \param[in] height - The height of the image.
      * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
      */
-    explicit image(const common::element_type type, const imaging::format format, const dimensions_type width,
+    explicit image(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                    const dimensions_type height, const underlying_type *data);
 
     /*!
@@ -163,7 +163,7 @@ public:
      * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions and
      *                   stride.
      */
-    explicit image(const common::element_type type, const imaging::format format,
+    explicit image(const Common::ElementType type, const imaging::format format,
                    const math::size2d<dimensions_type> dimensions, const stride_type stride,
                    const underlying_type *data);
 
@@ -178,7 +178,7 @@ public:
      * \param[in] data - Data to be copied into the image. The size of the data must match the given dimensions.
      *                   stride.
      */
-    explicit image(const common::element_type type, const imaging::format format, const dimensions_type width,
+    explicit image(const Common::ElementType type, const imaging::format format, const dimensions_type width,
                    const dimensions_type height, const stride_type stride, const underlying_type *data);
 
     /*!

@@ -7,7 +7,7 @@ namespace aeon::streams::internal
 {
 
 file_device_base::file_device_base(const std::filesystem::path &path, const std::ios::openmode mode, const file_mode fm,
-                                   const common::flags<file_flag> flags)
+                                   const Common::Flags<file_flag> flags)
     : iostream_device_base<std::fstream>{}
     , fstream_{}
 {
@@ -16,13 +16,13 @@ file_device_base::file_device_base(const std::filesystem::path &path, const std:
     if (fm == file_mode::binary)
         open_mode |= std::fstream::binary;
 
-    if (flags.is_set(file_flag::at_end))
+    if (flags.IsSet(file_flag::at_end))
         open_mode |= std::fstream::ate;
 
-    if (flags.is_set(file_flag::append))
+    if (flags.IsSet(file_flag::append))
         open_mode |= std::fstream::app;
 
-    if (flags.is_set(file_flag::truncate))
+    if (flags.IsSet(file_flag::truncate))
         open_mode |= std::fstream::trunc;
 
     fstream_.open(path, open_mode);

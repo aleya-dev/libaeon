@@ -7,189 +7,189 @@
 #include <mutex>
 #include <atomic>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
 template <class... Args>
-using signal_func = std::function<void(Args...)>;
+using SignalFunc = std::function<void(Args...)>;
 
 template <class... Args>
-class signal_connection
+class SignalConnection
 {
 public:
-    signal_connection()
-        : handle_(0)
-        , func_()
-        , disconnect_()
+    SignalConnection()
+        : m_handle(0)
+        , m_func()
+        , m_disconnect()
     {
     }
 
-    explicit signal_connection(int handle, signal_func<Args...> func, std::function<void()> disconnect)
-        : handle_(handle)
-        , func_(func)
-        , disconnect_(disconnect)
+    explicit SignalConnection(const int handle, SignalFunc<Args...> func, std::function<void()> disconnect)
+        : m_handle(handle)
+        , m_func(func)
+        , m_disconnect(disconnect)
     {
     }
 
-    signal_connection(signal_connection<Args...> &&other) noexcept
-        : handle_(other.handle_)
-        , func_(std::move(other.func_))
-        , disconnect_(std::move(other.disconnect_))
+    SignalConnection(SignalConnection<Args...> &&other) noexcept
+        : m_handle(other.m_handle)
+        , m_func(std::move(other.m_func))
+        , m_disconnect(std::move(other.m_disconnect))
     {
-        other.handle_ = 0;
+        other.m_handle = 0;
     }
 
-    ~signal_connection() = default;
+    ~SignalConnection() = default;
 
-    auto operator=(signal_connection<Args...> &&other) noexcept -> signal_connection &
+    auto operator=(SignalConnection<Args...> &&other) noexcept -> SignalConnection &
     {
-        handle_ = other.handle_;
-        func_ = std::move(other.func_);
-        disconnect_ = std::move(other.disconnect_);
+        m_handle = other.m_handle;
+        m_func = std::move(other.m_func);
+        m_disconnect = std::move(other.m_disconnect);
 
-        other.handle_ = 0;
+        other.m_handle = 0;
         return *this;
     }
 
-    signal_connection(const signal_connection<Args...> &) = default;
-    auto operator=(const signal_connection<Args...> &) -> signal_connection & = default;
+    SignalConnection(const SignalConnection<Args...> &) = default;
+    auto operator=(const SignalConnection<Args...> &) -> SignalConnection & = default;
 
-    [[nodiscard]] auto get_handle() const
+    [[nodiscard]] auto Handle() const
     {
-        return handle_;
+        return m_handle;
     }
 
-    void emit(Args... args)
+    void Emit(Args... args)
     {
-        func_(args...);
+        m_func(args...);
     }
 
-    void disconnect()
+    void Disconnect()
     {
-        if (disconnect_)
-            disconnect_();
+        if (m_disconnect)
+            m_disconnect();
 
-        handle_ = 0;
+        m_handle = 0;
     }
 
     explicit operator bool() const
     {
-        return handle_ != 0;
+        return m_handle != 0;
     }
 
 private:
-    int handle_;
-    signal_func<Args...> func_;
-    std::function<void()> disconnect_;
+    int m_handle;
+    SignalFunc<Args...> m_func;
+    std::function<void()> m_disconnect;
 };
 
 template <class... Args>
-class [[nodiscard]] scoped_signal_connection
+class [[nodiscard]] ScopedSignalConnection
 {
 public:
-    scoped_signal_connection()
-        : signal_()
+    ScopedSignalConnection()
+        : m_signal()
     {
     }
 
-    scoped_signal_connection(signal_connection<Args...> &&signal)
-        : signal_(std::move(signal))
+    ScopedSignalConnection(SignalConnection<Args...> &&signal)
+        : m_signal(std::move(signal))
     {
     }
 
-    ~scoped_signal_connection()
+    ~ScopedSignalConnection()
     {
-        if (signal_)
-            signal_.disconnect();
+        if (m_signal)
+            m_signal.Disconnect();
     }
 
-    scoped_signal_connection(scoped_signal_connection<Args...> &&other)
-        : signal_(std::move(other.signal_))
+    ScopedSignalConnection(ScopedSignalConnection<Args...> &&other)
+        : m_signal(std::move(other.m_signal))
     {
     }
 
-    scoped_signal_connection &operator=(scoped_signal_connection &&other)
+    ScopedSignalConnection &operator=(ScopedSignalConnection &&other)
     {
-        signal_ = std::move(other.signal_);
+        m_signal = std::move(other.m_signal);
         return *this;
     }
 
-    scoped_signal_connection(const scoped_signal_connection<Args...> &other) = delete;
-    scoped_signal_connection &operator=(const scoped_signal_connection &other) = delete;
+    ScopedSignalConnection(const ScopedSignalConnection<Args...> &other) = delete;
+    ScopedSignalConnection &operator=(const ScopedSignalConnection &other) = delete;
 
-    [[nodiscard]] auto get_handle() const
+    [[nodiscard]] auto Handle() const
     {
-        return signal_.get_handle();
+        return m_signal.Handle();
     }
 
-    void emit(Args... args)
+    void Emit(Args... args)
     {
-        signal_.emit(args...);
+        m_signal.Emit(args...);
     }
 
-    void disconnect() const
+    void Disconnect() const
     {
-        signal_.disconnect();
+        m_signal.Disconnect();
     }
 
 private:
-    signal_connection<Args...> signal_;
+    SignalConnection<Args...> m_signal;
 };
 
 template <class... Args>
-class signal
+class Signal
 {
 public:
-    signal()
-        : last_handle_(0)
-        , connections_()
+    Signal()
+        : m_lastHandle(0)
+        , m_connections()
     {
     }
 
-    ~signal() = default;
+    ~Signal() = default;
 
-    scoped_signal_connection<Args...> connect(signal_func<Args...> f)
+    ScopedSignalConnection<Args...> Connect(SignalFunc<Args...> f)
     {
-        auto handle = ++last_handle_;
-        auto disconnect_func = [this, handle]() { disconnect(handle); };
-        auto connection = signal_connection<Args...>(handle, f, disconnect_func);
-        connections_.push_back(connection);
+        auto handle = ++m_lastHandle;
+        auto disconnectFunc = [this, handle]() { Disconnect(handle); };
+        auto connection = SignalConnection<Args...>(handle, f, disconnectFunc);
+        m_connections.push_back(connection);
         return connection;
     }
 
-    void disconnect(const scoped_signal_connection<Args...> &c)
+    void Disconnect(const ScopedSignalConnection<Args...> &c)
     {
-        disconnect(c.get_handle());
+        Disconnect(c.Handle());
     }
 
-    void disconnect(const int c)
+    void Disconnect(const int c)
     {
-        connections_.remove_if([c](const signal_connection<Args...> &other) { return other.get_handle() == c; });
+        m_connections.remove_if([c](const SignalConnection<Args...> &other) { return other.Handle() == c; });
     }
 
     void operator()(Args... args)
     {
-        for (auto &c : connections_)
+        for (auto &c : m_connections)
         {
-            c.emit(args...);
+            c.Emit(args...);
         }
     }
 
 private:
-    int last_handle_ = 0;
-    std::list<signal_connection<Args...>> connections_;
+    int m_lastHandle = 0;
+    std::list<SignalConnection<Args...>> m_connections;
 };
 
 template <class... Args>
-class signal_mt
+class SignalMt
 {
-    using mutex_type = std::mutex;
-    using handle_type = std::atomic<int>;
-    using list_type = std::list<signal_connection<Args...>>;
+    using MutexType = std::mutex;
+    using HandleType = std::atomic<int>;
+    using ListType = std::list<SignalConnection<Args...>>;
 
 public:
-    signal_mt() = default;
-    ~signal_mt()
+    SignalMt() = default;
+    ~SignalMt()
     {
         /* \note This does not solve the 'destruction' while signal is executing problem.
          * Reasoning:
@@ -198,46 +198,46 @@ public:
          * acquire the mutex and execute the signal destructor. When the signal is destroyed it will release the
          * mutex and allow thread b to execute the signal that does not exist. Which will result in havoc.
          */
-        std::lock_guard<mutex_type> guard(lock_);
-        connections_.clear();
+        std::lock_guard<MutexType> guard(m_lock);
+        m_connections.clear();
     }
 
-    scoped_signal_connection<Args...> connect(signal_func<Args...> f)
+    ScopedSignalConnection<Args...> Connect(SignalFunc<Args...> f)
     {
-        int handle = ++last_handle_;
-        auto disconnect_func = [this, handle]() { disconnect(handle); };
-        auto connection = signal_connection<Args...>(++last_handle_, f, disconnect_func);
+        int handle = ++m_lastHandle;
+        auto disconnectFunc = [this, handle]() { Disconnect(handle); };
+        auto connection = SignalConnection<Args...>(++m_lastHandle, f, disconnectFunc);
         {
-            std::lock_guard<mutex_type> guard(lock_);
-            connections_.push_back(connection);
+            std::lock_guard<MutexType> guard(m_lock);
+            m_connections.push_back(connection);
         }
 
         return connection;
     }
 
-    void disconnect(const scoped_signal_connection<Args...> &c)
+    void Disconnect(const ScopedSignalConnection<Args...> &c)
     {
         disconnect(c.get_handle());
     }
 
-    void disconnect(const int handle)
+    void Disconnect(const int handle)
     {
-        std::lock_guard<mutex_type> guard(lock_);
-        connections_.remove_if([&handle](const signal_connection<Args...> &other)
-                               { return other.get_handle() == handle; });
+        std::lock_guard<MutexType> guard(m_lock);
+        m_connections.remove_if([&handle](const SignalConnection<Args...> &other)
+                               { return other.Handle() == handle; });
     }
 
     void operator()(Args... args)
     {
-        std::lock_guard<mutex_type> guard(lock_);
-        for (auto &c : connections_)
-            c.emit(args...);
+        std::lock_guard<MutexType> guard(m_lock);
+        for (auto &c : m_connections)
+            c.Emit(args...);
     }
 
 private:
-    handle_type last_handle_{0};
-    list_type connections_;
-    mutex_type lock_;
+    HandleType m_lastHandle{0};
+    ListType m_connections;
+    MutexType m_lock;
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

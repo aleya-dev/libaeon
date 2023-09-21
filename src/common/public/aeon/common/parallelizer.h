@@ -6,55 +6,55 @@
 #include <functional>
 #include <vector>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
-class parallelizer
+class Parallelizer
 {
 public:
-    using task = std::function<void()>;
-    using task_vector = std::vector<task>;
+    using Task = std::function<void()>;
+    using TaskVector = std::vector<Task>;
 
-    parallelizer()
-        : dispatcher_(dispatcher_stop_mode::stop_on_empty_queue)
+    Parallelizer()
+        : m_dispatcher(DispatcherStopMode::StopOnEmptyQueue)
     {
     }
 
-    explicit parallelizer(const task_vector &tasks)
-        : dispatcher_(dispatcher_stop_mode::stop_on_empty_queue)
+    explicit Parallelizer(const TaskVector &tasks)
+        : m_dispatcher(DispatcherStopMode::StopOnEmptyQueue)
     {
-        add_jobs(tasks);
+        AddJobs(tasks);
     }
 
-    ~parallelizer() = default;
+    ~Parallelizer() = default;
 
-    parallelizer(parallelizer &&) = delete;
-    auto operator=(parallelizer &&) -> parallelizer & = delete;
+    Parallelizer(Parallelizer &&) = delete;
+    auto operator=(Parallelizer &&) -> Parallelizer & = delete;
 
-    parallelizer(const parallelizer &) = delete;
-    auto operator=(const parallelizer &) -> parallelizer & = delete;
+    Parallelizer(const Parallelizer &) = delete;
+    auto operator=(const Parallelizer &) -> Parallelizer & = delete;
 
-    void add_job(const task &task)
+    void AddJob(const Task &task)
     {
-        dispatcher_.post(task);
+        m_dispatcher.Post(task);
     }
 
-    void add_jobs(const task_vector &tasks)
+    void AddJobs(const TaskVector &tasks)
     {
         for (auto &task : tasks)
         {
-            dispatcher_.post(task);
+            m_dispatcher.Post(task);
         }
     }
 
-    void run(const int concurrency)
+    void Run(const int concurrency)
     {
         std::vector<std::thread> threads;
         threads.reserve(concurrency);
 
         for (int i = 0; i < concurrency; ++i)
         {
-            threads.emplace_back([this]() { dispatcher_.run(); });
+            threads.emplace_back([this]() { m_dispatcher.Run(); });
         }
 
         for (auto &thread : threads)
@@ -64,7 +64,7 @@ public:
     }
 
 private:
-    dispatcher dispatcher_;
+    Dispatcher m_dispatcher;
 };
 
-} // namespace aeon::common
+} // namespace aeon::Common

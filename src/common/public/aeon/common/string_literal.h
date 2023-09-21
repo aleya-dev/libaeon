@@ -5,11 +5,11 @@
 #include <algorithm>
 #include <array>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
 template <typename char_type_t, std::size_t N>
-class basic_string_literal
+class BasicStringLiteral
 {
 public:
     using storage_type = char[N];
@@ -22,12 +22,12 @@ public:
     using iterator = const char_type_t *;
     using const_iterator = const char_type_t *;
 
-    constexpr basic_string_literal() noexcept
+    constexpr BasicStringLiteral() noexcept
     {
         static_assert(N == 0, "String literal of size > 0 can not be empty.");
     }
 
-    constexpr basic_string_literal(const char_type_t (&str)[N])
+    constexpr BasicStringLiteral(const char_type_t (&str)[N])
     {
         std::copy_n(str, N, value);
     }
@@ -76,21 +76,21 @@ public:
 };
 
 template <typename char_type_t, std::size_t N>
-basic_string_literal(const char_type_t (&)[N]) -> basic_string_literal<char_type_t, N>;
+BasicStringLiteral(const char_type_t (&)[N]) -> BasicStringLiteral<char_type_t, N>;
 
 template <std::size_t N>
-using string_literal = basic_string_literal<char, N>;
+using StringLiteral = BasicStringLiteral<char, N>;
 
 template <std::size_t N>
-using wstring_literal = basic_string_literal<wchar_t, N>;
+using WStringLiteral = BasicStringLiteral<wchar_t, N>;
 
 template <std::size_t N>
-using u8string_literal = basic_string_literal<char8_t, N>;
+using U8StringLiteral = BasicStringLiteral<char8_t, N>;
 
 template <std::size_t N>
-using u16string_literal = basic_string_literal<char16_t, N>;
+using U16StringLiteral = BasicStringLiteral<char16_t, N>;
 
 template <std::size_t N>
-using u32string_literal = basic_string_literal<char32_t, N>;
+using U32StringLiteral = BasicStringLiteral<char32_t, N>;
 
-} // namespace aeon::common
+} // namespace aeon::Common

@@ -8,14 +8,14 @@ namespace aeon::testutils
 {
 
 temporary_file::temporary_file()
-    : path_(common::generate_temporary_file_path())
+    : path_(Common::GenerateTemporaryFilePath())
 {
 }
 
-temporary_file::temporary_file(const common::string &extension)
-    : path_(common::generate_temporary_file_path())
+temporary_file::temporary_file(const Common::String &extension)
+    : path_(Common::GenerateTemporaryFilePath())
 {
-    path_.replace_extension(extension.str());
+    path_.replace_extension(extension.Str());
 }
 
 temporary_file::~temporary_file()

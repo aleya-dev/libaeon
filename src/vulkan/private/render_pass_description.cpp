@@ -21,7 +21,7 @@ auto render_pass_description::add_attachment(const vulkan::format format, const 
                                              const attachment_load_op stencil_load_op,
                                              const attachment_store_op stencil_store_op,
                                              const image_layout initial_layout, const image_layout final_layout,
-                                             const common::flags<attachment_description_flag> flags) -> attachment &
+                                             const Common::Flags<attachment_description_flag> flags) -> attachment &
 {
     return attachments_.emplace_back(format, samples, load_op, store_op, stencil_load_op, stencil_store_op,
                                      initial_layout, final_layout, flags);
@@ -32,7 +32,7 @@ auto render_pass_description::add_attachment(const VkFormat format, const sample
                                              const attachment_load_op stencil_load_op,
                                              const attachment_store_op stencil_store_op,
                                              const image_layout initial_layout, const image_layout final_layout,
-                                             const common::flags<attachment_description_flag> flags) -> attachment &
+                                             const Common::Flags<attachment_description_flag> flags) -> attachment &
 {
     return attachments_.emplace_back(format, samples, load_op, store_op, stencil_load_op, stencil_store_op,
                                      initial_layout, final_layout, flags);
@@ -50,7 +50,7 @@ auto render_pass_description::add_attachment(const VkFormat format, const VkSamp
 }
 
 auto render_pass_description::add_subpass(const pipeline_bind_point bind_point,
-                                          const common::flags<subpass_description_flag> flags) -> subpass &
+                                          const Common::Flags<subpass_description_flag> flags) -> subpass &
 {
     return subpasses_.emplace_back(bind_point, flags);
 }
@@ -61,7 +61,7 @@ auto render_pass_description::add_subpass(std::vector<attachment_reference> colo
                                           std::vector<attachment_reference> resolve_attachments,
                                           std::vector<std::uint32_t> preserve_attachments,
                                           const pipeline_bind_point bind_point,
-                                          const common::flags<subpass_description_flag> flags) -> subpass &
+                                          const Common::Flags<subpass_description_flag> flags) -> subpass &
 {
     return subpasses_.emplace_back(color_attachments, depth_stencil_attachment, input_attachments, resolve_attachments,
                                    preserve_attachments, bind_point, flags);
@@ -74,11 +74,11 @@ auto render_pass_description::add_subpass_dependency() -> subpass_dependency &
 
 auto render_pass_description::add_subpass_dependency(const std::uint32_t source_subpass,
                                                      const std::uint32_t destination_subpass,
-                                                     const common::flags<pipeline_stage_flag> source_stage_mask,
-                                                     const common::flags<pipeline_stage_flag> destination_stage_mask,
-                                                     const common::flags<access_flag> source_access_mask,
-                                                     const common::flags<access_flag> destination_access_mask,
-                                                     const common::flags<dependency_flag> dependency_flags)
+                                                     const Common::Flags<pipeline_stage_flag> source_stage_mask,
+                                                     const Common::Flags<pipeline_stage_flag> destination_stage_mask,
+                                                     const Common::Flags<access_flag> source_access_mask,
+                                                     const Common::Flags<access_flag> destination_access_mask,
+                                                     const Common::Flags<dependency_flag> dependency_flags)
     -> subpass_dependency &
 {
     return subpass_dependencies_.emplace_back(source_subpass, destination_subpass, source_stage_mask,

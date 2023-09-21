@@ -40,14 +40,14 @@ public:
 
     [[nodiscard]] auto has_name() const noexcept -> bool;
 
-    [[nodiscard]] auto name() const -> const common::string &;
+    [[nodiscard]] auto name() const -> const Common::String &;
 
     [[nodiscard]] auto has_value() const noexcept -> bool;
 
-    template <typename T = common::string>
+    template <typename T = Common::String>
     [[nodiscard]] auto value() const
     {
-        if constexpr (std::is_same_v<T, common::string>)
+        if constexpr (std::is_same_v<T, Common::String>)
         {
             return value_impl();
         }
@@ -60,28 +60,28 @@ public:
 
     [[nodiscard]] auto children() const -> std::vector<xml_node>;
 
-    [[nodiscard]] auto children(const common::string_view child_name) const -> std::vector<xml_node>;
+    [[nodiscard]] auto children(const Common::StringView child_name) const -> std::vector<xml_node>;
 
     [[nodiscard]] auto child() const noexcept -> xml_node;
 
-    [[nodiscard]] auto child(const common::string_view child_name) const noexcept -> xml_node;
+    [[nodiscard]] auto child(const Common::StringView child_name) const noexcept -> xml_node;
 
-    [[nodiscard]] auto operator[](const common::string_view child_name) const noexcept -> xml_node;
+    [[nodiscard]] auto operator[](const Common::StringView child_name) const noexcept -> xml_node;
 
-    [[nodiscard]] auto attributes() const -> std::map<common::string, variant::converting_variant>;
+    [[nodiscard]] auto attributes() const -> std::map<Common::String, variant::converting_variant>;
 
 protected:
     explicit xml_node(const xml_document &document) noexcept;
     explicit xml_node(const xml_document &document, const property_tree &pt, const xml_node_type type) noexcept;
-    explicit xml_node(const xml_document &document, const property_tree &pt, const common::string &name,
+    explicit xml_node(const xml_document &document, const property_tree &pt, const Common::String &name,
                       const xml_node_type type) noexcept;
 
-    [[nodiscard]] auto value_impl() const -> const common::string &;
+    [[nodiscard]] auto value_impl() const -> const Common::String &;
 
 private:
     const xml_document *document_;
     const property_tree *pt_;
-    const common::string *name_;
+    const Common::String *name_;
     xml_node_type type_;
 };
 

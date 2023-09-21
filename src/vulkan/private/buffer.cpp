@@ -13,7 +13,7 @@ namespace internal
 {
 
 [[nodiscard]] auto create_buffer(VmaAllocation &out_allocation, const vulkan::device &device, const std::size_t size,
-                                 const common::flags<buffer_usage_flag> usage_flags,
+                                 const Common::Flags<buffer_usage_flag> usage_flags,
                                  const memory_allocation_usage allocation_usage) -> VkBuffer
 {
     VkBufferCreateInfo create_info{};
@@ -37,7 +37,7 @@ buffer::buffer() noexcept
 {
 }
 
-buffer::buffer(const vulkan::device &device, const std::size_t size, const common::flags<buffer_usage_flag> usage_flags,
+buffer::buffer(const vulkan::device &device, const std::size_t size, const Common::Flags<buffer_usage_flag> usage_flags,
                const memory_allocation_usage allocation_usage)
     : device_memory{device, size}
     , handle_{internal::create_buffer(allocation_, device, size, usage_flags, allocation_usage)}

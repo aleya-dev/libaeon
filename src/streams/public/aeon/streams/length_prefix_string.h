@@ -23,29 +23,29 @@ struct length_prefix_string
 {
     using length_type = LengthT;
 
-    explicit length_prefix_string(common::string &str)
+    explicit length_prefix_string(Common::String &str)
         : string(str)
     {
     }
 
-    explicit length_prefix_string(const common::string &str)
-        : string(const_cast<common::string &>(str))
+    explicit length_prefix_string(const Common::String &str)
+        : string(const_cast<Common::String &>(str))
     {
     }
 
-    common::string &string;
+    Common::String &string;
 };
 
 template <typename device_t, length_prefix LengthT>
 inline auto &operator<<(stream_writer<device_t> &writer, const length_prefix_string<LengthT> &value)
 {
-    const auto string_length_bytes = value.string.size() * sizeof(common::string::value_type);
-    aeon_assert(string_length_bytes < std::numeric_limits<LengthT>::max(),
+    const auto string_length_bytes = value.string.Size() * sizeof(Common::String::value_type);
+    AeonAssert(string_length_bytes < std::numeric_limits<LengthT>::max(),
                 "String size in bytes exceeds length type max (overflow).");
 
     writer << static_cast<LengthT>(string_length_bytes);
 
-    if (writer.device().write(reinterpret_cast<const std::byte *>(value.string.c_str()), string_length_bytes) !=
+    if (writer.device().write(reinterpret_cast<const std::byte *>(value.string.CStr()), string_length_bytes) !=
         static_cast<std::streamsize>(string_length_bytes))
         throw stream_exception{};
 
@@ -55,11 +55,11 @@ inline auto &operator<<(stream_writer<device_t> &writer, const length_prefix_str
 template <typename device_t>
 inline auto &operator<<(stream_writer<device_t> &writer, const length_prefix_string<varint> &value)
 {
-    const auto string_length_bytes = value.string.size() * sizeof(common::string::value_type);
+    const auto string_length_bytes = value.string.Size() * sizeof(Common::String::value_type);
 
     writer << varint{string_length_bytes};
 
-    if (writer.device().write(reinterpret_cast<const std::byte *>(value.string.c_str()), string_length_bytes) !=
+    if (writer.device().write(reinterpret_cast<const std::byte *>(value.string.CStr()), string_length_bytes) !=
         static_cast<std::streamsize>(string_length_bytes))
         throw stream_exception{};
 
@@ -71,9 +71,9 @@ inline auto &operator>>(stream_reader<device_t> &reader, length_prefix_string<Le
 {
     LengthT length_bytes = 0;
     reader >> length_bytes;
-    value.string.resize(length_bytes / sizeof(common::string::value_type));
+    value.string.Resize(length_bytes / sizeof(Common::String::value_type));
 
-    if (reader.device().read(reinterpret_cast<std::byte *>(std::data(value.string)), length_bytes) !=
+    if (reader.device().read(reinterpret_cast<std::byte *>(value.string.Data()), length_bytes) !=
         static_cast<std::streamoff>(length_bytes))
         throw stream_exception{};
 
@@ -85,9 +85,9 @@ inline auto &operator>>(stream_reader<device_t> &reader, length_prefix_string<va
 {
     std::uint64_t length_bytes = 0;
     reader >> varint{length_bytes};
-    value.string.resize(length_bytes / sizeof(common::string::value_type));
+    value.string.Resize(length_bytes / sizeof(Common::String::value_type));
 
-    if (reader.device().read(reinterpret_cast<std::byte *>(std::data(value.string)), length_bytes) !=
+    if (reader.device().read(reinterpret_cast<std::byte *>(value.string.Data()), length_bytes) !=
         static_cast<std::streamoff>(length_bytes))
         throw stream_exception{};
 

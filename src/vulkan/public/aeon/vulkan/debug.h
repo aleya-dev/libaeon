@@ -21,8 +21,8 @@ public:
 
     debug() noexcept;
     explicit debug(const instance &instance, std::function<debug_callback_type> callback,
-                   const common::flags<message_severity> severity = message_severity::all,
-                   const common::flags<message_type> type = message_type::all);
+                   const Common::Flags<message_severity> severity = message_severity::all,
+                   const Common::Flags<message_type> type = message_type::all);
     ~debug();
 
     debug(const debug &) noexcept = delete;
@@ -31,8 +31,8 @@ public:
     debug(debug &&) noexcept = delete;
     auto operator=(debug &&) noexcept -> debug & = delete;
 
-    static void append_required_extensions(std::vector<common::string> &extensions);
-    static void append_required_layers(std::vector<common::string> &layers);
+    static void append_required_extensions(std::vector<Common::String> &extensions);
+    static void append_required_layers(std::vector<Common::String> &layers);
 
 private:
     void destroy() const noexcept;

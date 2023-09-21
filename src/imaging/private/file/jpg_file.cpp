@@ -70,7 +70,7 @@ namespace detail
 
 void save(const image_view &image, const subsample_mode subsample, int quality, streams::idynamic_stream &stream)
 {
-    aeon_assert_value_in_range(quality, 1, 100);
+    AeonAssertValueInRange(quality, 1, 100);
 
     const detail::tjhandle_compress_wrapper wrapper;
 

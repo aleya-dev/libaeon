@@ -48,7 +48,7 @@ public:
 
     [[nodiscard]] auto graphics_queue_index() const noexcept
     {
-        aeon_assert(has_graphics_queue_index(), "Device does not have a graphics queue.");
+        AeonAssert(has_graphics_queue_index(), "Device does not have a graphics queue.");
         return graphics_queue_index_;
     }
 
@@ -64,7 +64,7 @@ public:
 
     [[nodiscard]] auto present_queue_index() const noexcept
     {
-        aeon_assert(has_present_queue_index(), "Device does not have a present queue.");
+        AeonAssert(has_present_queue_index(), "Device does not have a present queue.");
         return present_queue_index_;
     }
 
@@ -99,7 +99,7 @@ public:
 
     [[nodiscard]] auto transfer_queue_index() const noexcept
     {
-        aeon_assert(has_transfer_queue_index(), "Device does not have a transfer queue.");
+        AeonAssert(has_transfer_queue_index(), "Device does not have a transfer queue.");
 
         if (has_dedicated_transfer_queue_index())
             return transfer_queue_index_;

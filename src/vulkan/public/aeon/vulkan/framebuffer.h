@@ -23,11 +23,11 @@ public:
     explicit framebuffer(const device &device, const std::vector<image_view_ref> &attachments,
                          const render_pass &render_pass, const math::size2d<std::uint32_t> size,
                          const std::uint32_t layers = 1,
-                         const common::flags<framebuffer_create_flag> flags = framebuffer_create_flag::none) noexcept;
+                         const Common::Flags<framebuffer_create_flag> flags = framebuffer_create_flag::none) noexcept;
 
     explicit framebuffer(const device &device, const std::vector<image_view_ref> &attachments,
                          const render_pass &render_pass, const math::size3d<std::uint32_t> size,
-                         const common::flags<framebuffer_create_flag> flags = framebuffer_create_flag::none) noexcept;
+                         const Common::Flags<framebuffer_create_flag> flags = framebuffer_create_flag::none) noexcept;
 
     ~framebuffer() noexcept;
 

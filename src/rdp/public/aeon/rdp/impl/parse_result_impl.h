@@ -34,7 +34,7 @@ inline auto matched<T>::value() const noexcept -> const result_type &
     return value_;
 }
 
-inline parse_error::parse_error(const parser &parser, common::string message) noexcept
+inline parse_error::parse_error(const parser &parser, Common::String message) noexcept
     : cursor_(parser.cursor())
     , message_(std::move(message))
 {
@@ -45,7 +45,7 @@ inline auto parse_error::cursor() const noexcept -> const rdp::cursor &
     return cursor_;
 }
 
-inline auto parse_error::message() const noexcept -> const common::string &
+inline auto parse_error::message() const noexcept -> const Common::String &
 {
     return message_;
 }
@@ -89,14 +89,14 @@ inline parse_result<ResultT>::operator bool() const noexcept
 template <typename ResultT>
 inline auto parse_result<ResultT>::value() noexcept -> result_type &
 {
-    aeon_assert(result(), "value should only be called if result() returns true.");
+    AeonAssert(result(), "value should only be called if result() returns true.");
     return std::get<matched<result_type>>(result_).value();
 }
 
 template <typename ResultT>
 inline auto parse_result<ResultT>::value() const noexcept -> const result_type &
 {
-    aeon_assert(result(), "value should only be called if result() returns true.");
+    AeonAssert(result(), "value should only be called if result() returns true.");
     return std::get<matched<result_type>>(result_).value();
 }
 
@@ -121,7 +121,7 @@ inline auto parse_result<ResultT>::is_error() const noexcept -> bool
 template <typename ResultT>
 inline auto parse_result<ResultT>::error() const noexcept -> const parse_error &
 {
-    aeon_assert(is_error(), "error should only be called if is_error() returns true.");
+    AeonAssert(is_error(), "error should only be called if is_error() returns true.");
     return std::get<parse_error>(result_);
 }
 
@@ -144,14 +144,14 @@ inline void print_parse_error(const parse_error &error, std::ostream &stream)
 template <typename ResultT>
 void print_parse_error(const parse_result<ResultT> &result)
 {
-    aeon_assert(result.is_error(), "Can't print parse error for a result that doesn't contain a parse error.");
+    AeonAssert(result.is_error(), "Can't print parse error for a result that doesn't contain a parse error.");
     print_parse_error(result.error());
 }
 
 template <typename ResultT>
 void print_parse_error(const parse_result<ResultT> &result, std::ostream &stream)
 {
-    aeon_assert(result.is_error(), "Can't print parse error for a result that doesn't contain a parse error.");
+    AeonAssert(result.is_error(), "Can't print parse error for a result that doesn't contain a parse error.");
     print_parse_error(result.error(), stream);
 }
 

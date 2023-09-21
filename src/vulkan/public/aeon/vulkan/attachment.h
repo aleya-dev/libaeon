@@ -22,13 +22,13 @@ public:
         const vulkan::format format, const sample_count samples, const attachment_load_op load_op,
         const attachment_store_op store_op, const attachment_load_op stencil_load_op,
         const attachment_store_op stencil_store_op, const image_layout initial_layout, const image_layout final_layout,
-        const common::flags<attachment_description_flag> flags = attachment_description_flag::none) noexcept;
+        const Common::Flags<attachment_description_flag> flags = attachment_description_flag::none) noexcept;
 
     constexpr explicit attachment(
         const VkFormat format, const sample_count samples, const attachment_load_op load_op,
         const attachment_store_op store_op, const attachment_load_op stencil_load_op,
         const attachment_store_op stencil_store_op, const image_layout initial_layout, const image_layout final_layout,
-        const common::flags<attachment_description_flag> flags = attachment_description_flag::none) noexcept;
+        const Common::Flags<attachment_description_flag> flags = attachment_description_flag::none) noexcept;
 
     constexpr explicit attachment(const VkFormat format, const VkSampleCountFlagBits samples,
                                   const VkAttachmentLoadOp load_op, const VkAttachmentStoreOp store_op,
@@ -51,7 +51,7 @@ public:
     constexpr auto stencil_store_op(const attachment_store_op store_op) noexcept -> attachment &;
     constexpr auto initial_layout(const image_layout layout) noexcept -> attachment &;
     constexpr auto final_layout(const image_layout layout) noexcept -> attachment &;
-    constexpr auto flags(const common::flags<attachment_description_flag> flags) noexcept -> attachment &;
+    constexpr auto flags(const Common::Flags<attachment_description_flag> flags) noexcept -> attachment &;
 };
 
 inline constexpr attachment::attachment(const vulkan::format format, const image_layout final_layout) noexcept
@@ -76,7 +76,7 @@ inline constexpr attachment::attachment(const vulkan::format format, const sampl
                                         const attachment_load_op stencil_load_op,
                                         const attachment_store_op stencil_store_op, const image_layout initial_layout,
                                         const image_layout final_layout,
-                                        const common::flags<attachment_description_flag> flags) noexcept
+                                        const Common::Flags<attachment_description_flag> flags) noexcept
     : attachment{static_cast<VkFormat>(format),
                  static_cast<VkSampleCountFlagBits>(samples),
                  static_cast<VkAttachmentLoadOp>(load_op),
@@ -93,7 +93,7 @@ constexpr attachment::attachment(const VkFormat format, const sample_count sampl
                                  const attachment_store_op store_op, const attachment_load_op stencil_load_op,
                                  const attachment_store_op stencil_store_op, const image_layout initial_layout,
                                  const image_layout final_layout,
-                                 const common::flags<attachment_description_flag> flags) noexcept
+                                 const Common::Flags<attachment_description_flag> flags) noexcept
     : attachment{format,
                  static_cast<VkSampleCountFlagBits>(samples),
                  static_cast<VkAttachmentLoadOp>(load_op),
@@ -159,7 +159,7 @@ constexpr auto attachment::final_layout(const image_layout layout) noexcept -> a
     return *this;
 }
 
-constexpr auto attachment::flags(const common::flags<attachment_description_flag> flags) noexcept -> attachment &
+constexpr auto attachment::flags(const Common::Flags<attachment_description_flag> flags) noexcept -> attachment &
 {
     VkAttachmentDescription::flags = flags;
     return *this;

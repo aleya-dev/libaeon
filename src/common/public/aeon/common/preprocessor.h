@@ -2,51 +2,51 @@
 
 #pragma once
 
-#ifndef aeon_concatenate
-#define __aeon_concatenate_impl(s1, s2) s1##s2
-#define aeon_concatenate(s1, s2) __aeon_concatenate_impl(s1, s2)
+#ifndef AeonConcatenate
+#define AeonConcatenateImpl(s1, s2) s1##s2
+#define AeonConcatenate(s1, s2) AeonConcatenateImpl(s1, s2)
 #endif
 
-#ifndef aeon_anonymous_variable
+#ifndef AeonAnonymousVariable
 #ifdef __COUNTER__
-#define aeon_anonymous_variable(str) aeon_concatenate(str, __COUNTER__)
+#define AeonAnonymousVariable(str) AeonConcatenate(str, __COUNTER__)
 #else
-#define aeon_anonymous_variable(str) aeon_concatenate(str, __LINE__)
+#define AeonAnonymousVariable(str) AeonConcatenate(str, __LINE__)
 #endif
 #endif
 
-#ifndef aeon_array_length
-#define aeon_array_length(a) (sizeof(a) / sizeof(a[0]))
+#ifndef AeonArrayLength
+#define AeonArrayLength(a) (sizeof(a) / sizeof(a[0]))
 #endif
 
-#ifndef aeon_string_encoding_none
-#define aeon_string_encoding_none
+#ifndef AeonStringEncodingNone
+#define AeonStringEncodingNone
 #endif
 
-#ifndef aeon_string_encoding_utf8
-#define aeon_string_encoding_utf8 u8
+#ifndef AeonStringEncodingUtf8
+#define AeonStringEncodingUtf8 u8
 #endif
 
-#ifndef aeon_string_encoding_utf16
-#define aeon_string_encoding_utf16 u
+#ifndef AeonStringEncodingUtf16
+#define AeonStringEncodingUtf16 u
 #endif
 
-#ifndef aeon_string_encoding_utf32
-#define aeon_string_encoding_utf32 U
+#ifndef AeonStringEncodingUtf32
+#define AeonStringEncodingUtf32 U
 #endif
 
-#ifndef aeon_string_encoding_wide
-#define aeon_string_encoding_wide L
+#ifndef AeonStringEncodingWide
+#define AeonStringEncodingWide L
 #endif
 
-#ifndef aeon_string_encoding
-#define aeon_string_encoding aeon_string_encoding_utf8
+#ifndef AeonStringEncoding
+#define AeonStringEncoding AeonStringEncodingUtf8
 #endif
 
-#ifndef aeon_text
-#define aeon_text(str) aeon_concatenate(aeon_string_encoding, str)
+#ifndef AeonText
+#define AeonText(str) AeonConcatenate(AeonStringEncoding, str)
 #endif
 
-#ifndef aeon_single_arg
-#define aeon_single_arg(...) __VA_ARGS__
+#ifndef AeonSingleArg
+#define AeonSingleArg(...) __VA_ARGS__
 #endif

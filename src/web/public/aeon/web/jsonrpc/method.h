@@ -15,7 +15,7 @@ class method
 public:
     using signature = std::function<result(const ptree::property_tree &)>;
 
-    method(common::string name, signature func);
+    method(Common::String name, signature func);
     ~method() = default;
 
     method(method &&) noexcept = default;
@@ -24,11 +24,11 @@ public:
     method(const method &) = default;
     auto operator=(const method &) -> method & = default;
 
-    [[nodiscard]] auto name() const noexcept -> const common::string &;
+    [[nodiscard]] auto name() const noexcept -> const Common::String &;
     auto operator()(const ptree::property_tree &params) const -> result;
 
 private:
-    common::string name_;
+    Common::String name_;
     signature func_;
 };
 

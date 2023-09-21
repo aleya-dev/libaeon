@@ -34,7 +34,7 @@
 // clang-format off
 #define AEON_REFLECTION_FIELD(type, name)                                                                              \
                 {                                                                                                      \
-                    (aeon_concatenate(u8, #name)), (aeon_concatenate(u8, #type)),                                      \
+                    (AeonConcatenate(u8, #name)), (AeonConcatenate(u8, #type)),                                        \
                     reinterpret_cast<std::ptrdiff_t>(                                                                  \
                     &reinterpret_cast<std::uint8_t const &>((static_cast<reflection_class_type *>(nullptr)->name)))    \
                 },

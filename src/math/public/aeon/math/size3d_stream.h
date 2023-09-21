@@ -8,7 +8,7 @@
 namespace aeon::math
 {
 
-template <common::concepts::arithmetic_convertible T>
+template <Common::Concepts::ArithmeticConvertible T>
 inline auto operator<<(std::ostream &os, const size3d<T> &s) -> std::ostream &
 {
     return os << "size3d<" << typeid(T).name() << ">(" << width(s) << ", " << height(s) << ", " << depth(s) << ")";

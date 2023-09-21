@@ -59,8 +59,8 @@ struct bitmap_info_header
 {
     detail::bitmap_file_header header{};
 
-    if (stream.read(reinterpret_cast<std::byte *>(&header), aeon_signed_sizeof(detail::bitmap_file_header)) !=
-        aeon_signed_sizeof(detail::bitmap_file_header))
+    if (stream.read(reinterpret_cast<std::byte *>(&header), AeonSignedSizeof(detail::bitmap_file_header)) !=
+        AeonSignedSizeof(detail::bitmap_file_header))
         throw load_exception{};
 
     if (header.type != detail::expected_bitmap_type)
@@ -68,8 +68,8 @@ struct bitmap_info_header
 
     detail::bitmap_info_header info_header{};
 
-    if (stream.read(reinterpret_cast<std::byte *>(&info_header), aeon_signed_sizeof(detail::bitmap_info_header)) !=
-        aeon_signed_sizeof(detail::bitmap_info_header))
+    if (stream.read(reinterpret_cast<std::byte *>(&info_header), AeonSignedSizeof(detail::bitmap_info_header)) !=
+        AeonSignedSizeof(detail::bitmap_info_header))
         throw load_exception{};
 
     if (!stream.seekg(header.offbits, streams::seek_direction::begin))

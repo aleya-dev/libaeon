@@ -4,13 +4,13 @@
 #include <aeon/common/from_chars.h>
 #include <cctype>
 
-namespace aeon::common::lexical_parse
+namespace aeon::Common::LexicalParse
 {
 
-namespace internal
+namespace Internal
 {
 
-static auto is_possibly_double(const string_view &str) noexcept
+static auto IsPossiblyDouble(const StringView &str) noexcept
 {
     for (const auto c : str)
     {
@@ -23,40 +23,40 @@ static auto is_possibly_double(const string_view &str) noexcept
 
 } // namespace internal
 
-auto number(const string_view &str) -> lexical_parse_result
+auto Number(const StringView &str) -> LexicalParseResult
 {
-    if (internal::is_possibly_double(str))
+    if (Internal::IsPossiblyDouble(str))
     {
         auto value = 0.0;
-        auto [ptr, ec] = from_chars(str, value);
+        auto [ptr, ec] = FromChars(str, value);
 
         if (ec != std::errc{})
-            throw lexical_parse_exception{};
+            throw LexicalParseException{};
 
         return {value, static_cast<std::size_t>(ptr - std::data(str))};
     }
 
     std::int64_t value = 0;
-    auto [ptr, ec] = from_chars(str, value);
+    auto [ptr, ec] = FromChars(str, value);
 
     if (ec != std::errc{})
-        throw lexical_parse_exception{};
+        throw LexicalParseException{};
 
     return {value, static_cast<std::size_t>(ptr - std::data(str))};
 }
 
-auto extract_number_string(const string_view &str) noexcept -> string_view
+auto ExtractNumberString(const StringView &str) noexcept -> StringView
 {
-    std::size_t end_offset = 0;
+    std::size_t endOffset = 0;
     for (const auto c : str)
     {
         if (!std::isdigit(c) && c != 'e' && c != 'E' && c != '.')
-            return str.substr(0, end_offset);
+            return str.Substr(0, endOffset);
 
-        ++end_offset;
+        ++endOffset;
     }
 
     return {};
 }
 
-} // namespace aeon::common::lexical_parse
+} // namespace aeon::Common::lexical_parse

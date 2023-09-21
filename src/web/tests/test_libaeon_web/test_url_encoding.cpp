@@ -9,21 +9,21 @@ using namespace aeon;
 
 TEST(test_url_encoding, encode_regular_string)
 {
-    const common::string test_str = "ThisIsATestString123";
+    const Common::String test_str = "ThisIsATestString123";
     ASSERT_EQ(test_str, web::http::url_encode(test_str));
 }
 
 TEST(test_url_encoding, encode_spaces)
 {
-    const common::string test_str = "This Is A Test String 123";
-    const common::string expected_str = "This%20Is%20A%20Test%20String%20123";
+    const Common::String test_str = "This Is A Test String 123";
+    const Common::String expected_str = "This%20Is%20A%20Test%20String%20123";
     ASSERT_EQ(expected_str, web::http::url_encode(test_str));
 }
 
-static auto generate_random_string(const int length) -> common::string
+static auto generate_random_string(const int length) -> Common::String
 {
-    common::string str;
-    str.reserve(length);
+    Common::String str;
+    str.Reserve(length);
 
     std::random_device r;
     std::default_random_engine e1(r());

@@ -9,106 +9,106 @@
 #include <algorithm>
 #include <ostream>
 
-namespace aeon::common
+namespace aeon::Common
 {
 
 template <typename T>
-class string_table
+class StringTable
 {
     static constexpr auto npos = std::numeric_limits<std::size_t>::max();
 
 public:
-    explicit string_table() noexcept;
-    explicit string_table(string str) noexcept;
-    ~string_table();
+    explicit StringTable() noexcept;
+    explicit StringTable(String str) noexcept;
+    ~StringTable();
 
-    string_table(const string_table &) noexcept = default;
-    auto operator=(const string_table &) noexcept -> string_table & = default;
+    StringTable(const StringTable &) noexcept = default;
+    auto operator=(const StringTable &) noexcept -> StringTable & = default;
 
-    string_table(string_table &&) noexcept = default;
-    auto operator=(string_table &&) noexcept -> string_table & = default;
+    StringTable(StringTable &&) noexcept = default;
+    auto operator=(StringTable &&) noexcept -> StringTable & = default;
 
-    auto operator=(string str) noexcept -> string_table &;
+    auto operator=(String str) noexcept -> StringTable &;
 
-    [[nodiscard]] auto str() const noexcept -> const string &;
+    [[nodiscard]] auto str() const noexcept -> const String &;
 
     [[nodiscard]] static auto size() noexcept;
-    [[nodiscard]] static auto str(const std::size_t i) -> const string &;
+    [[nodiscard]] static auto str(const std::size_t i) -> const String &;
 
     template <typename U>
-    friend auto operator==(const string_table<U> &lhs, const string_table<U> &rhs) noexcept -> bool;
+    friend auto operator==(const StringTable<U> &lhs, const StringTable<U> &rhs) noexcept -> bool;
 
     template <typename U>
-    friend auto operator!=(const string_table<U> &lhs, const string_table<U> &rhs) noexcept -> bool;
+    friend auto operator!=(const StringTable<U> &lhs, const StringTable<U> &rhs) noexcept -> bool;
 
 private:
-    [[nodiscard]] static auto table() noexcept -> std::vector<string> &;
+    [[nodiscard]] static auto table() noexcept -> std::vector<String> &;
 
-    void init(string str);
+    void init(String str);
 
     std::size_t index_;
 };
 
 template <typename T>
-inline string_table<T>::string_table() noexcept
+inline StringTable<T>::StringTable() noexcept
     : index_{npos}
 {
 }
 
 template <typename T>
-inline string_table<T>::string_table(string str) noexcept
+inline StringTable<T>::StringTable(String str) noexcept
     : index_{}
 {
     init(std::move(str));
 }
 
 template <typename T>
-inline string_table<T>::~string_table() = default;
+inline StringTable<T>::~StringTable() = default;
 
 template <typename T>
-inline auto string_table<T>::operator=(string str) noexcept -> string_table &
+inline auto StringTable<T>::operator=(String str) noexcept -> StringTable &
 {
     init(std::move(str));
     return *this;
 }
 
 template <typename T>
-[[nodiscard]] inline auto string_table<T>::str() const noexcept -> const string &
+[[nodiscard]] inline auto StringTable<T>::str() const noexcept -> const String &
 {
     if (index_ == npos)
     {
-        static const string str;
+        static const String str;
         return str;
     }
 
-    aeon_assert_index_bounds(index_, std::size(table()));
+    AeonAssertIndexBounds(index_, std::size(table()));
     return table()[index_];
 }
 
 template <typename T>
-[[nodiscard]] inline auto string_table<T>::size() noexcept
+[[nodiscard]] inline auto StringTable<T>::size() noexcept
 {
     return std::size(table());
 }
 
 template <typename T>
-[[nodiscard]] inline auto string_table<T>::str(const std::size_t i) -> const string &
+[[nodiscard]] inline auto StringTable<T>::str(const std::size_t i) -> const String &
 {
-    aeon_assert_index_bounds(i, std::size(table()));
+    AeonAssertIndexBounds(i, std::size(table()));
     return table().at(i);
 }
 
 template <typename T>
-[[nodiscard]] inline auto string_table<T>::table() noexcept -> std::vector<string> &
+[[nodiscard]] inline auto StringTable<T>::table() noexcept -> std::vector<String> &
 {
-    static std::vector<string> table;
+    static std::vector<String> table;
     return table;
 }
 
 template <typename T>
-inline void string_table<T>::init(string str)
+inline void StringTable<T>::init(String str)
 {
-    if (str.empty())
+    if (str.Empty())
     {
         index_ = npos;
         return;
@@ -128,69 +128,69 @@ inline void string_table<T>::init(string str)
 }
 
 template <typename U>
-inline auto operator==(const string_table<U> &lhs, const string_table<U> &rhs) noexcept -> bool
+inline auto operator==(const StringTable<U> &lhs, const StringTable<U> &rhs) noexcept -> bool
 {
     return lhs.index_ == rhs.index_;
 }
 
 template <typename U>
-inline auto operator!=(const string_table<U> &lhs, const string_table<U> &rhs) noexcept -> bool
+inline auto operator!=(const StringTable<U> &lhs, const StringTable<U> &rhs) noexcept -> bool
 {
     return !(lhs == rhs);
 }
 
 template <typename T>
-inline auto operator==(const string_table<T> &lhs, const string &rhs) noexcept -> bool
+inline auto operator==(const StringTable<T> &lhs, const String &rhs) noexcept -> bool
 {
     return lhs.str() == rhs;
 }
 
 template <typename T>
-inline auto operator!=(const string_table<T> &lhs, const string &rhs) noexcept -> bool
+inline auto operator!=(const StringTable<T> &lhs, const String &rhs) noexcept -> bool
 {
     return !(lhs == rhs);
 }
 
 template <typename T>
-inline auto operator==(const string &lhs, const string_table<T> &rhs) noexcept -> bool
+inline auto operator==(const String &lhs, const StringTable<T> &rhs) noexcept -> bool
 {
     return lhs == rhs.str();
 }
 
 template <typename T>
-inline auto operator!=(const string &lhs, const string_table<T> &rhs) noexcept -> bool
+inline auto operator!=(const String &lhs, const StringTable<T> &rhs) noexcept -> bool
 {
     return !(lhs == rhs);
 }
 
 template <typename T>
-inline auto operator<(const string_table<T> &lhs, const string_table<T> &rhs) noexcept -> bool
+inline auto operator<(const StringTable<T> &lhs, const StringTable<T> &rhs) noexcept -> bool
 {
     return lhs.str() < rhs.str();
 }
 
 template <typename T>
-inline auto operator<=(const string_table<T> &lhs, const string_table<T> &rhs) noexcept -> bool
+inline auto operator<=(const StringTable<T> &lhs, const StringTable<T> &rhs) noexcept -> bool
 {
     return lhs.str() <= rhs.str();
 }
 
 template <typename T>
-inline auto operator>(const string_table<T> &lhs, const string_table<T> &rhs) noexcept -> bool
+inline auto operator>(const StringTable<T> &lhs, const StringTable<T> &rhs) noexcept -> bool
 {
     return lhs.str() > rhs.str();
 }
 
 template <typename T>
-inline auto operator>=(const string_table<T> &lhs, const string_table<T> &rhs) noexcept -> bool
+inline auto operator>=(const StringTable<T> &lhs, const StringTable<T> &rhs) noexcept -> bool
 {
     return lhs.str() >= rhs.str();
 }
 
 template <typename T>
-inline auto operator<<(std::ostream &os, const string_table<T> &str) -> std::ostream &
+inline auto operator<<(std::ostream &os, const StringTable<T> &str) -> std::ostream &
 {
     return os << str.str();
 }
 
-} // namespace aeon::common
+} // namespace aeon::Common

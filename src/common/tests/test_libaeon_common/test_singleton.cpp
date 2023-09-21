@@ -3,31 +3,31 @@
 #include <aeon/common/singleton.h>
 #include <gtest/gtest.h>
 
-class test_singleton : public aeon::common::singleton<test_singleton>
+class TestSingleton : public aeon::Common::Singleton<TestSingleton>
 {
 };
 
 TEST(test_singleton, test_singleton_create)
 {
-    EXPECT_NE(nullptr, &test_singleton::get_singleton());
+    EXPECT_NE(nullptr, &TestSingleton::GetSingleton());
 }
 
 TEST(test_singleton, test_singleton_is_same)
 {
-    const auto singleton_ptr = &test_singleton::get_singleton();
-    const auto singleton_ptr2 = &test_singleton::get_singleton();
-    const auto singleton_ptr3 = &test_singleton::get_singleton();
+    const auto singletonPtr = &TestSingleton::GetSingleton();
+    const auto singletonPtr2 = &TestSingleton::GetSingleton();
+    const auto singletonPtr3 = &TestSingleton::GetSingleton();
 
-    EXPECT_EQ(singleton_ptr, singleton_ptr2);
-    EXPECT_EQ(singleton_ptr, singleton_ptr3);
+    EXPECT_EQ(singletonPtr, singletonPtr2);
+    EXPECT_EQ(singletonPtr, singletonPtr3);
 }
 
 TEST(test_singleton, test_singleton_ptr_is_same)
 {
-    const auto singleton_ptr = &test_singleton::get_singleton();
-    const auto singleton_ptr2 = test_singleton::get_singleton_ptr();
-    const auto singleton_ptr3 = test_singleton::get_singleton_ptr();
+    const auto singletonPtr = &TestSingleton::GetSingleton();
+    const auto singletonPtr2 = TestSingleton::GetSingletonPtr();
+    const auto singletonPtr3 = TestSingleton::GetSingletonPtr();
 
-    EXPECT_EQ(singleton_ptr, singleton_ptr2);
-    EXPECT_EQ(singleton_ptr, singleton_ptr3);
+    EXPECT_EQ(singletonPtr, singletonPtr2);
+    EXPECT_EQ(singletonPtr, singletonPtr3);
 }

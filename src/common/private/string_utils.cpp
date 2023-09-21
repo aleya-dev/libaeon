@@ -8,11 +8,11 @@
 #include <sstream>
 #include <iomanip>
 
-namespace aeon::common::string_utils
+namespace aeon::Common::StringUtils
 {
 
 // TODO: Implement a generic version that doesn't depend on ostringstream so also utf8 can be added
-auto char_to_hex(const char c) -> string
+auto CharToHex(const char c) -> String
 {
     std::ostringstream ss;
     ss << '%' << std::setw(2) << std::setfill('0') << std::hex << std::uppercase << static_cast<short>(c & 0xff);
@@ -20,12 +20,12 @@ auto char_to_hex(const char c) -> string
 }
 
 // TODO: Implement a generic version that doesn't depend on ostringstream so also utf8 can be added
-auto hex_to_char(const string &str) -> char
+auto HexToChar(const String &str) -> char
 {
-    if (str.empty())
+    if (str.Empty())
         return 0;
 
-    std::istringstream in(str.str());
+    std::istringstream in(str.Str());
 
     short c = 0;
     in >> std::hex >> c;
@@ -36,4 +36,4 @@ auto hex_to_char(const string &str) -> char
     return static_cast<char>(c & 0xff);
 }
 
-} // namespace aeon::common::string_utils
+} // namespace aeon::Common::string_utils

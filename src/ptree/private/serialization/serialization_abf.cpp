@@ -16,7 +16,7 @@ namespace aeon::ptree::serialization
 namespace internal
 {
 
-static constexpr std::uint32_t header_magic = common::fourcc('A', 'B', 'F', '1');
+static constexpr std::uint32_t header_magic = Common::Fourcc('A', 'B', 'F', '1');
 static constexpr std::uint8_t chunk_type_null = 0x00;
 static constexpr std::uint8_t chunk_type_array = 0x01;
 static constexpr std::uint8_t chunk_type_object = 0x02;
@@ -30,8 +30,8 @@ static constexpr std::uint8_t chunk_type_blob = 0x08;
 static void to_abf(const std::monostate, streams::idynamic_stream &);
 static void to_abf(const array &arr, streams::idynamic_stream &stream);
 static void to_abf(const object &obj, streams::idynamic_stream &stream);
-static void to_abf(const common::string &obj_str, streams::idynamic_stream &stream);
-static void to_abf(const common::uuid &uuid, streams::idynamic_stream &stream);
+static void to_abf(const Common::String &obj_str, streams::idynamic_stream &stream);
+static void to_abf(const Common::Uuid &Uuid, streams::idynamic_stream &stream);
 static void to_abf(const std::int64_t val, streams::idynamic_stream &stream);
 static void to_abf(const double val, streams::idynamic_stream &stream);
 static void to_abf(const bool val, streams::idynamic_stream &stream);
@@ -72,7 +72,7 @@ static void to_abf(const object &obj, streams::idynamic_stream &stream)
     streams::stream_writer writer{stream};
     writer << chunk_type_object;
 
-    writer << static_cast<std::uint64_t>(std::size(obj));
+    writer << static_cast<std::uint64_t>(obj.Size());
 
     for (const auto &[key, val] : obj)
     {
@@ -81,18 +81,18 @@ static void to_abf(const object &obj, streams::idynamic_stream &stream)
     }
 }
 
-static void to_abf(const common::string &obj_str, streams::idynamic_stream &stream)
+static void to_abf(const Common::String &obj_str, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << chunk_type_string;
     writer << streams::length_prefix_string<streams::varint>{obj_str};
 }
 
-static void to_abf(const common::uuid &uuid, streams::idynamic_stream &stream)
+static void to_abf(const Common::Uuid &Uuid, streams::idynamic_stream &stream)
 {
     streams::stream_writer writer{stream};
     writer << chunk_type_uuid;
-    writer << uuid;
+    writer << Uuid;
 }
 
 static void to_abf(const std::int64_t val, streams::idynamic_stream &stream)
@@ -151,7 +151,7 @@ public:
                 return parse_object();
             case chunk_type_string:
             {
-                common::string str;
+                Common::String str;
                 reader_ >> streams::length_prefix_string<streams::varint>{str};
                 return str;
             }
@@ -175,9 +175,9 @@ public:
             }
             case chunk_type_uuid:
             {
-                common::uuid uuid;
-                reader_ >> uuid;
-                return uuid;
+                Common::Uuid Uuid;
+                reader_ >> Uuid;
+                return Uuid;
             }
             case chunk_type_blob:
             {
@@ -223,13 +223,13 @@ private:
         std::uint64_t count = 0;
         reader_ >> count;
 
-        data.reserve(count);
+        data.Reserve(count);
 
         while (count != 0)
         {
-            common::string key;
+            Common::String key;
             reader_ >> streams::length_prefix_string<streams::varint>{key};
-            data.emplace(std::move(key), parse());
+            data.Emplace(std::move(key), parse());
             --count;
         }
 

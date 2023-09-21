@@ -8,11 +8,11 @@
 #include <initializer_list>
 #include <stdexcept>
 
-namespace aeon::common::containers
+namespace aeon::Common::Containers
 {
 
 template <typename key_type_t, typename value_type_t>
-class unordered_flatmap final
+class UnorderedFlatmap final
 {
 public:
     using key_type = key_type_t;
@@ -21,157 +21,157 @@ public:
     using map_type = std::vector<pair_type>;
     using iterator = typename map_type::iterator;
 
-    unordered_flatmap() = default;
+    UnorderedFlatmap() = default;
 
-    unordered_flatmap(std::initializer_list<pair_type> init)
-        : map_{}
+    UnorderedFlatmap(std::initializer_list<pair_type> init)
+        : m_map{}
     {
         for (auto &&val : init)
         {
-            insert(std::move(val));
+            Insert(std::move(val));
         }
     }
 
-    ~unordered_flatmap() = default;
+    ~UnorderedFlatmap() = default;
 
-    unordered_flatmap(const unordered_flatmap &) = default;
-    auto operator=(const unordered_flatmap &) -> unordered_flatmap & = default;
-    unordered_flatmap(unordered_flatmap &&) noexcept = default;
-    auto operator=(unordered_flatmap &&) noexcept -> unordered_flatmap & = default;
+    UnorderedFlatmap(const UnorderedFlatmap &) = default;
+    auto operator=(const UnorderedFlatmap &) -> UnorderedFlatmap & = default;
+    UnorderedFlatmap(UnorderedFlatmap &&) noexcept = default;
+    auto operator=(UnorderedFlatmap &&) noexcept -> UnorderedFlatmap & = default;
 
-    auto insert(key_type key, value_type value) -> iterator
+    auto Insert(key_type key, value_type value) -> iterator
     {
-        return insert({key, value});
+        return Insert({key, value});
     }
 
-    auto emplace(key_type &&key, value_type &&value) -> iterator
+    auto Emplace(key_type &&key, value_type &&value) -> iterator
     {
-        return emplace({std::move(key), std::move(value)});
+        return Emplace({std::move(key), std::move(value)});
     }
 
-    auto insert(pair_type pair) -> iterator
+    auto Insert(pair_type pair) -> iterator
     {
-        auto itr = find(pair.first);
+        auto itr = Find(pair.first);
 
-        if (itr == std::end(map_))
-            return map_.insert(std::end(map_), std::move(pair));
+        if (itr == std::end(m_map))
+            return m_map.insert(std::end(m_map), std::move(pair));
 
         itr->second = std::move(pair.second);
         return itr;
     }
 
-    auto emplace(pair_type &&pair) -> iterator
+    auto Emplace(pair_type &&pair) -> iterator
     {
-        auto itr = find(pair.first);
+        auto itr = Find(pair.first);
 
-        if (itr == std::end(map_))
-            return map_.insert(std::end(map_), std::move(pair));
+        if (itr == std::end(m_map))
+            return m_map.insert(std::end(m_map), std::move(pair));
 
         itr->second = std::move(pair.second);
         return itr;
     }
 
-    void push_back(const key_type &key, const value_type &value)
+    void PushBack(const key_type &key, const value_type &value)
     {
-        push_back({key, value});
+        PushBack({key, value});
     }
 
-    void push_back(const pair_type &pair)
+    void PushBack(const pair_type &pair)
     {
-        map_.push_back(std::move(pair));
+        m_map.push_back(std::move(pair));
     }
 
-    [[nodiscard]] auto &at(const key_type &key)
+    [[nodiscard]] auto &At(const key_type &key)
     {
-        auto itr = find(key);
-        if (itr == std::end(map_))
-            throw std::out_of_range{"aeon unordered_flatmap key out of range."};
+        auto itr = Find(key);
+        if (itr == std::end(m_map))
+            throw std::out_of_range{"aeon UnorderedFlatmap key out of range."};
 
         return itr->second;
     }
 
-    [[nodiscard]] const auto &at(const key_type &key) const
+    [[nodiscard]] const auto &At(const key_type &key) const
     {
-        auto itr = find(key);
-        if (itr == std::end(map_))
-            throw std::out_of_range{"aeon unordered_flatmap key out of range."};
+        auto itr = Find(key);
+        if (itr == std::end(m_map))
+            throw std::out_of_range{"aeon UnorderedFlatmap key out of range."};
 
         return itr->second;
     }
 
     auto &operator[](const key_type &key)
     {
-        auto itr = find(key);
+        auto itr = Find(key);
 
-        if (itr == std::end(map_))
-            itr = insert(key, value_type{});
+        if (itr == std::end(m_map))
+            itr = Insert(key, value_type{});
 
         return itr->second;
     }
 
     auto &operator[](key_type &&key)
     {
-        auto itr = find(key);
+        auto itr = Find(key);
 
-        if (itr == std::end(map_))
-            itr = emplace(std::move(key), value_type{});
+        if (itr == std::end(m_map))
+            itr = Emplace(std::move(key), value_type{});
 
         return itr->second;
     }
 
-    [[nodiscard]] auto contains(const key_type &key) const noexcept -> bool
+    [[nodiscard]] auto Contains(const key_type &key) const noexcept -> bool
     {
-        return std::find_if(std::begin(map_), std::end(map_), [key](const auto &s) { return s.first == key; }) !=
-               std::end(map_);
+        return std::find_if(std::begin(m_map), std::end(m_map), [key](const auto &s) { return s.first == key; }) !=
+               std::end(m_map);
     }
 
-    [[nodiscard]] auto find(const key_type &key) noexcept
+    [[nodiscard]] auto Find(const key_type &key) noexcept
     {
-        return std::find_if(std::begin(map_), std::end(map_), [key](const auto &s) { return s.first == key; });
+        return std::find_if(std::begin(m_map), std::end(m_map), [key](const auto &s) { return s.first == key; });
     }
 
-    [[nodiscard]] auto find(const key_type &key) const noexcept
+    [[nodiscard]] auto Find(const key_type &key) const noexcept
     {
-        return std::find_if(std::begin(map_), std::end(map_), [key](const auto &s) { return s.first == key; });
+        return std::find_if(std::begin(m_map), std::end(m_map), [key](const auto &s) { return s.first == key; });
     }
 
     [[nodiscard]] auto begin() noexcept
     {
-        return std::begin(map_);
+        return std::begin(m_map);
     }
 
     [[nodiscard]] auto end() noexcept
     {
-        return std::end(map_);
+        return std::end(m_map);
     }
 
     [[nodiscard]] auto begin() const noexcept
     {
-        return std::begin(map_);
+        return std::begin(m_map);
     }
 
     [[nodiscard]] auto end() const noexcept
     {
-        return std::end(map_);
+        return std::end(m_map);
     }
 
-    auto erase(const key_type &key)
+    auto Erase(const key_type &key)
     {
-        auto itr = find(key);
+        auto itr = Find(key);
 
-        if (itr != std::end(map_))
-            return erase(itr);
+        if (itr != std::end(m_map))
+            return Erase(itr);
 
         return itr;
     }
 
-    void erase_if(std::function<bool(const pair_type &)> pred)
+    void EraseIf(std::function<bool(const pair_type &)> predicate)
     {
-        for (auto obj = std::begin(map_); obj != std::end(map_);)
+        for (auto obj = std::begin(m_map); obj != std::end(m_map);)
         {
-            if (pred(*obj))
+            if (predicate(*obj))
             {
-                obj = map_.erase(obj);
+                obj = m_map.erase(obj);
             }
             else
             {
@@ -180,39 +180,39 @@ public:
         }
     }
 
-    auto erase(typename map_type::iterator itr)
+    auto Erase(typename map_type::iterator itr)
     {
-        return map_.erase(itr);
+        return m_map.erase(itr);
     }
 
-    [[nodiscard]] auto empty() const
+    [[nodiscard]] auto Empty() const
     {
-        return std::empty(map_);
+        return std::empty(m_map);
     }
 
-    void clear()
+    void Clear()
     {
-        map_.clear();
+        m_map.clear();
     }
 
-    [[nodiscard]] auto size() const noexcept
+    [[nodiscard]] auto Size() const noexcept
     {
-        return std::size(map_);
+        return std::size(m_map);
     }
 
-    void reserve(const std::size_t size)
+    void Reserve(const std::size_t size)
     {
-        map_.reserve(size);
+        m_map.reserve(size);
     }
 
-    auto operator==(const unordered_flatmap<key_type, value_type> &other) const noexcept -> bool
+    auto operator==(const UnorderedFlatmap<key_type, value_type> &other) const noexcept -> bool
     {
-        if (size() != std::size(other))
+        if (Size() != other.Size())
             return false;
 
-        for (const auto &[key, val] : map_)
+        for (const auto &[key, val] : m_map)
         {
-            const auto result = other.find(key);
+            const auto result = other.Find(key);
 
             if (result == std::end(other))
                 return false;
@@ -224,13 +224,13 @@ public:
         return true;
     }
 
-    auto operator!=(const unordered_flatmap<key_type, value_type> &other) const noexcept -> bool
+    auto operator!=(const UnorderedFlatmap<key_type, value_type> &other) const noexcept -> bool
     {
         return !(*this == other);
     }
 
 private:
-    map_type map_;
+    map_type m_map;
 };
 
-} // namespace aeon::common::containers
+} // namespace aeon::Common::containers

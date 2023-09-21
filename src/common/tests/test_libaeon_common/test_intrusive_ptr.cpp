@@ -5,143 +5,143 @@
 
 using namespace aeon;
 
-struct test_obj
+struct TestObj
 {
-    int ref_count = 0;
+    int RefCount = 0;
 
-    void intrusive_ptr_add_ref()
+    void IntrusivePtrAddRef()
     {
-        ref_count++;
+        RefCount++;
     }
 
-    void intrusive_ptr_release()
+    void IntrusivePtrRelease()
     {
-        ref_count--;
+        RefCount--;
 
-        if (ref_count <= 0)
+        if (RefCount <= 0)
             delete this;
     }
 };
 
 TEST(test_intrusive_ptr, ref_count)
 {
-    auto var = common::make_intrusive_ptr<test_obj>();
-    EXPECT_EQ(var->ref_count, 1);
+    auto var = Common::make_intrusive_ptr<TestObj>();
+    EXPECT_EQ(var->RefCount, 1);
 
     auto var2 = var;
-    EXPECT_EQ(var->ref_count, 2);
-    EXPECT_EQ(var2->ref_count, 2);
+    EXPECT_EQ(var->RefCount, 2);
+    EXPECT_EQ(var2->RefCount, 2);
 
     auto var3 = var2;
-    EXPECT_EQ(var->ref_count, 3);
-    EXPECT_EQ(var2->ref_count, 3);
-    EXPECT_EQ(var3->ref_count, 3);
+    EXPECT_EQ(var->RefCount, 3);
+    EXPECT_EQ(var2->RefCount, 3);
+    EXPECT_EQ(var3->RefCount, 3);
 
-    var2.reset();
+    var2.Reset();
     EXPECT_EQ(var2, nullptr);
-    EXPECT_EQ(var->ref_count, 2);
-    EXPECT_EQ(var3->ref_count, 2);
+    EXPECT_EQ(var->RefCount, 2);
+    EXPECT_EQ(var3->RefCount, 2);
 
     var3 = nullptr;
     EXPECT_EQ(var2, nullptr);
     EXPECT_EQ(var3, nullptr);
-    EXPECT_EQ(var->ref_count, 1);
+    EXPECT_EQ(var->RefCount, 1);
 }
 
-struct add_release_call_check
+struct AddReleaseCallCheck
 {
-    int intrusive_ptr_add_ref_calls = 0;
-    int intrusive_ptr_release_calls = 0;
+    int IntrusivePtrAddRefCalls = 0;
+    int IntrusivePtrReleaseCalls = 0;
 
-    void intrusive_ptr_add_ref()
+    void IntrusivePtrAddRef()
     {
-        intrusive_ptr_add_ref_calls++;
+        IntrusivePtrAddRefCalls++;
     }
 
-    void intrusive_ptr_release()
+    void IntrusivePtrRelease()
     {
-        intrusive_ptr_release_calls++;
+        IntrusivePtrReleaseCalls++;
     }
 };
 
 TEST(test_intrusive_ptr, add_release_calls)
 {
-    add_release_call_check check;
+    AddReleaseCallCheck check;
 
     {
-        common::intrusive_ptr<add_release_call_check> obj{&check};
+        Common::IntrusivePtr<AddReleaseCallCheck> obj{&check};
 
-        EXPECT_EQ(check.intrusive_ptr_add_ref_calls, 1);
-        EXPECT_EQ(check.intrusive_ptr_release_calls, 0);
+        EXPECT_EQ(check.IntrusivePtrAddRefCalls, 1);
+        EXPECT_EQ(check.IntrusivePtrReleaseCalls, 0);
 
         auto obj2 = obj;
-        EXPECT_EQ(check.intrusive_ptr_add_ref_calls, 2);
-        EXPECT_EQ(check.intrusive_ptr_release_calls, 0);
+        EXPECT_EQ(check.IntrusivePtrAddRefCalls, 2);
+        EXPECT_EQ(check.IntrusivePtrReleaseCalls, 0);
 
-        obj2.reset();
-        EXPECT_EQ(check.intrusive_ptr_add_ref_calls, 2);
-        EXPECT_EQ(check.intrusive_ptr_release_calls, 1);
+        obj2.Reset();
+        EXPECT_EQ(check.IntrusivePtrAddRefCalls, 2);
+        EXPECT_EQ(check.IntrusivePtrReleaseCalls, 1);
     }
 
-    EXPECT_EQ(check.intrusive_ptr_add_ref_calls, 2);
-    EXPECT_EQ(check.intrusive_ptr_release_calls, 2);
+    EXPECT_EQ(check.IntrusivePtrAddRefCalls, 2);
+    EXPECT_EQ(check.IntrusivePtrReleaseCalls, 2);
 }
 
-struct intrusive_ref_counter_test : public common::intrusive_ref_counter<int, intrusive_ref_counter_test>
+struct IntrusiveRefCounterTest : public Common::IntrusiveRefCounter<int, IntrusiveRefCounterTest>
 {
 };
 
-TEST(test_intrusive_ptr, intrusive_ref_counter)
+TEST(test_intrusive_ptr, IntrusiveRefCounter)
 {
-    auto var = common::make_intrusive_ptr<intrusive_ref_counter_test>();
-    EXPECT_EQ(var->intrusive_ptr_ref_count(), 1);
+    auto var = Common::make_intrusive_ptr<IntrusiveRefCounterTest>();
+    EXPECT_EQ(var->IntrusivePtrRefCount(), 1);
 
     auto var2 = var;
-    EXPECT_EQ(var->intrusive_ptr_ref_count(), 2);
-    EXPECT_EQ(var2->intrusive_ptr_ref_count(), 2);
+    EXPECT_EQ(var->IntrusivePtrRefCount(), 2);
+    EXPECT_EQ(var2->IntrusivePtrRefCount(), 2);
 
     auto var3 = var2;
-    EXPECT_EQ(var->intrusive_ptr_ref_count(), 3);
-    EXPECT_EQ(var2->intrusive_ptr_ref_count(), 3);
-    EXPECT_EQ(var3->intrusive_ptr_ref_count(), 3);
+    EXPECT_EQ(var->IntrusivePtrRefCount(), 3);
+    EXPECT_EQ(var2->IntrusivePtrRefCount(), 3);
+    EXPECT_EQ(var3->IntrusivePtrRefCount(), 3);
 
-    var2.reset();
+    var2.Reset();
     EXPECT_EQ(var2, nullptr);
-    EXPECT_EQ(var->intrusive_ptr_ref_count(), 2);
-    EXPECT_EQ(var3->intrusive_ptr_ref_count(), 2);
+    EXPECT_EQ(var->IntrusivePtrRefCount(), 2);
+    EXPECT_EQ(var3->IntrusivePtrRefCount(), 2);
 
     var3 = nullptr;
     EXPECT_EQ(var2, nullptr);
     EXPECT_EQ(var3, nullptr);
-    EXPECT_EQ(var->intrusive_ptr_ref_count(), 1);
+    EXPECT_EQ(var->IntrusivePtrRefCount(), 1);
 }
 
-struct atomic_intrusive_ref_counter_test
-    : public common::intrusive_ref_counter<std::atomic<int>, atomic_intrusive_ref_counter_test>
+struct AtomicIntrusiveRefCounterTest
+    : public Common::IntrusiveRefCounter<std::atomic<int>, AtomicIntrusiveRefCounterTest>
 {
 };
 
 TEST(test_intrusive_ptr, atomic_intrusive_ref_counter)
 {
-    auto var = common::make_intrusive_ptr<atomic_intrusive_ref_counter_test>();
-    EXPECT_EQ(var->intrusive_ptr_ref_count(), 1);
+    auto var = Common::make_intrusive_ptr<AtomicIntrusiveRefCounterTest>();
+    EXPECT_EQ(var->IntrusivePtrRefCount(), 1);
 
     auto var2 = var;
-    EXPECT_EQ(var->intrusive_ptr_ref_count(), 2);
-    EXPECT_EQ(var2->intrusive_ptr_ref_count(), 2);
+    EXPECT_EQ(var->IntrusivePtrRefCount(), 2);
+    EXPECT_EQ(var2->IntrusivePtrRefCount(), 2);
 
     auto var3 = var2;
-    EXPECT_EQ(var->intrusive_ptr_ref_count(), 3);
-    EXPECT_EQ(var2->intrusive_ptr_ref_count(), 3);
-    EXPECT_EQ(var3->intrusive_ptr_ref_count(), 3);
+    EXPECT_EQ(var->IntrusivePtrRefCount(), 3);
+    EXPECT_EQ(var2->IntrusivePtrRefCount(), 3);
+    EXPECT_EQ(var3->IntrusivePtrRefCount(), 3);
 
-    var2.reset();
+    var2.Reset();
     EXPECT_EQ(var2, nullptr);
-    EXPECT_EQ(var->intrusive_ptr_ref_count(), 2);
-    EXPECT_EQ(var3->intrusive_ptr_ref_count(), 2);
+    EXPECT_EQ(var->IntrusivePtrRefCount(), 2);
+    EXPECT_EQ(var3->IntrusivePtrRefCount(), 2);
 
     var3 = nullptr;
     EXPECT_EQ(var2, nullptr);
     EXPECT_EQ(var3, nullptr);
-    EXPECT_EQ(var->intrusive_ptr_ref_count(), 1);
+    EXPECT_EQ(var->IntrusivePtrRefCount(), 1);
 }

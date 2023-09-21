@@ -29,10 +29,10 @@ public:
 
     [[nodiscard]] auto get_log_level() const -> log_level;
 
-    virtual void log(const common::string &message, const common::string &module, const log_level level) = 0;
+    virtual void log(const Common::String &message, const Common::String &module, const log_level level) = 0;
 
 private:
-    void handle_log(const common::string &message, const common::string &module, const log_level level);
+    void handle_log(const Common::String &message, const Common::String &module, const log_level level);
 
     log_level level_;
 };

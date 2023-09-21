@@ -7,8 +7,8 @@ using namespace aeon;
 
 TEST(test_vulkan, test_create_instance)
 {
-    const vulkan::application_info app_info{"test", common::version3<std::uint32_t>{1, 0}, "engine",
-                                            common::version3<std::uint32_t>{1, 0}};
+    const vulkan::application_info app_info{"test", Common::Version3<std::uint32_t>{1, 0}, "engine",
+                                            Common::Version3<std::uint32_t>{1, 0}};
     vulkan::instance i{app_info, {}, {}};
 
     EXPECT_NE(nullptr, i.handle());

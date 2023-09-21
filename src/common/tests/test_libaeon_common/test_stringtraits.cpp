@@ -5,20 +5,20 @@
 
 static void check_string(const std::string &value)
 {
-    EXPECT_EQ(value, aeon::common::string_utils::convert<std::string>::from(value));
-    EXPECT_EQ(value, aeon::common::string_utils::convert<std::string>::to(value));
+    EXPECT_EQ(value, aeon::Common::StringUtils::Convert<std::string>::From(value));
+    EXPECT_EQ(value, aeon::Common::StringUtils::Convert<std::string>::To(value));
 }
 
 static void check_int(const std::string &value, const int int_value)
 {
-    EXPECT_EQ(int_value, aeon::common::string_utils::convert<int>::from(value));
-    EXPECT_EQ(value, aeon::common::string_utils::convert<int>::to(int_value));
+    EXPECT_EQ(int_value, aeon::Common::StringUtils::Convert<int>::From(value));
+    EXPECT_EQ(value, aeon::Common::StringUtils::Convert<int>::To(int_value));
 }
 
 static void check_bool(const std::string &value, const bool bool_value)
 {
-    EXPECT_EQ(bool_value, aeon::common::string_utils::convert<bool>::from(value));
-    EXPECT_EQ(value, aeon::common::string_utils::convert<bool>::to(bool_value));
+    EXPECT_EQ(bool_value, aeon::Common::StringUtils::Convert<bool>::From(value));
+    EXPECT_EQ(value, aeon::Common::StringUtils::Convert<bool>::To(bool_value));
 }
 
 TEST(test_stringtraits, test_stringtraits_to_string)

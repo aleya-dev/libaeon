@@ -19,66 +19,66 @@
 #include <aeon/common/concepts.h>
 #include <aeon/common/hash.h>
 
-template <aeon::common::concepts::arithmetic_convertible T>
+template <aeon::Common::Concepts::ArithmeticConvertible T>
 struct std::hash<aeon::math::vector2<T>>
 {
     inline auto operator()(const aeon::math::vector2<T> &val) const noexcept -> std::size_t
     {
-        return aeon::common::hash_combined(val.x, val.y);
+        return aeon::Common::hash_combined(val.x, val.y);
     }
 };
 
-template <aeon::common::concepts::arithmetic_convertible T>
+template <aeon::Common::Concepts::ArithmeticConvertible T>
 struct std::hash<aeon::math::vector3<T>>
 {
     inline auto operator()(const aeon::math::vector3<T> &val) const noexcept -> std::size_t
     {
-        return aeon::common::hash_combined(val.x, val.y, val.z);
+        return aeon::Common::hash_combined(val.x, val.y, val.z);
     }
 };
 
-template <aeon::common::concepts::arithmetic_convertible T>
+template <aeon::Common::Concepts::ArithmeticConvertible T>
 struct std::hash<aeon::math::vector4<T>>
 {
     inline auto operator()(const aeon::math::vector4<T> &val) const noexcept -> std::size_t
     {
-        return aeon::common::hash_combined(val.x, val.y, val.z, val.w);
+        return aeon::Common::hash_combined(val.x, val.y, val.z, val.w);
     }
 };
 
-template <aeon::common::concepts::arithmetic_convertible T>
+template <aeon::Common::Concepts::ArithmeticConvertible T>
 struct std::hash<aeon::math::size2d<T>>
 {
     inline auto operator()(const aeon::math::size2d<T> &val) const noexcept -> std::size_t
     {
-        return aeon::common::hash_combined(val.width, val.height);
+        return aeon::Common::hash_combined(val.width, val.height);
     }
 };
 
-template <aeon::common::concepts::arithmetic_convertible T>
+template <aeon::Common::Concepts::ArithmeticConvertible T>
 struct std::hash<aeon::math::size3d<T>>
 {
     inline auto operator()(const aeon::math::size3d<T> &val) const noexcept -> std::size_t
     {
-        return aeon::common::hash_combined(val.width, val.height, val.depth);
+        return aeon::Common::hash_combined(val.width, val.height, val.depth);
     }
 };
 
-template <aeon::common::concepts::arithmetic_convertible T>
+template <aeon::Common::Concepts::ArithmeticConvertible T>
 struct std::hash<aeon::math::rectangle<T>>
 {
     inline auto operator()(const aeon::math::rectangle<T> &val) const noexcept -> std::size_t
     {
-        return aeon::common::hash_combined(val.left, val.top, val.right, val.bottom);
+        return aeon::Common::hash_combined(val.left, val.top, val.right, val.bottom);
     }
 };
 
-template <aeon::common::concepts::arithmetic_convertible T>
+template <aeon::Common::Concepts::ArithmeticConvertible T>
 struct std::hash<aeon::math::range<T>>
 {
     inline auto operator()(const aeon::math::range<T> &val) const noexcept -> std::size_t
     {
-        return aeon::common::hash_combined(val.begin, val.end);
+        return aeon::Common::hash_combined(val.begin, val.end);
     }
 };
 
@@ -87,6 +87,6 @@ struct std::hash<aeon::math::quaternion>
 {
     inline auto operator()(const aeon::math::quaternion &val) const noexcept -> std::size_t
     {
-        return aeon::common::hash_combined(val.w, val.x, val.y, val.z);
+        return aeon::Common::HashCombined(val.w, val.x, val.y, val.z);
     }
 };

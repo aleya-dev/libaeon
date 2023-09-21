@@ -5,39 +5,39 @@
 #include <aeon/common/preprocessor.h>
 #include <filesystem>
 
-namespace aeon::tracelog
+namespace aeon::Tracelog
 {
 
-namespace detail
+namespace Internal
 {
 
-struct trace_log_entry;
+struct TraceLogEntry;
 
-auto add_entry(const char *func) -> trace_log_entry *;
-void add_exit(trace_log_entry *entry);
-void add_event(const char *func);
+auto AddEntry(const char *func) -> TraceLogEntry *;
+void AddExit(TraceLogEntry *entry);
+void AddEvent(const char *func);
 
-class [[nodiscard]] scoped_trace_log
+class [[nodiscard]] ScopedTraceLog
 {
 public:
-    scoped_trace_log(const char *func)
+    ScopedTraceLog(const char *func)
     {
-        entry_ = detail::add_entry(func);
+        m_entry = Internal::AddEntry(func);
     }
 
-    ~scoped_trace_log()
+    ~ScopedTraceLog()
     {
-        detail::add_exit(entry_);
+        Internal::AddExit(m_entry);
     }
 
-    scoped_trace_log(scoped_trace_log &&) = delete;
-    auto operator=(scoped_trace_log &&) -> scoped_trace_log & = delete;
+    ScopedTraceLog(ScopedTraceLog &&) = delete;
+    auto operator=(ScopedTraceLog &&) -> ScopedTraceLog & = delete;
 
-    scoped_trace_log(const scoped_trace_log &) = delete;
-    auto operator=(const scoped_trace_log &) -> scoped_trace_log & = delete;
+    ScopedTraceLog(const ScopedTraceLog &) = delete;
+    auto operator=(const ScopedTraceLog &) -> ScopedTraceLog & = delete;
 
 private:
-    trace_log_entry *entry_;
+    TraceLogEntry *m_entry;
 };
 
 } // namespace detail
@@ -45,16 +45,16 @@ private:
 /*!
  * Must be called at the start of each thread before using aeon_scoped_tracelog.
  */
-void initialize();
+void Initialize();
 
 /*!
  * Should be called at the end of tracing. This will clear all current tracing buffers.
  * The file may not already exist.
  */
-void write(const std::filesystem::path &file);
+void Write(const std::filesystem::path &file);
 
-#define aeon_tracelog_scoped() aeon::tracelog::detail::scoped_trace_log aeon_anonymous_variable(trace)(__FUNCTION__)
+#define AeonTracelogScoped() aeon::Tracelog::Internal::ScopedTraceLog AeonAnonymousVariable(trace)(__FUNCTION__)
 
-#define aeon_event() aeon::tracelog::detail::add_trace_log_event(__FUNCTION__)
+#define AeonEvent() aeon::Tracelog::Internal::AddTraceLogEvent(__FUNCTION__)
 
 } // namespace aeon::tracelog

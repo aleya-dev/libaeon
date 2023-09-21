@@ -27,7 +27,7 @@ public:
 
     void on_frame(const streams::memory_view_device<std::vector<std::byte>> &frame) final
     {
-        common::hexdump::pretty_print(stdout, std::data(frame.data()), std::size(frame.data()));
+        Common::HexDump::PrettyPrint(stdout, std::data(frame.data()), std::size(frame.data()));
 
         sockets::length_prefixed_binary_frame<std::uint32_t> reply;
         reply << static_cast<std::uint32_t>(2);

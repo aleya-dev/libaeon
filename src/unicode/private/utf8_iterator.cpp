@@ -68,7 +68,7 @@ void utf8_iterator::advance() noexcept
     if (next_offset_ < len_)
     {
         [[maybe_unused]] const auto result = u8_next(str_, next_offset_, len_, char_);
-        aeon_assert(result, "Invalid UTF-16 string.");
+        AeonAssert(result, "Invalid UTF-16 string.");
     }
 }
 

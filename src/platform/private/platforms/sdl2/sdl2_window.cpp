@@ -29,7 +29,7 @@ sdl2_window::sdl2_window(const window_create_info &info, sdl2_context &context)
         y = info.position->y;
     }
 
-    window_ = SDL_CreateWindow(info.title.c_str(), x, y, math::width(info.size), math::height(info.size), sdl_flags);
+    window_ = SDL_CreateWindow(info.title.CStr(), x, y, math::width(info.size), math::height(info.size), sdl_flags);
 
     if (!window_)
         throw sdl2_platform_exception{"Failed to create window."};
@@ -65,9 +65,9 @@ void sdl2_window::position(const math::vector2<std::int32_t> &pos)
     SDL_SetWindowPosition(window_, pos.x, pos.y);
 }
 
-void sdl2_window::title(const common::string &str)
+void sdl2_window::title(const Common::String &str)
 {
-    SDL_SetWindowTitle(window_, str.c_str());
+    SDL_SetWindowTitle(window_, str.CStr());
 }
 
 auto sdl2_window::dimensions() const noexcept -> math::size2d<std::uint32_t>

@@ -12,7 +12,7 @@ namespace aeon::streams
 {
 
 template <typename T>
-concept memory_viewable = common::type_traits::is_std_vector_v<T> || std::is_same_v<T, common::string> ||
+concept memory_viewable = Common::TypeTraits::IsStdVectorV<T> || std::is_same_v<T, Common::String> ||
                           std::is_same_v<T, std::string> || std::is_same_v<T, std::u8string>;
 
 template <memory_viewable T>
@@ -71,8 +71,16 @@ inline memory_view_device<T>::memory_view_device(T &buffer) noexcept
     : buffer_view_{&buffer}
     , span_device_{std::span<typename T::value_type>{}}
 {
-    if (!std::empty(*buffer_view_))
-        update_span();
+    if constexpr (std::is_same_v<T, Common::String>)
+    {
+        if (!buffer_view_->Empty())
+            update_span();
+    }
+    else
+    {
+        if (!buffer_view_->empty())
+            update_span();
+    }
 }
 
 template <memory_viewable T>
@@ -80,8 +88,16 @@ inline memory_view_device<T>::memory_view_device(const T &buffer) noexcept
     : buffer_view_{const_cast<T *>(&buffer)}
     , span_device_{std::span<typename T::value_type>{}}
 {
-    if (!std::empty(*buffer_view_))
-        update_span();
+    if constexpr (std::is_same_v<T, Common::String>)
+    {
+        if (!buffer_view_->Empty())
+            update_span();
+    }
+    else
+    {
+        if (!buffer_view_->empty())
+            update_span();
+    }
 }
 
 template <memory_viewable T>
@@ -169,13 +185,20 @@ template <memory_viewable T>
 template <memory_viewable T>
 inline void memory_view_device<T>::reserve(const std::streamoff size)
 {
-    buffer_view_->reserve(size);
+    if constexpr (std::is_same_v<T, Common::String>)
+        buffer_view_->Reserve(size);
+    else
+        buffer_view_->reserve(size);
 }
 
 template <memory_viewable T>
 inline void memory_view_device<T>::resize(const std::streamoff size)
 {
-    buffer_view_->resize(size);
+    if constexpr (std::is_same_v<T, Common::String>)
+        buffer_view_->Resize(size);
+    else
+        buffer_view_->resize(size);
+
     update_span();
 }
 
@@ -188,7 +211,10 @@ template <memory_viewable T>
 template <memory_viewable T>
 void memory_view_device<T>::update_span()
 {
-    span_device_.set_span(std::span{*buffer_view_});
+    if constexpr (std::is_same_v<T, Common::String>)
+        span_device_.set_span(std::span{buffer_view_->Data(), buffer_view_->Size()});
+    else
+        span_device_.set_span(std::span{*buffer_view_});
 }
 
 } // namespace aeon::streams

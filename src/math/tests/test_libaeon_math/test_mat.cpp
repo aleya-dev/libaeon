@@ -14,9 +14,9 @@ TEST(test_mat, test_mat_default)
     EXPECT_EQ(math::width(mat), 0);
     EXPECT_EQ(math::height(mat), 0);
     EXPECT_EQ(math::stride(mat), 0);
-    EXPECT_EQ(common::element_type_name::undefined, math::element_type(mat).name);
-    EXPECT_EQ(0, math::element_type(mat).count);
-    EXPECT_EQ(0.0f, math::element_type(mat).size);
+    EXPECT_EQ(Common::ElementTypeName::Undefined, math::ElementType(mat).Name);
+    EXPECT_EQ(0, math::ElementType(mat).Count);
+    EXPECT_EQ(0.0f, math::ElementType(mat).Size);
 }
 
 TEST(test_mat, test_clone)
@@ -31,12 +31,12 @@ TEST(test_mat, test_clone)
     // clang-format on
 
     const auto mat = static_cast<math::mat>(math::make_view(mat3));
-    EXPECT_EQ(common::element_type_name::f32, math::element_type(mat).name);
-    EXPECT_EQ(1, math::element_type(mat).count);
-    EXPECT_EQ(sizeof(float), math::element_type(mat).size);
+    EXPECT_EQ(Common::ElementTypeName::F32, math::ElementType(mat).Name);
+    EXPECT_EQ(1, math::ElementType(mat).Count);
+    EXPECT_EQ(sizeof(float), math::ElementType(mat).Size);
 
     const auto mat2 = mat.clone();
-    EXPECT_EQ(math::element_type(mat), math::element_type(mat2));
+    EXPECT_EQ(math::ElementType(mat), math::ElementType(mat2));
     EXPECT_TRUE(mat == mat2);
     EXPECT_FALSE(mat != mat2);
 }
@@ -46,10 +46,10 @@ TEST(test_mat, test_swizzle_copy_3)
     std::array<std::uint32_t, 1> data{10};
 
     math::mat_view mat{
-        common::element_type::u32_1, {1, 1}, reinterpret_cast<math::mat_view::underlying_type *>(std::data(data))};
+        Common::ElementType::U32_1, {1, 1}, reinterpret_cast<math::mat_view::underlying_type *>(std::data(data))};
 
     const auto mat_result = math::swizzle_copy<math::swizzle_r, math::swizzle_r, math::swizzle_r>(mat);
-    EXPECT_EQ(common::element_type::u32_3, mat_result.element_type());
+    EXPECT_EQ(Common::ElementType::U32_3, mat_result.ElementType());
     EXPECT_EQ(1, mat_result.width());
     EXPECT_EQ(1, mat_result.height());
 
@@ -64,7 +64,7 @@ TEST(test_mat, test_swizzle_change)
     std::array<std::uint32_t, 1> data{10};
 
     math::mat_view mat{
-        common::element_type::u32_1, {1, 1}, reinterpret_cast<math::mat_view::underlying_type *>(std::data(data))};
+        Common::ElementType::U32_1, {1, 1}, reinterpret_cast<math::mat_view::underlying_type *>(std::data(data))};
 
     auto mat_result = math::swizzle_copy<math::swizzle_x, math::swizzle_one, math::swizzle_zero>(mat);
     auto result_data = math::at<std::uint32_t>(mat_result, math::vector2{0, 0});
