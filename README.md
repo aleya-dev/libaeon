@@ -69,6 +69,20 @@ Alternatively you can also generate an XCode project to build. For this you can 
 libAeon requires Clang to build on FreeBSD. There is no official support for this platform and it is not tested regularly.
 There are no prebuilt dependencies available for this platform so you must build them manually through Conan.
 
+Code style
+--------------
+A detailed description of code style is yet to be written. Please follow the
+style as established in the existing code. When in doubt, ask Robin Degen.
+
+In short:
+
+-   Prefer C++23 standards above any other library
+-   4 spaces, no tabs.
+-   No CamelCase. Variables and types must be named_like_this.
+-   120 character maximum line length.
+-   No compiler or static analysis warnings. Ever.
+-   Use the SOLID principles. [Free your functions](https://www.youtube.com/watch?v=WLDT1lDOsb4).
+
 License
 --------------
 The Aeon Library is released under the 2-Clause BSD license.
@@ -91,17 +105,3 @@ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PRO
 SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-Code style
---------------
-A detailed description of code style is yet to be written. Please follow the 
-style as established in the existing code. When in doubt, ask Robin Degen.
-
-In short:
-
--   Prefer C++23 standards above any other library
--   4 spaces, no tabs.
--   No CamelCase. Variables and types must be named_like_this.
--   120 character maximum line length.
--   No compiler or static analysis warnings. Ever.
--   Use the SOLID principles. [Free your functions](https://www.youtube.com/watch?v=WLDT1lDOsb4).
