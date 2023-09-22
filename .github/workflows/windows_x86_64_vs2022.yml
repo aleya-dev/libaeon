@@ -25,9 +25,20 @@ jobs:
         run: conan config install remotes.json
 
       - name: Conan install
-        run: |
-            conan install . -of build --profile:host=./dep/devops/Conan/profiles/windows/msvc2022_x86_64_debug --profile:build=./dep/devops/Conan/profiles/windows/msvc2022_x86_64_debug
-            conan install . -of build --profile:host=./dep/devops/Conan/profiles/windows/msvc2022_x86_64_release --profile:build=./dep/devops/Conan/profiles/windows/msvc2022_x86_64_release
+        uses: aleya-dev/devops/Actions/conan-install@development
+        with:
+          profile: ./dep/devops/Conan/profiles/linux/gcc12_x86_64_debug
+          path: build
+
+      - name: Conan install Debug
+        uses: aleya-dev/devops/Actions/conan-install@development
+        with:
+          profile: ./dep/devops/Conan/profiles/windows/msvc2022_x86_64_debug
+
+      - name: Conan install Release
+        uses: aleya-dev/devops/Actions/conan-install@development
+        with:
+          profile: ./dep/devops/Conan/profiles/windows/msvc2022_x86_64_release
 
       - name: Cmake
         run: cmake . -B build -G "Visual Studio 17 2022" -T host=x64 -A x64 -DCMAKE_SYSTEM_VERSION=10.0 -DCMAKE_INSTALL_PREFIX=%CD%/build/install -DAEON_ENABLE_CONAN_INTEGRATION=0
