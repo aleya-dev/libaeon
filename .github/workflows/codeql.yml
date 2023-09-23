@@ -42,7 +42,7 @@ jobs:
         run: cmake . -B build -DCMAKE_INSTALL_PREFIX=$(pwd)/build/install -DCMAKE_BUILD_TYPE=Debug -DAEON_ENABLE_CONAN_INTEGRATION=0
 
       - name: Build
-        run: cmake --build build -- -j$JOB_COUNT
+        run: cmake --build build
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
