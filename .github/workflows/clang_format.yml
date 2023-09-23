@@ -12,7 +12,7 @@ jobs:
       image: ghcr.io/aleya-dev/ubuntu_x86_64_clang_format:latest
 
     steps:
-      - uses: actions/checkout@v4.0.0
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
 

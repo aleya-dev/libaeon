@@ -22,7 +22,7 @@ jobs:
       - name: Conan install
         run: python -m pip install conan
 
-      - uses: actions/checkout@v4.0.0
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
 
