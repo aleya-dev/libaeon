@@ -1,0 +1,26 @@
+name: Clang Format Check
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/aleya-dev/ubuntu_x86_64_clang_format:latest
+
+    steps:
+      - uses: actions/checkout@v4.0.0
+        with:
+          submodules: recursive
+
+      - name: Run clang formatter
+        run: ./clang_format.sh
+
+      - name: Fix git security
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
+      - name: Check changes
+        run: python dep/devops/Scripts/fail_on_git_changes.py
