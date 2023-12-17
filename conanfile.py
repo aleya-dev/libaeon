@@ -94,34 +94,34 @@ class LibAeonConan(ConanFile):
 
     def requirements(self):
         if self.options.get_safe('libaeon_enable_unittests', False):
-            self.requires('gtest/1.13.0')
+            self.requires('gtest/1.14.0@aleya/public')
 
         if self.options.get_safe('libaeon_enable_benchmarks', False):
-            self.requires('benchmark/1.8.3')
+            self.requires('benchmark/1.8.3@aleya/public')
 
         if self.options.get_safe('libaeon_with_compression', False):
-            self.requires('zlib/1.2.13')
+            self.requires('zlib/1.3.0@aleya/public')
 
         if self.options.get_safe('libaeon_with_fonts', False):
-            self.requires('freetype/2.13.0')
+            self.requires('freetype/2.13.2@aleya/public')
 
         if self.options.get_safe('libaeon_with_imaging', False):
-            self.requires('libpng/1.6.40')
-            self.requires('libjpeg-turbo/2.1.91')
+            self.requires('libpng/1.6.40@aleya/public')
+            self.requires('libjpeg-turbo/3.0.1@aleya/public')
 
         if self.options.get_safe('libaeon_with_platform', False) and self.options.get_safe('libaeon_with_platform_glfw',
                                                                                            False):
-            self.requires('glfw/3.3.8')
+            self.requires('glfw/3.3.9@aleya/public')
 
         if self.options.get_safe('libaeon_with_platform', False) and self.options.get_safe('libaeon_with_platform_sdl2',
                                                                                            False):
-            self.requires('sdl/2.28.3')
+            self.requires('sdl/2.28.5@aleya/public')
 
         if self.options.get_safe('libaeon_with_sockets', False):
-            self.requires('asio/1.28.0')
+            self.requires('asio/1.29.0@aleya/public')
 
         if self.options.get_safe('libaeon_with_vulkan', False):
-            self.requires('vulkan-memory-allocator/3.0.1')
+            self.requires('vulkan-memory-allocator/3.0.1@aleya/public')
 
     def generate(self):
         tc = CMakeToolchain(self)
