@@ -39,4 +39,4 @@ jobs:
         run: cmake --build build -- -j$JOB_COUNT
 
       - name: Test
-        run: ctest --test-dir build
+        run: ctest --test-dir build --output-on-failure
