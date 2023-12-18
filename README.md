@@ -8,6 +8,8 @@ libAeon
 
 [![Linux x86_64 GCC 12](https://github.com/aleya-dev/libaeon/actions/workflows/linux_x86_64_gcc12.yml/badge.svg?branch=master)](https://github.com/aleya-dev/libaeon/actions/workflows/linux_x86_64_gcc12.yml)
 
+[![MacOS x86_64 Apple Clang](https://github.com/aleya-dev/libaeon/actions/workflows/macos_x86_64_apple_clang.yml/badge.svg)](https://github.com/aleya-dev/libaeon/actions/workflows/macos_x86_64_apple_clang.yml)
+
 A general purpose C++23 support library.
 
 How to build

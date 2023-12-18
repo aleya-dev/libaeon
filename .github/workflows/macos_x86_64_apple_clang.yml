@@ -1,10 +1,10 @@
 name: MacOS x86_64 Apple Clang
 
 on:
-  #push:
-  #  branches:
-  #    - master
-  #pull_request:
+  push:
+    branches:
+      - master
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -26,14 +26,17 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Select xcode version
+        run: sudo xcode-select -s /Applications/Xcode_15.0.app
+
       - name: Conan remote
         run: conan config install remotes.json
 
       - name: Conan install
-        run: conan install . -of build --profile:host=./dep/devops/Conan/profiles/macos/appleclang14_x86_64_debug --profile:build=./dep/devops/Conan/profiles/macos/appleclang14_x86_64_debug
+        run: conan install . -of build --profile:all=./dep/devops/Conan/profiles/macos/macos_13_6_appleclang15_x86_64_debug
 
       - name: Cmake
-        run: cmake . -B build -DCMAKE_INSTALL_PREFIX=$(pwd)/build/install -DCMAKE_BUILD_TYPE=Debug -DAEON_ENABLE_CONAN_INTEGRATION=0
+        run: cmake . -B build -DCMAKE_INSTALL_PREFIX=$(pwd)/build/install -DCMAKE_BUILD_TYPE=Debug -DCMAKE_OSX_DEPLOYMENT_TARGET=13.6 -DAEON_ENABLE_CONAN_INTEGRATION=0
 
       - name: Build
         run: cmake --build build -- -j$JOB_COUNT
