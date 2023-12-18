@@ -1,10 +1,10 @@
 name: MacOS x86_64 Apple Clang
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
+  #push:
+  #  branches:
+  #    - master
+  #pull_request:
   workflow_dispatch:
 
 jobs:
