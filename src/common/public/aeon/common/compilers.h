@@ -39,9 +39,3 @@
 #else
 #undef AEON_DEBUG
 #endif
-
-#if (defined(__has_include))
-#if (__has_include(<memory_resource>))
-#define AEON_HAS_MEMORY_RESOURCE_HEADER
-#endif
-#endif
