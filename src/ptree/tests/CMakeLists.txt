@@ -4,15 +4,8 @@ include(Unittests)
 
 add_unit_test_suite(
     NO_GTEST_MAIN
+    AUTO_GLOB_SOURCES
     TARGET test_libaeon_ptree
-    SOURCES
-        main.cpp
-        test_blob.cpp
-        test_config_file.cpp
-        test_ini.cpp
-        test_ptree.cpp
-        test_reflection.cpp
-        test_xml.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_ptree

@@ -1,21 +1,10 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-set(SOURCES
-    private/base_backend.cpp
-    private/io_stream_sink.cpp
-    private/multithreaded_sink_backend.cpp
-    private/simple_backend.cpp
-    private/simple_sink_backend.cpp
-    private/stream_sink.cpp
-    public/aeon/logger/base_backend.h
-    public/aeon/logger/io_stream_sink.h
-    public/aeon/logger/log_level.h
-    public/aeon/logger/log_sink.h
-    public/aeon/logger/logger.h
-    public/aeon/logger/multithreaded_sink_backend.h
-    public/aeon/logger/simple_backend.h
-    public/aeon/logger/simple_sink_backend.h
-    public/aeon/logger/stream_sink.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

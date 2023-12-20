@@ -1,18 +1,10 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-set(SOURCES
-    private/encoding.cpp
-    private/stringutils.cpp
-    private/utf16_iterator.cpp
-    private/utf8_iterator.cpp
-    public/aeon/unicode/base_utf_iterator.h
-    public/aeon/unicode/concepts.h
-    public/aeon/unicode/encoding.h
-    public/aeon/unicode/exception.h
-    public/aeon/unicode/stringutils.h
-    public/aeon/unicode/utf16_iterator.h
-    public/aeon/unicode/utf8_iterator.h
-    public/aeon/unicode/utf_string_view.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

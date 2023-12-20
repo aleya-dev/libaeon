@@ -4,10 +4,8 @@ include(Unittests)
 
 add_unit_test_suite(
     NO_GTEST_MAIN
+    AUTO_GLOB_SOURCES
     TARGET test_libaeon_reflection
-    SOURCES
-        main.cpp
-        test_reflection.cpp
     LIBRARIES aeon_reflection aeon_common
     FOLDER dep/libaeon/tests
 )

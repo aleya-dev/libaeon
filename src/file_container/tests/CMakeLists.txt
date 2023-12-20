@@ -4,10 +4,8 @@ include(Unittests)
 
 add_unit_test_suite(
     NO_GTEST_MAIN
+    AUTO_GLOB_SOURCES
     TARGET test_libaeon_file_container
-    SOURCES
-        main.cpp
-        test_file_container.cpp
     LIBRARIES aeon_file_container
     FOLDER dep/libaeon/tests
 )

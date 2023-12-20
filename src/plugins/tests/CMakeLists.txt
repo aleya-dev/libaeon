@@ -4,12 +4,10 @@ include(Unittests)
 
 add_unit_test_suite(
     NO_GTEST_MAIN
+    AUTO_GLOB_SOURCES
     TARGET test_libaeon_plugins
-    SOURCES
-        main.cpp
-        test_plugin_loader.cpp
     LIBRARIES aeon_plugins
-    INCLUDES plugins/include
+    INCLUDES plugins/public
     FOLDER dep/libaeon/tests
 )
 

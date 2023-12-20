@@ -1,8 +1,10 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-set(SOURCES
-    private/temporary_file_fixture.cpp
-    public/aeon/testing/temporary_file_fixture.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

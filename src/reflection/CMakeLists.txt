@@ -1,13 +1,10 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-set(SOURCES
-    private/reflection_info.cpp
-    public/aeon/reflection/annotate.h
-    public/aeon/reflection/exception.h
-    public/aeon/reflection/field_info.h
-    public/aeon/reflection/reflection.h
-    public/aeon/reflection/reflection_info.h
-    public/aeon/reflection/reflection_object.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

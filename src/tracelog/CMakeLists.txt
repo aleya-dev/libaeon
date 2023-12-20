@@ -1,12 +1,10 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-set(SOURCES
-    private/config.h
-    private/context.cpp
-    private/context.h
-    private/data.h
-    private/tracelog.cpp
-    public/aeon/tracelog/tracelog.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

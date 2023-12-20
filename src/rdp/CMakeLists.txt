@@ -1,15 +1,10 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-set(SOURCES
-    public/aeon/rdp/cursor.h
-    public/aeon/rdp/impl/cursor_impl.h
-    public/aeon/rdp/impl/matchers_impl.h
-    public/aeon/rdp/impl/parse_result_impl.h
-    public/aeon/rdp/impl/parser_impl.h
-    public/aeon/rdp/matchers.h
-    public/aeon/rdp/parse_result.h
-    public/aeon/rdp/parser.h
-    public/aeon/rdp/scoped_state.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

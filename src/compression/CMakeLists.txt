@@ -4,12 +4,11 @@ if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
     find_package(ZLIB CONFIG)
 endif ()
 
-set(SOURCES
-    private/zlib.cpp
-    private/zlib_raii_wrappers.h
-    public/aeon/compression/exception.h
-    public/aeon/compression/stream_filters/zlib_filter.h
-    public/aeon/compression/zlib.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

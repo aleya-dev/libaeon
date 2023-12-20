@@ -1,11 +1,10 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-set(SOURCES
-    private/converting_variant.cpp
-    public/aeon/variant/converting_variant.h
-    public/aeon/variant/impl/converting_variant_conversion.h
-    public/aeon/variant/impl/converting_variant_enum_traits.h
-    public/aeon/variant/impl/converting_variant_impl.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

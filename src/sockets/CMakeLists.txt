@@ -4,15 +4,11 @@ if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
     find_package(asio CONFIG)
 endif ()
 
-set(SOURCES
-    private/line_protocol_socket.cpp
-    private/tcp_socket.cpp
-    public/aeon/sockets/config.h
-    public/aeon/sockets/length_prefixed_binary_protocol_socket.h
-    public/aeon/sockets/line_protocol_socket.h
-    public/aeon/sockets/tcp_client.h
-    public/aeon/sockets/tcp_server.h
-    public/aeon/sockets/tcp_socket.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

@@ -6,9 +6,11 @@ endif ()
 
 include(GenerateExportHeader)
 
-set(SOURCES
-    private/vma.cpp
-    public/aeon/vulkan/vma/vma.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

@@ -4,10 +4,8 @@ include(Unittests)
 
 add_unit_test_suite(
     NO_GTEST_MAIN
+    AUTO_GLOB_SOURCES
     TARGET test_libaeon_fonts
-    SOURCES
-        main.cpp
-        test_fonts.cpp
     INCLUDES ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_fonts aeon_unicode
     FOLDER dep/libaeon/tests

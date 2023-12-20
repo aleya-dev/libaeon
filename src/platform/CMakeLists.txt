@@ -25,54 +25,39 @@ endif ()
 
 include(GenerateExportHeader)
 
-set(SOURCES
-    private/base_context.cpp
-    private/base_context.h
-    private/base_window.cpp
-    private/base_window.h
-    public/aeon/platform/context.h
-    public/aeon/platform/exception.h
-    public/aeon/platform/input_events.h
-    public/aeon/platform/keyboard_key.h
-    public/aeon/platform/keyboard_key_state.h
-    public/aeon/platform/mouse_button.h
-    public/aeon/platform/mouse_button_state.h
-    public/aeon/platform/native_handles.h
-    public/aeon/platform/window.h
-    public/aeon/platform/window_create_info.h
-    public/aeon/platform/window_events.h
-    public/aeon/platform/window_iconification_state.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/common/*"
+    "public/*"
 )
 
-set(PLATFORM_SOURCES "")
-
 if (AEON_PLATFORM_BACKEND_GLFW)
-    list(APPEND PLATFORM_SOURCES
-        private/platforms/glfw/glfw_context.cpp
-        private/platforms/glfw/glfw_context.h
-        private/platforms/glfw/glfw_exception.h
-        private/platforms/glfw/glfw_init.h
-        private/platforms/glfw/glfw_scoped_window.h
-        private/platforms/glfw/glfw_window.cpp
-        private/platforms/glfw/glfw_window.h
+    file(GLOB_RECURSE
+        GLFW_PLATFORM_SOURCES
+        CONFIGURE_DEPENDS
+        "private/platforms/glfw/*"
     )
 endif ()
 
 if (AEON_PLATFORM_BACKEND_SDL2)
-    list(APPEND PLATFORM_SOURCES
-        private/platforms/sdl2/sdl2_context.cpp
-        private/platforms/sdl2/sdl2_context.h
-        private/platforms/sdl2/sdl2_exception.h
-        private/platforms/sdl2/sdl2_window.cpp
-        private/platforms/sdl2/sdl2_window.h
+    file(GLOB_RECURSE
+        SDL2_PLATFORM_SOURCES
+        CONFIGURE_DEPENDS
+        "private/platforms/sdl2/*"
     )
 endif ()
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES} ${PLATFORM_SOURCES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES
+    ${SOURCES}
+    ${GLFW_PLATFORM_SOURCES}
+    ${SDL2_PLATFORM_SOURCES}
+)
 
 add_library(aeon_platform
     ${SOURCES}
-    ${PLATFORM_SOURCES}
+    ${GLFW_PLATFORM_SOURCES}
+    ${SDL2_PLATFORM_SOURCES}
 )
 
 generate_export_header(aeon_platform

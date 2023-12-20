@@ -5,32 +5,11 @@ if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
     find_package(libjpeg-turbo CONFIG)
 endif ()
 
-set(SOURCES
-    private/file/bmp_file.cpp
-    private/file/file.cpp
-    private/file/jpg_file.cpp
-    private/file/png_file.cpp
-    private/file/png_read_structs.h
-    private/file/png_structs.h
-    private/file/png_write_structs.h
-    private/file/tjhandle_wrapper.h
-    public/aeon/imaging/converters/convert_pixel.h
-    public/aeon/imaging/converters/stride.h
-    public/aeon/imaging/exceptions.h
-    public/aeon/imaging/file/bmp_file.h
-    public/aeon/imaging/file/file.h
-    public/aeon/imaging/file/jpg_file.h
-    public/aeon/imaging/file/png_file.h
-    public/aeon/imaging/filters/resize.h
-    public/aeon/imaging/format.h
-    public/aeon/imaging/image.h
-    public/aeon/imaging/image_view.h
-    public/aeon/imaging/impl/image_impl.h
-    public/aeon/imaging/impl/image_view_impl.h
-    public/aeon/imaging/impl/pixel_encoding_impl.h
-    public/aeon/imaging/pixel_encoding.h
-    public/aeon/imaging/pixel_math.h
-    public/aeon/imaging/utils/atlas.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

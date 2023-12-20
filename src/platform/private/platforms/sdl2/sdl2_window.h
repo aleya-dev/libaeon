@@ -4,7 +4,7 @@
 
 #include <aeon/platform/window_create_info.h>
 #include <aeon/platform/context.h>
-#include "base_window.h"
+#include "common/base_window.h"
 #include "sdl2_context.h"
 #include <SDL2/SDL.h>
 

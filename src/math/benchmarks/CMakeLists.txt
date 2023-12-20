@@ -4,13 +4,8 @@ include(Benchmark)
 
 add_benchmark_suite(
     NO_BENCHMARK_MAIN
+    AUTO_GLOB_SOURCES
     TARGET benchmark_libaeon_math
-    SOURCES
-        main.cpp
-        benchmark_mat3.cpp
-        benchmark_mat3_sse.cpp
-        benchmark_mat4.cpp
-        benchmark_mat4_sse.cpp
     INCLUDES
         ${CMAKE_CURRENT_BINARY_DIR}
     LIBRARIES aeon_math

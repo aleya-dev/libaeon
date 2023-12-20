@@ -1,91 +1,11 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-set(SOURCES
-    private/base64.cpp
-    private/commandline_parser.cpp
-    private/dynamic_library.cpp
-    private/from_chars.cpp
-    private/hexdump.cpp
-    private/lexical_parse.cpp
-    private/string_utils.cpp
-    private/uuid.cpp
-    public/aeon/common/allocators/ansi_allocator.h
-    public/aeon/common/allocators/concept.h
-    public/aeon/common/assert.h
-    public/aeon/common/base64.h
-    public/aeon/common/bits.h
-    public/aeon/common/bom.h
-    public/aeon/common/color.h
-    public/aeon/common/color_limits.h
-    public/aeon/common/commandline_parser.h
-    public/aeon/common/compilers.h
-    public/aeon/common/concepts.h
-    public/aeon/common/container.h
-    public/aeon/common/containers/buffer.h
-    public/aeon/common/containers/cached_container.h
-    public/aeon/common/containers/general_tree.h
-    public/aeon/common/containers/impl/general_tree_impl.h
-    public/aeon/common/containers/unordered_flatmap.h
-    public/aeon/common/containers/unordered_flatset.h
-    public/aeon/common/delay.h
-    public/aeon/common/deprecated.h
-    public/aeon/common/dispatcher.h
-    public/aeon/common/dispatcher_fwd.h
-    public/aeon/common/dynamic_library.h
-    public/aeon/common/element_type.h
-    public/aeon/common/endianness.h
-    public/aeon/common/expect.h
-    public/aeon/common/fence.h
-    public/aeon/common/flags.h
-    public/aeon/common/fmtflags.h
-    public/aeon/common/fourcc.h
-    public/aeon/common/from_chars.h
-    public/aeon/common/hash.h
-    public/aeon/common/hexdump.h
-    public/aeon/common/impl/color_impl.h
-    public/aeon/common/impl/string_impl.h
-    public/aeon/common/impl/string_utils_impl.h
-    public/aeon/common/impl/string_view_impl.h
-    public/aeon/common/impl/version_impl.h
-    public/aeon/common/intrinsics.h
-    public/aeon/common/intrusive_ptr.h
-    public/aeon/common/lexical_parse.h
-    public/aeon/common/listener_subject.h
-    public/aeon/common/literals.h
-    public/aeon/common/memory.h
-    public/aeon/common/parallelizer.h
-    public/aeon/common/parameters.h
-    public/aeon/common/path.h
-    public/aeon/common/platform.h
-    public/aeon/common/preprocessor.h
-    public/aeon/common/scope_guard.h
-    public/aeon/common/signals.h
-    public/aeon/common/signed_sizeof.h
-    public/aeon/common/singleton.h
-    public/aeon/common/string.h
-    public/aeon/common/string_concepts.h
-    public/aeon/common/string_literal.h
-    public/aeon/common/string_table.h
-    public/aeon/common/string_traits.h
-    public/aeon/common/string_utils.h
-    public/aeon/common/string_view.h
-    public/aeon/common/tempfile.h
-    public/aeon/common/term_colors.h
-    public/aeon/common/timer.h
-    public/aeon/common/tribool.h
-    public/aeon/common/tuple.h
-    public/aeon/common/type_traits.h
-    public/aeon/common/u8_stream.h
-    public/aeon/common/unique_obj.h
-    public/aeon/common/uuid.h
-    public/aeon/common/version.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
 )
-
-if (WIN32)
-    list(APPEND SOURCES
-        public/aeon/common/allocators/windows_heap_allocator.h
-    )
-endif ()
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 

@@ -1,13 +1,15 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
-set(LIB_AEON_LENGTH_PREFIXED_BINARY_PROTOCOL_SOURCE
-    private/main.cpp
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
 )
 
-source_group(private FILES ${LIB_AEON_LENGTH_PREFIXED_BINARY_PROTOCOL_SOURCE})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_executable(aeon_sockets_length_prefixed_binary_protocol_client
-    ${LIB_AEON_LENGTH_PREFIXED_BINARY_PROTOCOL_SOURCE}
+    ${SOURCES}
 )
 
 set_target_properties(aeon_sockets_length_prefixed_binary_protocol_client PROPERTIES

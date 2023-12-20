@@ -4,16 +4,11 @@ if (NOT AEON_ENABLE_SUBMODULE_DEPENDENCIES)
     find_package(freetype CONFIG)
 endif ()
 
-set(SOURCES
-    private/face.cpp
-    private/face_wrapper.cpp
-    private/font_manager.cpp
-    public/aeon/fonts/config.h
-    public/aeon/fonts/exceptions.h
-    public/aeon/fonts/face.h
-    public/aeon/fonts/face_wrapper.h
-    public/aeon/fonts/font_manager.h
-    public/aeon/fonts/glyph.h
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})

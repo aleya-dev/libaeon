@@ -1,13 +1,21 @@
 # Distributed under the BSD 2-Clause License - Copyright 2012-2023 Robin Degen
 
+file(GLOB_RECURSE
+    SOURCES
+    CONFIGURE_DEPENDS
+    "private/*"
+    "public/*"
+)
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
+
 add_library(testplugin1 SHARED
-    src/testplugin1.cpp
-    include/itestplugin1.h
+    ${SOURCES}
 )
 
 target_link_libraries(testplugin1 aeon_plugins)
 
-target_include_directories(testplugin1 PRIVATE include)
+target_include_directories(testplugin1 PRIVATE public)
 
 set_target_properties(testplugin1 PROPERTIES
     FOLDER dep/libaeon/tests/plugins
